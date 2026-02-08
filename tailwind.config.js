@@ -8,6 +8,19 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                dark: {
+                    DEFAULT: '#0F172A',
+                    50: '#1E293B',
+                    100: '#182036',
+                    200: '#141C2F',
+                    300: '#111827',
+                    400: '#0D1321',
+                    500: '#0F172A',
+                    600: '#0B1120',
+                    700: '#080E1A',
+                    800: '#060A14',
+                    900: '#03050A',
+                },
                 primary: {
                     50: '#eff6ff',
                     100: '#dbeafe',
@@ -20,12 +33,26 @@ module.exports = {
                     800: '#1e40af',
                     900: '#1e3a8a',
                 },
-                secondary: {
-                    300: '#6ee7b7',
-                    400: '#34d399',
-                    500: '#10b981',
-                    600: '#059669',
+                accent: {
+                    DEFAULT: '#00E599',
+                    50: '#e6fff5',
+                    100: '#b3ffe0',
+                    200: '#80ffcc',
+                    300: '#4dffb8',
+                    400: '#1affa3',
+                    500: '#00E599',
+                    600: '#00cc88',
+                    700: '#00b377',
+                    800: '#009966',
+                    900: '#008055',
                 },
+                gold: {
+                    DEFAULT: '#D4A853',
+                    light: '#E8C97A',
+                    dark: '#B8903E',
+                },
+                heading: '#F1F5F9',
+                paragraph: '#94A3B8',
             },
             keyframes: {
                 shimmer: {
@@ -54,6 +81,10 @@ module.exports = {
                     '0%, 100%': { transform: 'translate(0, 0)' },
                     '50%': { transform: 'translate(5%, -5%)' },
                 },
+                'grid-pulse': {
+                    '0%, 100%': { opacity: '0.03' },
+                    '50%': { opacity: '0.06' },
+                },
             },
             animation: {
                 shimmer: 'shimmer 3s linear infinite',
@@ -64,9 +95,11 @@ module.exports = {
                 gradient: 'gradient 4s ease infinite',
                 pulse_glow: 'pulse_glow 2s ease-in-out infinite',
                 'float-orb': 'float-orb 8s ease-in-out infinite',
+                'grid-pulse': 'grid-pulse 4s ease-in-out infinite',
             },
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],
+                heading: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
             },
         },
     },

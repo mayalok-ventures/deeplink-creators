@@ -19,7 +19,7 @@ const ServiceStack = () => {
             ],
             cta: "Get SEO Audit",
             href: "/services/seo-greater-noida",
-            gradient: "from-blue-500 to-cyan-500",
+            gradient: "from-primary-400 to-cyan-400",
         },
         {
             icon: <TrendingUp size={32} />,
@@ -34,7 +34,7 @@ const ServiceStack = () => {
             ],
             cta: "Optimize My Ads",
             href: "/services/performance-marketing",
-            gradient: "from-green-500 to-emerald-500",
+            gradient: "from-accent to-emerald-400",
         },
         {
             icon: <Target size={32} />,
@@ -49,7 +49,7 @@ const ServiceStack = () => {
             ],
             cta: "Fix My Funnel",
             href: "/services/conversion-optimization",
-            gradient: "from-orange-500 to-red-500",
+            gradient: "from-orange-400 to-red-400",
         },
         {
             icon: <Globe size={32} />,
@@ -64,13 +64,14 @@ const ServiceStack = () => {
             ],
             cta: "Build My Brand",
             href: "/services/branding",
-            gradient: "from-purple-500 to-pink-500",
+            gradient: "from-purple-400 to-pink-400",
         }
     ]
 
     return (
-        <section id="services" className="section-padding bg-white relative overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-blue-100/40 via-purple-100/30 to-pink-100/40 rounded-full blur-3xl pointer-events-none" />
+        <section id="services" className="section-padding bg-dark relative overflow-hidden">
+            <div className="absolute inset-0 grid-bg" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-primary-500/5 via-accent/5 to-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="container-custom relative z-10">
                 <motion.div
@@ -80,15 +81,15 @@ const ServiceStack = () => {
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-heading mb-4">
                         We Don&apos;t Sell Services. We{' '}
-                        <span className="bg-gradient-to-r from-primary-600 via-blue-500 to-purple-500 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                        <span className="text-gradient">
                             Deliver Results
                         </span>
                         .
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Every strategy is designed with one goal: <span className="font-semibold">maximize your revenue</span>.
+                    <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                        Every strategy is designed with one goal: <span className="font-semibold text-heading">maximize your revenue</span>.
                         No vanity metrics, only what actually impacts your bottom line.
                     </p>
                 </motion.div>

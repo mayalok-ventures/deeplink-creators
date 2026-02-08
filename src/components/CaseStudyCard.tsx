@@ -33,72 +33,68 @@ const CaseStudyCard = ({
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className={`bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 ${featured ? 'md:col-span-2' : ''}`}
+            className={`glass-card-hover rounded-xl overflow-hidden ${featured ? 'md:col-span-2' : ''}`}
         >
             <div className="p-6 md:p-8">
-                {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
-                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                            <span className="text-sm font-semibold text-green-600">PROVEN RESULTS</span>
+                            <div className="w-3 h-3 bg-accent rounded-full"></div>
+                            <span className="text-sm font-semibold text-accent">PROVEN RESULTS</span>
                         </div>
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900">{title}</h3>
-                        <p className="text-gray-600 mt-1">Industry: {industry}</p>
+                        <h3 className="text-xl md:text-2xl font-bold font-heading text-heading">{title}</h3>
+                        <p className="text-paragraph mt-1">Industry: {industry}</p>
                     </div>
 
                     {featured && (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-primary-100 text-primary-800">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-primary-500/10 text-primary-400 border border-primary-500/20">
                             Featured Case Study
                         </span>
                     )}
                 </div>
 
-                {/* Challenge & Solution */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
-                        <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                            <Target size={18} className="text-red-500" />
+                        <h4 className="font-bold text-heading mb-3 flex items-center gap-2">
+                            <Target size={18} className="text-red-400" />
                             The Challenge
                         </h4>
-                        <p className="text-gray-700">{challenge}</p>
+                        <p className="text-paragraph">{challenge}</p>
                     </div>
 
                     <div>
-                        <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                            <TrendingUp size={18} className="text-green-500" />
+                        <h4 className="font-bold text-heading mb-3 flex items-center gap-2">
+                            <TrendingUp size={18} className="text-accent" />
                             Our Solution
                         </h4>
-                        <p className="text-gray-700">{solution}</p>
+                        <p className="text-paragraph">{solution}</p>
                     </div>
                 </div>
 
-                {/* Results */}
-                <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                    <h4 className="font-bold text-gray-900 mb-4">Results Achieved</h4>
+                <div className="bg-white/[0.03] rounded-lg p-6 mb-6 border border-white/[0.06]">
+                    <h4 className="font-bold text-heading mb-4">Results Achieved</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {results.map((result, index) => (
                             <div key={index} className="text-center">
                                 <div className="flex justify-center mb-2">
-                                    <div className="text-primary-600">
+                                    <div className="text-primary-400">
                                         {result.icon}
                                     </div>
                                 </div>
-                                <div className="text-xl font-bold text-gray-900">{result.value}</div>
-                                <div className="text-sm text-gray-600">{result.metric}</div>
+                                <div className="text-xl font-bold font-heading text-heading">{result.value}</div>
+                                <div className="text-sm text-paragraph">{result.metric}</div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* CTA */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200">
-                    <p className="text-gray-600 text-sm">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/[0.06]">
+                    <p className="text-paragraph text-sm">
                         Want similar results for your business?
                     </p>
                     <Link
                         href={href}
-                        className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 group"
+                        className="inline-flex items-center gap-2 text-primary-400 font-semibold hover:text-primary-300 group"
                     >
                         {ctaText}
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

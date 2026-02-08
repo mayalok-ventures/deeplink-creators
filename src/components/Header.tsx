@@ -29,22 +29,22 @@ const Header = () => {
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${
                 scrolled
-                    ? 'bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5'
-                    : 'bg-white/95 backdrop-blur-sm'
+                    ? 'bg-dark/80 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/[0.05]'
+                    : 'bg-dark/95 backdrop-blur-sm'
             }`}
         >
-            <div className="h-[3px] bg-gradient-to-r from-primary-500 via-purple-500 to-pink-500" />
+            <div className="h-[2px] bg-gradient-to-r from-primary-500 via-accent to-primary-500" />
 
             <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex justify-between items-center">
                     <Link href="/" className="flex flex-col">
-                        <span className="text-2xl font-bold">
-                            <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
+                        <span className="text-2xl font-bold font-heading">
+                            <span className="bg-gradient-to-r from-primary-400 to-accent bg-clip-text text-transparent">
                                 Deeplink
                             </span>{' '}
-                            <span className="text-gray-900">Creators</span>
+                            <span className="text-heading">Creators</span>
                         </span>
-                        <span className="text-xs text-gray-500 tracking-wide">
+                        <span className="text-xs text-gold tracking-wide">
                             A Unit of Mayalok Venture
                         </span>
                     </Link>
@@ -54,7 +54,7 @@ const Header = () => {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className="text-gray-700 hover:text-primary-600 font-medium transition-colors relative group"
+                                className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group"
                             >
                                 {item.label}
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
@@ -69,15 +69,15 @@ const Header = () => {
                             <span className="relative flex items-center gap-2">
                                 Get Your ROI Audit
                                 <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
                                 </span>
                             </span>
                         </a>
                     </nav>
 
                     <button
-                        className="md:hidden text-gray-700"
+                        className="md:hidden text-heading"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         aria-label="Toggle menu"
                     >
@@ -94,7 +94,7 @@ const Header = () => {
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="md:hidden overflow-hidden"
                         >
-                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t mt-4">
+                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-white/[0.08] mt-4">
                                 {navItems.map((item, i) => (
                                     <motion.div
                                         key={item.label}
@@ -104,7 +104,7 @@ const Header = () => {
                                     >
                                         <Link
                                             href={item.href}
-                                            className="text-gray-700 hover:text-primary-600 font-medium py-2 block"
+                                            className="text-paragraph hover:text-primary-400 font-medium py-2 block"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             {item.label}
@@ -124,8 +124,8 @@ const Header = () => {
                                         <span className="relative flex items-center gap-2">
                                             Get Your ROI Audit
                                             <span className="relative flex h-2.5 w-2.5">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
                                             </span>
                                         </span>
                                     </a>

@@ -91,10 +91,8 @@ export default function ServicesPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 text-white overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[size:40px_40px]"></div>
-                </div>
+            <section className="relative pt-32 pb-20 bg-dark text-white overflow-hidden">
+                <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
                     className="absolute top-1/3 right-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"
@@ -114,30 +112,30 @@ export default function ServicesPage() {
                             <span className="text-sm font-medium">Full-Service Digital Marketing</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
                             Services That Build{' '}
-                            <span className="text-secondary-400">Revenue Machines</span>
+                            <span className="text-accent">Revenue Machines</span>
                         </h1>
-                        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             We don't sell "packages." We design custom marketing systems engineered to deliver leads, sales, and measurable ROI for your business.
                         </p>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/20 max-w-3xl mx-auto">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/[0.08] max-w-3xl mx-auto">
                             <div>
-                                <div className="text-2xl font-bold text-secondary-400">300%</div>
-                                <div className="text-sm text-gray-400">Average ROI</div>
+                                <div className="text-2xl font-bold text-accent">300%</div>
+                                <div className="text-sm text-paragraph">Average ROI</div>
                             </div>
                             <div>
-                                <div className="text-2xl font-bold text-secondary-400">₹2Cr+</div>
-                                <div className="text-sm text-gray-400">Revenue Generated</div>
+                                <div className="text-2xl font-bold text-accent">₹2Cr+</div>
+                                <div className="text-sm text-paragraph">Revenue Generated</div>
                             </div>
                             <div>
-                                <div className="text-2xl font-bold text-secondary-400">50+</div>
-                                <div className="text-sm text-gray-400">Businesses Served</div>
+                                <div className="text-2xl font-bold text-accent">50+</div>
+                                <div className="text-sm text-paragraph">Businesses Served</div>
                             </div>
                             <div>
-                                <div className="text-2xl font-bold text-secondary-400">100%</div>
-                                <div className="text-sm text-gray-400">ROI-Focused</div>
+                                <div className="text-2xl font-bold text-accent">100%</div>
+                                <div className="text-sm text-paragraph">ROI-Focused</div>
                             </div>
                         </div>
                     </motion.div>
@@ -145,13 +143,13 @@ export default function ServicesPage() {
             </section>
 
             {/* Services Grid */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Our <span className="text-primary-600">Core Services</span>
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            Our <span className="text-primary-400">Core Services</span>
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             Each service is designed to work independently or as part of a complete revenue system tailored to your business.
                         </p>
                     </div>
@@ -168,29 +166,29 @@ export default function ServicesPage() {
                                 key={index}
                                 variants={cardVariants}
                                 whileHover={{ y: -8 }}
-                                className="group bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-2xl transition-shadow duration-300"
+                                className="group glass-card-hover rounded-2xl overflow-hidden"
                             >
                                 <div className={`h-2 bg-gradient-to-r ${service.gradient}`}></div>
                                 <div className="p-8">
                                     <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
                                         {service.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                                    <p className="text-primary-600 font-semibold mb-4">{service.benefit}</p>
-                                    <p className="text-gray-600 mb-6">{service.description}</p>
+                                    <h3 className="text-xl font-heading font-bold text-heading mb-2">{service.title}</h3>
+                                    <p className="text-primary-400 font-semibold mb-4">{service.benefit}</p>
+                                    <p className="text-paragraph mb-6">{service.description}</p>
 
                                     <ul className="space-y-2 mb-8">
                                         {service.features.map((feature, i) => (
                                             <li key={i} className="flex items-center gap-2">
-                                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                <span className="text-gray-700 text-sm">{feature}</span>
+                                                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                                                <span className="text-paragraph text-sm">{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
 
                                     <Link
                                         href={service.href}
-                                        className="inline-flex items-center gap-2 text-primary-600 font-semibold group/btn"
+                                        className="inline-flex items-center gap-2 text-primary-400 font-semibold group/btn"
                                     >
                                         Learn More
                                         <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -203,13 +201,13 @@ export default function ServicesPage() {
             </section>
 
             {/* Why Choose Us */}
-            <section className="section-padding bg-gray-50">
+            <section className="section-padding bg-dark-100">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Why Choose <span className="text-primary-600">Deeplink Creators</span>?
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            Why Choose <span className="text-primary-400">Deeplink Creators</span>?
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             We're not like other agencies. Here's what makes us different.
                         </p>
                     </div>
@@ -225,13 +223,13 @@ export default function ServicesPage() {
                             <motion.div
                                 key={index}
                                 variants={cardVariants}
-                                className="bg-white rounded-2xl shadow-md p-8 border border-gray-200 text-center"
+                                className="glass-card rounded-2xl p-8 text-center"
                             >
-                                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <div className="text-primary-600">{item.icon}</div>
+                                <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                    <div className="text-primary-400">{item.icon}</div>
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                                <p className="text-gray-600">{item.description}</p>
+                                <h3 className="text-xl font-heading font-bold text-heading mb-3">{item.title}</h3>
+                                <p className="text-paragraph">{item.description}</p>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -239,32 +237,33 @@ export default function ServicesPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="section-padding bg-gradient-to-r from-primary-700 to-primary-600 text-white">
-                <div className="container-custom text-center">
+            <section className="relative section-padding bg-dark-200 text-white">
+                <div className="absolute inset-0 grid-bg"></div>
+                <div className="container-custom text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
                             Not Sure Which Service You Need?{' '}
-                            <span className="text-secondary-300">Let's Talk.</span>
+                            <span className="text-accent">Let's Talk.</span>
                         </h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto">
+                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             Book a FREE strategy call and we'll build a custom plan based on your business goals, audience, and budget.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
+                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
                             >
                                 Get FREE Strategy Call
                                 <ArrowRight size={20} />
                             </Link>
                             <a
                                 href="tel:+911234567890"
-                                className="bg-white text-primary-700 font-semibold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors"
+                                className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                             >
                                 Call Now: +91 123 456 7890
                             </a>

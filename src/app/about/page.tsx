@@ -69,10 +69,8 @@ export default function AboutPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 text-white overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[size:40px_40px]"></div>
-                </div>
+            <section className="relative pt-32 pb-20 bg-dark text-white overflow-hidden">
+                <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
                     className="absolute top-1/4 right-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"
@@ -92,11 +90,11 @@ export default function AboutPage() {
                             <span className="text-sm font-medium">Neuro-Marketing Specialists</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                            We Combine <span className="text-secondary-400">Data Science</span> with{' '}
+                        <h1 className="text-4xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
+                            We Combine <span className="text-accent">Data Science</span> with{' '}
                             <span className="text-primary-300">Human Psychology</span>
                         </h1>
-                        <p className="text-xl text-gray-300 mb-8 max-w-3xl">
+                        <p className="text-xl text-paragraph mb-8 max-w-3xl">
                             Most agencies run ads. We analyze buying behavior, predict customer decisions, and build marketing systems that work like clockwork.
                         </p>
                     </motion.div>
@@ -104,7 +102,7 @@ export default function AboutPage() {
             </section>
 
             {/* Our Story */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -113,26 +111,26 @@ export default function AboutPage() {
                         transition={{ duration: 0.6 }}
                         className="max-w-3xl mx-auto text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                            Our <span className="text-primary-600">Story</span>
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
+                            Our <span className="text-primary-400">Story</span>
                         </h2>
-                        <p className="text-lg text-gray-600 mb-4">
+                        <p className="text-lg text-paragraph mb-4">
                             Deeplink Creators was born from a simple frustration: businesses in Greater Noida were pouring money into marketing agencies and getting nothing but pretty reports in return.
                         </p>
-                        <p className="text-lg text-gray-600 mb-4">
-                            As a unit of <span className="font-semibold">Mayalok Venture</span>, we set out to build something different — a marketing company that combines the precision of <span className="font-semibold text-primary-600">Data Science</span> with the persuasion power of <span className="font-semibold text-primary-600">Neuro-Marketing</span>.
+                        <p className="text-lg text-paragraph mb-4">
+                            As a unit of <span className="font-semibold">Mayalok Venture</span>, we set out to build something different — a marketing company that combines the precision of <span className="font-semibold text-primary-400">Data Science</span> with the persuasion power of <span className="font-semibold text-primary-400">Neuro-Marketing</span>.
                         </p>
-                        <p className="text-lg text-gray-600">
+                        <p className="text-lg text-paragraph">
                             The result? Marketing systems that don't just attract eyeballs — they trigger buying decisions and deliver measurable revenue growth.
                         </p>
                     </motion.div>
 
                     {/* The Difference */}
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Why We're <span className="text-primary-600">Different</span>
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            Why We're <span className="text-primary-400">Different</span>
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             We don't just follow marketing trends. We understand why they work at a psychological level.
                         </p>
                     </div>
@@ -145,41 +143,41 @@ export default function AboutPage() {
                         className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16"
                     >
                         <motion.div variants={fadeUp}>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                            <h3 className="text-2xl font-heading font-bold text-heading mb-6">
                                 The Problem with Traditional Marketing Agencies
                             </h3>
                             <div className="space-y-6">
-                                <div className="flex items-start gap-4 p-4 bg-red-50 rounded-lg">
-                                    <div className="text-red-500 mt-1">
+                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
+                                    <div className="text-red-400 mt-1">
                                         <Target size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-2">Focus on Vanity Metrics</h4>
-                                        <p className="text-gray-700">
+                                        <h4 className="font-bold text-heading mb-2">Focus on Vanity Metrics</h4>
+                                        <p className="text-paragraph">
                                             They show you "likes", "shares", and traffic numbers that look good but don't fill your bank account.
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4 p-4 bg-red-50 rounded-lg">
-                                    <div className="text-red-500 mt-1">
+                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
+                                    <div className="text-red-400 mt-1">
                                         <Users size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-2">One-Size-Fits-All Approach</h4>
-                                        <p className="text-gray-700">
+                                        <h4 className="font-bold text-heading mb-2">One-Size-Fits-All Approach</h4>
+                                        <p className="text-paragraph">
                                             Same strategy for every client, regardless of industry, audience, or business model.
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4 p-4 bg-red-50 rounded-lg">
-                                    <div className="text-red-500 mt-1">
+                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
+                                    <div className="text-red-400 mt-1">
                                         <TrendingUp size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-2">Monthly Retainers with No ROI</h4>
-                                        <p className="text-gray-700">
+                                        <h4 className="font-bold text-heading mb-2">Monthly Retainers with No ROI</h4>
+                                        <p className="text-paragraph">
                                             You keep paying whether you get results or not. No skin in the game.
                                         </p>
                                     </div>
@@ -189,41 +187,41 @@ export default function AboutPage() {
 
                         <motion.div
                             variants={fadeUp}
-                            className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-white"
+                            className="glass-card rounded-2xl p-8 text-white border-primary-500/30"
                         >
-                            <h3 className="text-2xl font-bold mb-6">Our Neuro-Marketing Approach</h3>
+                            <h3 className="text-2xl font-heading font-bold mb-6">Our Neuro-Marketing Approach</h3>
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="bg-white/20 p-3 rounded-lg">
+                                    <div className="bg-white/[0.05] p-3 rounded-lg">
                                         <Brain size={20} />
                                     </div>
                                     <div>
                                         <h4 className="font-bold mb-2">Psychology-First Strategy</h4>
-                                        <p className="text-primary-100">
+                                        <p className="text-paragraph">
                                             We study your customer's buying psychology before creating any campaigns.
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="bg-white/20 p-3 rounded-lg">
+                                    <div className="bg-white/[0.05] p-3 rounded-lg">
                                         <Zap size={20} />
                                     </div>
                                     <div>
                                         <h4 className="font-bold mb-2">Data-Driven Decisions</h4>
-                                        <p className="text-primary-100">
+                                        <p className="text-paragraph">
                                             Every campaign is backed by data analysis and predictive modeling.
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="bg-white/20 p-3 rounded-lg">
+                                    <div className="bg-white/[0.05] p-3 rounded-lg">
                                         <Shield size={20} />
                                     </div>
                                     <div>
                                         <h4 className="font-bold mb-2">ROI-Focused Reporting</h4>
-                                        <p className="text-primary-100">
+                                        <p className="text-paragraph">
                                             We only measure what impacts your revenue. Clear, profit-focused metrics.
                                         </p>
                                     </div>
@@ -235,13 +233,13 @@ export default function AboutPage() {
             </section>
 
             {/* Values Section */}
-            <section className="section-padding bg-gray-50">
+            <section className="section-padding bg-dark-100">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Our <span className="text-primary-600">Core Values</span>
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            Our <span className="text-primary-400">Core Values</span>
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             The principles that guide everything we do for our clients.
                         </p>
                     </div>
@@ -257,13 +255,13 @@ export default function AboutPage() {
                             <motion.div
                                 key={index}
                                 variants={fadeUp}
-                                className="bg-white rounded-2xl shadow-md p-8 border border-gray-200 text-center"
+                                className="glass-card rounded-2xl p-8 text-center"
                             >
-                                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <div className="text-primary-600">{value.icon}</div>
+                                <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                    <div className="text-primary-400">{value.icon}</div>
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
-                                <p className="text-gray-600">{value.description}</p>
+                                <h3 className="text-xl font-heading font-bold text-heading mb-3">{value.title}</h3>
+                                <p className="text-paragraph">{value.description}</p>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -271,13 +269,13 @@ export default function AboutPage() {
             </section>
 
             {/* Team Section */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            The <span className="text-primary-600">Minds</span> Behind Your Revenue Growth
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            The <span className="text-primary-400">Minds</span> Behind Your Revenue Growth
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             We're not just marketers. We're psychologists, data scientists, and business strategists.
                         </p>
                     </div>
@@ -294,7 +292,7 @@ export default function AboutPage() {
                                 key={index}
                                 variants={fadeUp}
                                 whileHover={{ y: -5 }}
-                                className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-300"
+                                className="glass-card-hover rounded-xl p-6"
                             >
                                 <div
                                     className={`w-16 h-16 bg-gradient-to-br ${member.color} rounded-full flex items-center justify-center text-white font-bold text-xl mb-4`}
@@ -304,10 +302,10 @@ export default function AboutPage() {
                                         .map((n) => n[0])
                                         .join('')}
                                 </div>
-                                <h3 className="font-bold text-gray-900 text-lg mb-1">{member.name}</h3>
-                                <p className="text-primary-600 font-medium text-sm mb-2">{member.role}</p>
-                                <p className="text-gray-700 text-sm mb-3">{member.expertise}</p>
-                                <p className="text-gray-600 text-sm">{member.description}</p>
+                                <h3 className="font-heading font-bold text-heading text-lg mb-1">{member.name}</h3>
+                                <p className="text-primary-400 font-medium text-sm mb-2">{member.role}</p>
+                                <p className="text-paragraph text-sm mb-3">{member.expertise}</p>
+                                <p className="text-paragraph text-sm">{member.description}</p>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -315,14 +313,14 @@ export default function AboutPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-gray-50">
+            <section className="section-padding bg-dark-100">
                 <div className="container-custom">
-                    <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-200">
+                    <div className="glass-card rounded-2xl p-8 md:p-12">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                Our <span className="text-primary-600">4-Step</span> Neuro-Marketing Process
+                            <h2 className="text-3xl font-heading font-extrabold text-heading mb-4">
+                                Our <span className="text-primary-400">4-Step</span> Neuro-Marketing Process
                             </h2>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            <p className="text-xl text-paragraph max-w-3xl mx-auto">
                                 How we turn your marketing into a predictable revenue machine
                             </p>
                         </div>
@@ -367,14 +365,14 @@ export default function AboutPage() {
                                 <motion.div
                                     key={index}
                                     variants={fadeUp}
-                                    className="bg-gray-50 rounded-xl p-6"
+                                    className="bg-white/[0.03] rounded-xl p-6"
                                 >
-                                    <div className="text-3xl font-bold text-primary-600 mb-4">{process.step}</div>
-                                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                                        <div className="text-primary-600">{process.icon}</div>
+                                    <div className="text-3xl font-bold text-primary-400 mb-4">{process.step}</div>
+                                    <div className="w-12 h-12 bg-primary-500/10 rounded-lg flex items-center justify-center mb-4">
+                                        <div className="text-primary-400">{process.icon}</div>
                                     </div>
-                                    <h3 className="font-bold text-gray-900 text-lg mb-3">{process.title}</h3>
-                                    <p className="text-gray-600">{process.description}</p>
+                                    <h3 className="font-heading font-bold text-heading text-lg mb-3">{process.title}</h3>
+                                    <p className="text-paragraph">{process.description}</p>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -383,31 +381,32 @@ export default function AboutPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-                <div className="container-custom text-center">
+            <section className="relative section-padding bg-dark-200 text-white">
+                <div className="absolute inset-0 grid-bg"></div>
+                <div className="container-custom text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                            Ready to Apply <span className="text-secondary-300">Neuro-Marketing</span> to Your Business?
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                            Ready to Apply <span className="text-accent">Neuro-Marketing</span> to Your Business?
                         </h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto">
+                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             Stop guessing what works. Start using psychology and data to predictably grow your revenue.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
+                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
                             >
                                 Book Psychology Audit
                                 <Brain size={20} />
                             </Link>
                             <a
                                 href="tel:+911234567890"
-                                className="bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-8 rounded-lg border border-white/30 transition-colors"
+                                className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                             >
                                 Speak With Our Strategist
                             </a>

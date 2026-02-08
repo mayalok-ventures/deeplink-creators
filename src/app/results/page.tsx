@@ -99,21 +99,23 @@ export default function ResultsPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="pt-32 pb-20 bg-gradient-to-r from-primary-50 to-blue-50">
-                <div className="container-custom">
+            <section className="relative pt-32 pb-20 bg-dark overflow-hidden">
+                <div className="absolute inset-0 grid-bg"></div>
+                <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+                <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                            <span className="text-primary-600">Proven Results</span> That Drive Business Growth
+                        <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-heading mb-6">
+                            <span className="text-primary-400">Proven Results</span> That Drive Business Growth
                         </h1>
-                        <p className="text-xl text-gray-600 mb-8">
+                        <p className="text-xl text-paragraph mb-8">
                             We don't do "portfolio" work. We deliver measurable business outcomes. Here's what our Neuro-Marketing approach has achieved for Greater Noida businesses.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <div className="text-2xl font-bold text-primary-600">
+                            <div className="text-2xl font-bold text-primary-400">
                                 ₹15+ Crore
                             </div>
-                            <div className="text-gray-500">|</div>
-                            <div className="text-lg text-gray-700">
+                            <div className="text-paragraph">|</div>
+                            <div className="text-lg text-paragraph">
                                 Revenue generated for clients in 2023
                             </div>
                         </div>
@@ -122,13 +124,13 @@ export default function ResultsPage() {
             </section>
 
             {/* Case Studies Grid */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Real <span className="text-primary-600">Business Impact</span>, Not Vanity Metrics
+                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                            Real <span className="text-primary-400">Business Impact</span>, Not Vanity Metrics
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             Every number below represents real revenue, real growth, and real business transformation.
                         </p>
                     </div>
@@ -140,43 +142,43 @@ export default function ResultsPage() {
                     </div>
 
                     {/* Methodology Section */}
-                    <div className="mt-16 bg-gray-50 rounded-2xl p-8 md:p-12">
+                    <div className="mt-16 bg-dark-100 rounded-2xl p-8 md:p-12">
                         <div className="text-center mb-10">
-                            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                                Why Our Results Are <span className="text-primary-600">Different</span>
+                            <h3 className="text-2xl md:text-3xl font-heading font-bold text-heading mb-4">
+                                Why Our Results Are <span className="text-primary-400">Different</span>
                             </h3>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            <p className="text-xl text-paragraph max-w-3xl mx-auto">
                                 Our Neuro-Marketing methodology focuses on what actually matters to your business
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="bg-white p-6 rounded-xl shadow-md">
-                                <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-50 rounded-lg flex items-center justify-center mb-4">
-                                    <Target className="text-primary-600" size={24} />
+                            <div className="glass-card p-6 rounded-xl">
+                                <div className="w-12 h-12 bg-primary-500/10 rounded-lg flex items-center justify-center mb-4">
+                                    <Target className="text-primary-400" size={24} />
                                 </div>
-                                <h4 className="font-bold text-lg text-gray-900 mb-3">Revenue-First Approach</h4>
-                                <p className="text-gray-600">
+                                <h4 className="font-heading font-bold text-lg text-heading mb-3">Revenue-First Approach</h4>
+                                <p className="text-paragraph">
                                     We only track metrics that directly impact your bottom line. No vanity metrics, only what drives profit.
                                 </p>
                             </div>
 
-                            <div className="bg-white p-6 rounded-xl shadow-md">
-                                <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-50 rounded-lg flex items-center justify-center mb-4">
-                                    <TrendingUp className="text-green-600" size={24} />
+                            <div className="glass-card p-6 rounded-xl">
+                                <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
+                                    <TrendingUp className="text-accent" size={24} />
                                 </div>
-                                <h4 className="font-bold text-lg text-gray-900 mb-3">Scalable Systems</h4>
-                                <p className="text-gray-600">
+                                <h4 className="font-heading font-bold text-lg text-heading mb-3">Scalable Systems</h4>
+                                <p className="text-paragraph">
                                     We build marketing machines that work 24/7, not one-off campaigns that stop when budgets do.
                                 </p>
                             </div>
 
-                            <div className="bg-white p-6 rounded-xl shadow-md">
-                                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg flex items-center justify-center mb-4">
-                                    <BarChart3 className="text-purple-600" size={24} />
+                            <div className="glass-card p-6 rounded-xl">
+                                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+                                    <BarChart3 className="text-purple-400" size={24} />
                                 </div>
-                                <h4 className="font-bold text-lg text-gray-900 mb-3">Data-Driven Decisions</h4>
-                                <p className="text-gray-600">
+                                <h4 className="font-heading font-bold text-lg text-heading mb-3">Data-Driven Decisions</h4>
+                                <p className="text-paragraph">
                                     Every decision is backed by data and psychology, not guesswork or industry "best practices".
                                 </p>
                             </div>
@@ -186,30 +188,31 @@ export default function ResultsPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-                <div className="container-custom text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                        Ready to See <span className="text-secondary-300">Similar Results</span> for Your Business?
+            <section className="relative section-padding bg-dark-200 text-white">
+                <div className="absolute inset-0 grid-bg"></div>
+                <div className="container-custom text-center relative z-10">
+                    <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                        Ready to See <span className="text-accent">Similar Results</span> for Your Business?
                     </h2>
-                    <p className="text-xl mb-8 max-w-2xl mx-auto">
+                    <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                         Book your FREE Revenue Growth Session. We'll analyze your current marketing and show you exactly how to get more customers.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
                         >
                             Book Free Growth Session
                             <TrendingUp size={20} />
                         </a>
                         <a
                             href="tel:+911234567890"
-                            className="bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-8 rounded-lg border border-white/30 transition-colors"
+                            className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                         >
                             Call Now: +91 123 456 7890
                         </a>
                     </div>
-                    <p className="text-sm text-white/70 mt-6">
+                    <p className="text-sm text-paragraph mt-6">
                         Limited to 2 free sessions per week for qualified businesses
                     </p>
                 </div>

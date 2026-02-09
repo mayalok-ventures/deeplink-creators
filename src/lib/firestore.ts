@@ -52,6 +52,20 @@ export interface SEOSettings {
     metaPixelId: string
 }
 
+export interface ServiceCardData {
+    id?: string
+    title: string
+    benefit: string
+    description: string
+    features: string[]
+    cta: string
+    href: string
+    gradient: string
+    icon: string
+    order: number
+    visible: boolean
+}
+
 function generateShortId(): string {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
     let result = ''
@@ -158,6 +172,97 @@ export async function getSEOSettings(): Promise<SEOSettings | null> {
 
 export async function saveSEOSettings(data: SEOSettings): Promise<void> {
     await setDoc(doc(db, 'settings', 'seo'), data)
+}
+
+// ─── Service Card Operations ─────────────────────────────────────────
+
+export async function getServiceCards(): Promise<ServiceCardData[]> {
+    const q = query(collection(db, 'services'), orderBy('order', 'asc'))
+    const snapshot = await getDocs(q)
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+}
+
+export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
+    const q = query(
+        collection(db, 'services'),
+        where('visible', '==', true),
+        orderBy('order', 'asc')
+    )
+    const snapshot = await getDocs(q)
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+}
+
+export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {
+    const docRef = await addDoc(collection(db, 'services'), data)
+    return docRef.id
+}
+
+export async function updateServiceCard(id: string, data: Partial<ServiceCardData>): Promise<void> {
+    await updateDoc(doc(db, 'services', id), data)
+}
+
+export async function deleteServiceCard(id: string): Promise<void> {
+    await deleteDoc(doc(db, 'services', id))
+}
+
+export async function seedDefaultServiceCards(): Promise<void> {
+    const snapshot = await getDocs(collection(db, 'services'))
+    if (!snapshot.empty) return
+
+    const defaults: Omit<ServiceCardData, 'id'>[] = [
+        {
+            icon: 'Search',
+            title: 'Neuro-SEO',
+            benefit: 'Free Traffic from Google That Actually Converts',
+            description: "Our proprietary Neuro-SEO method doesn't just rank pages - it ranks pages that actually convert visitors into customers.",
+            features: ['Local SEO for Greater Noida', 'Conversion-Optimized Pages', 'Competitor Analysis', 'Monthly Performance Reports'],
+            cta: 'Get SEO Audit',
+            href: '/services/seo-greater-noida',
+            gradient: 'from-primary-400 to-cyan-400',
+            order: 0,
+            visible: true,
+        },
+        {
+            icon: 'TrendingUp',
+            title: 'Performance Marketing',
+            benefit: 'Paid Ads That Make More Than They Cost',
+            description: 'Stop wasting money on clicks. We build complete funnel systems that guarantee positive ROI on every rupee spent.',
+            features: ['Facebook/Google Ads', 'ROI-Focused Campaigns', 'Conversion Tracking', 'Weekly Optimization'],
+            cta: 'Optimize My Ads',
+            href: '/services/performance-marketing',
+            gradient: 'from-accent to-emerald-400',
+            order: 1,
+            visible: true,
+        },
+        {
+            icon: 'Target',
+            title: 'Conversion Rate Optimization',
+            benefit: 'Turn Visitors into Paying Customers',
+            description: 'Why pay for more traffic when you can convert more of your existing visitors? We specialize in fixing leaky funnels.',
+            features: ['Funnel Analysis', 'A/B Testing', 'Landing Page Design', 'Checkout Optimization'],
+            cta: 'Fix My Funnel',
+            href: '/services/conversion-optimization',
+            gradient: 'from-orange-400 to-red-400',
+            order: 2,
+            visible: true,
+        },
+        {
+            icon: 'Globe',
+            title: 'Brand Authority',
+            benefit: 'Become The Industry Leader in Greater Noida',
+            description: 'Build a brand that commands premium prices. We position you as the expert that customers trust automatically.',
+            features: ['Content Strategy', 'PR & Outreach', 'Social Proof Systems', 'Industry Authority'],
+            cta: 'Build My Brand',
+            href: '/services/branding',
+            gradient: 'from-purple-400 to-pink-400',
+            order: 3,
+            visible: true,
+        },
+    ]
+
+    for (const card of defaults) {
+        await addDoc(collection(db, 'services'), card)
+    }
 }
 
 // ─── Storage Operations ─────────────────────────────────────────

@@ -5,18 +5,53 @@ import { Send, Loader2 } from 'lucide-react'
 
 export default function ContactForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [submitted, setSubmitted] = useState(false)
     const [budget, setBudget] = useState('')
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsSubmitting(true)
 
-        const formData = new FormData(e.target as HTMLFormElement)
+        try {
+            const formData = new FormData(e.target as HTMLFormElement)
+            const res = await fetch('https://formspree.io/f/mgolvknv', {
+                method: 'POST',
+                body: formData,
+                headers: { Accept: 'application/json' },
+            })
+            if (res.ok) {
+                setSubmitted(true)
+                ;(e.target as HTMLFormElement).reset()
+                setBudget('')
+            } else {
+                alert('Something went wrong. Please try again.')
+            }
+        } catch {
+            alert('Failed to send. Please check your connection and try again.')
+        }
+        setIsSubmitting(false)
+    }
 
-        setTimeout(() => {
-            setIsSubmitting(false)
-            alert('Thank you! We\'ll contact you within 24 hours.')
-        }, 1500)
+    if (submitted) {
+        return (
+            <div className="glass-card rounded-2xl p-8 md:p-12 text-center">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Send className="text-accent" size={28} />
+                </div>
+                <h3 className="text-2xl font-extrabold font-heading text-heading mb-4">
+                    Thank You!
+                </h3>
+                <p className="text-paragraph mb-6">
+                    We've received your request. Our team will contact you within 24 hours with your FREE ROI Audit.
+                </p>
+                <button
+                    onClick={() => setSubmitted(false)}
+                    className="text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors"
+                >
+                    Submit another request
+                </button>
+            </div>
+        )
     }
 
     return (

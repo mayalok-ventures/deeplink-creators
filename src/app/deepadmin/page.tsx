@@ -8,12 +8,14 @@ import SocialManager from '@/components/admin/SocialManager'
 import SEOManager from '@/components/admin/SEOManager'
 import { clearAdminSession } from '@/lib/admin-auth'
 import { getAllBlogs } from '@/lib/firestore'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import {
-    LayoutDashboard, FileText, Phone, Share2, Search, LogOut, Menu, X
+    LayoutDashboard, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3
 } from 'lucide-react'
 
 const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'blogs', label: 'Blog Posts', icon: FileText },
     { id: 'contact', label: 'Contact', icon: Phone },
     { id: 'social', label: 'Social Links', icon: Share2 },
@@ -113,8 +115,14 @@ export default function AdminPage() {
                                     <h3 className="text-lg font-bold text-heading mb-4">Quick Actions</h3>
                                     <div className="flex flex-wrap gap-3">
                                         <button
-                                            onClick={() => setActiveTab('blogs')}
+                                            onClick={() => setActiveTab('analytics')}
                                             className="btn-primary text-sm py-2 px-4"
+                                        >
+                                            View Analytics
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('blogs')}
+                                            className="bg-white/[0.05] border border-white/[0.08] text-heading text-sm py-2 px-4 rounded-lg hover:bg-white/[0.08] transition-colors"
                                         >
                                             Manage Blog Posts
                                         </button>
@@ -134,6 +142,7 @@ export default function AdminPage() {
                                 </div>
                             </div>
                         )}
+                        {activeTab === 'analytics' && <AnalyticsDashboard />}
                         {activeTab === 'blogs' && <BlogManager />}
                         {activeTab === 'contact' && <ContactManager />}
                         {activeTab === 'social' && <SocialManager />}

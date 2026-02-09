@@ -38,7 +38,7 @@ export default function ContactPage() {
                             Ready to <span className="text-accent">Scale Your Business</span>?
                         </h1>
                         <p className="text-xl text-paragraph">
-                            Fill out the form to get your FREE ROI Audit. We only work with serious businesses in Greater Noida.
+                            Fill out the form to get your FREE ROI Audit. The best digital marketing agency in Greater Noida &amp; Noida — serving businesses across Delhi NCR with SEO, performance marketing, and branding.
                         </p>
                     </motion.div>
                 </div>
@@ -89,7 +89,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-heading">Greater Noida Specialists</h4>
-                                            <p className="text-sm text-paragraph">Deep understanding of local market</p>
+                                            <p className="text-sm text-paragraph">Local SEO &amp; digital marketing experts for Greater Noida, Noida &amp; Delhi NCR</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
@@ -98,7 +98,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-heading">Neuro-Marketing Experts</h4>
-                                            <p className="text-sm text-paragraph">Psychology-based strategies that convert</p>
+                                            <p className="text-sm text-paragraph">SEO, Google Ads &amp; Facebook Ads strategies backed by psychology</p>
                                         </div>
                                     </li>
                                 </ul>

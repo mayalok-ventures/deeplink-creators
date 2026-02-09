@@ -56,7 +56,7 @@ export default function AboutPage() {
                     >
                         <div className="inline-flex items-center gap-2 bg-primary-600/20 border border-primary-500/30 rounded-full px-4 py-2 mb-6">
                             <Brain size={18} />
-                            <span className="text-sm font-medium">Neuro-Marketing Specialists</span>
+                            <span className="text-sm font-medium">Top Digital Marketing &amp; SEO Agency in Greater Noida</span>
                         </div>
 
                         <h1 className="text-4xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
@@ -64,7 +64,7 @@ export default function AboutPage() {
                             <span className="text-primary-300">Human Psychology</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8 max-w-3xl">
-                            Most agencies run ads. We analyze buying behavior, predict customer decisions, and build marketing systems that work like clockwork.
+                            Most digital marketing agencies in Noida run ads blindly. As an SEO consultant and marketing expert in Greater Noida, we analyze buying behavior, predict customer decisions, and build marketing systems that work like clockwork.
                         </p>
                     </motion.div>
                 </div>
@@ -84,10 +84,10 @@ export default function AboutPage() {
                             Our <span className="text-primary-400">Story</span>
                         </h2>
                         <p className="text-lg text-paragraph mb-4">
-                            Deeplink Creators was born from a simple frustration: businesses in Greater Noida were pouring money into marketing agencies and getting nothing but pretty reports in return.
+                            Deeplink Creators was born from a simple frustration: businesses in Greater Noida, Noida, and Delhi NCR were pouring money into digital marketing agencies and getting nothing but pretty reports in return.
                         </p>
                         <p className="text-lg text-paragraph mb-4">
-                            As a unit of <span className="font-semibold">Mayalok Venture</span>, we set out to build something different — a marketing company that combines the precision of <span className="font-semibold text-primary-400">Data Science</span> with the persuasion power of <span className="font-semibold text-primary-400">Neuro-Marketing</span>.
+                            As a unit of <span className="font-semibold">Mayalok Venture</span>, we set out to build the best digital marketing company in Delhi NCR — one that combines the precision of <span className="font-semibold text-primary-400">Data Science</span> with the persuasion power of <span className="font-semibold text-primary-400">Neuro-Marketing</span> to deliver affordable SEO services and ROI-focused performance marketing.
                         </p>
                         <p className="text-lg text-paragraph">
                             The result? Marketing systems that don't just attract eyeballs — they trigger buying decisions and deliver measurable revenue growth.
@@ -319,7 +319,7 @@ export default function AboutPage() {
                             Ready to Apply <span className="text-accent">Neuro-Marketing</span> to Your Business?
                         </h2>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                            Stop guessing what works. Start using psychology and data to predictably grow your revenue.
+                            Whether you need SEO services in Greater Noida, a Google Ads expert in Delhi NCR, or a complete digital marketing strategy for your startup — start using psychology and data to predictably grow your revenue.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link

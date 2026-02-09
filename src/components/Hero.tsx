@@ -75,7 +75,7 @@ const Hero = () => {
                                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
                                     </span>
                                     <span className="text-sm font-medium text-paragraph tracking-wide">
-                                        Serving Greater Noida Businesses
+                                        Best Digital Marketing Agency in Greater Noida & Noida
                                     </span>
                                 </div>
                             </motion.div>
@@ -105,11 +105,11 @@ const Hero = () => {
                                 variants={itemVariants}
                                 className="text-lg md:text-xl lg:text-2xl text-paragraph mb-10 max-w-2xl leading-relaxed"
                             >
-                                We don&apos;t deliver clicks. We deliver{' '}
+                                The top SEO company in Greater Noida &amp; Noida. We don&apos;t deliver clicks — we deliver{' '}
                                 <span className="font-semibold text-heading">
-                                    customers, sales, and growth
-                                </span>
-                                .
+                                    customers, sales, and ROI
+                                </span>{' '}
+                                through SEO, performance marketing, and Google Ads.
                             </motion.p>
 
                             {/* CTA Buttons */}

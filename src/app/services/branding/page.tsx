@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Target, Users, TrendingUp, Award, Globe, Shield } from 'lucide-react'
 
 export const metadata: Metadata = {
-    title: 'Branding Services | Build Authority & Command Premium Prices | Deeplink Creators',
-    description: 'Stop competing on price. Build a brand that customers choose without hesitation. Brand strategy, content authority, and visual identity for Greater Noida businesses.',
+    title: 'Branding & Identity Services in Greater Noida | Brand Strategy Agency | Deeplink Creators',
+    description: 'Build a brand that commands premium prices. Brand strategy, visual identity, content authority, and social media branding for businesses in Greater Noida, Noida & Delhi NCR.',
+    keywords: ['branding agency Greater Noida', 'brand strategy Noida', 'social media branding Greater Noida', 'brand identity Delhi NCR', 'content marketing services Noida', 'digital marketing agency branding'],
 }
 
 export default function BrandingPage() {
@@ -19,7 +20,7 @@ export default function BrandingPage() {
                             Branding That <span className="text-purple-400">Commands Premium Prices</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
-                            Stop competing on price. Build a brand that customers choose without hesitation and pay more for.
+                            Stop competing on price. As a leading branding agency in Greater Noida &amp; Noida, we build brands that customers in Delhi NCR choose without hesitation and pay more for.
                         </p>
                         <a
                             href="/contact"
@@ -41,8 +42,8 @@ export default function BrandingPage() {
                                 Are You Stuck in the <span className="text-red-400">Commodity Trap</span>?
                             </h2>
                             <p className="text-paragraph mb-6">
-                                Most businesses in Greater Noida compete on price because they haven't built a distinctive brand.
-                                When you're just another option, customers buy based on who's cheapest.
+                                Most businesses in Greater Noida and Noida compete on price because they haven&apos;t built a distinctive brand.
+                                When you&apos;re just another option in Delhi NCR, customers buy based on who&apos;s cheapest.
                             </p>
 
                             <div className="space-y-4 mb-8">
@@ -132,7 +133,7 @@ export default function BrandingPage() {
                             Our <span className="text-purple-400">Brand Authority</span> Framework
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
-                            A complete system to transform your business from a commodity to a category leader
+                            A complete branding and content marketing system to transform your Greater Noida or Noida business from a commodity to a category leader in Delhi NCR
                         </p>
                     </div>
 
@@ -215,7 +216,7 @@ export default function BrandingPage() {
                         Ready to Become the <span className="text-gold">Authority</span> in Your Industry?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                        Get your FREE Brand Audit. We'll show you exactly how to escape the commodity trap and command premium prices.
+                        Get your FREE Brand Audit. Whether you&apos;re a startup in Greater Noida or an established business in Noida — we&apos;ll show you how to escape the commodity trap and command premium prices across Delhi NCR.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a

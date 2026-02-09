@@ -3,8 +3,9 @@ import { BarChart3, Target, Users } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-    title: 'SEO Services in Greater Noida | Neuro-SEO Methodology | Deeplink Creators',
-    description: 'Get more customers from Google with our Neuro-SEO method. Serving Greater Noida businesses with conversion-focused SEO strategies.',
+    title: 'Best SEO Services in Greater Noida & Noida | Local SEO Company | Deeplink Creators',
+    description: 'Top SEO company in Greater Noida & Noida offering affordable SEO services, local SEO, Google My Business optimization, technical SEO audits, and website SEO services for businesses in Delhi NCR. Get your free SEO audit today.',
+    keywords: ['SEO services in Greater Noida', 'SEO company in Greater Noida', 'local SEO services Greater Noida', 'SEO services in Noida', 'SEO company in Noida', 'affordable SEO services Noida', 'website SEO audit Greater Noida', 'Google My Business optimization Greater Noida', 'technical SEO services Noida', 'SEO consultant in Greater Noida', 'SEO expert in Delhi NCR', 'best SEO company Delhi NCR', 'small business SEO services Greater Noida', 'SEO for local businesses Noida'],
 }
 
 export default function SEOServicePage() {
@@ -20,7 +21,7 @@ export default function SEOServicePage() {
                             SEO Services in <span className="text-primary-400">Greater Noida</span> That Actually Drive Customers
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
-                            Tired of ranking on page 2? Our Neuro-SEO methodology targets the exact keywords that <span className="font-semibold">your customers in Greater Noida are searching for</span>.
+                            Tired of ranking on page 2? As the best SEO company in Greater Noida &amp; Noida, our Neuro-SEO methodology targets the exact keywords that <span className="font-semibold">your customers in Greater Noida, Noida, and Delhi NCR are searching for</span>.
                         </p>
                         <a
                             href="/contact"
@@ -39,11 +40,11 @@ export default function SEOServicePage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <h2 className="text-3xl font-heading font-extrabold text-heading mb-6">
-                                Is Your Website <span className="text-red-400">Stuck on Google's 2nd Page</span> in Greater Noida Searches?
+                                Is Your Website <span className="text-red-400">Stuck on Google&apos;s 2nd Page</span> for Greater Noida &amp; Noida Searches?
                             </h2>
                             <p className="text-paragraph mb-6">
-                                Most SEO agencies focus on increasing traffic. We focus on increasing <span className="font-semibold">relevant traffic that converts</span>.
-                                What's the point of ranking for keywords if those visitors never buy?
+                                Most SEO companies in Noida focus on increasing traffic. As an affordable SEO service provider in Greater Noida, we focus on increasing <span className="font-semibold">relevant traffic that converts</span>.
+                                What&apos;s the point of ranking for keywords if those visitors never buy?
                             </p>
                             <ul className="space-y-4">
                                 <li className="flex items-start gap-3">
@@ -81,7 +82,7 @@ export default function SEOServicePage() {
                                     </div>
                                     <div>
                                         <h4 className="font-semibold text-heading">Localized Content Strategy</h4>
-                                        <p className="text-sm text-paragraph">Content that speaks directly to Greater Noida audience</p>
+                                        <p className="text-sm text-paragraph">Content that speaks directly to Greater Noida, Noida &amp; Delhi NCR audience</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -107,7 +108,7 @@ export default function SEOServicePage() {
                         Ready to Dominate <span className="text-accent">Google Searches</span> in Greater Noida?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                        Get your FREE SEO Audit and discover exactly what's holding your website back from generating leads.
+                        Get your FREE website SEO audit and discover exactly what&apos;s holding your business in Greater Noida or Noida back from generating leads through Google.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a

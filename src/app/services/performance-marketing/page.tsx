@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Target, TrendingUp, DollarSign, BarChart3, Zap, Shield } from 'lucide-react'
 
 export const metadata: Metadata = {
-    title: 'Performance Marketing Services | ROI-Focused Ads | Deeplink Creators',
-    description: 'Stop burning money on ads. We build paid advertising systems where every rupee generates positive ROI for Greater Noida businesses.',
+    title: 'Performance Marketing & PPC Services in Greater Noida | Google Ads Expert | Deeplink Creators',
+    description: 'ROI-focused performance marketing agency in Greater Noida & Noida. Google Ads management, Facebook Ads, PPC services, and lead generation for businesses in Delhi NCR. Stop burning money on ads.',
+    keywords: ['performance marketing Greater Noida', 'Google Ads expert Delhi NCR', 'PPC services Greater Noida', 'Facebook Ads agency Noida', 'Google Ads management Noida', 'lead generation Greater Noida', 'digital marketing for startups Delhi NCR', 'low cost lead generation Noida', 'B2B digital marketing agency Delhi NCR', 'real estate lead generation agency Noida'],
 }
 
 export default function PerformanceMarketingPage() {
@@ -19,7 +20,7 @@ export default function PerformanceMarketingPage() {
                             Performance Marketing That <span className="text-accent">Guarantees ROI</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
-                            Stop burning money on ads. We build paid advertising systems where every rupee spent generates more than a rupee in return.
+                            Stop burning money on Google Ads &amp; Facebook Ads. As a leading PPC services provider in Greater Noida &amp; Noida, we build paid advertising systems where every rupee spent generates more than a rupee in return for businesses across Delhi NCR.
                         </p>
                         <a
                             href="/contact"
@@ -41,8 +42,8 @@ export default function PerformanceMarketingPage() {
                                 Are Your <span className="text-red-400">Facebook & Google Ads</span> Losing Money?
                             </h2>
                             <p className="text-paragraph mb-6">
-                                Most businesses in Greater Noida are overspending on digital ads because they're targeting the wrong audience,
-                                with the wrong message, at the wrong time. We fix all three.
+                                Most businesses in Greater Noida and Noida are overspending on digital ads because they&apos;re targeting the wrong audience,
+                                with the wrong message, at the wrong time. As a Google Ads expert in Delhi NCR, we fix all three.
                             </p>
 
                             <div className="space-y-4 mb-8">
@@ -133,7 +134,7 @@ export default function PerformanceMarketingPage() {
                             Our <span className="text-accent">Performance Marketing</span> Services
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
-                            Complete advertising solutions for Greater Noida businesses
+                            Complete PPC and lead generation solutions for businesses in Greater Noida, Noida &amp; Delhi NCR
                         </p>
                     </div>
 
@@ -216,7 +217,7 @@ export default function PerformanceMarketingPage() {
                         Ready to Make Your Ads <span className="text-gold">Actually Profitable</span>?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                        Get your FREE Ad Account Audit. We'll show you exactly where your money is being wasted and how to fix it.
+                        Get your FREE Ad Account Audit. Whether you need a Google Ads expert, Facebook Ads management, or low cost lead generation in Noida — we&apos;ll show you exactly where your money is being wasted.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a

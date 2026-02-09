@@ -16,10 +16,10 @@ const SocialProof = () => {
                     className="text-center"
                 >
                     <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-heading mb-4">
-                        Real Results for <span className="text-primary-400">Greater Noida</span> Businesses
+                        Real Results for <span className="text-primary-400">Greater Noida, Noida &amp; Delhi NCR</span> Businesses
                     </h2>
                     <p className="text-xl text-paragraph max-w-3xl mx-auto mb-12">
-                        Client success stories and case studies will be published here soon.
+                        SEO, performance marketing, and digital marketing case studies for businesses in Greater Noida, Noida &amp; Delhi NCR — coming soon.
                     </p>
 
                     <div className="glass-card rounded-2xl p-8 md:p-12 max-w-2xl mx-auto border-t border-gold/20">

@@ -160,15 +160,15 @@ export default function ServicesPage() {
                     >
                         <div className="inline-flex items-center gap-2 bg-primary-600/20 border border-primary-500/30 rounded-full px-4 py-2 mb-6">
                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium">Full-Service Digital Marketing</span>
+                            <span className="text-sm font-medium">Best Digital Marketing Agency in Greater Noida &amp; Noida</span>
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
-                            Services That Build{' '}
+                            Digital Marketing Services in Greater Noida That Build{' '}
                             <span className="text-accent">Revenue Machines</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                            We don't sell "packages." We design custom marketing systems engineered to deliver leads, sales, and measurable ROI for your business.
+                            The top SEO company &amp; digital marketing agency in Noida. We design custom marketing systems — SEO, Google Ads, PPC, and branding — engineered to deliver leads, sales, and measurable ROI for your business in Delhi NCR.
                         </p>
 
 
@@ -242,7 +242,7 @@ export default function ServicesPage() {
                             Why Choose <span className="text-primary-400">Deeplink Creators</span>?
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
-                            We're not like other agencies. Here's what makes us different.
+                            The best digital marketing company in Delhi NCR. Here&apos;s what makes us different from other SEO agencies in Greater Noida.
                         </p>
                     </div>
 
@@ -285,7 +285,7 @@ export default function ServicesPage() {
                             <span className="text-accent">Let's Talk.</span>
                         </h2>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                            Book a FREE strategy call and we'll build a custom plan based on your business goals, audience, and budget.
+                            Book a FREE strategy call with the best SEO consultant in Greater Noida. We&apos;ll build a custom digital marketing plan — SEO, Google Ads, or performance marketing — based on your business goals and budget.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link

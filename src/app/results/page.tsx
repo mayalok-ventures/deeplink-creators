@@ -49,7 +49,7 @@ export default function ResultsPage() {
                             <span className="text-primary-400">Insights & Results</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
-                            Marketing insights, case studies, and actionable strategies for Greater Noida businesses.
+                            Digital marketing insights, SEO tips, and actionable strategies for businesses in Greater Noida, Noida &amp; Delhi NCR.
                         </p>
                     </motion.div>
                 </div>
@@ -70,7 +70,7 @@ export default function ResultsPage() {
                                 Blog Posts Coming Soon
                             </h3>
                             <p className="text-lg text-paragraph">
-                                We are preparing insightful articles about digital marketing, SEO, and business growth. Check back soon.
+                                We are preparing insightful articles about SEO services, performance marketing, Google Ads tips, and digital marketing strategies for businesses in Greater Noida, Noida &amp; Delhi NCR. Check back soon.
                             </p>
                         </div>
                     ) : (
@@ -135,7 +135,7 @@ export default function ResultsPage() {
                         Ready to See <span className="text-accent">Results</span> for Your Business?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
-                        Book your FREE Revenue Growth Session today.
+                        Whether you need SEO services in Greater Noida, PPC management, or a digital marketing strategy for your startup in Delhi NCR — book your FREE Revenue Growth Session today.
                     </p>
                     <a href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark">
                         Book Free Growth Session

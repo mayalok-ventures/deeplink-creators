@@ -12,8 +12,18 @@ export const metadata: Metadata = {
         default: 'Deeplink Creators | Digital Marketing Agency in Greater Noida',
         template: '%s | Deeplink Creators',
     },
-    description: 'Deeplink Creators is a digital marketing agency in Greater Noida specializing in SEO, Performance Marketing, and Branding. We build revenue machines for businesses.',
-    keywords: ['digital marketing Greater Noida', 'SEO agency Greater Noida', 'performance marketing', 'branding agency', 'neuro-marketing', 'lead generation', 'ROI focused marketing'],
+    description: 'Deeplink Creators is the best digital marketing agency in Greater Noida & Noida, specializing in SEO services, performance marketing, Google Ads, Facebook Ads, and branding. Affordable SEO company in Delhi NCR delivering real ROI for local businesses and startups.',
+    keywords: [
+        'digital marketing agency in Greater Noida', 'digital marketing agency in Noida', 'SEO company in Greater Noida', 'SEO company in Noida',
+        'SEO services in Greater Noida', 'SEO services in Noida', 'local SEO services Greater Noida', 'best digital marketing company in Delhi NCR',
+        'digital marketing agency in Delhi', 'SEO consultant in Greater Noida', 'SEO consultant in Noida', 'website SEO services Delhi NCR',
+        'affordable SEO services Noida', 'SEO company near me Greater Noida', 'top SEO agency in Noida',
+        'small business SEO services Greater Noida', 'Google My Business optimization Greater Noida', 'SEO & social media marketing Greater Noida',
+        'ecommerce SEO services Noida', 'digital marketing for startups Delhi NCR', 'SEO for local businesses Noida',
+        'content marketing services in Noida', 'website SEO audit Greater Noida', 'SEO expert in Delhi NCR', 'technical SEO services Noida',
+        'performance marketing', 'branding agency Greater Noida', 'neuro-marketing', 'lead generation Greater Noida', 'ROI focused marketing',
+        'PPC services Greater Noida', 'Google Ads expert Delhi NCR', 'Facebook Ads agency Noida',
+    ],
     authors: [{ name: 'Deeplink Creators' }],
     creator: 'Deeplink Creators',
     publisher: 'Deeplink Creators',
@@ -34,12 +44,12 @@ export const metadata: Metadata = {
         url: 'https://deeplinkcreators.com',
         siteName: 'Deeplink Creators',
         title: 'Deeplink Creators | Digital Marketing Agency in Greater Noida',
-        description: 'We build revenue machines for Greater Noida businesses. SEO, Performance Marketing, and Branding that delivers real ROI.',
+        description: 'Best digital marketing agency in Greater Noida & Noida. SEO services, performance marketing, PPC, Google Ads management, and branding for businesses in Delhi NCR. Get a free SEO audit today.',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Deeplink Creators | Digital Marketing Agency',
-        description: 'We build revenue machines for Greater Noida businesses.',
+        description: 'Top digital marketing agency in Greater Noida. SEO services, performance marketing & branding that delivers real ROI for Delhi NCR businesses.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com',
@@ -53,7 +63,7 @@ const jsonLd = {
     "alternateName": "Deeplink Creators - A Unit of Mayalok Venture",
     "@id": "https://deeplinkcreators.com",
     "url": "https://deeplinkcreators.com",
-    "description": "Digital marketing agency specializing in SEO, Performance Marketing, and Branding for businesses in Greater Noida.",
+    "description": "Best digital marketing agency in Greater Noida and Noida specializing in SEO services, performance marketing, Google Ads, PPC, branding, and lead generation for businesses in Delhi NCR.",
     "address": {
         "@type": "PostalAddress",
         "addressLocality": "Greater Noida",
@@ -65,11 +75,12 @@ const jsonLd = {
         "latitude": 28.4744,
         "longitude": 77.5040
     },
-    "areaServed": {
-        "@type": "City",
-        "name": "Greater Noida"
-    },
-    "serviceType": ["SEO", "Performance Marketing", "Branding", "Digital Marketing"],
+    "areaServed": [
+        { "@type": "City", "name": "Greater Noida" },
+        { "@type": "City", "name": "Noida" },
+        { "@type": "AdministrativeArea", "name": "Delhi NCR" }
+    ],
+    "serviceType": ["SEO Services", "Local SEO", "Performance Marketing", "Google Ads Management", "Facebook Ads", "PPC Services", "Branding", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Ecommerce SEO", "Technical SEO", "Google My Business Optimization", "Lead Generation"],
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -88,8 +99,8 @@ const organizationSchema = {
         "@type": "Organization",
         "name": "Mayalok Venture"
     },
-    "areaServed": "Greater Noida, Uttar Pradesh, India",
-    "knowsAbout": ["SEO", "Performance Marketing", "Branding", "Neuro-Marketing", "Digital Marketing"]
+    "areaServed": "Greater Noida, Noida, Delhi NCR, Uttar Pradesh, India",
+    "knowsAbout": ["SEO", "Local SEO", "Performance Marketing", "Google Ads", "Facebook Ads", "PPC", "Branding", "Neuro-Marketing", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Ecommerce SEO", "Technical SEO", "Lead Generation", "Google My Business Optimization"]
 }
 
 const websiteSchema = {

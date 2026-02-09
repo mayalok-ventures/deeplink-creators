@@ -48,8 +48,7 @@ const Footer = () => {
                                 </span>
                             </div>
                             <p className="text-paragraph leading-relaxed mb-6 max-w-md">
-                                We combine Data Science with Human Psychology to build revenue machines for businesses.
-                                No vanity metrics, only real results.
+                                Best digital marketing agency in Greater Noida &amp; Noida. We combine Data Science with Neuro-Marketing to deliver SEO services, performance marketing, Google Ads management, and branding for businesses across Delhi NCR.
                             </p>
                             <div className="flex items-start gap-3">
                                 <MapPin className="text-primary-400 flex-shrink-0 mt-1" size={20} />
@@ -68,10 +67,12 @@ const Footer = () => {
                             </h3>
                             <ul className="space-y-3">
                                 {[
-                                    { href: '/services/seo-greater-noida', label: 'SEO Services' },
-                                    { href: '/services/performance-marketing', label: 'Performance Marketing' },
+                                    { href: '/services/seo-greater-noida', label: 'SEO Services Greater Noida' },
+                                    { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
+                                    { href: '/services/branding', label: 'Branding & Identity' },
                                     { href: '/results', label: 'Blog & Results' },
                                     { href: '/about', label: 'About Us' },
+                                    { href: '/contact', label: 'Contact Us' },
                                 ].map((link) => (
                                     <li key={link.href}>
                                         <a
@@ -144,7 +145,8 @@ const Footer = () => {
                         <p>&copy; {new Date().getFullYear()} Deeplink Creators. A Unit of Mayalok Venture. All rights reserved.</p>
                         <p>
                             Serving{' '}
-                            <span className="font-semibold text-primary-400">{displayCity}</span>{' '}
+                            <span className="font-semibold text-primary-400">{displayCity}</span>
+                            {', Noida & Delhi NCR'}{' '}
                             businesses
                         </p>
                     </div>

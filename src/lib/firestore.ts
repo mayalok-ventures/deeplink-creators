@@ -178,24 +178,19 @@ export async function saveSEOSettings(data: SEOSettings): Promise<void> {
 // ─── Service Card Operations ─────────────────────────────────────────
 
 export async function getServiceCards(): Promise<ServiceCardData[]> {
-    const q = query(collection(db, 'services'), orderBy('order', 'asc'))
-    const snapshot = await getDocs(q)
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+    const snapshot = await getDocs(collection(db, 'services'))
+    const cards = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+    return cards.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
 }
 
 export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
-    const q = query(
-        collection(db, 'services'),
-        where('visible', '==', true),
-        orderBy('order', 'asc')
-    )
-    const snapshot = await getDocs(q)
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+    const all = await getServiceCards()
+    return all.filter(c => c.visible === true)
 }
 
 export async function getFeaturedServiceCards(): Promise<ServiceCardData[]> {
-    const all = await getVisibleServiceCards()
-    return all.filter(c => c.featured === true)
+    const all = await getServiceCards()
+    return all.filter(c => c.visible === true && c.featured === true)
 }
 
 export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {

@@ -1,12 +1,45 @@
 'use client'
 
+import { useState, useEffect, ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Search, TrendingUp, Target, Globe, ArrowRight, Award, Zap, Shield, Users } from 'lucide-react'
+import { Search, TrendingUp, Target, Globe, ArrowRight, Award, Zap, Shield, Users, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail, BarChart, Layers, Rocket } from 'lucide-react'
+import { getVisibleServiceCards } from '@/lib/firestore'
 
-const services = [
+const ICON_MAP: Record<string, ReactNode> = {
+    Search: <Search size={28} />,
+    TrendingUp: <TrendingUp size={28} />,
+    Target: <Target size={28} />,
+    Globe: <Globe size={28} />,
+    Zap: <Zap size={28} />,
+    Shield: <Shield size={28} />,
+    Award: <Award size={28} />,
+    Users: <Users size={28} />,
+    BarChart: <BarChart size={28} />,
+    Layers: <Layers size={28} />,
+    Rocket: <Rocket size={28} />,
+    Star: <Star size={28} />,
+    Heart: <Heart size={28} />,
+    MessageCircle: <MessageCircle size={28} />,
+    Code: <Code size={28} />,
+    Palette: <Palette size={28} />,
+    Megaphone: <Megaphone size={28} />,
+    Mail: <Mail size={28} />,
+}
+
+interface ServiceItem {
+    icon: string
+    title: string
+    benefit: string
+    description: string
+    features: string[]
+    href: string
+    gradient: string
+}
+
+const FALLBACK_SERVICES: ServiceItem[] = [
     {
-        icon: <Search size={28} />,
+        icon: 'Search',
         title: 'SEO Services in Greater Noida',
         benefit: 'Dominate Google & Get Found by Buyers',
         description:
@@ -21,7 +54,7 @@ const services = [
         gradient: 'from-blue-500 to-primary-600',
     },
     {
-        icon: <TrendingUp size={28} />,
+        icon: 'TrendingUp',
         title: 'Performance Marketing',
         benefit: 'Ads That Pay for Themselves — and More',
         description:
@@ -36,7 +69,7 @@ const services = [
         gradient: 'from-green-500 to-emerald-600',
     },
     {
-        icon: <Globe size={28} />,
+        icon: 'Globe',
         title: 'Branding & Identity',
         benefit: 'Build a Brand People Trust & Remember',
         description:
@@ -88,6 +121,24 @@ const cardVariants = {
 }
 
 export default function ServicesPage() {
+    const [services, setServices] = useState<ServiceItem[]>(FALLBACK_SERVICES)
+
+    useEffect(() => {
+        getVisibleServiceCards().then(cards => {
+            if (cards.length > 0) {
+                setServices(cards.map(c => ({
+                    icon: c.icon,
+                    title: c.title,
+                    benefit: c.benefit,
+                    description: c.description,
+                    features: c.features,
+                    href: c.href,
+                    gradient: c.gradient,
+                })))
+            }
+        }).catch(() => {})
+    }, [])
+
     return (
         <>
             {/* Hero Section */}
@@ -154,7 +205,7 @@ export default function ServicesPage() {
                                 <div className={`h-2 bg-gradient-to-r ${service.gradient}`}></div>
                                 <div className="p-8">
                                     <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
-                                        {service.icon}
+                                        {ICON_MAP[service.icon] || <Search size={28} />}
                                     </div>
                                     <h3 className="text-xl font-heading font-bold text-heading mb-2">{service.title}</h3>
                                     <p className="text-primary-400 font-semibold mb-4">{service.benefit}</p>

@@ -120,24 +120,7 @@ export default function ServicesPage() {
                             We don't sell "packages." We design custom marketing systems engineered to deliver leads, sales, and measurable ROI for your business.
                         </p>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/[0.08] max-w-3xl mx-auto">
-                            <div>
-                                <div className="text-2xl font-bold text-accent">300%</div>
-                                <div className="text-sm text-paragraph">Average ROI</div>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-bold text-accent">₹2Cr+</div>
-                                <div className="text-sm text-paragraph">Revenue Generated</div>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-bold text-accent">50+</div>
-                                <div className="text-sm text-paragraph">Businesses Served</div>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-bold text-accent">100%</div>
-                                <div className="text-sm text-paragraph">ROI-Focused</div>
-                            </div>
-                        </div>
+
                     </motion.div>
                 </div>
             </section>
@@ -261,12 +244,12 @@ export default function ServicesPage() {
                                 Get FREE Strategy Call
                                 <ArrowRight size={20} />
                             </Link>
-                            <a
-                                href="tel:+911234567890"
+                            <Link
+                                href="/contact"
                                 className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                             >
-                                Call Now: +91 123 456 7890
-                            </a>
+                                Schedule a Call
+                            </Link>
                         </div>
                     </motion.div>
                 </div>

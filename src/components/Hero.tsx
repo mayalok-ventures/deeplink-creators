@@ -1,37 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Play } from 'lucide-react'
-import { motion, useInView } from 'framer-motion'
-
-const useCountUp = (end: number, duration: number, startOnView: boolean) => {
-    const [count, setCount] = useState(0)
-    const [hasStarted, setHasStarted] = useState(false)
-
-    useEffect(() => {
-        if (!startOnView || hasStarted) return
-        setHasStarted(true)
-
-        let startTime: number | null = null
-        const step = (timestamp: number) => {
-            if (!startTime) startTime = timestamp
-            const progress = Math.min((timestamp - startTime) / (duration * 1000), 1)
-            const eased = 1 - Math.pow(1 - progress, 3)
-            setCount(Math.floor(eased * end))
-            if (progress < 1) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
-    }, [startOnView, end, duration, hasStarted])
-
-    return count
-}
-
-const trustIndicators = [
-    { end: 300, suffix: '%', label: 'Average ROI' },
-    { end: 24, suffix: 'h', label: 'Response Time' },
-    { prefix: '₹', end: 2, suffix: 'Cr+', label: 'Revenue Generated' },
-    { end: 100, suffix: '%', label: 'ROI-Focused' },
-]
+import { motion } from 'framer-motion'
 
 const floatingOrbs = [
     {
@@ -62,31 +32,7 @@ const itemVariants = {
     },
 }
 
-const TrustStat = ({
-    item,
-    inView,
-}: {
-    item: (typeof trustIndicators)[number]
-    inView: boolean
-}) => {
-    const count = useCountUp(item.end, 2, inView)
-
-    return (
-        <div className="text-center sm:text-left group">
-            <div className="text-2xl md:text-3xl font-extrabold font-heading text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary-400">
-                {item.prefix ?? ''}
-                {count}
-                {item.suffix}
-            </div>
-            <div className="text-sm text-paragraph mt-1">{item.label}</div>
-        </div>
-    )
-}
-
 const Hero = () => {
-    const statsRef = useRef<HTMLDivElement>(null)
-    const statsInView = useInView(statsRef, { once: true, margin: '-50px' })
-
     return (
         <section
             className="relative min-h-[90vh] flex items-center bg-dark text-white overflow-hidden"
@@ -196,20 +142,6 @@ const Hero = () => {
                                 </a>
                             </motion.div>
 
-                            {/* Trust Indicators */}
-                            <motion.div
-                                ref={statsRef}
-                                variants={itemVariants}
-                                className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-gold/20"
-                            >
-                                {trustIndicators.map((item, i) => (
-                                    <TrustStat
-                                        key={i}
-                                        item={item}
-                                        inView={statsInView}
-                                    />
-                                ))}
-                            </motion.div>
                         </motion.div>
                     </div>
                 </div>

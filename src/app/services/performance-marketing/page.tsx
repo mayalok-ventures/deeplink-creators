@@ -119,12 +119,7 @@ export default function PerformanceMarketingPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-8 p-4 bg-white/[0.05] rounded-lg">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-accent">5.7X</div>
-                                    <div className="text-paragraph">Average ROI for Our Clients</div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -213,76 +208,6 @@ export default function PerformanceMarketingPage() {
                 </div>
             </section>
 
-            {/* Case Study */}
-            <section className="section-padding bg-dark-50">
-                <div className="container-custom">
-                    <div className="glass-card rounded-2xl p-8 md:p-12 text-white border-accent/30">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <div className="inline-flex items-center gap-2 bg-white/[0.05] backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                                    <div className="w-2 h-2 bg-accent rounded-full"></div>
-                                    <span className="font-medium">CASE STUDY</span>
-                                </div>
-
-                                <h3 className="text-2xl md:text-3xl font-heading font-bold mb-6">
-                                    Real Estate Builder in Noida Extension
-                                </h3>
-
-                                <div className="space-y-4 mb-8">
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">Before Working With Us</div>
-                                        <div className="text-2xl font-bold">₹2L/month Ad Spend</div>
-                                        <div className="text-paragraph">With No Measurable Sales</div>
-                                    </div>
-
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">After Optimization</div>
-                                        <div className="text-2xl font-bold text-accent">₹2.3 Crore</div>
-                                        <div className="text-paragraph">in Property Sales Generated</div>
-                                    </div>
-
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">ROI Achieved</div>
-                                        <div className="text-2xl font-bold text-accent">5.7X</div>
-                                        <div className="text-paragraph">Return on Ad Spend</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white/[0.05] backdrop-blur-sm rounded-xl p-6">
-                                <h4 className="font-heading font-bold text-lg mb-4">The Strategy That Worked</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-accent rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Identified exact buyer personas for premium apartments</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-accent rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Created property-specific landing pages with virtual tours</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-accent rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Implemented retargeting for website visitors</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-accent rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Tracked phone calls and form submissions to source</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* CTA Section */}
             <section className="relative section-padding bg-dark-200 text-white">
                 <div className="absolute inset-0 grid-bg"></div>
@@ -302,10 +227,10 @@ export default function PerformanceMarketingPage() {
                             <Target size={20} />
                         </a>
                         <a
-                            href="tel:+911234567890"
+                            href="/contact"
                             className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                         >
-                            Speak With Ads Specialist
+                            Schedule a Call
                         </a>
                     </div>
                 </div>

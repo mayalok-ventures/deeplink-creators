@@ -215,10 +215,10 @@ export default function HomePage() {
                             </a>
                         </div>
                         <a
-                            href="tel:+911234567890"
+                            href="/contact"
                             className="bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-white/[0.1] hover:border-primary-500/30 transition-all"
                         >
-                            Call Now: +91 123 456 7890
+                            Schedule a Call
                         </a>
                     </div>
                 </motion.div>

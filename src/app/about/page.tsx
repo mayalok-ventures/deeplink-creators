@@ -2,38 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Brain, Target, Users, Zap, Shield, TrendingUp, ArrowRight, Award, Heart } from 'lucide-react'
-
-const team = [
-    {
-        name: 'Amit Sharma',
-        role: 'Founder & Neuro-Marketing Strategist',
-        expertise: '12+ years in digital psychology',
-        description: 'Former head of marketing for 3 tech startups. Specializes in conversion psychology.',
-        color: 'from-primary-500 to-primary-600',
-    },
-    {
-        name: 'Priya Verma',
-        role: 'Head of Data Science',
-        expertise: 'Data Analytics & AI',
-        description: 'Ex-Google analyst. Builds predictive models for customer behavior.',
-        color: 'from-purple-500 to-purple-600',
-    },
-    {
-        name: 'Raj Patel',
-        role: 'Lead Funnel Architect',
-        expertise: 'Conversion Rate Optimization',
-        description: 'Built funnels generating ₹50+ crore in revenue for clients.',
-        color: 'from-green-500 to-green-600',
-    },
-    {
-        name: 'Neha Gupta',
-        role: 'Content Psychologist',
-        expertise: 'Persuasive Copywriting',
-        description: 'Specializes in writing that triggers buying decisions.',
-        color: 'from-orange-500 to-orange-600',
-    },
-]
+import { Brain, Target, Users, Zap, Shield, TrendingUp, Award, Heart } from 'lucide-react'
 
 const values = [
     {
@@ -268,50 +237,6 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Team Section */}
-            <section className="section-padding bg-dark-50">
-                <div className="container-custom">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
-                            The <span className="text-primary-400">Minds</span> Behind Your Revenue Growth
-                        </h2>
-                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
-                            We're not just marketers. We're psychologists, data scientists, and business strategists.
-                        </p>
-                    </div>
-
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                    >
-                        {team.map((member, index) => (
-                            <motion.div
-                                key={index}
-                                variants={fadeUp}
-                                whileHover={{ y: -5 }}
-                                className="glass-card-hover rounded-xl p-6"
-                            >
-                                <div
-                                    className={`w-16 h-16 bg-gradient-to-br ${member.color} rounded-full flex items-center justify-center text-white font-bold text-xl mb-4`}
-                                >
-                                    {member.name
-                                        .split(' ')
-                                        .map((n) => n[0])
-                                        .join('')}
-                                </div>
-                                <h3 className="font-heading font-bold text-heading text-lg mb-1">{member.name}</h3>
-                                <p className="text-primary-400 font-medium text-sm mb-2">{member.role}</p>
-                                <p className="text-paragraph text-sm mb-3">{member.expertise}</p>
-                                <p className="text-paragraph text-sm">{member.description}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
             {/* Process Section */}
             <section className="section-padding bg-dark-100">
                 <div className="container-custom">
@@ -404,12 +329,12 @@ export default function AboutPage() {
                                 Book Psychology Audit
                                 <Brain size={20} />
                             </Link>
-                            <a
-                                href="tel:+911234567890"
+                            <Link
+                                href="/contact"
                                 className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                             >
                                 Speak With Our Strategist
-                            </a>
+                            </Link>
                         </div>
                     </motion.div>
                 </div>

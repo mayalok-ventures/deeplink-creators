@@ -114,9 +114,9 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="font-medium text-heading">Call Us</p>
-                                            <a href="tel:+911234567890" className="text-primary-400 hover:text-primary-300">
-                                                +91 123 456 7890
-                                            </a>
+                                            <span className="text-primary-400">
+                                                Contact Us
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">

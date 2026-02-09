@@ -1,21 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { MapPin, Phone, Mail, Facebook, Linkedin, Instagram, ArrowUp } from 'lucide-react'
 
 const Footer = () => {
-    const [email, setEmail] = useState('')
-    const [subscribed, setSubscribed] = useState(false)
-
-    const handleSubscribe = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (email) {
-            setSubscribed(true)
-            setEmail('')
-            setTimeout(() => setSubscribed(false), 3000)
-        }
-    }
-
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -29,41 +16,7 @@ const Footer = () => {
             />
 
             <div className="relative">
-                <div className="container-custom py-10">
-                    <div className="glass-card p-8 md:p-10">
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div className="text-center md:text-left">
-                                <h3 className="text-xl font-bold font-heading text-heading mb-1">
-                                    Get Growth Tips Delivered Weekly
-                                </h3>
-                                <p className="text-paragraph text-sm">
-                                    No spam. Only actionable marketing insights for your business.
-                                </p>
-                            </div>
-                            <form
-                                onSubmit={handleSubscribe}
-                                className="flex w-full md:w-auto gap-3"
-                            >
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Enter your email"
-                                    required
-                                    className="flex-1 md:w-72 px-4 py-3 rounded-lg bg-dark/80 border border-white/[0.08] text-heading placeholder-paragraph/50 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
-                                />
-                                <button
-                                    type="submit"
-                                    className="px-6 py-3 rounded-lg bg-gradient-to-r from-primary-500 to-accent font-semibold text-dark hover:opacity-90 transition-opacity whitespace-nowrap"
-                                >
-                                    {subscribed ? 'Subscribed!' : 'Subscribe'}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="container-custom pb-12">
+                <div className="container-custom py-12 pb-12">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
                         <div className="md:col-span-5">
                             <div className="mb-5">
@@ -86,8 +39,7 @@ const Footer = () => {
                                         <span className="text-primary-400">Greater Noida</span> Office
                                     </p>
                                     <p className="text-paragraph text-sm">
-                                        Sector Alpha 1, Greater Noida,<br />
-                                        Uttar Pradesh 201310
+                                        Greater Noida, Uttar Pradesh, India
                                     </p>
                                 </div>
                             </div>
@@ -121,15 +73,12 @@ const Footer = () => {
                                 Get In Touch
                             </h3>
                             <div className="space-y-4">
-                                <a
-                                    href="tel:+911234567890"
-                                    className="flex items-center gap-3 text-paragraph hover:text-heading transition-colors group"
-                                >
-                                    <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] group-hover:border-primary-500/30 group-hover:bg-primary-500/10 transition-colors">
+                                <div className="flex items-center gap-3 text-paragraph">
+                                    <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08]">
                                         <Phone size={16} />
                                     </span>
-                                    +91 123 456 7890
-                                </a>
+                                    Coming Soon
+                                </div>
                                 <a
                                     href="mailto:growth@deeplinkcreators.com"
                                     className="flex items-center gap-3 text-paragraph hover:text-heading transition-colors group"
@@ -146,7 +95,7 @@ const Footer = () => {
                                     { icon: Facebook, href: '#', label: 'Facebook' },
                                     { icon: Linkedin, href: '#', label: 'LinkedIn' },
                                     { icon: Instagram, href: '#', label: 'Instagram' },
-                                ].map((social) => (
+                                ].filter(social => social.href && social.href !== '#').map((social) => (
                                     <a
                                         key={social.label}
                                         href={social.href}
@@ -167,7 +116,7 @@ const Footer = () => {
                         <p>
                             Serving{' '}
                             <span className="font-semibold text-primary-400">Greater Noida</span>{' '}
-                            businesses since 2023
+                            businesses
                         </p>
                     </div>
                 </div>

@@ -119,12 +119,6 @@ export default function BrandingPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-8 p-4 bg-white/[0.05] rounded-lg">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-purple-400">42%</div>
-                                    <div className="text-paragraph">Average Price Premium for Our Branded Clients</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,76 +207,6 @@ export default function BrandingPage() {
                 </div>
             </section>
 
-            {/* Case Study */}
-            <section className="section-padding bg-dark-50">
-                <div className="container-custom">
-                    <div className="glass-card rounded-2xl p-8 md:p-12 text-white border-purple-500/30">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <div className="inline-flex items-center gap-2 bg-white/[0.05] backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                    <span className="font-medium">CASE STUDY</span>
-                                </div>
-
-                                <h3 className="text-2xl md:text-3xl font-heading font-bold mb-6">
-                                    Manufacturing Company Becomes Industry Authority
-                                </h3>
-
-                                <div className="space-y-4 mb-8">
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">Before Branding</div>
-                                        <div className="text-2xl font-bold">Commodity Supplier</div>
-                                        <div className="text-paragraph">Competing only on price</div>
-                                    </div>
-
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">After 6 Months</div>
-                                        <div className="text-2xl font-bold text-purple-400">Industry Authority</div>
-                                        <div className="text-paragraph">Featured in trade publications</div>
-                                    </div>
-
-                                    <div>
-                                        <div className="text-sm text-paragraph mb-1">Price Premium</div>
-                                        <div className="text-2xl font-bold text-purple-400">35% Higher</div>
-                                        <div className="text-paragraph">Than competitors for same products</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white/[0.05] backdrop-blur-sm rounded-xl p-6">
-                                <h4 className="font-heading font-bold text-lg mb-4">The Brand Transformation</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Positioned as "Innovation Leaders" instead of "Equipment Suppliers"</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Created industry research reports on manufacturing trends</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">CEO featured as expert speaker at industry conferences</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="bg-white/[0.1] p-1 rounded-full mt-1">
-                                            <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                        </div>
-                                        <span className="text-paragraph">Developed premium packaging and client experience</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* CTA Section */}
             <section className="relative section-padding bg-dark-200 text-white">
                 <div className="absolute inset-0 grid-bg"></div>
@@ -302,10 +226,10 @@ export default function BrandingPage() {
                             <Award size={20} />
                         </a>
                         <a
-                            href="tel:+911234567890"
+                            href="/contact"
                             className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                         >
-                            Speak With Brand Strategist
+                            Schedule a Call
                         </a>
                     </div>
                 </div>

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import LayoutShell from '@/components/LayoutShell'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
@@ -129,11 +128,7 @@ export default function RootLayout({
                 />
             </head>
             <body className={inter.className}>
-                <Header />
-                <main className="min-h-screen">
-                    {children}
-                </main>
-                <Footer />
+                <LayoutShell>{children}</LayoutShell>
             </body>
         </html>
     )

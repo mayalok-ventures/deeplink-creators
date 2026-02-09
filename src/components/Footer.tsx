@@ -1,19 +1,39 @@
 'use client'
 
-import { MapPin, Phone, Mail, Facebook, Linkedin, Instagram, ArrowUp } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { MapPin, Phone, Mail, Facebook, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react'
+import { getSiteSettings, getSocialLinks, SiteSettings, SocialLinks } from '@/lib/firestore'
 
 const Footer = () => {
+    const [contact, setContact] = useState<SiteSettings | null>(null)
+    const [social, setSocial] = useState<SocialLinks | null>(null)
+
+    useEffect(() => {
+        getSiteSettings().then(setContact).catch(() => {})
+        getSocialLinks().then(setSocial).catch(() => {})
+    }, [])
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
+    const socialIcons = [
+        { icon: Facebook, href: social?.facebook, label: 'Facebook' },
+        { icon: Instagram, href: social?.instagram, label: 'Instagram' },
+        { icon: Linkedin, href: social?.linkedin, label: 'LinkedIn' },
+        { icon: Youtube, href: social?.youtube, label: 'YouTube' },
+    ].filter(s => s.href)
+
+    const displayEmail = contact?.email || 'growth@deeplinkcreators.com'
+    const displayCity = contact?.city || 'Greater Noida'
+    const displayAddress = contact?.address
+        ? `${contact.address}, ${contact.city || 'Greater Noida'}, ${contact.state || 'UP'} ${contact.pincode || ''}`
+        : 'Greater Noida, Uttar Pradesh, India'
+
     return (
         <footer className="relative bg-dark-600 text-white overflow-hidden">
             <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-
-            <div
-                className="absolute inset-0 grid-bg opacity-50"
-            />
+            <div className="absolute inset-0 grid-bg opacity-50" />
 
             <div className="relative">
                 <div className="container-custom py-12 pb-12">
@@ -31,16 +51,13 @@ const Footer = () => {
                                 We combine Data Science with Human Psychology to build revenue machines for businesses.
                                 No vanity metrics, only real results.
                             </p>
-
                             <div className="flex items-start gap-3">
                                 <MapPin className="text-primary-400 flex-shrink-0 mt-1" size={20} />
                                 <div>
                                     <p className="font-semibold text-heading">
-                                        <span className="text-primary-400">Greater Noida</span> Office
+                                        <span className="text-primary-400">{displayCity}</span> Office
                                     </p>
-                                    <p className="text-paragraph text-sm">
-                                        Greater Noida, Uttar Pradesh, India
-                                    </p>
+                                    <p className="text-paragraph text-sm">{displayAddress}</p>
                                 </div>
                             </div>
                         </div>
@@ -53,8 +70,8 @@ const Footer = () => {
                                 {[
                                     { href: '/services/seo-greater-noida', label: 'SEO Services' },
                                     { href: '/services/performance-marketing', label: 'Performance Marketing' },
-                                    { href: '/results', label: 'Case Studies' },
-                                    { href: '/about', label: 'Our Neuro-Marketing Approach' },
+                                    { href: '/results', label: 'Blog & Results' },
+                                    { href: '/about', label: 'About Us' },
                                 ].map((link) => (
                                     <li key={link.href}>
                                         <a
@@ -73,49 +90,61 @@ const Footer = () => {
                                 Get In Touch
                             </h3>
                             <div className="space-y-4">
-                                <div className="flex items-center gap-3 text-paragraph">
-                                    <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08]">
-                                        <Phone size={16} />
-                                    </span>
-                                    Coming Soon
-                                </div>
+                                {contact?.phone ? (
+                                    <a
+                                        href={`tel:${contact.phone}`}
+                                        className="flex items-center gap-3 text-paragraph hover:text-heading transition-colors group"
+                                    >
+                                        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] group-hover:border-primary-500/30 group-hover:bg-primary-500/10 transition-colors">
+                                            <Phone size={16} />
+                                        </span>
+                                        {contact.phone}
+                                    </a>
+                                ) : (
+                                    <div className="flex items-center gap-3 text-paragraph">
+                                        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08]">
+                                            <Phone size={16} />
+                                        </span>
+                                        Coming Soon
+                                    </div>
+                                )}
                                 <a
-                                    href="mailto:growth@deeplinkcreators.com"
+                                    href={`mailto:${displayEmail}`}
                                     className="flex items-center gap-3 text-paragraph hover:text-heading transition-colors group"
                                 >
                                     <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] group-hover:border-primary-500/30 group-hover:bg-primary-500/10 transition-colors">
                                         <Mail size={16} />
                                     </span>
-                                    growth@deeplinkcreators.com
+                                    {displayEmail}
                                 </a>
                             </div>
 
-                            <div className="flex gap-3 mt-6">
-                                {[
-                                    { icon: Facebook, href: '#', label: 'Facebook' },
-                                    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-                                    { icon: Instagram, href: '#', label: 'Instagram' },
-                                ].filter(social => social.href && social.href !== '#').map((social) => (
-                                    <a
-                                        key={social.label}
-                                        href={social.href}
-                                        aria-label={social.label}
-                                        className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:bg-primary-500/20 hover:border-primary-500/30 hover:text-primary-400 hover:scale-110 transition-all duration-200"
-                                    >
-                                        <social.icon size={18} />
-                                    </a>
-                                ))}
-                            </div>
+                            {socialIcons.length > 0 && (
+                                <div className="flex gap-3 mt-6">
+                                    {socialIcons.map((s) => (
+                                        <a
+                                            key={s.label}
+                                            href={s.href!}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={s.label}
+                                            className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:bg-primary-500/20 hover:border-primary-500/30 hover:text-primary-400 hover:scale-110 transition-all duration-200"
+                                        >
+                                            <s.icon size={18} />
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <div className="border-t border-white/[0.06]">
                     <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-paragraph/60">
-                        <p>© {new Date().getFullYear()} Deeplink Creators. A Unit of Mayalok Venture. All rights reserved.</p>
+                        <p>&copy; {new Date().getFullYear()} Deeplink Creators. A Unit of Mayalok Venture. All rights reserved.</p>
                         <p>
                             Serving{' '}
-                            <span className="font-semibold text-primary-400">Greater Noida</span>{' '}
+                            <span className="font-semibold text-primary-400">{displayCity}</span>{' '}
                             businesses
                         </p>
                     </div>

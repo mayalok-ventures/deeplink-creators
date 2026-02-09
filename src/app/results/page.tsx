@@ -82,7 +82,7 @@ export default function ResultsPage() {
                         >
                             {blogs.map(blog => (
                                 <motion.div key={blog.id} variants={cardVariants}>
-                                    <Link href={`/blog/${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full">
+                                    <Link href={`/blog/post/?slug=${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full">
                                         {blog.coverImage && (
                                             <div className="aspect-video overflow-hidden">
                                                 <img

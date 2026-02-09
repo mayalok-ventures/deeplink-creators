@@ -1,20 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState, Suspense } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { getBlogByShortId } from '@/lib/firestore'
 
-export default function ShortLinkRedirect() {
-    const params = useParams()
+function ShortLinkResolver() {
+    const searchParams = useSearchParams()
     const router = useRouter()
-    const shortId = params?.id as string
+    const shortId = searchParams.get('id')
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
-        if (!shortId) return
+        if (!shortId) { setNotFound(true); return }
         getBlogByShortId(shortId).then(post => {
             if (post && post.published) {
-                router.replace(`/blog/${post.slug}`)
+                router.replace(`/blog/post/?slug=${post.slug}`)
             } else {
                 setNotFound(true)
             }
@@ -37,5 +37,17 @@ export default function ShortLinkRedirect() {
         <div className="min-h-screen bg-dark flex items-center justify-center">
             <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
         </div>
+    )
+}
+
+export default function ShortLinkPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-dark flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+        }>
+            <ShortLinkResolver />
+        </Suspense>
     )
 }

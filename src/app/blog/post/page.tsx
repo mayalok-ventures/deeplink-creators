@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Calendar, User, Tag, Copy, Check, Share2 } from 'lucide-react'
+import { ArrowLeft, Calendar, User, Copy, Check, Share2 } from 'lucide-react'
 import { getBlogBySlug, BlogPost } from '@/lib/firestore'
 
 function formatDate(timestamp: any): string {
@@ -27,19 +27,20 @@ function renderMarkdown(content: string): string {
     return html
 }
 
-export default function BlogPostPage() {
-    const params = useParams()
-    const slug = params?.slug as string
+function BlogContent() {
+    const searchParams = useSearchParams()
+    const slug = searchParams.get('slug')
     const [post, setPost] = useState<BlogPost | null>(null)
     const [loading, setLoading] = useState(true)
     const [notFound, setNotFound] = useState(false)
     const [copied, setCopied] = useState(false)
 
     useEffect(() => {
-        if (!slug) return
+        if (!slug) { setNotFound(true); setLoading(false); return }
         getBlogBySlug(slug).then(data => {
             if (data && data.published) {
                 setPost(data)
+                document.title = `${data.seoTitle || data.title} | Deeplink Creators`
             } else {
                 setNotFound(true)
             }
@@ -47,8 +48,10 @@ export default function BlogPostPage() {
         }).catch(() => { setNotFound(true); setLoading(false) })
     }, [slug])
 
-    const copyLink = () => {
-        navigator.clipboard.writeText(window.location.href)
+    const shareUrl = `https://deeplinkcreators.com/blog/post/?slug=${slug}`
+
+    const copyLink = (url: string) => {
+        navigator.clipboard.writeText(url)
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
     }
@@ -66,7 +69,7 @@ export default function BlogPostPage() {
             <div className="min-h-screen bg-dark flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold text-heading mb-4">Post Not Found</h1>
-                    <p className="text-paragraph mb-6">The blog post you're looking for doesn't exist.</p>
+                    <p className="text-paragraph mb-6">The blog post you&apos;re looking for doesn&apos;t exist.</p>
                     <Link href="/results" className="btn-primary inline-flex items-center gap-2">
                         <ArrowLeft size={18} /> Back to Blog
                     </Link>
@@ -106,7 +109,7 @@ export default function BlogPostPage() {
                             <span className="flex items-center gap-2">
                                 <Calendar size={16} /> {formatDate(post.publishedAt)}
                             </span>
-                            <button onClick={copyLink} className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors">
+                            <button onClick={() => copyLink(shareUrl)} className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors">
                                 {copied ? <Check size={16} /> : <Share2 size={16} />}
                                 {copied ? 'Copied!' : 'Share'}
                             </button>
@@ -130,7 +133,7 @@ export default function BlogPostPage() {
             <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <article
-                        className="max-w-3xl prose-custom"
+                        className="max-w-3xl"
                         dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
                     />
 
@@ -138,10 +141,10 @@ export default function BlogPostPage() {
                         <div className="glass-card rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div>
                                 <p className="font-bold text-heading mb-1">Share this post</p>
-                                <p className="text-sm text-paragraph">Short link: deeplinkcreators.com/b/{post.shortId}</p>
+                                <p className="text-sm text-paragraph">deeplinkcreators.com/b/?id={post.shortId}</p>
                             </div>
                             <button
-                                onClick={() => { navigator.clipboard.writeText(`https://deeplinkcreators.com/b/${post.shortId}`); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
+                                onClick={() => copyLink(`https://deeplinkcreators.com/b/?id=${post.shortId}`)}
                                 className="btn-primary flex items-center gap-2 text-sm"
                             >
                                 {copied ? <Check size={16} /> : <Copy size={16} />}
@@ -152,5 +155,17 @@ export default function BlogPostPage() {
                 </div>
             </section>
         </>
+    )
+}
+
+export default function BlogPostPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-dark flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+        }>
+            <BlogContent />
+        </Suspense>
     )
 }

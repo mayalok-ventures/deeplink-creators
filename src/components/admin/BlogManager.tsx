@@ -340,7 +340,7 @@ export default function BlogManager() {
                                         <span>/{blog.slug}</span>
                                         <span>·</span>
                                         <button
-                                            onClick={() => copyLink(`https://deeplinkcreators.com/blog/${blog.slug}`, `full-${blog.id}`)}
+                                            onClick={() => copyLink(`https://deeplinkcreators.com/blog/post/?slug=${blog.slug}`, `full-${blog.id}`)}
                                             className="flex items-center gap-1 text-primary-400 hover:text-primary-300"
                                         >
                                             {copied === `full-${blog.id}` ? <Check size={12} /> : <Copy size={12} />}
@@ -348,7 +348,7 @@ export default function BlogManager() {
                                         </button>
                                         <span>·</span>
                                         <button
-                                            onClick={() => copyLink(`https://deeplinkcreators.com/b/${blog.shortId}`, `short-${blog.id}`)}
+                                            onClick={() => copyLink(`https://deeplinkcreators.com/b/?id=${blog.shortId}`, `short-${blog.id}`)}
                                             className="flex items-center gap-1 text-accent hover:text-accent-300"
                                         >
                                             {copied === `short-${blog.id}` ? <Check size={12} /> : <Copy size={12} />}
@@ -358,7 +358,7 @@ export default function BlogManager() {
                                             <>
                                                 <span>·</span>
                                                 <a
-                                                    href={`/blog/${blog.slug}`}
+                                                    href={`/blog/post/?slug=${blog.slug}`}
                                                     target="_blank"
                                                     className="flex items-center gap-1 text-paragraph hover:text-heading"
                                                 >

@@ -1,0 +1,5 @@
+# Short link redirects: /b/SHORTID -> /b/?id=SHORTID
+/b/:id /b/?id=:id 302
+
+# Blog clean URLs: /blog/SLUG -> /blog/post/?slug=SLUG  
+/blog/:slug /blog/post/?slug=:slug 302

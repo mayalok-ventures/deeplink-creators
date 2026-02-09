@@ -2,7 +2,8 @@ import {
     collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
     query, where, orderBy, limit, Timestamp, setDoc
 } from 'firebase/firestore'
-import { db } from './firebase'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { app, db } from './firebase'
 
 export interface BlogPost {
     id?: string
@@ -19,6 +20,7 @@ export interface BlogPost {
     updatedAt: Timestamp
     seoTitle: string
     seoDescription: string
+    keywords: string
 }
 
 export interface SiteSettings {
@@ -156,4 +158,14 @@ export async function getSEOSettings(): Promise<SEOSettings | null> {
 
 export async function saveSEOSettings(data: SEOSettings): Promise<void> {
     await setDoc(doc(db, 'settings', 'seo'), data)
+}
+
+// ─── Storage Operations ─────────────────────────────────────────
+
+const storage = getStorage(app)
+
+export async function uploadImage(file: File, path: string): Promise<string> {
+    const storageRef = ref(storage, path)
+    await uploadBytes(storageRef, file)
+    return getDownloadURL(storageRef)
 }

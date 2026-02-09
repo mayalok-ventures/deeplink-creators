@@ -1,9 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, Copy, Check, ArrowLeft, ExternalLink, FileText } from 'lucide-react'
-import { getAllBlogs, createBlog, updateBlog, deleteBlog, createSlug, BlogPost } from '@/lib/firestore'
+import { useState, useEffect, useRef } from 'react'
+import { Plus, Edit2, Trash2, Eye, EyeOff, Copy, Check, ArrowLeft, ExternalLink, FileText, Upload, Loader2, X } from 'lucide-react'
+import { getAllBlogs, createBlog, updateBlog, deleteBlog, createSlug, BlogPost, uploadImage } from '@/lib/firestore'
 import { Timestamp } from 'firebase/firestore'
+import dynamic from 'next/dynamic'
+
+const RichTextEditor = dynamic(() => import('./RichTextEditor'), { ssr: false, loading: () => (
+    <div className="border border-white/[0.08] rounded-xl p-12 flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+) })
 
 type EditorMode = 'list' | 'create' | 'edit'
 
@@ -23,9 +30,12 @@ export default function BlogManager() {
     const [coverImage, setCoverImage] = useState('')
     const [author, setAuthor] = useState('Deeplink Creators')
     const [tags, setTags] = useState('')
+    const [keywords, setKeywords] = useState('')
     const [published, setPublished] = useState(false)
     const [seoTitle, setSeoTitle] = useState('')
     const [seoDescription, setSeoDescription] = useState('')
+    const [uploadingCover, setUploadingCover] = useState(false)
+    const coverInputRef = useRef<HTMLInputElement>(null)
 
     const loadBlogs = async () => {
         setLoading(true)
@@ -43,7 +53,7 @@ export default function BlogManager() {
     const resetForm = () => {
         setTitle(''); setSlug(''); setContent(''); setExcerpt('')
         setCoverImage(''); setAuthor('Deeplink Creators'); setTags('')
-        setPublished(false); setSeoTitle(''); setSeoDescription('')
+        setKeywords(''); setPublished(false); setSeoTitle(''); setSeoDescription('')
         setEditingBlog(null)
     }
 
@@ -61,6 +71,7 @@ export default function BlogManager() {
         setCoverImage(blog.coverImage)
         setAuthor(blog.author)
         setTags(blog.tags.join(', '))
+        setKeywords(blog.keywords || '')
         setPublished(blog.published)
         setSeoTitle(blog.seoTitle)
         setSeoDescription(blog.seoDescription)
@@ -75,22 +86,42 @@ export default function BlogManager() {
         }
     }
 
+    const handleCoverUpload = async (file: File) => {
+        setUploadingCover(true)
+        try {
+            const url = await uploadImage(file, `blog-covers/${Date.now()}-${file.name}`)
+            setCoverImage(url)
+        } catch (err) {
+            console.error('Cover upload failed:', err)
+            alert('Failed to upload cover image.')
+        }
+        setUploadingCover(false)
+    }
+
+    const stripHtmlForExcerpt = (html: string) => {
+        const div = document.createElement('div')
+        div.innerHTML = html
+        return div.textContent || div.innerText || ''
+    }
+
     const handleSave = async () => {
         if (!title.trim() || !slug.trim() || !content.trim()) return
         setSaving(true)
         try {
+            const plainText = stripHtmlForExcerpt(content)
             const data = {
                 title: title.trim(),
                 slug: slug.trim(),
                 content,
-                excerpt: excerpt.trim() || content.substring(0, 160).trim(),
+                excerpt: excerpt.trim() || plainText.substring(0, 160).trim(),
                 coverImage: coverImage.trim(),
                 author: author.trim(),
                 tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+                keywords: keywords.trim(),
                 published,
                 publishedAt: published ? Timestamp.now() : null,
                 seoTitle: seoTitle.trim() || title.trim(),
-                seoDescription: seoDescription.trim() || excerpt.trim() || content.substring(0, 160).trim(),
+                seoDescription: seoDescription.trim() || excerpt.trim() || plainText.substring(0, 160).trim(),
             }
 
             if (mode === 'edit' && editingBlog?.id) {
@@ -149,7 +180,8 @@ export default function BlogManager() {
                     {mode === 'create' ? 'Create New Post' : 'Edit Post'}
                 </h2>
 
-                <div className="space-y-6 max-w-4xl">
+                <div className="space-y-6 max-w-5xl">
+                    {/* Title & Slug */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Title *</label>
@@ -173,17 +205,64 @@ export default function BlogManager() {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Content * (Markdown supported)</label>
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            rows={15}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors font-mono text-sm"
-                            placeholder="Write your blog content in Markdown..."
-                        />
+                    {/* Hero / Cover Image */}
+                    <div className="glass-card rounded-xl p-6">
+                        <h3 className="text-lg font-bold text-heading mb-4">Hero Image</h3>
+                        <input ref={coverInputRef} type="file" accept="image/*" className="hidden"
+                            onChange={e => { const f = e.target.files?.[0]; if (f) handleCoverUpload(f) }} />
+
+                        {coverImage ? (
+                            <div className="relative group">
+                                <img src={coverImage} alt="Cover" className="w-full max-h-[300px] object-cover rounded-lg border border-white/[0.08]" />
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-3">
+                                    <button type="button" onClick={() => coverInputRef.current?.click()}
+                                        className="bg-primary-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2">
+                                        <Upload size={14} /> Replace
+                                    </button>
+                                    <button type="button" onClick={() => setCoverImage('')}
+                                        className="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2">
+                                        <X size={14} /> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col md:flex-row gap-4">
+                                <button type="button" onClick={() => coverInputRef.current?.click()} disabled={uploadingCover}
+                                    className="flex-1 border-2 border-dashed border-white/[0.1] rounded-lg py-10 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors cursor-pointer">
+                                    {uploadingCover ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <Loader2 size={20} className="animate-spin" />
+                                            <span className="text-sm">Uploading...</span>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Upload size={28} className="mx-auto mb-2" />
+                                            <span className="text-sm block">Upload hero image</span>
+                                            <span className="text-xs text-paragraph/60">JPG, PNG, WebP</span>
+                                        </>
+                                    )}
+                                </button>
+                                <div className="flex-1">
+                                    <label className="block text-sm font-medium text-heading mb-2">Or paste URL</label>
+                                    <input
+                                        type="url"
+                                        value={coverImage}
+                                        onChange={(e) => setCoverImage(e.target.value)}
+                                        className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                        placeholder="https://example.com/image.jpg"
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
+                    {/* Rich Text Editor */}
+                    <div>
+                        <label className="block text-sm font-medium text-heading mb-2">Content *</label>
+                        <RichTextEditor content={content} onChange={setContent} />
+                    </div>
+
+                    {/* Excerpt */}
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Excerpt</label>
                         <textarea
@@ -195,17 +274,8 @@ export default function BlogManager() {
                         />
                     </div>
 
+                    {/* Author & Tags */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Cover Image URL</label>
-                            <input
-                                type="url"
-                                value={coverImage}
-                                onChange={(e) => setCoverImage(e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                placeholder="https://example.com/image.jpg"
-                            />
-                        </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Author</label>
                             <input
@@ -216,19 +286,19 @@ export default function BlogManager() {
                                 placeholder="Author name"
                             />
                         </div>
+                        <div>
+                            <label className="block text-sm font-medium text-heading mb-2">Tags (comma separated)</label>
+                            <input
+                                type="text"
+                                value={tags}
+                                onChange={(e) => setTags(e.target.value)}
+                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                placeholder="SEO, Marketing, Greater Noida"
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Tags (comma separated)</label>
-                        <input
-                            type="text"
-                            value={tags}
-                            onChange={(e) => setTags(e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="SEO, Marketing, Greater Noida"
-                        />
-                    </div>
-
+                    {/* SEO Settings */}
                     <div className="glass-card rounded-xl p-6">
                         <h3 className="text-lg font-bold text-heading mb-4">SEO Settings</h3>
                         <div className="space-y-4">
@@ -254,9 +324,21 @@ export default function BlogManager() {
                                 />
                                 <p className="text-xs text-paragraph mt-1">{seoDescription.length}/160 characters</p>
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-heading mb-2">Keywords</label>
+                                <input
+                                    type="text"
+                                    value={keywords}
+                                    onChange={(e) => setKeywords(e.target.value)}
+                                    className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                    placeholder="seo, digital marketing, web development, greater noida"
+                                />
+                                <p className="text-xs text-paragraph mt-1">Comma-separated keywords for search engines</p>
+                            </div>
                         </div>
                     </div>
 
+                    {/* Publish Toggle */}
                     <div className="flex items-center gap-4">
                         <label className="flex items-center gap-3 cursor-pointer">
                             <div className="relative">
@@ -274,6 +356,7 @@ export default function BlogManager() {
                         </label>
                     </div>
 
+                    {/* Save/Cancel */}
                     <div className="flex gap-4 pt-4">
                         <button
                             onClick={handleSave}

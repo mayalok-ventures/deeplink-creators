@@ -12,7 +12,10 @@ function formatDate(timestamp: any): string {
     return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
-function renderMarkdown(content: string): string {
+function renderContent(content: string): string {
+    if (content.startsWith('<') || content.includes('</')) {
+        return content
+    }
     let html = content
     html = html.replace(/^### (.*$)/gm, '<h3 class="text-xl font-bold text-heading mt-8 mb-3">$1</h3>')
     html = html.replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-heading mt-10 mb-4">$1</h2>')
@@ -133,8 +136,8 @@ function BlogContent() {
             <section className="section-padding bg-dark-50">
                 <div className="container-custom">
                     <article
-                        className="max-w-3xl"
-                        dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
+                        className="max-w-3xl blog-content"
+                        dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}
                     />
 
                     <div className="max-w-3xl mt-12 pt-8 border-t border-white/[0.06]">

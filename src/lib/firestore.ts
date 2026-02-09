@@ -64,6 +64,7 @@ export interface ServiceCardData {
     icon: string
     order: number
     visible: boolean
+    featured: boolean
 }
 
 function generateShortId(): string {
@@ -192,6 +193,17 @@ export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
     return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
 }
 
+export async function getFeaturedServiceCards(): Promise<ServiceCardData[]> {
+    const q = query(
+        collection(db, 'services'),
+        where('visible', '==', true),
+        where('featured', '==', true),
+        orderBy('order', 'asc')
+    )
+    const snapshot = await getDocs(q)
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+}
+
 export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {
     const docRef = await addDoc(collection(db, 'services'), data)
     return docRef.id
@@ -221,6 +233,7 @@ export async function seedDefaultServiceCards(): Promise<void> {
             gradient: 'from-primary-400 to-cyan-400',
             order: 0,
             visible: true,
+            featured: true,
         },
         {
             icon: 'TrendingUp',
@@ -233,6 +246,7 @@ export async function seedDefaultServiceCards(): Promise<void> {
             gradient: 'from-accent to-emerald-400',
             order: 1,
             visible: true,
+            featured: true,
         },
         {
             icon: 'Target',
@@ -245,6 +259,7 @@ export async function seedDefaultServiceCards(): Promise<void> {
             gradient: 'from-orange-400 to-red-400',
             order: 2,
             visible: true,
+            featured: false,
         },
         {
             icon: 'Globe',
@@ -257,6 +272,7 @@ export async function seedDefaultServiceCards(): Promise<void> {
             gradient: 'from-purple-400 to-pink-400',
             order: 3,
             visible: true,
+            featured: true,
         },
     ]
 

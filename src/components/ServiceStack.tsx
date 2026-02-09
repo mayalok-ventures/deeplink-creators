@@ -4,7 +4,7 @@ import { useState, useEffect, ReactNode } from 'react'
 import { Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart, Layers, Rocket, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
 import ServiceCard from './ServiceCard'
-import { getVisibleServiceCards, ServiceCardData } from '@/lib/firestore'
+import { getFeaturedServiceCards, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
     Search: <Search size={32} />,
@@ -74,7 +74,7 @@ const ServiceStack = () => {
     const [services, setServices] = useState(FALLBACK_SERVICES)
 
     useEffect(() => {
-        getVisibleServiceCards().then(cards => {
+        getFeaturedServiceCards().then(cards => {
             if (cards.length > 0) {
                 setServices(cards.map(c => ({
                     icon: c.icon,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers } from 'lucide-react'
+import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home } from 'lucide-react'
 import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData } from '@/lib/firestore'
 import {
     Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users,
@@ -69,6 +69,7 @@ export default function ServicesManager() {
     const [href, setHref] = useState('')
     const [features, setFeatures] = useState<string[]>([''])
     const [visible, setVisible] = useState(true)
+    const [featured, setFeatured] = useState(false)
 
     const loadCards = async () => {
         setLoading(true)
@@ -86,7 +87,7 @@ export default function ServicesManager() {
     const resetForm = () => {
         setTitle(''); setBenefit(''); setDescription('')
         setIconName('Search'); setGradient(GRADIENT_OPTIONS[0].value)
-        setCta(''); setHref(''); setFeatures(['']); setVisible(true)
+        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false)
         setEditingCard(null)
     }
 
@@ -106,6 +107,7 @@ export default function ServicesManager() {
         setHref(card.href)
         setFeatures(card.features.length > 0 ? card.features : [''])
         setVisible(card.visible)
+        setFeatured(card.featured ?? false)
         setMode('edit')
     }
 
@@ -125,6 +127,7 @@ export default function ServicesManager() {
                 href: href.trim(),
                 features: trimmedFeatures,
                 visible,
+                featured,
                 order: mode === 'edit' && editingCard ? editingCard.order : cards.length,
             }
 
@@ -157,6 +160,12 @@ export default function ServicesManager() {
     const toggleVisibility = async (card: ServiceCardData) => {
         if (!card.id) return
         await updateServiceCard(card.id, { visible: !card.visible })
+        await loadCards()
+    }
+
+    const toggleFeatured = async (card: ServiceCardData) => {
+        if (!card.id) return
+        await updateServiceCard(card.id, { featured: !(card.featured ?? false) })
         await loadCards()
     }
 
@@ -332,7 +341,7 @@ export default function ServicesManager() {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-6">
                         <label className="flex items-center gap-3 cursor-pointer">
                             <div className="relative">
                                 <input
@@ -345,7 +354,21 @@ export default function ServicesManager() {
                                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${visible ? 'translate-x-5' : ''}`} />
                                 </div>
                             </div>
-                            <span className="text-heading font-medium">{visible ? 'Visible' : 'Hidden'}</span>
+                            <span className="text-heading font-medium">{visible ? 'Visible on Services Page' : 'Hidden'}</span>
+                        </label>
+                        <label className="flex items-center gap-3 cursor-pointer">
+                            <div className="relative">
+                                <input
+                                    type="checkbox"
+                                    checked={featured}
+                                    onChange={(e) => setFeatured(e.target.checked)}
+                                    className="sr-only"
+                                />
+                                <div className={`w-11 h-6 rounded-full transition-colors ${featured ? 'bg-primary-500' : 'bg-white/[0.1]'}`}>
+                                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${featured ? 'translate-x-5' : ''}`} />
+                                </div>
+                            </div>
+                            <span className="text-heading font-medium">{featured ? 'Show on Homepage' : 'Not on Homepage'}</span>
                         </label>
                     </div>
 
@@ -425,6 +448,11 @@ export default function ServicesManager() {
                                         }`}>
                                             {card.visible ? 'Visible' : 'Hidden'}
                                         </span>
+                                        {card.featured && (
+                                            <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-primary-500/10 text-primary-400">
+                                                Homepage
+                                            </span>
+                                        )}
                                     </div>
                                     <p className="text-sm text-paragraph mb-2">{card.benefit}</p>
                                     <div className="flex items-center gap-3 text-xs text-paragraph">
@@ -452,6 +480,17 @@ export default function ServicesManager() {
                                         title="Move Down"
                                     >
                                         <ChevronDown size={16} />
+                                    </button>
+                                    <button
+                                        onClick={() => toggleFeatured(card)}
+                                        className={`p-2 rounded-lg border transition-colors ${
+                                            card.featured
+                                                ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
+                                                : 'bg-white/[0.05] border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                                        }`}
+                                        title={card.featured ? 'Remove from Homepage' : 'Show on Homepage'}
+                                    >
+                                        <Home size={16} />
                                     </button>
                                     <button
                                         onClick={() => toggleVisibility(card)}

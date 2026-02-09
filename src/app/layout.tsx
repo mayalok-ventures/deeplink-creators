@@ -45,6 +45,14 @@ export const metadata: Metadata = {
         siteName: 'Deeplink Creators',
         title: 'Deeplink Creators | Digital Marketing Agency in Greater Noida',
         description: 'Best digital marketing agency in Greater Noida & Noida. SEO services, performance marketing, PPC, Google Ads management, and branding for businesses in Delhi NCR. Get a free SEO audit today.',
+        images: [
+            {
+                url: '/images/logo.svg',
+                width: 1200,
+                height: 630,
+                alt: 'Deeplink Creators - Best Digital Marketing Agency in Greater Noida',
+            },
+        ],
     },
     twitter: {
         card: 'summary_large_image',
@@ -115,6 +123,57 @@ const websiteSchema = {
     }
 }
 
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "What is the best digital marketing agency in Greater Noida?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Deeplink Creators is the best digital marketing agency in Greater Noida, specializing in SEO services, performance marketing, Google Ads, PPC, and branding with a focus on delivering measurable ROI for local businesses."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How much do SEO services cost in Greater Noida?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Deeplink Creators offers affordable SEO services in Greater Noida starting from customized plans based on your business needs. Contact us for a free SEO audit and custom quote."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you provide Google Ads management in Noida?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Deeplink Creators provides expert Google Ads management and PPC services in Noida and Greater Noida with a focus on ROI-positive campaigns for businesses across Delhi NCR."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What digital marketing services do you offer in Delhi NCR?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We offer SEO services, local SEO, Google Ads, Facebook Ads, performance marketing, branding, content marketing, social media marketing, ecommerce SEO, technical SEO, and Google My Business optimization for businesses in Greater Noida, Noida, and Delhi NCR."
+            }
+        }
+    ]
+}
+
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deeplinkcreators.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://deeplinkcreators.com/services/" },
+        { "@type": "ListItem", "position": 3, "name": "About", "item": "https://deeplinkcreators.com/about/" },
+        { "@type": "ListItem", "position": 4, "name": "Results", "item": "https://deeplinkcreators.com/results/" },
+        { "@type": "ListItem", "position": 5, "name": "Contact", "item": "https://deeplinkcreators.com/contact/" }
+    ]
+}
+
 export default function RootLayout({
     children,
 }: {
@@ -125,6 +184,29 @@ export default function RootLayout({
             <head>
                 <link rel="canonical" href="https://deeplinkcreators.com" />
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+                {/* Bing / Yahoo / DuckDuckGo verification (replace with actual code from Bing Webmaster Tools) */}
+                <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
+
+                {/* Yandex verification (replace with actual code from Yandex Webmaster) */}
+                <meta name="yandex-verification" content="YOUR_YANDEX_VERIFICATION_CODE" />
+
+                {/* Additional SEO meta for all crawlers */}
+                <meta name="geo.region" content="IN-UP" />
+                <meta name="geo.placename" content="Greater Noida" />
+                <meta name="geo.position" content="28.4744;77.5040" />
+                <meta name="ICBM" content="28.4744, 77.5040" />
+                <meta name="language" content="English" />
+                <meta name="revisit-after" content="7 days" />
+                <meta name="rating" content="general" />
+                <meta name="distribution" content="global" />
+
+                {/* Dublin Core metadata for academic/advanced crawlers */}
+                <meta name="DC.title" content="Deeplink Creators - Digital Marketing Agency in Greater Noida" />
+                <meta name="DC.creator" content="Deeplink Creators" />
+                <meta name="DC.subject" content="Digital Marketing, SEO, Performance Marketing, Branding" />
+                <meta name="DC.description" content="Best digital marketing agency in Greater Noida & Noida specializing in SEO, PPC, Google Ads, and branding for Delhi NCR businesses." />
+                <meta name="DC.language" content="en" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -136,6 +218,14 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
                 />
             </head>
             <body className={inter.className}>

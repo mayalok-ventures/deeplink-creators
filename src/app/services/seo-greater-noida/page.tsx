@@ -6,6 +6,20 @@ export const metadata: Metadata = {
     title: 'Best SEO Services in Greater Noida & Noida | Local SEO Company | Deeplink Creators',
     description: 'Top SEO company in Greater Noida & Noida offering affordable SEO services, local SEO, Google My Business optimization, technical SEO audits, and website SEO services for businesses in Delhi NCR. Get your free SEO audit today.',
     keywords: ['SEO services in Greater Noida', 'SEO company in Greater Noida', 'local SEO services Greater Noida', 'SEO services in Noida', 'SEO company in Noida', 'affordable SEO services Noida', 'website SEO audit Greater Noida', 'Google My Business optimization Greater Noida', 'technical SEO services Noida', 'SEO consultant in Greater Noida', 'SEO expert in Delhi NCR', 'best SEO company Delhi NCR', 'small business SEO services Greater Noida', 'SEO for local businesses Noida'],
+    openGraph: {
+        title: 'Best SEO Services in Greater Noida & Noida | Deeplink Creators',
+        description: 'Affordable SEO services, local SEO, Google My Business optimization, and technical SEO for businesses in Greater Noida, Noida & Delhi NCR.',
+        url: 'https://deeplinkcreators.com/services/seo-greater-noida/',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'SEO Services Greater Noida & Noida | Deeplink Creators',
+        description: 'Affordable SEO services, local SEO & technical SEO for Greater Noida & Delhi NCR.',
+    },
+    alternates: {
+        canonical: 'https://deeplinkcreators.com/services/seo-greater-noida/',
+    },
 }
 
 export default function SEOServicePage() {

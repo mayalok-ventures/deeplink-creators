@@ -5,6 +5,20 @@ export const metadata: Metadata = {
     title: 'Branding & Identity Services in Greater Noida | Brand Strategy Agency | Deeplink Creators',
     description: 'Build a brand that commands premium prices. Brand strategy, visual identity, content authority, and social media branding for businesses in Greater Noida, Noida & Delhi NCR.',
     keywords: ['branding agency Greater Noida', 'brand strategy Noida', 'social media branding Greater Noida', 'brand identity Delhi NCR', 'content marketing services Noida', 'digital marketing agency branding'],
+    openGraph: {
+        title: 'Branding & Identity Services | Deeplink Creators',
+        description: 'Brand strategy, visual identity & content authority for Greater Noida, Noida & Delhi NCR businesses.',
+        url: 'https://deeplinkcreators.com/services/branding/',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Branding & Identity | Deeplink Creators',
+        description: 'Brand strategy & visual identity for Greater Noida & Delhi NCR businesses.',
+    },
+    alternates: {
+        canonical: 'https://deeplinkcreators.com/services/branding/',
+    },
 }
 
 export default function BrandingPage() {

@@ -5,6 +5,20 @@ export const metadata: Metadata = {
     title: 'Performance Marketing & PPC Services in Greater Noida | Google Ads Expert | Deeplink Creators',
     description: 'ROI-focused performance marketing agency in Greater Noida & Noida. Google Ads management, Facebook Ads, PPC services, and lead generation for businesses in Delhi NCR. Stop burning money on ads.',
     keywords: ['performance marketing Greater Noida', 'Google Ads expert Delhi NCR', 'PPC services Greater Noida', 'Facebook Ads agency Noida', 'Google Ads management Noida', 'lead generation Greater Noida', 'digital marketing for startups Delhi NCR', 'low cost lead generation Noida', 'B2B digital marketing agency Delhi NCR', 'real estate lead generation agency Noida'],
+    openGraph: {
+        title: 'Performance Marketing & PPC Services | Deeplink Creators',
+        description: 'Google Ads, Facebook Ads, PPC & lead generation for Greater Noida, Noida & Delhi NCR businesses.',
+        url: 'https://deeplinkcreators.com/services/performance-marketing/',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Performance Marketing & PPC | Deeplink Creators',
+        description: 'Google Ads, Facebook Ads & PPC for Greater Noida & Delhi NCR businesses.',
+    },
+    alternates: {
+        canonical: 'https://deeplinkcreators.com/services/performance-marketing/',
+    },
 }
 
 export default function PerformanceMarketingPage() {

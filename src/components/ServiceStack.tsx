@@ -27,68 +27,37 @@ const ICON_MAP: Record<string, ReactNode> = {
     Mail: <Mail size={32} />,
 }
 
-const FALLBACK_SERVICES = [
-    {
-        icon: 'Search',
-        title: 'Neuro-SEO',
-        benefit: 'Free Traffic from Google That Actually Converts',
-        description: "Our proprietary Neuro-SEO method doesn't just rank pages - it ranks pages that actually convert visitors into customers.",
-        features: ['Local SEO for Greater Noida', 'Conversion-Optimized Pages', 'Competitor Analysis', 'Monthly Performance Reports'],
-        cta: 'Get SEO Audit',
-        href: '/services/seo-greater-noida',
-        gradient: 'from-primary-400 to-cyan-400',
-    },
-    {
-        icon: 'TrendingUp',
-        title: 'Performance Marketing',
-        benefit: 'Paid Ads That Make More Than They Cost',
-        description: 'Stop wasting money on clicks. We build complete funnel systems that guarantee positive ROI on every rupee spent.',
-        features: ['Facebook/Google Ads', 'ROI-Focused Campaigns', 'Conversion Tracking', 'Weekly Optimization'],
-        cta: 'Optimize My Ads',
-        href: '/services/performance-marketing',
-        gradient: 'from-accent to-emerald-400',
-    },
-    {
-        icon: 'Target',
-        title: 'Conversion Rate Optimization',
-        benefit: 'Turn Visitors into Paying Customers',
-        description: 'Why pay for more traffic when you can convert more of your existing visitors? We specialize in fixing leaky funnels.',
-        features: ['Funnel Analysis', 'A/B Testing', 'Landing Page Design', 'Checkout Optimization'],
-        cta: 'Fix My Funnel',
-        href: '/services/conversion-optimization',
-        gradient: 'from-orange-400 to-red-400',
-    },
-    {
-        icon: 'Globe',
-        title: 'Brand Authority',
-        benefit: 'Become The Industry Leader in Greater Noida',
-        description: 'Build a brand that commands premium prices. We position you as the expert that customers trust automatically.',
-        features: ['Content Strategy', 'PR & Outreach', 'Social Proof Systems', 'Industry Authority'],
-        cta: 'Build My Brand',
-        href: '/services/branding',
-        gradient: 'from-purple-400 to-pink-400',
-    },
-]
+interface ServiceItem {
+    icon: string
+    title: string
+    benefit: string
+    description: string
+    features: string[]
+    cta: string
+    href: string
+    gradient: string
+}
 
 const ServiceStack = () => {
-    const [services, setServices] = useState(FALLBACK_SERVICES)
+    const [services, setServices] = useState<ServiceItem[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getFeaturedServiceCards().then(cards => {
-            if (cards.length > 0) {
-                setServices(cards.map(c => ({
-                    icon: c.icon,
-                    title: c.title,
-                    benefit: c.benefit,
-                    description: c.description,
-                    features: c.features,
-                    cta: c.cta,
-                    href: c.href,
-                    gradient: c.gradient,
-                })))
-            }
-        }).catch(() => {})
+            setServices(cards.map(c => ({
+                icon: c.icon,
+                title: c.title,
+                benefit: c.benefit,
+                description: c.description,
+                features: c.features,
+                cta: c.cta,
+                href: c.href,
+                gradient: c.gradient,
+            })))
+        }).catch(() => {}).finally(() => setLoading(false))
     }, [])
+
+    if (loading || services.length === 0) return null
 
     return (
         <section id="services" className="section-padding bg-dark relative overflow-hidden">

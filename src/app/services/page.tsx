@@ -37,54 +37,6 @@ interface ServiceItem {
     gradient: string
 }
 
-const FALLBACK_SERVICES: ServiceItem[] = [
-    {
-        icon: 'Search',
-        title: 'SEO Services in Greater Noida',
-        benefit: 'Dominate Google & Get Found by Buyers',
-        description:
-            'Our Neuro-SEO methodology targets high-intent keywords your customers are actually searching for. No fluff — only rankings that bring revenue.',
-        features: [
-            'Local SEO for Greater Noida businesses',
-            'High-intent keyword targeting',
-            'Google Business Profile optimization',
-            'Technical SEO audits & fixes',
-        ],
-        href: '/services/seo-greater-noida',
-        gradient: 'from-blue-500 to-primary-600',
-    },
-    {
-        icon: 'TrendingUp',
-        title: 'Performance Marketing',
-        benefit: 'Ads That Pay for Themselves — and More',
-        description:
-            'We build data-driven ad campaigns on Google & Meta that generate qualified leads at the lowest possible cost. Every rupee is tracked.',
-        features: [
-            'Google & Meta Ads management',
-            'Conversion-optimized funnels',
-            'Retargeting & lookalike audiences',
-            'Real-time ROI dashboards',
-        ],
-        href: '/services/performance-marketing',
-        gradient: 'from-green-500 to-emerald-600',
-    },
-    {
-        icon: 'Globe',
-        title: 'Branding & Identity',
-        benefit: 'Build a Brand People Trust & Remember',
-        description:
-            'From logo design to full brand strategy, we craft identities that make your business stand out in Greater Noida and beyond.',
-        features: [
-            'Brand strategy & positioning',
-            'Visual identity & logo design',
-            'Brand messaging & voice',
-            'Social media branding',
-        ],
-        href: '/services/branding',
-        gradient: 'from-purple-500 to-violet-600',
-    },
-]
-
 const whyChooseUs = [
     {
         icon: <Award size={28} />,
@@ -121,22 +73,21 @@ const cardVariants = {
 }
 
 export default function ServicesPage() {
-    const [services, setServices] = useState<ServiceItem[]>(FALLBACK_SERVICES)
+    const [services, setServices] = useState<ServiceItem[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getVisibleServiceCards().then(cards => {
-            if (cards.length > 0) {
-                setServices(cards.map(c => ({
-                    icon: c.icon,
-                    title: c.title,
-                    benefit: c.benefit,
-                    description: c.description,
-                    features: c.features,
-                    href: c.href,
-                    gradient: c.gradient,
-                })))
-            }
-        }).catch(() => {})
+            setServices(cards.map(c => ({
+                icon: c.icon,
+                title: c.title,
+                benefit: c.benefit,
+                description: c.description,
+                features: c.features,
+                href: c.href,
+                gradient: c.gradient,
+            })))
+        }).catch(() => {}).finally(() => setLoading(false))
     }, [])
 
     return (
@@ -188,12 +139,19 @@ export default function ServicesPage() {
                         </p>
                     </div>
 
+                    {loading ? (
+                        <div className="flex items-center justify-center py-12">
+                            <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    ) : services.length === 0 ? (
+                        <p className="text-center text-paragraph text-lg">Services coming soon.</p>
+                    ) : (
                     <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+                        className={`grid grid-cols-1 ${services.length === 1 ? 'lg:grid-cols-1 max-w-xl mx-auto' : services.length === 2 ? 'lg:grid-cols-2 max-w-4xl mx-auto' : 'lg:grid-cols-3'} gap-8`}
                     >
                         {services.map((service, index) => (
                             <motion.div
@@ -231,6 +189,7 @@ export default function ServicesPage() {
                             </motion.div>
                         ))}
                     </motion.div>
+                    )}
                 </div>
             </section>
 

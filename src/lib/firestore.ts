@@ -194,14 +194,8 @@ export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
 }
 
 export async function getFeaturedServiceCards(): Promise<ServiceCardData[]> {
-    const q = query(
-        collection(db, 'services'),
-        where('visible', '==', true),
-        where('featured', '==', true),
-        orderBy('order', 'asc')
-    )
-    const snapshot = await getDocs(q)
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
+    const all = await getVisibleServiceCards()
+    return all.filter(c => c.featured === true)
 }
 
 export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {

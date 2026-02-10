@@ -1,35 +1,31 @@
 # Robots.txt for deeplinkcreators.com
-# Allow all major search engine crawlers
 
 User-agent: *
 Allow: /
 Disallow: /_next/
 Disallow: /api/
 Disallow: /deepadmin/
+Disallow: /b/
 
 # Google
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
-# Bing & Yahoo (Yahoo uses Bing's index)
+# Bing & Yahoo
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
-Crawl-delay: 1
 
 # Yandex
 User-agent: YandexBot
 Allow: /
 Crawl-delay: 2
 
-# DuckDuckGo (uses DuckDuckBot)
+# DuckDuckGo
 User-agent: DuckDuckBot
 Allow: /
-Crawl-delay: 1
 
 # Facebook / Meta crawler
 User-agent: facebookexternalhit

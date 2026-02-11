@@ -37,16 +37,23 @@ const Header = () => {
 
             <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex justify-between items-center">
-                    <Link href="/" className="flex flex-col">
-                        <span className="text-2xl font-bold font-heading">
-                            <span className="bg-gradient-to-r from-primary-400 to-accent bg-clip-text text-transparent">
-                                Deeplink
-                            </span>{' '}
-                            <span className="text-heading">Creators</span>
-                        </span>
-                        <span className="text-xs text-gold tracking-wide">
-                            A Unit of Mayalok Venture
-                        </span>
+                    <Link href="/" className="flex items-center gap-3">
+                        <img
+                            src="/images/logo.svg"
+                            alt="Deeplink Creators Logo"
+                            className="h-10 w-10"
+                        />
+                        <div className="flex flex-col">
+                            <span className="text-2xl font-bold font-heading">
+                                <span className="bg-gradient-to-r from-primary-400 to-accent bg-clip-text text-transparent">
+                                    Deeplink
+                                </span>{' '}
+                                <span className="text-heading">Creators</span>
+                            </span>
+                            <span className="text-xs text-gold tracking-wide">
+                                A Unit of Mayalok Venture
+                            </span>
+                        </div>
                     </Link>
 
                     <nav className="hidden md:flex items-center space-x-8">

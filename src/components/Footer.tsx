@@ -70,7 +70,7 @@ const Footer = () => {
                                     { href: '/services/seo-greater-noida', label: 'SEO Services Greater Noida' },
                                     { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
                                     { href: '/services/branding', label: 'Branding & Identity' },
-                                    { href: '/results', label: 'Blog & Results' },
+                                    { href: '/results', label: 'Blog & Insights' },
                                     { href: '/about', label: 'About Us' },
                                     { href: '/contact', label: 'Contact Us' },
                                 ].map((link) => (

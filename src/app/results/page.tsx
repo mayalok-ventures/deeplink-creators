@@ -49,7 +49,7 @@ export default function ResultsPage() {
                         className="max-w-4xl mx-auto text-center"
                     >
                         <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-heading mb-6">
-                            <span className="text-primary-400">Insights & Results</span>
+                            <span className="text-primary-400">Insights & Strategies</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
                             Digital marketing insights, SEO tips, and actionable strategies for businesses in Greater Noida, Noida &amp; Delhi NCR.
@@ -135,7 +135,7 @@ export default function ResultsPage() {
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
-                        Ready to See <span className="text-accent">Results</span> for Your Business?
+                        Ready to See <span className="text-accent">Growth</span> for Your Business?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                         Whether you need SEO services in Greater Noida, PPC management, or a digital marketing strategy for your startup in Delhi NCR — book your FREE Revenue Growth Session today.

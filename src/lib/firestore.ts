@@ -91,11 +91,15 @@ export function createSlug(title: string): string {
 export async function getPublishedBlogs(): Promise<BlogPost[]> {
     const q = query(
         collection(db, 'blogs'),
-        where('published', '==', true),
-        orderBy('publishedAt', 'desc')
+        where('published', '==', true)
     )
     const snapshot = await getDocs(q)
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost))
+    const blogs = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost))
+    return blogs.sort((a, b) => {
+        const aTime = a.publishedAt?.toMillis?.() ?? 0
+        const bTime = b.publishedAt?.toMillis?.() ?? 0
+        return bTime - aTime
+    })
 }
 
 export async function getAllBlogs(): Promise<BlogPost[]> {
@@ -272,10 +276,17 @@ export async function seedDefaultServiceCards(): Promise<void> {
 
 // ─── Storage Operations ─────────────────────────────────────────
 
-const storage = getStorage(app)
+let _storage: ReturnType<typeof getStorage> | null = null
+function getStorageInstance() {
+    if (!_storage) {
+        _storage = getStorage(app)
+    }
+    return _storage
+}
 
 export async function uploadImage(file: File, path: string): Promise<string> {
+    const storage = getStorageInstance()
     const storageRef = ref(storage, path)
-    await uploadBytes(storageRef, file)
-    return getDownloadURL(storageRef)
+    const snapshot = await uploadBytes(storageRef, file)
+    return getDownloadURL(snapshot.ref)
 }

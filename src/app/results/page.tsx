@@ -30,7 +30,10 @@ export default function ResultsPage() {
         getPublishedBlogs().then(data => {
             setBlogs(data)
             setLoading(false)
-        }).catch(() => setLoading(false))
+        }).catch(err => {
+            console.error('Failed to load blogs:', err)
+            setLoading(false)
+        })
     }, [])
 
     return (

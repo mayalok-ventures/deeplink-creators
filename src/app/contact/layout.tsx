@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Contact Us | Deeplink Creators — Digital Marketing Agency Greater Noida',
-    description: 'Contact Deeplink Creators for SEO services, performance marketing, Google Ads, PPC, and branding in Greater Noida, Noida & Delhi NCR. Get your FREE ROI Audit today.',
-    keywords: ['contact digital marketing agency Greater Noida', 'SEO services contact Noida', 'free SEO audit Greater Noida', 'digital marketing consultation Delhi NCR'],
+    title: 'Contact Us | Start Your Growth Journey',
+    description: 'Book a free consultation audit. Located in Greater Noida. Call us for SEO & Marketing services.',
     openGraph: {
-        title: 'Contact Deeplink Creators | Free ROI Audit',
-        description: 'Get your FREE ROI Audit. SEO, performance marketing & branding for businesses in Greater Noida, Noida & Delhi NCR.',
+        title: 'Contact Us | Start Your Growth Journey - Deeplink Creators',
+        description: 'Book a free consultation audit. Located in Greater Noida. Call us for SEO & Marketing services.',
         url: 'https://deeplinkcreators.com/contact/',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Contact Deeplink Creators | Free ROI Audit',
-        description: 'Get your FREE ROI Audit. SEO, performance marketing & branding for Greater Noida & Delhi NCR businesses.',
+        title: 'Contact Us | Start Your Growth Journey - Deeplink Creators',
+        description: 'Book a free consultation audit. Located in Greater Noida. Call us for SEO & Marketing services.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com/contact/',

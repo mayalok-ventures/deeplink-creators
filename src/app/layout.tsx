@@ -9,10 +9,10 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space
 export const metadata: Metadata = {
     metadataBase: new URL('https://deeplinkcreators.com'),
     title: {
-        default: 'Deeplink Creators | Digital Marketing Agency in Greater Noida',
-        template: '%s | Deeplink Creators',
+        default: 'Deeplink Creators | AI-Driven Digital Marketing Agency in Greater Noida',
+        template: '%s | Deeplink Creators'
     },
-    description: 'Deeplink Creators is the best digital marketing agency in Greater Noida & Noida, specializing in SEO services, performance marketing, Google Ads, Facebook Ads, and branding. Affordable SEO company in Delhi NCR delivering real ROI for local businesses and startups.',
+    description: 'Deeplink Creators is a data-driven digital marketing agency in Greater Noida & Delhi NCR specializing in SEO, Performance Marketing, and Branding for Real Estate & Startups.',
     keywords: [
         'digital marketing agency in Greater Noida', 'digital marketing agency in Noida', 'SEO company in Greater Noida', 'SEO company in Noida',
         'SEO services in Greater Noida', 'SEO services in Noida', 'local SEO services Greater Noida', 'best digital marketing company in Delhi NCR',
@@ -43,21 +43,21 @@ export const metadata: Metadata = {
         locale: 'en_IN',
         url: 'https://deeplinkcreators.com',
         siteName: 'Deeplink Creators',
-        title: 'Deeplink Creators | Digital Marketing Agency in Greater Noida',
-        description: 'Best digital marketing agency in Greater Noida & Noida. SEO services, performance marketing, PPC, Google Ads management, and branding for businesses in Delhi NCR. Get a free SEO audit today.',
+        title: 'Deeplink Creators | AI-Driven Digital Marketing Agency in Greater Noida',
+        description: 'Data-driven digital marketing agency in Greater Noida & Delhi NCR. SEO, Performance Marketing, PPC, Google Ads, and Branding for Real Estate & Startups.',
         images: [
             {
                 url: '/images/logo.svg',
                 width: 1200,
                 height: 630,
-                alt: 'Deeplink Creators - Best Digital Marketing Agency in Greater Noida',
+                alt: 'Deeplink Creators - AI-Driven Digital Marketing Agency in Greater Noida',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Deeplink Creators | Digital Marketing Agency',
-        description: 'Top digital marketing agency in Greater Noida. SEO services, performance marketing & branding that delivers real ROI for Delhi NCR businesses.',
+        title: 'Deeplink Creators | AI-Driven Digital Marketing Agency',
+        description: 'Data-driven digital marketing agency in Greater Noida & Delhi NCR. SEO, Performance Marketing & Branding that delivers real ROI.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com',
@@ -66,12 +66,13 @@ export const metadata: Metadata = {
 
 const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": "MarketingAgency",
     "name": "Deeplink Creators",
     "alternateName": "Deeplink Creators - A Unit of Mayalok Venture",
     "@id": "https://deeplinkcreators.com",
     "url": "https://deeplinkcreators.com",
-    "description": "Best digital marketing agency in Greater Noida and Noida specializing in SEO services, performance marketing, Google Ads, PPC, branding, and lead generation for businesses in Delhi NCR.",
+    "logo": "https://deeplinkcreators.com/logo.png",
+    "description": "AI-Driven Digital Marketing Agency in Greater Noida.",
     "address": {
         "@type": "PostalAddress",
         "addressLocality": "Greater Noida",
@@ -80,8 +81,8 @@ const jsonLd = {
     },
     "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 28.4744,
-        "longitude": 77.5040
+        "latitude": "28.4744",
+        "longitude": "77.5040"
     },
     "areaServed": [
         { "@type": "City", "name": "Greater Noida" },
@@ -91,9 +92,14 @@ const jsonLd = {
     "serviceType": ["SEO Services", "Local SEO", "Performance Marketing", "Google Ads Management", "Facebook Ads", "PPC Services", "Branding", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Ecommerce SEO", "Technical SEO", "Google My Business Optimization", "Lead Generation"],
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         "opens": "09:00",
         "closes": "18:00"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "areaServed": ["Noida", "Greater Noida", "Delhi"]
     },
     "sameAs": []
 }
@@ -169,8 +175,7 @@ const breadcrumbSchema = {
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deeplinkcreators.com/" },
         { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://deeplinkcreators.com/services/" },
         { "@type": "ListItem", "position": 3, "name": "About", "item": "https://deeplinkcreators.com/about/" },
-        { "@type": "ListItem", "position": 4, "name": "Results", "item": "https://deeplinkcreators.com/results/" },
-        { "@type": "ListItem", "position": 5, "name": "Contact", "item": "https://deeplinkcreators.com/contact/" }
+        { "@type": "ListItem", "position": 4, "name": "Contact", "item": "https://deeplinkcreators.com/contact/" }
     ]
 }
 
@@ -182,7 +187,6 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
             <head>
-                <link rel="canonical" href="https://deeplinkcreators.com" />
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
                 {/* Bing / Yahoo / DuckDuckGo verification (replace with actual code from Bing Webmaster Tools) */}

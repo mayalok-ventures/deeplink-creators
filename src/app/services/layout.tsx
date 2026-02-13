@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Digital Marketing Services in Greater Noida & Noida | SEO, PPC, Branding | Deeplink Creators',
-    description: 'Full-service digital marketing agency in Greater Noida & Noida. SEO services, performance marketing, Google Ads, Facebook Ads, PPC, branding, and lead generation for businesses in Delhi NCR.',
-    keywords: ['digital marketing services Greater Noida', 'SEO services Noida', 'performance marketing Greater Noida', 'PPC services Noida', 'Google Ads Greater Noida', 'branding agency Delhi NCR', 'lead generation Noida'],
+    title: 'Our Services | SEO, PPC & Branding',
+    description: 'Explore our high-ROI marketing services: Search Engine Optimization, Pay-Per-Click, and Corporate Identity Design.',
     openGraph: {
-        title: 'Digital Marketing Services | SEO, PPC, Branding | Deeplink Creators',
-        description: 'Full-service digital marketing in Greater Noida & Noida. SEO, Google Ads, PPC, branding for Delhi NCR businesses.',
+        title: 'Our Services | SEO, PPC & Branding - Deeplink Creators',
+        description: 'Explore our high-ROI marketing services: Search Engine Optimization, Pay-Per-Click, and Corporate Identity Design.',
         url: 'https://deeplinkcreators.com/services/',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Digital Marketing Services | Deeplink Creators',
-        description: 'SEO, PPC, Google Ads, branding for Greater Noida, Noida & Delhi NCR businesses.',
+        title: 'Our Services | SEO, PPC & Branding - Deeplink Creators',
+        description: 'Explore our high-ROI marketing services: SEO, PPC, and Corporate Identity Design.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com/services/',

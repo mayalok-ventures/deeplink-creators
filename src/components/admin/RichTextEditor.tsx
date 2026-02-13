@@ -28,7 +28,7 @@ import {
     Undo2, Redo2, Minus, Table as TableIcon, Palette,
     Highlighter, Superscript as SuperscriptIcon, Subscript as SubscriptIcon,
     Maximize2, Minimize2, Pilcrow, RemoveFormatting, ChevronDown, X,
-    Upload, Link2, Check
+    Upload, Link2, Check, MousePointerClick, Grid3X3
 } from 'lucide-react'
 import { uploadImage } from '@/lib/firestore'
 
@@ -136,6 +136,17 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
     const [imageTab, setImageTab] = useState<'upload' | 'url'>('upload')
     const [youtubeUrl, setYoutubeUrl] = useState('')
     const [uploading, setUploading] = useState(false)
+    const [showCtaDialog, setShowCtaDialog] = useState(false)
+    const [ctaText, setCtaText] = useState('Get Started')
+    const [ctaUrl, setCtaUrl] = useState('')
+    const [ctaStyle, setCtaStyle] = useState<'primary' | 'secondary' | 'outline'>('primary')
+    const [showTableDialog, setShowTableDialog] = useState(false)
+    const [tableRows, setTableRows] = useState(3)
+    const [tableCols, setTableCols] = useState(3)
+    const [tableWithHeader, setTableWithHeader] = useState(true)
+    const [hoverRow, setHoverRow] = useState(0)
+    const [hoverCol, setHoverCol] = useState(0)
+    const [imageWidth, setImageWidth] = useState('')
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const editor = useEditor({
@@ -231,6 +242,51 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
         setUploading(false)
     }, [addImage])
 
+    const insertCta = useCallback(() => {
+        if (!editor || !ctaUrl) return
+        const styleMap = {
+            primary: 'background: #00E599; color: #0a0a0a;',
+            secondary: 'background: #3B82F6; color: #ffffff;',
+            outline: 'background: transparent; color: #F1F5F9; border: 2px solid #3B82F6;',
+        }
+        const html = `<a href="${ctaUrl}" target="_blank" rel="noopener noreferrer" class="cta-button cta-${ctaStyle}" style="display: inline-block; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; margin: 1em 0; ${styleMap[ctaStyle]}">${ctaText}</a>`
+        editor.chain().focus().insertContent(html).run()
+        setShowCtaDialog(false)
+        setCtaText('Get Started')
+        setCtaUrl('')
+        setCtaStyle('primary')
+    }, [editor, ctaText, ctaUrl, ctaStyle])
+
+    const insertTable = useCallback(() => {
+        if (!editor) return
+        editor.chain().focus().insertTable({ rows: tableRows, cols: tableCols, withHeaderRow: tableWithHeader }).run()
+        setShowTableDialog(false)
+        setTableRows(3)
+        setTableCols(3)
+        setTableWithHeader(true)
+    }, [editor, tableRows, tableCols, tableWithHeader])
+
+    const applyImageAlign = useCallback((align: 'left' | 'center' | 'right') => {
+        if (!editor) return
+        const styleMap = {
+            left: 'display: block; margin-right: auto;',
+            center: 'display: block; margin-left: auto; margin-right: auto;',
+            right: 'display: block; margin-left: auto;',
+        }
+        const currentStyle = (editor.getAttributes('image').style as string) || ''
+        const widthMatch = currentStyle.match(/width:\s*[^;]+;?/)
+        const widthPart = widthMatch ? widthMatch[0].replace(/;$/, '') + '; ' : ''
+        editor.chain().focus().updateAttributes('image', { style: widthPart + styleMap[align] } as any).run()
+    }, [editor])
+
+    const applyImageWidth = useCallback((width: string) => {
+        if (!editor || !width) return
+        const currentStyle = (editor.getAttributes('image').style as string) || ''
+        const alignMatch = currentStyle.match(/(display:\s*block;?\s*)?(margin-left:\s*[^;]+;?\s*)?(margin-right:\s*[^;]+;?\s*)?/)
+        const alignPart = alignMatch ? alignMatch[0] : ''
+        editor.chain().focus().updateAttributes('image', { style: `width: ${width}px; ${alignPart}`.trim() } as any).run()
+    }, [editor])
+
     const getActiveBlockLabel = () => {
         if (!editor) return 'Paragraph'
         if (editor.isActive('heading', { level: 1 })) return 'Heading 1'
@@ -284,6 +340,10 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                 .prose-editor sup { vertical-align: super; font-size: 0.75em; }
                 .prose-editor sub { vertical-align: sub; font-size: 0.75em; }
                 .prose-editor mark { border-radius: 0.15em; padding: 0.05em 0.15em; }
+                .prose-editor .cta-button { display: inline-block; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; margin: 1em 0; cursor: pointer; }
+                .prose-editor .cta-primary { background: #00E599; color: #0a0a0a; }
+                .prose-editor .cta-secondary { background: #3B82F6; color: #ffffff; }
+                .prose-editor .cta-outline { background: transparent; color: #F1F5F9; border: 2px solid #3B82F6; }
             `}</style>
 
             {/* Toolbar */}
@@ -502,6 +562,9 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                     <input ref={fileInputRef} type="file" accept="image/*" className="hidden"
                                         onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(f) }} />
                                     <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
+                                        onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add('border-primary-500/50') }}
+                                        onDragLeave={e => { e.preventDefault(); e.currentTarget.classList.remove('border-primary-500/50') }}
+                                        onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove('border-primary-500/50'); const f = e.dataTransfer.files?.[0]; if (f && f.type.startsWith('image/')) handleImageUpload(f) }}
                                         className="w-full border-2 border-dashed border-white/[0.1] rounded-lg py-8 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors">
                                         {uploading ? (
                                             <div className="flex items-center justify-center gap-2">
@@ -511,7 +574,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                         ) : (
                                             <>
                                                 <Upload size={24} className="mx-auto mb-2" />
-                                                <span className="text-sm">Click to upload image</span>
+                                                <span className="text-sm">Click or drag & drop image</span>
                                             </>
                                         )}
                                     </button>
@@ -563,6 +626,54 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                     )}
                 </div>
 
+                {/* CTA Button */}
+                <div className="relative">
+                    <ToolbarButton onClick={() => setShowCtaDialog(!showCtaDialog)} title="Insert CTA Button">
+                        <MousePointerClick size={16} />
+                    </ToolbarButton>
+                    {showCtaDialog && (
+                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-80">
+                            <p className="text-xs text-paragraph mb-2">Insert CTA Button</p>
+                            <input type="text" value={ctaText} onChange={e => setCtaText(e.target.value)}
+                                placeholder="Button text"
+                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                autoFocus />
+                            <input type="url" value={ctaUrl} onChange={e => setCtaUrl(e.target.value)}
+                                placeholder="https://example.com"
+                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-3 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                onKeyDown={e => e.key === 'Enter' && insertCta()} />
+                            <p className="text-xs text-paragraph mb-2">Style</p>
+                            <div className="flex gap-2 mb-3">
+                                <button type="button" onClick={() => setCtaStyle('primary')}
+                                    className={`flex-1 text-xs py-2 rounded-lg font-semibold transition-colors ${ctaStyle === 'primary' ? 'ring-2 ring-primary-400' : ''}`}
+                                    style={{ background: '#00E599', color: '#0a0a0a' }}>
+                                    Primary
+                                </button>
+                                <button type="button" onClick={() => setCtaStyle('secondary')}
+                                    className={`flex-1 text-xs py-2 rounded-lg font-semibold transition-colors ${ctaStyle === 'secondary' ? 'ring-2 ring-primary-400' : ''}`}
+                                    style={{ background: '#3B82F6', color: '#ffffff' }}>
+                                    Secondary
+                                </button>
+                                <button type="button" onClick={() => setCtaStyle('outline')}
+                                    className={`flex-1 text-xs py-2 rounded-lg font-semibold transition-colors ${ctaStyle === 'outline' ? 'ring-2 ring-primary-400' : ''}`}
+                                    style={{ background: 'transparent', color: '#F1F5F9', border: '2px solid #3B82F6' }}>
+                                    Outline
+                                </button>
+                            </div>
+                            <div className="flex gap-2">
+                                <button type="button" onClick={insertCta}
+                                    className="flex-1 bg-primary-500 text-white text-xs py-1.5 rounded-lg hover:bg-primary-600 transition-colors">
+                                    Insert
+                                </button>
+                                <button type="button" onClick={() => setShowCtaDialog(false)}
+                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
                 {/* Blockquote */}
                 <ToolbarButton active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} title="Blockquote">
                     <Quote size={16} />
@@ -579,9 +690,61 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                 </ToolbarButton>
 
                 {/* Table */}
-                <ToolbarButton onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} title="Insert Table">
-                    <TableIcon size={16} />
-                </ToolbarButton>
+                <div className="relative">
+                    <ToolbarButton onClick={() => setShowTableDialog(!showTableDialog)} title="Insert Table">
+                        <TableIcon size={16} />
+                    </ToolbarButton>
+                    {showTableDialog && (
+                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-64">
+                            <p className="text-xs text-paragraph mb-2">Insert Table</p>
+                            <div className="grid grid-cols-6 gap-1 mb-2 p-1"
+                                onMouseLeave={() => { setHoverRow(0); setHoverCol(0) }}>
+                                {Array.from({ length: 6 }, (_, r) =>
+                                    Array.from({ length: 6 }, (_, c) => (
+                                        <button key={`${r}-${c}`} type="button"
+                                            onMouseEnter={() => { setHoverRow(r + 1); setHoverCol(c + 1) }}
+                                            onClick={() => { setTableRows(r + 1); setTableCols(c + 1) }}
+                                            className={`w-6 h-6 rounded-sm border transition-colors ${
+                                                r < hoverRow && c < hoverCol
+                                                    ? 'bg-primary-500/30 border-primary-500/50'
+                                                    : 'bg-white/[0.03] border-white/[0.08]'
+                                            }`} />
+                                    ))
+                                )}
+                            </div>
+                            <p className="text-xs text-center text-paragraph mb-3">
+                                {hoverRow > 0 && hoverCol > 0 ? `${hoverRow} × ${hoverCol}` : `${tableRows} × ${tableCols}`}
+                            </p>
+                            <div className="flex gap-3 mb-3">
+                                <div className="flex-1">
+                                    <label className="text-xs text-paragraph block mb-1">Rows</label>
+                                    <input type="number" min={1} max={20} value={tableRows} onChange={e => setTableRows(parseInt(e.target.value) || 1)}
+                                        className="w-full px-2 py-1.5 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="text-xs text-paragraph block mb-1">Columns</label>
+                                    <input type="number" min={1} max={10} value={tableCols} onChange={e => setTableCols(parseInt(e.target.value) || 1)}
+                                        className="w-full px-2 py-1.5 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
+                                </div>
+                            </div>
+                            <label className="flex items-center gap-2 text-xs text-paragraph mb-3 cursor-pointer">
+                                <input type="checkbox" checked={tableWithHeader} onChange={e => setTableWithHeader(e.target.checked)}
+                                    className="rounded border-white/[0.2] bg-dark" />
+                                Include header row
+                            </label>
+                            <div className="flex gap-2">
+                                <button type="button" onClick={insertTable}
+                                    className="flex-1 bg-primary-500 text-white text-xs py-1.5 rounded-lg hover:bg-primary-600 transition-colors">
+                                    Insert Table
+                                </button>
+                                <button type="button" onClick={() => setShowTableDialog(false)}
+                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
 
                 <Divider />
 
@@ -601,18 +764,45 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                 <EditorContent editor={editor} />
             </div>
 
-            {/* Image Resize Bar - shows when image is selected */}
+            {/* Image Resize & Align Bar - shows when image is selected */}
             {editor.isActive('image') && (
-                <div className="bg-[#141C2F] border-t border-white/[0.08] px-3 py-2 flex items-center gap-2">
-                    <span className="text-xs text-paragraph mr-2">Image size:</span>
+                <div className="bg-[#141C2F] border-t border-white/[0.08] px-3 py-2 flex flex-wrap items-center gap-2">
+                    <span className="text-xs text-paragraph mr-1">Size:</span>
                     {['25%', '50%', '75%', '100%'].map(w => (
                         <button key={w} type="button" onClick={() => {
-                            editor.chain().focus().updateAttributes('image', { style: `width: ${w}` } as any).run()
+                            const currentStyle = (editor.getAttributes('image').style as string) || ''
+                            const alignMatch = currentStyle.match(/(display:\s*block;?\s*)?(margin-left:\s*[^;]+;?\s*)?(margin-right:\s*[^;]+;?\s*)?/)
+                            const alignPart = alignMatch ? alignMatch[0] : ''
+                            editor.chain().focus().updateAttributes('image', { style: `width: ${w}; ${alignPart}`.trim() } as any).run()
                         }}
                             className="text-xs px-2 py-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
                             {w}
                         </button>
                     ))}
+                    <div className="flex items-center gap-1 ml-1">
+                        <input type="number" placeholder="px" value={imageWidth}
+                            onChange={e => setImageWidth(e.target.value)}
+                            onKeyDown={e => { if (e.key === 'Enter') applyImageWidth(imageWidth) }}
+                            onBlur={() => { if (imageWidth) applyImageWidth(imageWidth) }}
+                            className="w-16 px-2 py-1 bg-dark/80 border border-white/[0.08] rounded text-heading text-xs outline-none focus:ring-1 focus:ring-primary-500/50" />
+                        <span className="text-xs text-paragraph">px</span>
+                    </div>
+
+                    <div className="w-px h-5 bg-white/[0.08] mx-1" />
+
+                    <span className="text-xs text-paragraph mr-1">Align:</span>
+                    <button type="button" onClick={() => applyImageAlign('left')} title="Align Left"
+                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        <AlignLeft size={14} />
+                    </button>
+                    <button type="button" onClick={() => applyImageAlign('center')} title="Align Center"
+                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        <AlignCenter size={14} />
+                    </button>
+                    <button type="button" onClick={() => applyImageAlign('right')} title="Align Right"
+                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        <AlignRight size={14} />
+                    </button>
                 </div>
             )}
         </div>

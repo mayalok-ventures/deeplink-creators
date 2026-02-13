@@ -185,5 +185,10 @@
 .blog-content sup { vertical-align: super; font-size: 0.75em; }
 .blog-content sub { vertical-align: sub; font-size: 0.75em; }
 .blog-content mark { border-radius: 0.15em; padding: 0.05em 0.15em; }
+.blog-content .cta-button { display: inline-block; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; margin: 1em 0; transition: opacity 0.2s; }
+.blog-content .cta-button:hover { opacity: 0.85; text-decoration: none; }
+.blog-content .cta-primary { background: #00E599; color: #0a0a0a; }
+.blog-content .cta-secondary { background: #3B82F6; color: #ffffff; }
+.blog-content .cta-outline { background: transparent; color: #F1F5F9; border: 2px solid #3B82F6; }
 
 @import '../styles/animations.css';

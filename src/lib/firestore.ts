@@ -2,7 +2,7 @@ import {
     collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
     query, where, orderBy, limit, Timestamp, setDoc
 } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { app, db } from './firebase'
 
 export interface BlogPost {
@@ -284,9 +284,35 @@ function getStorageInstance() {
     return _storage
 }
 
-export async function uploadImage(file: File, path: string): Promise<string> {
+export function uploadImage(
+    file: File,
+    path: string,
+    onProgress?: (percent: number) => void
+): Promise<string> {
     const storage = getStorageInstance()
     const storageRef = ref(storage, path)
-    const snapshot = await uploadBytes(storageRef, file)
-    return getDownloadURL(snapshot.ref)
+
+    return new Promise((resolve, reject) => {
+        const task = uploadBytesResumable(storageRef, file)
+
+        task.on('state_changed',
+            (snapshot) => {
+                const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                onProgress?.(percent)
+            },
+            (error) => {
+                console.error('Firebase Storage upload error:', error.code, error.message)
+                reject(error)
+            },
+            async () => {
+                try {
+                    const url = await getDownloadURL(task.snapshot.ref)
+                    resolve(url)
+                } catch (err) {
+                    console.error('getDownloadURL error:', err)
+                    reject(err)
+                }
+            }
+        )
+    })
 }

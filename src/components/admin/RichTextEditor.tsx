@@ -136,6 +136,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
     const [imageTab, setImageTab] = useState<'upload' | 'url'>('upload')
     const [youtubeUrl, setYoutubeUrl] = useState('')
     const [uploading, setUploading] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
     const [showCtaDialog, setShowCtaDialog] = useState(false)
     const [ctaText, setCtaText] = useState('Get Started')
     const [ctaUrl, setCtaUrl] = useState('')
@@ -214,14 +215,27 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
 
     const handleImageUpload = useCallback(async (file: File) => {
         setUploading(true)
+        setUploadProgress(0)
         try {
-            const url = await uploadImage(file, `blog-images/${Date.now()}-${file.name}`)
+            const url = await uploadImage(
+                file,
+                `blog-images/${Date.now()}-${file.name}`,
+                (percent) => setUploadProgress(percent)
+            )
             addImage(url)
-        } catch (err) {
+        } catch (err: any) {
             console.error('Upload failed:', err)
-            alert('Image upload failed. Check console.')
+            const code = err?.code || ''
+            if (code === 'storage/unauthorized' || code === 'storage/unauthenticated') {
+                alert('Upload blocked by Firebase Storage rules. Please update your Storage Security Rules in Firebase Console to allow writes.')
+            } else if (code === 'storage/canceled') {
+                alert('Upload was canceled.')
+            } else {
+                alert(`Image upload failed: ${err?.message || 'Unknown error'}. Check browser console (F12).`)
+            }
         }
         setUploading(false)
+        setUploadProgress(0)
     }, [addImage])
 
     const addYoutube = useCallback(() => {
@@ -567,9 +581,12 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                         onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove('border-primary-500/50'); const f = e.dataTransfer.files?.[0]; if (f && f.type.startsWith('image/')) handleImageUpload(f) }}
                                         className="w-full border-2 border-dashed border-white/[0.1] rounded-lg py-8 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors">
                                         {uploading ? (
-                                            <div className="flex items-center justify-center gap-2">
+                                            <div className="flex flex-col items-center gap-2 px-4">
                                                 <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-                                                <span className="text-sm">Uploading...</span>
+                                                <span className="text-sm">Uploading... {uploadProgress}%</span>
+                                                <div className="w-full bg-white/[0.08] rounded-full h-1.5">
+                                                    <div className="bg-primary-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
+                                                </div>
                                             </div>
                                         ) : (
                                             <>

@@ -89,11 +89,18 @@ export default function BlogManager() {
     const handleCoverUpload = async (file: File) => {
         setUploadingCover(true)
         try {
-            const url = await uploadImage(file, `blog-covers/${Date.now()}-${file.name}`)
+            const url = await uploadImage(file, `blog-covers/${Date.now()}-${file.name}`, (p) => {
+                console.log(`Cover upload: ${p}%`)
+            })
             setCoverImage(url)
-        } catch (err) {
+        } catch (err: any) {
             console.error('Cover upload failed:', err)
-            alert('Failed to upload cover image.')
+            const code = err?.code || ''
+            if (code === 'storage/unauthorized' || code === 'storage/unauthenticated') {
+                alert('Upload blocked by Firebase Storage rules. Go to Firebase Console → Storage → Rules and allow writes.')
+            } else {
+                alert(`Cover upload failed: ${err?.message || 'Unknown error'}`)
+            }
         }
         setUploadingCover(false)
     }

@@ -279,7 +279,7 @@ export async function seedDefaultServiceCards(): Promise<void> {
 let _storage: ReturnType<typeof getStorage> | null = null
 function getStorageInstance() {
     if (!_storage) {
-        _storage = getStorage(app)
+        _storage = getStorage(app, 'gs://mayalok-ventures.firebasestorage.app')
     }
     return _storage
 }

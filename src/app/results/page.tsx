@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Calendar, User, ArrowRight, TrendingUp } from 'lucide-react'
+import { Calendar, User, ArrowRight, TrendingUp, Search, X } from 'lucide-react'
 import { getPublishedBlogs, BlogPost } from '@/lib/firestore'
 
 function formatDate(timestamp: any): string {
@@ -25,6 +25,7 @@ const cardVariants = {
 export default function ResultsPage() {
     const [blogs, setBlogs] = useState<BlogPost[]>([])
     const [loading, setLoading] = useState(true)
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
         getPublishedBlogs().then(data => {
@@ -35,6 +36,17 @@ export default function ResultsPage() {
             setLoading(false)
         })
     }, [])
+
+    const filteredBlogs = blogs.filter(blog => {
+        if (!searchQuery.trim()) return true
+        const q = searchQuery.toLowerCase()
+        return (
+            blog.title.toLowerCase().includes(q) ||
+            blog.excerpt.toLowerCase().includes(q) ||
+            blog.author.toLowerCase().includes(q) ||
+            blog.tags.some(tag => tag.toLowerCase().includes(q))
+        )
+    })
 
     return (
         <>
@@ -54,6 +66,25 @@ export default function ResultsPage() {
                         <p className="text-xl text-paragraph mb-8">
                             Digital marketing insights, SEO tips, and actionable strategies for businesses in Greater Noida, Noida &amp; Delhi NCR.
                         </p>
+
+                        <div className="relative max-w-xl mx-auto">
+                            <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-paragraph pointer-events-none" />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={e => setSearchQuery(e.target.value)}
+                                placeholder="Search articles by title, tag, or author..."
+                                className="w-full pl-12 pr-10 py-3 rounded-xl bg-white/[0.05] border border-white/[0.1] text-heading placeholder:text-paragraph/60 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-paragraph hover:text-heading transition-colors"
+                                >
+                                    <X size={18} />
+                                </button>
+                            )}
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -76,6 +107,21 @@ export default function ResultsPage() {
                                 We are preparing insightful articles about SEO services, performance marketing, Google Ads tips, and digital marketing strategies for businesses in Greater Noida, Noida &amp; Delhi NCR. Check back soon.
                             </p>
                         </div>
+                    ) : filteredBlogs.length === 0 ? (
+                        <div className="glass-card rounded-2xl p-12 text-center max-w-2xl mx-auto">
+                            <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <Search className="text-primary-400" size={32} />
+                            </div>
+                            <h3 className="text-2xl font-heading font-bold text-heading mb-4">
+                                No Results Found
+                            </h3>
+                            <p className="text-lg text-paragraph mb-6">
+                                No articles match &ldquo;{searchQuery}&rdquo;. Try a different search term.
+                            </p>
+                            <button onClick={() => setSearchQuery('')} className="btn-primary inline-flex items-center gap-2">
+                                Clear Search
+                            </button>
+                        </div>
                     ) : (
                         <motion.div
                             variants={containerVariants}
@@ -83,7 +129,7 @@ export default function ResultsPage() {
                             animate="visible"
                             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                         >
-                            {blogs.map(blog => (
+                            {filteredBlogs.map(blog => (
                                 <motion.div key={blog.id} variants={cardVariants}>
                                     <Link href={`/blog/post/?slug=${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full">
                                         {blog.coverImage && (

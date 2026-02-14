@@ -67,6 +67,18 @@ export interface ServiceCardData {
     featured: boolean
 }
 
+export interface TestimonialData {
+    id?: string
+    name: string
+    role: string
+    company: string
+    content: string
+    rating: number
+    featured: boolean
+    order: number
+    createdAt: Timestamp
+}
+
 function generateShortId(): string {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
     let result = ''
@@ -272,6 +284,35 @@ export async function seedDefaultServiceCards(): Promise<void> {
     for (const card of defaults) {
         await addDoc(collection(db, 'services'), card)
     }
+}
+
+// ─── Testimonial Operations ─────────────────────────────────────────
+
+export async function getTestimonials(): Promise<TestimonialData[]> {
+    const snapshot = await getDocs(collection(db, 'testimonials'))
+    const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as TestimonialData))
+    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+}
+
+export async function getFeaturedTestimonials(): Promise<TestimonialData[]> {
+    const all = await getTestimonials()
+    return all.filter(t => t.featured === true).slice(0, 3)
+}
+
+export async function createTestimonial(data: Omit<TestimonialData, 'id' | 'createdAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, 'testimonials'), {
+        ...data,
+        createdAt: Timestamp.now(),
+    })
+    return docRef.id
+}
+
+export async function updateTestimonial(id: string, data: Partial<TestimonialData>): Promise<void> {
+    await updateDoc(doc(db, 'testimonials', id), data)
+}
+
+export async function deleteTestimonial(id: string): Promise<void> {
+    await deleteDoc(doc(db, 'testimonials', id))
 }
 
 // ─── Storage Operations ─────────────────────────────────────────

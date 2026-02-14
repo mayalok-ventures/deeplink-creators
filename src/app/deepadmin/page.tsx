@@ -7,11 +7,12 @@ import ContactManager from '@/components/admin/ContactManager'
 import SocialManager from '@/components/admin/SocialManager'
 import SEOManager from '@/components/admin/SEOManager'
 import ServicesManager from '@/components/admin/ServicesManager'
+import TestimonialsManager from '@/components/admin/TestimonialsManager'
 import { clearAdminSession } from '@/lib/admin-auth'
 import { getAllBlogs } from '@/lib/firestore'
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import {
-    LayoutDashboard, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3, Layers
+    LayoutDashboard, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3, Layers, MessageSquare
 } from 'lucide-react'
 
 const tabs = [
@@ -19,6 +20,7 @@ const tabs = [
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'blogs', label: 'Blog Posts', icon: FileText },
     { id: 'services', label: 'Services', icon: Layers },
+    { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
     { id: 'contact', label: 'Contact', icon: Phone },
     { id: 'social', label: 'Social Links', icon: Share2 },
     { id: 'seo', label: 'SEO Settings', icon: Search },
@@ -147,6 +149,7 @@ export default function AdminPage() {
                         {activeTab === 'analytics' && <AnalyticsDashboard />}
                         {activeTab === 'blogs' && <BlogManager />}
                         {activeTab === 'services' && <ServicesManager />}
+                        {activeTab === 'testimonials' && <TestimonialsManager />}
                         {activeTab === 'contact' && <ContactManager />}
                         {activeTab === 'social' && <SocialManager />}
                         {activeTab === 'seo' && <SEOManager />}

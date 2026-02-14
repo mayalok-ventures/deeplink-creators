@@ -2,7 +2,7 @@
 
 import Hero from '@/components/Hero'
 import ServiceStack from '@/components/ServiceStack'
-import SocialProof from '@/components/SocialProof'
+import TestimonialSection from '@/components/TestimonialSection'
 import { ArrowRight, Target, BarChart3, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -169,7 +169,7 @@ export default function HomePage() {
             </motion.section>
 
             <ServiceStack />
-            <SocialProof />
+            <TestimonialSection />
 
             {/* Final CTA Section */}
             <motion.section

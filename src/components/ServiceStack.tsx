@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect, ReactNode } from 'react'
-import { Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart, Layers, Rocket, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail } from 'lucide-react'
+import { Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart, Layers, Rocket, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import ServiceCard from './ServiceCard'
 import { getFeaturedServiceCards, ServiceCardData } from '@/lib/firestore'
 
@@ -101,6 +102,22 @@ const ServiceStack = () => {
                         />
                     ))}
                 </div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-center mt-12"
+                >
+                    <Link
+                        href="/services"
+                        className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-8 rounded-lg hover:bg-white/[0.1] hover:border-primary-500/30 transition-all"
+                    >
+                        View All Services
+                        <ArrowRight size={18} />
+                    </Link>
+                </motion.div>
             </div>
         </section>
     )

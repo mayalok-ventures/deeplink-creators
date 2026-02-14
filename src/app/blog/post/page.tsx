@@ -44,11 +44,77 @@ function BlogContent() {
             if (data && data.published) {
                 setPost(data)
                 document.title = `${data.seoTitle || data.title} | Deeplink Creators`
+
+                const metaDesc = document.querySelector('meta[name="description"]')
+                if (metaDesc) {
+                    metaDesc.setAttribute('content', data.seoDescription || data.excerpt || '')
+                } else {
+                    const meta = document.createElement('meta')
+                    meta.name = 'description'
+                    meta.content = data.seoDescription || data.excerpt || ''
+                    document.head.appendChild(meta)
+                }
+
+                const canonical = document.querySelector('link[rel="canonical"]')
+                if (canonical) {
+                    canonical.setAttribute('href', `https://deeplinkcreators.com/blog/post/?slug=${slug}`)
+                } else {
+                    const link = document.createElement('link')
+                    link.rel = 'canonical'
+                    link.href = `https://deeplinkcreators.com/blog/post/?slug=${slug}`
+                    document.head.appendChild(link)
+                }
+
+                const existingLd = document.querySelector('script[data-blog-jsonld]')
+                if (existingLd) existingLd.remove()
+
+                const publishedDate = data.publishedAt?.toDate ? data.publishedAt.toDate().toISOString() : new Date().toISOString()
+                const modifiedDate = data.updatedAt?.toDate ? data.updatedAt.toDate().toISOString() : publishedDate
+
+                const blogSchema = {
+                    "@context": "https://schema.org",
+                    "@type": "BlogPosting",
+                    "headline": data.seoTitle || data.title,
+                    "description": data.seoDescription || data.excerpt,
+                    "image": data.coverImage || undefined,
+                    "author": {
+                        "@type": "Organization",
+                        "name": data.author || "Deeplink Creators",
+                        "url": "https://deeplinkcreators.com"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Deeplink Creators",
+                        "url": "https://deeplinkcreators.com",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://deeplinkcreators.com/images/logo.svg"
+                        }
+                    },
+                    "datePublished": publishedDate,
+                    "dateModified": modifiedDate,
+                    "mainEntityOfPage": {
+                        "@type": "WebPage",
+                        "@id": `https://deeplinkcreators.com/blog/post/?slug=${slug}`
+                    },
+                    "keywords": data.keywords || data.tags?.join(', ') || ''
+                }
+
+                const script = document.createElement('script')
+                script.type = 'application/ld+json'
+                script.setAttribute('data-blog-jsonld', 'true')
+                script.textContent = JSON.stringify(blogSchema)
+                document.head.appendChild(script)
             } else {
                 setNotFound(true)
             }
             setLoading(false)
         }).catch(() => { setNotFound(true); setLoading(false) })
+
+        return () => {
+            const existingLd = document.querySelector('script[data-blog-jsonld]')
+            if (existingLd) existingLd.remove()
+        }
     }, [slug])
 
     const shareUrl = `https://deeplinkcreators.com/blog/post/?slug=${slug}`

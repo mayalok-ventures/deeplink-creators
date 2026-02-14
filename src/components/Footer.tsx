@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { MapPin, Phone, Mail, Facebook, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react'
 import { getSiteSettings, getSocialLinks, SiteSettings, SocialLinks } from '@/lib/firestore'
+import Link from 'next/link'
 
 const Footer = () => {
     const [contact, setContact] = useState<SiteSettings | null>(null)
@@ -75,12 +76,12 @@ const Footer = () => {
                                     { href: '/contact', label: 'Contact Us' },
                                 ].map((link) => (
                                     <li key={link.href}>
-                                        <a
+                                        <Link
                                             href={link.href}
                                             className="text-paragraph hover:text-primary-400 hover:translate-x-1 transition-all duration-200 inline-block"
                                         >
                                             {link.label}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
@@ -144,11 +145,11 @@ const Footer = () => {
                     <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-paragraph/60">
                         <p>&copy; {new Date().getFullYear()} Deeplink Creators. A Unit of Mayalok Venture. All rights reserved.</p>
                         <div className="flex items-center gap-4">
-                            <a href="/terms" className="hover:text-primary-400 transition-colors">Terms</a>
+                            <Link href="/terms" className="hover:text-primary-400 transition-colors">Terms</Link>
                             <span className="text-white/20">|</span>
-                            <a href="/privacy" className="hover:text-primary-400 transition-colors">Privacy</a>
+                            <Link href="/privacy" className="hover:text-primary-400 transition-colors">Privacy</Link>
                             <span className="text-white/20">|</span>
-                            <a href="/disclaimer" className="hover:text-primary-400 transition-colors">Disclaimer</a>
+                            <Link href="/disclaimer" className="hover:text-primary-400 transition-colors">Disclaimer</Link>
                         </div>
                     </div>
                 </div>

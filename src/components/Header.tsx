@@ -68,7 +68,7 @@ const Header = () => {
                             </Link>
                         ))}
 
-                        <a
+                        <Link
                             href="/contact"
                             className="btn-primary flex items-center gap-2"
                         >
@@ -80,7 +80,7 @@ const Header = () => {
                                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
                                 </span>
                             </span>
-                        </a>
+                        </Link>
                     </nav>
 
                     <button
@@ -123,7 +123,7 @@ const Header = () => {
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: navItems.length * 0.05 }}
                                 >
-                                    <a
+                                    <Link
                                         href="/contact"
                                         className="btn-primary inline-flex items-center justify-center gap-2 mt-2"
                                     >
@@ -135,7 +135,7 @@ const Header = () => {
                                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
                                             </span>
                                         </span>
-                                    </a>
+                                    </Link>
                                 </motion.div>
                             </div>
                         </motion.div>

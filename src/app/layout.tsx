@@ -179,6 +179,43 @@ const breadcrumbSchema = {
     ]
 }
 
+const siteNavigationSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+        {
+            "@type": "SiteNavigationElement",
+            "position": 1,
+            "name": "Home",
+            "url": "https://deeplinkcreators.com/"
+        },
+        {
+            "@type": "SiteNavigationElement",
+            "position": 2,
+            "name": "Services",
+            "url": "https://deeplinkcreators.com/services/"
+        },
+        {
+            "@type": "SiteNavigationElement",
+            "position": 3,
+            "name": "Blog & Insights",
+            "url": "https://deeplinkcreators.com/results/"
+        },
+        {
+            "@type": "SiteNavigationElement",
+            "position": 4,
+            "name": "About Us",
+            "url": "https://deeplinkcreators.com/about/"
+        },
+        {
+            "@type": "SiteNavigationElement",
+            "position": 5,
+            "name": "Contact",
+            "url": "https://deeplinkcreators.com/contact/"
+        }
+    ]
+}
+
 export default function RootLayout({
     children,
 }: {
@@ -230,6 +267,10 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }}
                 />
             </head>
             <body className={inter.className}>

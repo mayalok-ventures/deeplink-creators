@@ -42,15 +42,19 @@ function formatNumber(n: number): string {
 export default function AnalyticsDashboard() {
     const [data, setData] = useState<AnalyticsData | null>(null)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
     const [selectedPeriod, setSelectedPeriod] = useState(30)
     const [chartTab, setChartTab] = useState<'visitors' | 'pageViews'>('visitors')
 
     const loadData = async (days: number) => {
         setLoading(true)
+        setError(null)
         try {
             const result = await getAnalyticsData(days)
             setData(result)
-        } catch {
+        } catch (err: any) {
+            console.error('Analytics load error:', err)
+            setError(err?.message || 'Failed to load analytics data')
             setData(null)
         }
         setLoading(false)
@@ -62,6 +66,22 @@ export default function AnalyticsDashboard() {
         return (
             <div className="flex items-center justify-center py-32">
                 <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+                <BarChart3 className="w-16 h-16 text-red-400/30 mb-4" />
+                <p className="text-heading text-lg font-medium mb-2">Analytics Error</p>
+                <p className="text-paragraph text-sm max-w-md mb-6">{error}</p>
+                <button
+                    onClick={() => loadData(selectedPeriod)}
+                    className="btn-primary text-sm py-2 px-4"
+                >
+                    Retry
+                </button>
             </div>
         )
     }
@@ -82,8 +102,18 @@ export default function AnalyticsDashboard() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-heading font-heading">Analytics</h2>
+            <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-3">
+                    <h2 className="text-2xl font-bold text-heading font-heading">Analytics</h2>
+                    <button
+                        onClick={() => loadData(selectedPeriod)}
+                        disabled={loading}
+                        className="p-2 rounded-lg text-paragraph hover:text-heading hover:bg-white/[0.05] transition-colors disabled:opacity-50"
+                        title="Refresh"
+                    >
+                        <Activity size={16} className={loading ? 'animate-spin' : ''} />
+                    </button>
+                </div>
                 <div className="flex items-center gap-1 bg-white/[0.03] rounded-xl p-1">
                     {PERIODS.map(p => (
                         <button
@@ -181,6 +211,17 @@ function TrafficChart({
 }) {
     const [mounted, setMounted] = useState(false)
     useEffect(() => { setMounted(true) }, [])
+
+    if (dailyData.length === 0) {
+        return (
+            <div className="glass-card rounded-2xl p-6">
+                <h3 className="text-lg font-semibold text-heading mb-4">Visitor Analytics</h3>
+                <div className="flex items-center justify-center py-12 text-paragraph text-sm">
+                    No visitor data for this period
+                </div>
+            </div>
+        )
+    }
 
     const values = dailyData.map(d => (chartTab === 'visitors' ? d.visitors : d.pageViews))
     const maxValue = Math.max(...values, 1)

@@ -138,13 +138,17 @@ export async function trackVisit(page: string): Promise<void> {
         date,
     }
 
-    await addDoc(collection(db, 'visits'), record)
+    try {
+        await addDoc(collection(db, 'visits'), record)
 
-    const dailyRef = doc(db, 'analytics', date)
-    await setDoc(dailyRef, {
-        totalVisits: increment(1),
-        [`sources.${source}`]: increment(1),
-    }, { merge: true })
+        const dailyRef = doc(db, 'analytics', date)
+        await setDoc(dailyRef, {
+            totalVisits: increment(1),
+            [`sources.${source}`]: increment(1),
+        }, { merge: true })
+    } catch (err) {
+        console.error('Failed to track visit:', err)
+    }
 }
 
 export async function getAnalyticsData(days: number): Promise<AnalyticsData> {
@@ -218,13 +222,19 @@ export async function getAnalyticsData(days: number): Promise<AnalyticsData> {
         .sort((a, b) => b.views - a.views)
         .slice(0, 10)
 
-    const dailyData = Object.entries(dailyMap)
-        .map(([date, data]) => ({
-            date,
-            visitors: data.visitors.size,
-            pageViews: data.pageViews,
-        }))
-        .sort((a, b) => a.date.localeCompare(b.date))
+    const dailyData: { date: string; visitors: number; pageViews: number }[] = []
+    const cursor = new Date(startDate)
+    const endDate = new Date()
+    while (cursor <= endDate) {
+        const dateStr = cursor.toISOString().split('T')[0]
+        const entry = dailyMap[dateStr]
+        dailyData.push({
+            date: dateStr,
+            visitors: entry ? entry.visitors.size : 0,
+            pageViews: entry ? entry.pageViews : 0,
+        })
+        cursor.setDate(cursor.getDate() + 1)
+    }
 
     const returningVisitors = totalVisitors - newVisitorIds.size
 

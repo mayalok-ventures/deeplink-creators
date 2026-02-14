@@ -28,40 +28,101 @@ import {
     Undo2, Redo2, Minus, Table as TableIcon, Palette,
     Highlighter, Superscript as SuperscriptIcon, Subscript as SubscriptIcon,
     Maximize2, Minimize2, Pilcrow, RemoveFormatting, ChevronDown, X,
-    Upload, Link2, Check, MousePointerClick, Grid3X3
+    Upload, Link2, Check, MousePointerClick, Grid3X3, GripVertical
 } from 'lucide-react'
 import { uploadImage } from '@/lib/firestore'
 
 const TEXT_COLORS = [
     { label: 'Default', value: '#F1F5F9' },
-    { label: 'Red', value: '#EF4444' },
-    { label: 'Amber', value: '#F59E0B' },
-    { label: 'Green', value: '#10B981' },
-    { label: 'Blue', value: '#3B82F6' },
-    { label: 'Purple', value: '#8B5CF6' },
-    { label: 'Pink', value: '#EC4899' },
+    { label: 'White', value: '#FFFFFF' },
+    { label: 'Light Gray', value: '#CBD5E1' },
     { label: 'Gray', value: '#94A3B8' },
+    { label: 'Dark Gray', value: '#64748B' },
+    { label: 'Slate', value: '#475569' },
     { label: 'Black', value: '#000000' },
+    { label: 'Red', value: '#EF4444' },
+    { label: 'Light Red', value: '#FCA5A5' },
+    { label: 'Dark Red', value: '#B91C1C' },
+    { label: 'Rose', value: '#F43F5E' },
+    { label: 'Orange', value: '#F97316' },
+    { label: 'Light Orange', value: '#FDBA74' },
+    { label: 'Dark Orange', value: '#C2410C' },
+    { label: 'Amber', value: '#F59E0B' },
+    { label: 'Yellow', value: '#EAB308' },
+    { label: 'Light Yellow', value: '#FDE047' },
+    { label: 'Lime', value: '#84CC16' },
+    { label: 'Green', value: '#22C55E' },
+    { label: 'Light Green', value: '#86EFAC' },
+    { label: 'Dark Green', value: '#15803D' },
+    { label: 'Emerald', value: '#10B981' },
+    { label: 'Teal', value: '#14B8A6' },
+    { label: 'Cyan', value: '#06B6D4' },
+    { label: 'Light Blue', value: '#38BDF8' },
+    { label: 'Blue', value: '#3B82F6' },
+    { label: 'Dark Blue', value: '#1D4ED8' },
+    { label: 'Indigo', value: '#6366F1' },
+    { label: 'Violet', value: '#7C3AED' },
+    { label: 'Purple', value: '#8B5CF6' },
+    { label: 'Light Purple', value: '#C4B5FD' },
+    { label: 'Dark Purple', value: '#6D28D9' },
+    { label: 'Fuchsia', value: '#D946EF' },
+    { label: 'Pink', value: '#EC4899' },
+    { label: 'Light Pink', value: '#F9A8D4' },
+    { label: 'Hot Pink', value: '#E11D48' },
+    { label: 'Brown', value: '#92400E' },
+    { label: 'Warm Brown', value: '#A16207' },
+    { label: 'Sky', value: '#0EA5E9' },
+    { label: 'Mint', value: '#34D399' },
+    { label: 'Coral', value: '#FB7185' },
+    { label: 'Gold', value: '#D97706' },
 ]
 
 const HIGHLIGHT_COLORS = [
     { label: 'None', value: '' },
     { label: 'Yellow', value: '#FEF08A' },
+    { label: 'Light Yellow', value: '#FEF9C3' },
     { label: 'Green', value: '#BBF7D0' },
+    { label: 'Light Green', value: '#DCFCE7' },
     { label: 'Blue', value: '#BFDBFE' },
+    { label: 'Light Blue', value: '#DBEAFE' },
     { label: 'Purple', value: '#E9D5FF' },
+    { label: 'Light Purple', value: '#F3E8FF' },
     { label: 'Pink', value: '#FECDD3' },
+    { label: 'Light Pink', value: '#FFE4E6' },
     { label: 'Orange', value: '#FED7AA' },
+    { label: 'Light Orange', value: '#FFEDD5' },
+    { label: 'Cyan', value: '#A5F3FC' },
+    { label: 'Teal', value: '#99F6E4' },
     { label: 'Gray', value: '#E5E7EB' },
+    { label: 'Red', value: '#FECACA' },
 ]
 
 const FONT_FAMILIES = [
     { label: 'Inter', value: 'Inter' },
-    { label: 'Georgia', value: 'Georgia' },
     { label: 'Arial', value: 'Arial' },
-    { label: 'Courier', value: 'Courier New' },
-    { label: 'Times', value: 'Times New Roman' },
-    { label: 'Mono', value: 'ui-monospace, monospace' },
+    { label: 'Georgia', value: 'Georgia' },
+    { label: 'Times New Roman', value: 'Times New Roman' },
+    { label: 'Courier New', value: 'Courier New' },
+    { label: 'Verdana', value: 'Verdana' },
+    { label: 'Trebuchet MS', value: 'Trebuchet MS' },
+    { label: 'Palatino', value: 'Palatino Linotype, Palatino' },
+    { label: 'Garamond', value: 'Garamond' },
+    { label: 'Bookman', value: 'Bookman Old Style, Bookman' },
+    { label: 'Tahoma', value: 'Tahoma' },
+    { label: 'Impact', value: 'Impact' },
+    { label: 'Comic Sans', value: 'Comic Sans MS' },
+    { label: 'Lucida Sans', value: 'Lucida Sans Unicode, Lucida Grande' },
+    { label: 'Lucida Console', value: 'Lucida Console, Monaco' },
+    { label: 'Helvetica', value: 'Helvetica, Arial' },
+    { label: 'Segoe UI', value: 'Segoe UI' },
+    { label: 'Roboto', value: 'Roboto, sans-serif' },
+    { label: 'Open Sans', value: 'Open Sans, sans-serif' },
+    { label: 'Lato', value: 'Lato, sans-serif' },
+    { label: 'Montserrat', value: 'Montserrat, sans-serif' },
+    { label: 'Poppins', value: 'Poppins, sans-serif' },
+    { label: 'Oswald', value: 'Oswald, sans-serif' },
+    { label: 'Merriweather', value: 'Merriweather, serif' },
+    { label: 'Monospace', value: 'ui-monospace, monospace' },
 ]
 
 interface RichTextEditorProps {
@@ -113,7 +174,7 @@ function DropdownMenu({ trigger, children, open, onToggle }: {
                 <ChevronDown size={14} />
             </button>
             {open && (
-                <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 min-w-[160px] py-1">
+                <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 min-w-[160px] py-1 max-h-[320px] overflow-y-auto">
                     {children}
                 </div>
             )}
@@ -444,9 +505,16 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <Palette size={16} />
                     </ToolbarButton>
                     {showTextColor && (
-                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2">
-                            <p className="text-xs text-paragraph mb-2 px-1">Text Color</p>
-                            <div className="grid grid-cols-5 gap-1">
+                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-64">
+                            <div className="flex items-center justify-between mb-2 px-1">
+                                <p className="text-xs text-paragraph">Text Color</p>
+                                <button type="button"
+                                    onClick={() => { editor.chain().focus().unsetColor().run(); setShowTextColor(false) }}
+                                    className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors">
+                                    <X size={10} /> Remove
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-7 gap-1">
                                 {TEXT_COLORS.map(c => (
                                     <button key={c.value} type="button" title={c.label}
                                         onClick={() => { editor.chain().focus().setColor(c.value).run(); setShowTextColor(false) }}
@@ -464,7 +532,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <Highlighter size={16} />
                     </ToolbarButton>
                     {showHighlight && (
-                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2">
+                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-48">
                             <p className="text-xs text-paragraph mb-2 px-1">Highlight</p>
                             <div className="grid grid-cols-4 gap-1">
                                 {HIGHLIGHT_COLORS.map(c => (
@@ -704,6 +772,13 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                 {/* Horizontal Rule */}
                 <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()} title="Horizontal Rule">
                     <Minus size={16} />
+                </ToolbarButton>
+
+                {/* Vertical Rule */}
+                <ToolbarButton onClick={() => {
+                    editor.chain().focus().insertContent('<span style="display: inline-block; width: 2px; height: 1.2em; background: #475569; margin: 0 0.5em; vertical-align: middle;"></span>').run()
+                }} title="Vertical Rule">
+                    <GripVertical size={16} />
                 </ToolbarButton>
 
                 {/* Table */}

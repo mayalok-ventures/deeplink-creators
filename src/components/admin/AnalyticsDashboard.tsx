@@ -281,7 +281,7 @@ function TrafficChart({
                         return (
                             <div
                                 key={d.date}
-                                className="flex-1 flex flex-col items-center group relative"
+                                className="flex-1 group relative h-full flex items-end justify-center"
                                 style={{ minWidth: 0 }}
                             >
                                 <div className="absolute bottom-full mb-2 hidden group-hover:block z-10">
@@ -294,15 +294,15 @@ function TrafficChart({
                                 </div>
 
                                 <div
-                                    className="w-full rounded-t-sm transition-all duration-700 ease-out"
+                                    className="rounded-t-sm transition-all duration-700 ease-out"
                                     style={{
                                         height: mounted ? `${pct}%` : '0%',
+                                        width: '100%',
+                                        maxWidth: dataCount > 30 ? 12 : dataCount > 15 ? 18 : 28,
                                         background:
                                             chartTab === 'visitors'
                                                 ? 'linear-gradient(to top, #3b82f6, #60a5fa)'
                                                 : 'linear-gradient(to top, #00E599, #4dffb8)',
-                                        maxWidth: dataCount > 30 ? 12 : dataCount > 15 ? 18 : 28,
-                                        margin: '0 auto',
                                         minHeight: val > 0 ? 2 : 0,
                                     }}
                                 />

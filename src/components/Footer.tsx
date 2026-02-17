@@ -10,8 +10,15 @@ const Footer = () => {
     const [social, setSocial] = useState<SocialLinks | null>(null)
 
     useEffect(() => {
-        getSiteSettings().then(setContact).catch(() => {})
-        getSocialLinks().then(setSocial).catch(() => {})
+        const load = () => {
+            getSiteSettings().then(setContact).catch(() => {})
+            getSocialLinks().then(setSocial).catch(() => {})
+        }
+        if ('requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(load)
+        } else {
+            setTimeout(load, 200)
+        }
     }, [])
 
     const scrollToTop = () => {

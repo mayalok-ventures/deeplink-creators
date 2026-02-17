@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 @layer base {
     body {
         @apply bg-dark text-paragraph antialiased;
@@ -190,5 +188,13 @@
 .blog-content .cta-primary { background: #00E599; color: #0a0a0a; }
 .blog-content .cta-secondary { background: #3B82F6; color: #ffffff; }
 .blog-content .cta-outline { background: transparent; color: #F1F5F9; border: 2px solid #3B82F6; }
+
+@media (max-width: 768px) {
+    .glass-card,
+    .glass-card-hover {
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+    }
+}
 
 @import '../styles/animations.css';

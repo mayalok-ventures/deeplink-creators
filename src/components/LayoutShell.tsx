@@ -1,9 +1,11 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import VisitorTracker from '@/components/VisitorTracker'
+
+const VisitorTracker = dynamic(() => import('@/components/VisitorTracker'), { ssr: false })
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()

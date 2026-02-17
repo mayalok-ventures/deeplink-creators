@@ -224,6 +224,8 @@ export default function RootLayout({
         <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
             <head>
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+                <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+                <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
 
                 {/* Additional SEO meta for all crawlers */}
                 <meta name="geo.region" content="IN-UP" />

@@ -21,7 +21,6 @@ Allow: /
 # Yandex
 User-agent: YandexBot
 Allow: /
-Crawl-delay: 2
 
 # DuckDuckGo
 User-agent: DuckDuckBot

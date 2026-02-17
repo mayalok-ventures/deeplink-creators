@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Conversion-First Web Design & UI/UX | Deeplink Creators',
         description: 'Stop losing visitors. We design high-converting, psychology-driven websites optimized for speed, trust, and massive lead generation.',
-        url: 'https://deeplinkcreators.com/services/conversion-web-design',
+        url: 'https://deeplinkcreators.com/services/conversion-web-design/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/conversion-web-design',
+        canonical: 'https://deeplinkcreators.com/services/conversion-web-design/',
     },
 }
 

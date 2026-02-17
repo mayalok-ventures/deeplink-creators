@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'AI-Driven Marketing Automation Services | Deeplink Creators',
         description: 'Eliminate manual tasks and scale your revenue. We build automated AI sales funnels and CRM workflows to capture and close leads 24/7.',
-        url: 'https://deeplinkcreators.com/services/ai-marketing-automation',
+        url: 'https://deeplinkcreators.com/services/ai-marketing-automation/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/ai-marketing-automation',
+        canonical: 'https://deeplinkcreators.com/services/ai-marketing-automation/',
     },
 }
 

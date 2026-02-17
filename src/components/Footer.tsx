@@ -68,9 +68,9 @@ const Footer = () => {
                             </h3>
                             <ul className="space-y-3">
                                 {[
-                                    { href: '/services/seo-greater-noida', label: 'SEO Services Greater Noida' },
+                                    { href: '/services/industrial-seo', label: 'SEO Services Greater Noida' },
                                     { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
-                                    { href: '/services/branding', label: 'Branding & Identity' },
+                                    { href: '/services/brand-psychology', label: 'Branding & Identity' },
                                     { href: '/results', label: 'Blog & Insights' },
                                     { href: '/about', label: 'About Us' },
                                     { href: '/contact', label: 'Contact Us' },

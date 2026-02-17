@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'High-Ticket Lead Acquisition & Paid Ads | Deeplink Creators',
         description: 'ROI-focused Google Ads and Performance Marketing. We track every click, optimize landing pages, and eliminate wasted ad spend.',
-        url: 'https://deeplinkcreators.com/services/performance-marketing',
+        url: 'https://deeplinkcreators.com/services/performance-marketing/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/performance-marketing',
+        canonical: 'https://deeplinkcreators.com/services/performance-marketing/',
     },
 }
 

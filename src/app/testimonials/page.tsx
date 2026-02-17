@@ -25,10 +25,6 @@ export default function TestimonialsPage() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        document.title = 'Client Testimonials | Deeplink Creators'
-    }, [])
-
-    useEffect(() => {
         getTestimonials()
             .then(setTestimonials)
             .catch(() => {})

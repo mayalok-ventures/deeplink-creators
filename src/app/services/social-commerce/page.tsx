@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Social Commerce & Audience Monetization | Deeplink Creators',
         description: 'Turn passive followers into high-paying customers. Data-backed social media funnels that engineer trust and drive measurable revenue.',
-        url: 'https://deeplinkcreators.com/services/social-commerce',
+        url: 'https://deeplinkcreators.com/services/social-commerce/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/social-commerce',
+        canonical: 'https://deeplinkcreators.com/services/social-commerce/',
     },
 }
 

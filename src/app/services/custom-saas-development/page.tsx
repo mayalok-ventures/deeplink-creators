@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Custom SaaS & Enterprise Software Engineering | Deeplink Creators',
         description: 'Scalable, high-performance web applications and SaaS products engineered for hyper-growth. Built on Next.js and Cloudflare.',
-        url: 'https://deeplinkcreators.com/services/custom-saas-development',
+        url: 'https://deeplinkcreators.com/services/custom-saas-development/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/custom-saas-development',
+        canonical: 'https://deeplinkcreators.com/services/custom-saas-development/',
     },
 }
 

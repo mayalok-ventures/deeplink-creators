@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Predictive SEO & Market Dominance | Deeplink Creators',
         description: 'Capture high-intent buyers with technical SEO architecture, AI-driven content clusters, and high-authority link building in Noida & Delhi.',
-        url: 'https://deeplinkcreators.com/services/industrial-seo',
+        url: 'https://deeplinkcreators.com/services/industrial-seo/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/industrial-seo',
+        canonical: 'https://deeplinkcreators.com/services/industrial-seo/',
     },
 }
 

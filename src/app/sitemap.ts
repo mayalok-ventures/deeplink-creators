@@ -32,79 +32,79 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const staticRoutes: MetadataRoute.Sitemap = [
         {
-            url: baseUrl,
+            url: `${baseUrl}/`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 1,
         },
         {
-            url: `${baseUrl}/services`,
+            url: `${baseUrl}/services/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/services/custom-saas-development`,
+            url: `${baseUrl}/services/custom-saas-development/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/social-commerce`,
+            url: `${baseUrl}/services/social-commerce/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/ai-marketing-automation`,
+            url: `${baseUrl}/services/ai-marketing-automation/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/brand-psychology`,
+            url: `${baseUrl}/services/brand-psychology/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/conversion-web-design`,
+            url: `${baseUrl}/services/conversion-web-design/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/industrial-seo`,
+            url: `${baseUrl}/services/industrial-seo/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/services/performance-marketing`,
+            url: `${baseUrl}/services/performance-marketing/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/testimonials`,
+            url: `${baseUrl}/testimonials/`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/results`,
+            url: `${baseUrl}/results/`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/about`,
+            url: `${baseUrl}/about/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/contact`,
+            url: `${baseUrl}/contact/`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
@@ -113,7 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const blogs = await getPublishedBlogSlugs()
     const blogRoutes: MetadataRoute.Sitemap = blogs.map(blog => ({
-        url: `${baseUrl}/blog/post?slug=${blog.slug}`,
+        url: `${baseUrl}/blog/post/?slug=${blog.slug}`,
         lastModified: blog.updatedAt?.toDate ? blog.updatedAt.toDate() : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.7,

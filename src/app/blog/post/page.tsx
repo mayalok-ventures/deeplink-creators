@@ -40,29 +40,59 @@ function BlogContent() {
 
     useEffect(() => {
         if (!slug) { setNotFound(true); setLoading(false); return }
+
+        const injectedElements: HTMLElement[] = []
+
+        const setOrCreateMeta = (nameOrProperty: string, content: string, isProperty = false) => {
+            const attr = isProperty ? 'property' : 'name'
+            let el = document.querySelector(`meta[${attr}="${nameOrProperty}"]`) as HTMLMetaElement | null
+            if (el) {
+                el.setAttribute('content', content)
+            } else {
+                el = document.createElement('meta')
+                el.setAttribute(attr, nameOrProperty)
+                el.content = content
+                document.head.appendChild(el)
+                injectedElements.push(el)
+            }
+        }
+
         getBlogBySlug(slug).then(data => {
             if (data && data.published) {
                 setPost(data)
-                document.title = `${data.seoTitle || data.title} | Deeplink Creators`
+                const pageTitle = `${data.seoTitle || data.title} | Deeplink Creators`
+                const pageDesc = data.seoDescription || data.excerpt || ''
+                const pageUrl = `https://deeplinkcreators.com/blog/post/?slug=${slug}`
 
-                const metaDesc = document.querySelector('meta[name="description"]')
-                if (metaDesc) {
-                    metaDesc.setAttribute('content', data.seoDescription || data.excerpt || '')
-                } else {
-                    const meta = document.createElement('meta')
-                    meta.name = 'description'
-                    meta.content = data.seoDescription || data.excerpt || ''
-                    document.head.appendChild(meta)
+                document.title = pageTitle
+                setOrCreateMeta('description', pageDesc)
+                if (data.keywords) {
+                    setOrCreateMeta('keywords', data.keywords)
+                }
+
+                setOrCreateMeta('og:title', pageTitle, true)
+                setOrCreateMeta('og:description', pageDesc, true)
+                setOrCreateMeta('og:url', pageUrl, true)
+                setOrCreateMeta('og:type', 'article', true)
+                if (data.coverImage) {
+                    setOrCreateMeta('og:image', data.coverImage, true)
+                }
+
+                setOrCreateMeta('twitter:title', pageTitle)
+                setOrCreateMeta('twitter:description', pageDesc)
+                if (data.coverImage) {
+                    setOrCreateMeta('twitter:image', data.coverImage)
                 }
 
                 const canonical = document.querySelector('link[rel="canonical"]')
                 if (canonical) {
-                    canonical.setAttribute('href', `https://deeplinkcreators.com/blog/post/?slug=${slug}`)
+                    canonical.setAttribute('href', pageUrl)
                 } else {
                     const link = document.createElement('link')
                     link.rel = 'canonical'
-                    link.href = `https://deeplinkcreators.com/blog/post/?slug=${slug}`
+                    link.href = pageUrl
                     document.head.appendChild(link)
+                    injectedElements.push(link)
                 }
 
                 const existingLd = document.querySelector('script[data-blog-jsonld]')
@@ -95,7 +125,7 @@ function BlogContent() {
                     "dateModified": modifiedDate,
                     "mainEntityOfPage": {
                         "@type": "WebPage",
-                        "@id": `https://deeplinkcreators.com/blog/post/?slug=${slug}`
+                        "@id": pageUrl
                     },
                     "keywords": data.keywords || data.tags?.join(', ') || ''
                 }
@@ -105,6 +135,7 @@ function BlogContent() {
                 script.setAttribute('data-blog-jsonld', 'true')
                 script.textContent = JSON.stringify(blogSchema)
                 document.head.appendChild(script)
+                injectedElements.push(script)
             } else {
                 setNotFound(true)
             }
@@ -114,6 +145,7 @@ function BlogContent() {
         return () => {
             const existingLd = document.querySelector('script[data-blog-jsonld]')
             if (existingLd) existingLd.remove()
+            injectedElements.forEach(el => el.remove())
         }
     }, [slug])
 

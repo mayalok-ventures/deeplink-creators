@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Brand Psychology & Corporate Identity Strategy | Deeplink Creators',
         description: 'Build a visual identity that commands premium pricing. Consumer psychology profiling, corporate branding, and visual architecture.',
-        url: 'https://deeplinkcreators.com/services/brand-psychology',
+        url: 'https://deeplinkcreators.com/services/brand-psychology/',
         type: 'website',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/services/brand-psychology',
+        canonical: 'https://deeplinkcreators.com/services/brand-psychology/',
     },
 }
 

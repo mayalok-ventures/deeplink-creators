@@ -100,8 +100,7 @@ const jsonLd = {
         "@type": "ContactPoint",
         "contactType": "sales",
         "areaServed": ["Noida", "Greater Noida", "Delhi"]
-    },
-    "sameAs": []
+    }
 }
 
 const organizationSchema = {
@@ -225,12 +224,6 @@ export default function RootLayout({
         <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
             <head>
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-
-                {/* Bing / Yahoo / DuckDuckGo verification (replace with actual code from Bing Webmaster Tools) */}
-                <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
-
-                {/* Yandex verification (replace with actual code from Yandex Webmaster) */}
-                <meta name="yandex-verification" content="YOUR_YANDEX_VERIFICATION_CODE" />
 
                 {/* Additional SEO meta for all crawlers */}
                 <meta name="geo.region" content="IN-UP" />

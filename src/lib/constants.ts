@@ -20,7 +20,7 @@ export const COMPANY_INFO = {
 export const NAVIGATION = [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
-    { label: "Insights", href: "/results" },
+    { label: "Insights", href: "/blog" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" }
 ]

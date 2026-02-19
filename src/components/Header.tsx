@@ -31,7 +31,7 @@ const Header = () => {
 
     const navItems = [
         { label: 'Home', href: '/' },
-        { label: 'Insights', href: '/results' },
+        { label: 'Insights', href: '/blog' },
         { label: 'About', href: '/about' },
         { label: 'Contact', href: '/contact' },
     ]
@@ -125,7 +125,7 @@ const Header = () => {
                         </div>
 
                         {[
-                            { label: 'Insights', href: '/results' },
+                            { label: 'Insights', href: '/blog' },
                             { label: 'About', href: '/about' },
                             { label: 'Contact', href: '/contact' },
                         ].map((item) => (
@@ -232,7 +232,7 @@ const Header = () => {
                                 </motion.div>
 
                                 {[
-                                    { label: 'Insights', href: '/results' },
+                                    { label: 'Insights', href: '/blog' },
                                     { label: 'About', href: '/about' },
                                     { label: 'Contact', href: '/contact' },
                                 ].map((item, i) => (

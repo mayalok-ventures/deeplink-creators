@@ -198,7 +198,7 @@ const siteNavigationSchema = {
             "@type": "SiteNavigationElement",
             "position": 3,
             "name": "Blog & Insights",
-            "url": "https://deeplinkcreators.com/results/"
+            "url": "https://deeplinkcreators.com/blog/"
         },
         {
             "@type": "SiteNavigationElement",

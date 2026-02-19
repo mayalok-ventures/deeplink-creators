@@ -171,7 +171,7 @@ function BlogContent() {
                 <div className="text-center">
                     <h1 className="text-4xl font-bold text-heading mb-4">Post Not Found</h1>
                     <p className="text-paragraph mb-6">The blog post you&apos;re looking for doesn&apos;t exist.</p>
-                    <Link href="/results" className="btn-primary inline-flex items-center gap-2">
+                    <Link href="/blog" className="btn-primary inline-flex items-center gap-2">
                         <ArrowLeft size={18} /> Back to Blog
                     </Link>
                 </div>
@@ -184,7 +184,7 @@ function BlogContent() {
             <section className="relative pt-32 pb-12 bg-dark overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom relative z-10">
-                    <Link href="/results" className="inline-flex items-center gap-2 text-paragraph hover:text-heading mb-8 transition-colors">
+                    <Link href="/blog" className="inline-flex items-center gap-2 text-paragraph hover:text-heading mb-8 transition-colors">
                         <ArrowLeft size={18} /> Back to Blog
                     </Link>
 

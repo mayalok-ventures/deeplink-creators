@@ -132,7 +132,7 @@ const Hero = () => {
                                     </span>
                                 </Link>
                                 <Link
-                                    href="/results"
+                                    href="/blog"
                                     className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-white/[0.04] text-heading border border-white/[0.1] transition-all duration-300 hover:bg-white/[0.08] hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
                                 >
                                     <Play

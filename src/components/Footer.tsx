@@ -82,7 +82,7 @@ const Footer = () => {
                                     { href: '/services/social-commerce', label: 'Social Commerce' },
                                     { href: '/services/conversion-web-design', label: 'Conversion Web Design' },
                                     { href: '/services/custom-saas-development', label: 'Custom SaaS Development' },
-                                    { href: '/results', label: 'Blog & Insights' },
+                                    { href: '/blog', label: 'Blog & Insights' },
                                     { href: '/about', label: 'About Us' },
                                     { href: '/contact', label: 'Contact Us' },
                                 ].map((link) => (

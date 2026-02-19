@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Blog & Insights | SEO Tips & Case Studies | Deeplink Creators',
         description: 'Digital marketing insights, SEO tips, and case studies for Greater Noida & Delhi NCR businesses.',
-        url: 'https://deeplinkcreators.com/results/',
+        url: 'https://deeplinkcreators.com/blog/',
         type: 'website',
     },
     twitter: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
         description: 'Digital marketing insights, SEO tips & case studies for Greater Noida & Delhi NCR.',
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com/results/',
+        canonical: 'https://deeplinkcreators.com/blog/',
     },
 }
 

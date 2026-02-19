@@ -223,6 +223,9 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
             <head>
+                <link rel="manifest" href="/site.webmanifest" />
+                <meta name="theme-color" content="#3b82f6" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
                 <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
                 <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
@@ -266,6 +269,11 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}`
+                    }}
                 />
             </head>
             <body className={inter.className}>

@@ -2,6 +2,7 @@
 
 import { ArrowRight, Play } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const floatingOrbs = [
     {
@@ -117,7 +118,7 @@ const Hero = () => {
                                 variants={itemVariants}
                                 className="flex flex-col sm:flex-row gap-4 mb-14"
                             >
-                                <a
+                                <Link
                                     href="/contact"
                                     className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-gradient-to-r from-accent-500 to-accent-600 text-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,229,153,0.4)] hover:-translate-y-0.5"
                                 >
@@ -129,9 +130,9 @@ const Hero = () => {
                                             className="group-hover:translate-x-1 transition-transform duration-300"
                                         />
                                     </span>
-                                </a>
-                                <a
-                                    href="#case-studies"
+                                </Link>
+                                <Link
+                                    href="/results"
                                     className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-white/[0.04] text-heading border border-white/[0.1] transition-all duration-300 hover:bg-white/[0.08] hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
                                 >
                                     <Play
@@ -139,7 +140,7 @@ const Hero = () => {
                                         className="group-hover:scale-110 transition-transform duration-300"
                                     />
                                     See Case Studies
-                                </a>
+                                </Link>
                             </motion.div>
 
                         </motion.div>

@@ -17,9 +17,20 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    const [servicesOpen, setServicesOpen] = useState(false)
+
+    const serviceSubItems = [
+        { label: 'Industrial SEO', href: '/services/industrial-seo' },
+        { label: 'Performance Marketing', href: '/services/performance-marketing' },
+        { label: 'Brand Psychology', href: '/services/brand-psychology' },
+        { label: 'AI Marketing Automation', href: '/services/ai-marketing-automation' },
+        { label: 'Social Commerce', href: '/services/social-commerce' },
+        { label: 'Conversion Web Design', href: '/services/conversion-web-design' },
+        { label: 'Custom SaaS Development', href: '/services/custom-saas-development' },
+    ]
+
     const navItems = [
         { label: 'Home', href: '/' },
-        { label: 'Services', href: '/services' },
         { label: 'Insights', href: '/results' },
         { label: 'About', href: '/about' },
         { label: 'Contact', href: '/contact' },
@@ -57,7 +68,67 @@ const Header = () => {
                     </Link>
 
                     <nav className="hidden md:flex items-center space-x-8">
-                        {navItems.map((item) => (
+                        <Link
+                            href="/"
+                            className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group"
+                        >
+                            Home
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
+                        </Link>
+
+                        {/* Services Dropdown */}
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setServicesOpen(true)}
+                            onMouseLeave={() => setServicesOpen(false)}
+                        >
+                            <Link
+                                href="/services"
+                                className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group flex items-center gap-1"
+                            >
+                                Services
+                                <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
+                            </Link>
+
+                            <AnimatePresence>
+                                {servicesOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 8 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute top-full left-0 mt-2 w-64 bg-dark-200/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                    >
+                                        <div className="py-2">
+                                            {serviceSubItems.map((sub) => (
+                                                <Link
+                                                    key={sub.href}
+                                                    href={sub.href}
+                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-400 hover:bg-white/[0.05] transition-colors"
+                                                >
+                                                    {sub.label}
+                                                </Link>
+                                            ))}
+                                            <div className="border-t border-white/[0.06] mt-1 pt-1">
+                                                <Link
+                                                    href="/services"
+                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-white/[0.05] transition-colors"
+                                                >
+                                                    View All Services →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {[
+                            { label: 'Insights', href: '/results' },
+                            { label: 'About', href: '/about' },
+                            { label: 'Contact', href: '/contact' },
+                        ].map((item) => (
                             <Link
                                 key={item.label}
                                 href={item.href}
@@ -102,12 +173,74 @@ const Header = () => {
                             className="md:hidden overflow-hidden"
                         >
                             <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-white/[0.08] mt-4">
-                                {navItems.map((item, i) => (
+                                <motion.div
+                                    initial={{ x: -20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0 }}
+                                >
+                                    <Link
+                                        href="/"
+                                        className="text-paragraph hover:text-primary-400 font-medium py-2 block"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Home
+                                    </Link>
+                                </motion.div>
+
+                                {/* Mobile Services Accordion */}
+                                <motion.div
+                                    initial={{ x: -20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.05 }}
+                                >
+                                    <button
+                                        onClick={() => setServicesOpen(!servicesOpen)}
+                                        className="text-paragraph hover:text-primary-400 font-medium py-2 w-full text-left flex items-center justify-between"
+                                    >
+                                        Services
+                                        <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                    </button>
+                                    <AnimatePresence>
+                                        {servicesOpen && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="overflow-hidden pl-4 border-l border-white/[0.08]"
+                                            >
+                                                {serviceSubItems.map((sub) => (
+                                                    <Link
+                                                        key={sub.href}
+                                                        href={sub.href}
+                                                        className="block py-2 text-sm text-paragraph hover:text-primary-400 transition-colors"
+                                                        onClick={() => setIsMenuOpen(false)}
+                                                    >
+                                                        {sub.label}
+                                                    </Link>
+                                                ))}
+                                                <Link
+                                                    href="/services"
+                                                    className="block py-2 text-sm font-semibold text-primary-400"
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                >
+                                                    View All Services →
+                                                </Link>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+
+                                {[
+                                    { label: 'Insights', href: '/results' },
+                                    { label: 'About', href: '/about' },
+                                    { label: 'Contact', href: '/contact' },
+                                ].map((item, i) => (
                                     <motion.div
                                         key={item.label}
                                         initial={{ x: -20, opacity: 0 }}
                                         animate={{ x: 0, opacity: 1 }}
-                                        transition={{ delay: i * 0.05 }}
+                                        transition={{ delay: (i + 2) * 0.05 }}
                                     >
                                         <Link
                                             href={item.href}

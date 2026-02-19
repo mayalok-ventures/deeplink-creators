@@ -5,6 +5,7 @@ import ServiceStack from '@/components/ServiceStack'
 import TestimonialSection from '@/components/TestimonialSection'
 import { ArrowRight, Target, BarChart3, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const cardVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -204,22 +205,22 @@ export default function HomePage() {
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <div className="relative inline-flex">
-                            <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent-600 rounded-lg blur-lg animate-pulse_glow" />
-                            <a
-                                href="/contact"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 relative z-10"
-                            >
-                                Get FREE ROI Audit
-                                <ArrowRight size={20} />
-                            </a>
-                        </div>
-                        <a
+                     <div className="relative inline-flex">
+                        <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent-600 rounded-lg blur-lg animate-pulse_glow" />
+                        <Link
                             href="/contact"
-                            className="bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-white/[0.1] hover:border-primary-500/30 transition-all"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 relative z-10"
                         >
-                            Schedule a Call
-                        </a>
+                            Get FREE ROI Audit
+                            <ArrowRight size={20} />
+                        </Link>
+                    </div>
+                    <Link
+                        href="/contact"
+                        className="bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-white/[0.1] hover:border-primary-500/30 transition-all"
+                    >
+                        Schedule a Call
+                    </Link>
                     </div>
                 </motion.div>
             </motion.section>

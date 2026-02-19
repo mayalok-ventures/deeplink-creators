@@ -14,7 +14,7 @@ function ShortLinkResolver() {
         if (!shortId) { setNotFound(true); return }
         getBlogByShortId(shortId).then(post => {
             if (post && post.published) {
-                router.replace(`/blog/post/?slug=${post.slug}`)
+                router.replace(`/blog/${post.slug}`)
             } else {
                 setNotFound(true)
             }

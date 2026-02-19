@@ -430,7 +430,7 @@ export default function BlogManager() {
                                         <span>/{blog.slug}</span>
                                         <span>·</span>
                                         <button
-                                            onClick={() => copyLink(`https://deeplinkcreators.com/blog/post/?slug=${blog.slug}`, `full-${blog.id}`)}
+                                            onClick={() => copyLink(`https://deeplinkcreators.com/blog/${blog.slug}`, `full-${blog.id}`)}
                                             className="flex items-center gap-1 text-primary-400 hover:text-primary-300"
                                         >
                                             {copied === `full-${blog.id}` ? <Check size={12} /> : <Copy size={12} />}
@@ -448,7 +448,7 @@ export default function BlogManager() {
                                             <>
                                                 <span>·</span>
                                                 <a
-                                                    href={`/blog/post/?slug=${blog.slug}`}
+                                                    href={`/blog/${blog.slug}`}
                                                     target="_blank"
                                                     className="flex items-center gap-1 text-paragraph hover:text-heading"
                                                 >

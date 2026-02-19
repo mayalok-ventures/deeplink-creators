@@ -131,7 +131,7 @@ export default function ResultsPage() {
                         >
                             {filteredBlogs.map(blog => (
                                 <motion.div key={blog.id} variants={cardVariants}>
-                                    <Link href={`/blog/post/?slug=${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full">
+                                    <Link href={`/blog/${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full">
                                         {blog.coverImage && (
                                             <div className="aspect-video overflow-hidden">
                                                 <img
@@ -186,10 +186,10 @@ export default function ResultsPage() {
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                         Whether you need SEO services in Greater Noida, PPC management, or a digital marketing strategy for your startup in Delhi NCR — book your FREE Revenue Growth Session today.
                     </p>
-                    <a href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark">
+                    <Link href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark">
                         Book Free Growth Session
                         <TrendingUp size={20} />
-                    </a>
+                        </Link>
                 </div>
             </section>
         </>

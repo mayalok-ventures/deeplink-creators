@@ -127,11 +127,13 @@ const Header = () => {
                         {[
                             { label: 'Insights', href: '/blog' },
                             { label: 'About', href: '/about' },
+                            { label: 'Career', href: 'https://mayalokventures.com/careers/' },
                             { label: 'Contact', href: '/contact' },
                         ].map((item) => (
                             <Link
                                 key={item.label}
                                 href={item.href}
+                                {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                                 className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group"
                             >
                                 {item.label}
@@ -234,6 +236,7 @@ const Header = () => {
                                 {[
                                     { label: 'Insights', href: '/blog' },
                                     { label: 'About', href: '/about' },
+                                    { label: 'Career', href: 'https://mayalokventures.com/careers/' },
                                     { label: 'Contact', href: '/contact' },
                                 ].map((item, i) => (
                                     <motion.div
@@ -244,6 +247,7 @@ const Header = () => {
                                     >
                                         <Link
                                             href={item.href}
+                                            {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                                             className="text-paragraph hover:text-primary-400 font-medium py-2 block"
                                             onClick={() => setIsMenuOpen(false)}
                                         >

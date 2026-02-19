@@ -73,7 +73,7 @@ const Footer = () => {
                             <h3 className="text-sm font-semibold uppercase tracking-wider text-heading mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
                                 Quick Links
                             </h3>
-                            <ul className="space-y-3">
+                            <ul className="space-y-2">
                                 {[
                                     { href: '/services/industrial-seo', label: 'SEO Services Greater Noida' },
                                     { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
@@ -89,7 +89,7 @@ const Footer = () => {
                                     <li key={link.href}>
                                         <Link
                                             href={link.href}
-                                            className="text-paragraph hover:text-primary-400 hover:translate-x-1 transition-all duration-200 inline-block"
+                                            className="text-sm text-paragraph hover:text-primary-400 hover:translate-x-1 transition-all duration-200 inline-block"
                                         >
                                             {link.label}
                                         </Link>

@@ -52,6 +52,7 @@ const PAGE_OPTIONS = [
     { value: 'greater-noida', label: 'Greater Noida' },
     { value: 'noida', label: 'Noida' },
     { value: 'delhi', label: 'Delhi' },
+    { value: 'lucknow', label: 'Lucknow' },
 ] as const
 
 type EditorMode = 'list' | 'create' | 'edit'

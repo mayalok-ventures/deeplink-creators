@@ -75,15 +75,10 @@ const Footer = () => {
                             </h3>
                             <ul className="space-y-2">
                                 {[
-                                    { href: '/services/industrial-seo', label: 'Enterprise SEO Services India' },
-                                    { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
-                                    { href: '/services/brand-psychology', label: 'Branding & Identity' },
-                                    { href: '/services/ai-marketing-automation', label: 'AI Marketing Automation' },
-                                    { href: '/services/social-commerce', label: 'Social Commerce' },
-                                    { href: '/services/conversion-web-design', label: 'Conversion Web Design' },
-                                    { href: '/services/custom-saas-development', label: 'Custom SaaS Development' },
-                                    { href: '/blog', label: 'Blog & Insights' },
+                                    { href: '/', label: 'Home' },
+                                    { href: '/blog', label: 'Insights' },
                                     { href: '/about', label: 'About Us' },
+                                    { href: '/testimonials', label: 'Testimonials' },
                                     { href: '/contact', label: 'Contact Us' },
                                 ].map((link) => (
                                     <li key={link.href}>
@@ -96,10 +91,8 @@ const Footer = () => {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
 
-                        <div className="md:col-span-2">
-                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mt-6 mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
                                 Locations
                             </h3>
                             <ul className="space-y-2">
@@ -107,6 +100,7 @@ const Footer = () => {
                                     { href: '/locations/greater-noida', label: 'Greater Noida' },
                                     { href: '/locations/noida', label: 'Noida' },
                                     { href: '/locations/delhi', label: 'Delhi' },
+                                    { href: '/locations/lucknow', label: 'Lucknow' },
                                 ].map((link) => (
                                     <li key={link.href}>
                                         <Link
@@ -114,6 +108,32 @@ const Footer = () => {
                                             className="text-sm text-white/60 hover:text-[#C39A2B] hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-1.5"
                                         >
                                             <MapPin size={12} className="text-[#C39A2B]/60" />
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
+                                Services
+                            </h3>
+                            <ul className="space-y-2">
+                                {[
+                                    { href: '/services/industrial-seo', label: 'Enterprise SEO' },
+                                    { href: '/services/performance-marketing', label: 'Performance Marketing' },
+                                    { href: '/services/brand-psychology', label: 'Branding & Identity' },
+                                    { href: '/services/ai-marketing-automation', label: 'AI Marketing Automation' },
+                                    { href: '/services/social-commerce', label: 'Social Commerce' },
+                                    { href: '/services/conversion-web-design', label: 'Conversion Web Design' },
+                                    { href: '/services/custom-saas-development', label: 'Custom SaaS Development' },
+                                ].map((link) => (
+                                    <li key={link.href}>
+                                        <Link
+                                            href={link.href}
+                                            className="text-sm text-white/60 hover:text-[#C39A2B] hover:translate-x-1 transition-all duration-200 inline-block"
+                                        >
                                             {link.label}
                                         </Link>
                                     </li>

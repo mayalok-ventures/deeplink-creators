@@ -134,8 +134,8 @@ export default function HomePage() {
                                 <div className="text-[#C39A2B] mb-4">
                                     <Target size={32} />
                                 </div>
-                                <h3 className="font-bold text-lg mb-2 text-heading">What We Deliver</h3>
-                                <ul className="text-paragraph text-left space-y-2">
+                                <h3 className="font-bold text-lg mb-2 text-heading dark:text-white">What We Deliver</h3>
+                                <ul className="text-paragraph dark:text-white/60 text-left space-y-2">
                                     {['Qualified Leads', 'Actual Customers', 'Revenue Growth', 'Clear ROI Proof'].map((item) => (
                                         <li key={item} className="flex items-center gap-2">
                                             <span className="text-[#C39A2B] inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#C39A2B]/10 text-xs font-bold flex-shrink-0">

@@ -69,7 +69,7 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <div className="md:col-span-3">
+                        <div className="md:col-span-2">
                             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
                                 Quick Links
                             </h3>
@@ -98,7 +98,30 @@ const Footer = () => {
                             </ul>
                         </div>
 
-                        <div className="md:col-span-4">
+                        <div className="md:col-span-2">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
+                                Locations
+                            </h3>
+                            <ul className="space-y-2">
+                                {[
+                                    { href: '/locations/greater-noida', label: 'Greater Noida' },
+                                    { href: '/locations/noida', label: 'Noida' },
+                                    { href: '/locations/delhi', label: 'Delhi' },
+                                ].map((link) => (
+                                    <li key={link.href}>
+                                        <Link
+                                            href={link.href}
+                                            className="text-sm text-white/60 hover:text-[#C39A2B] hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-1.5"
+                                        >
+                                            <MapPin size={12} className="text-[#C39A2B]/60" />
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="md:col-span-3">
                             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-5 after:block after:w-8 after:h-0.5 after:bg-gold after:mt-2">
                                 Get In Touch
                             </h3>

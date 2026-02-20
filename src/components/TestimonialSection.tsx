@@ -20,9 +20,9 @@ const TestimonialSection = () => {
     if (loading || testimonials.length === 0) return null
 
     return (
-        <section className="section-padding bg-dark-100 relative overflow-hidden">
+        <section className="section-padding bg-[#F4F5F6] relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-primary-500/5 via-accent/5 to-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
 
             <div className="container-custom relative z-10">
                 <motion.div
@@ -51,8 +51,8 @@ const TestimonialSection = () => {
                             transition={{ duration: 0.5, delay: index * 0.15, ease: 'easeOut' }}
                             className="glass-card rounded-2xl p-8 flex flex-col"
                         >
-                            <div className="w-10 h-10 bg-primary-500/10 rounded-xl flex items-center justify-center mb-6">
-                                <Quote className="text-primary-400" size={20} />
+                            <div className="w-10 h-10 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center mb-6">
+                                <Quote className="text-[#C39A2B]" size={20} />
                             </div>
 
                             <p className="text-paragraph italic leading-relaxed flex-1 mb-6">
@@ -86,7 +86,7 @@ const TestimonialSection = () => {
                 >
                     <Link
                         href="/testimonials"
-                        className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-semibold transition-colors"
+                        className="inline-flex items-center gap-2 text-[#C39A2B] hover:text-[#A9791B] font-semibold transition-colors"
                     >
                         View All Testimonials
                         <ArrowRight size={18} />

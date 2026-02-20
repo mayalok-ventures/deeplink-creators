@@ -61,9 +61,9 @@ const ServiceStack = () => {
     if (loading || services.length === 0) return null
 
     return (
-        <section id="services" className="section-padding bg-dark relative overflow-hidden">
+        <section id="services" className="section-padding bg-white relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-primary-500/5 via-accent/5 to-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
 
             <div className="container-custom relative z-10">
                 <motion.div
@@ -112,7 +112,7 @@ const ServiceStack = () => {
                 >
                     <Link
                         href="/services"
-                        className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-8 rounded-lg hover:bg-white/[0.1] hover:border-primary-500/30 transition-all"
+                        className="inline-flex items-center gap-2 bg-[#F4F5F6] border border-[#4A4A4A]/15 text-heading font-semibold py-3 px-8 rounded-lg hover:bg-[#F4F5F6]/80 hover:border-[#C39A2B]/30 transition-all"
                     >
                         View All Services
                         <ArrowRight size={18} />

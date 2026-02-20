@@ -56,7 +56,7 @@ export default function BrandPsychologyPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-dark overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="absolute top-1/3 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
                 <div className="container-custom relative z-10">
@@ -84,7 +84,7 @@ export default function BrandPsychologyPage() {
             </section>
 
             {/* Problem/Agitation Section */}
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
@@ -137,7 +137,7 @@ export default function BrandPsychologyPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-dark-100">
+            <section className="section-padding bg-white">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
@@ -163,7 +163,7 @@ export default function BrandPsychologyPage() {
             </section>
 
             {/* Deliverables Grid */}
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
@@ -185,12 +185,12 @@ export default function BrandPsychologyPage() {
             </section>
 
             {/* Final CTA */}
-            <section className="relative section-padding bg-dark-200 text-white">
+            <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
                     <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
                         Stop Looking Like a Startup.{' '}
-                        <span className="text-accent">Start Looking Like the Market Leader.</span>
+                        <span className="text-[#C39A2B]">Start Looking Like the Market Leader.</span>
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                         Book a free brand audit. We&apos;ll analyze your current identity, benchmark it against your competitors, and show you the psychological gaps costing you premium clients.
@@ -198,7 +198,7 @@ export default function BrandPsychologyPage() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white"
                         >
                             Audit Your Brand
                             <ArrowRight size={20} />

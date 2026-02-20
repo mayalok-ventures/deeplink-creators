@@ -79,7 +79,7 @@ const ServiceCard = ({
 
                 <Link
                     href={href}
-                    className="inline-flex items-center gap-2 text-primary-400 font-semibold group/btn relative"
+                    className="inline-flex items-center gap-2 text-[#C39A2B] font-semibold group/btn relative"
                 >
                     <span className="relative">
                         {cta}

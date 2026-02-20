@@ -93,11 +93,11 @@ export default function ServicesPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-dark text-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
-                    className="absolute top-1/3 right-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"
+                    className="absolute top-1/3 right-10 w-72 h-72 bg-[#C39A2B]/8 rounded-full blur-3xl"
                     animate={{ y: [0, -20, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
                 />
@@ -109,14 +109,14 @@ export default function ServicesPage() {
                         transition={{ duration: 0.6 }}
                         className="max-w-4xl mx-auto text-center"
                     >
-                        <div className="inline-flex items-center gap-2 bg-primary-600/20 border border-primary-500/30 rounded-full px-4 py-2 mb-6">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full animate-pulse"></span>
                             <span className="text-sm font-medium">Best Digital Marketing Agency in Greater Noida &amp; Noida</span>
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
                             Digital Marketing Services in Greater Noida That Build{' '}
-                            <span className="text-accent">Revenue Machines</span>
+                            <span className="text-[#C39A2B]">Revenue Machines</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             The top SEO company &amp; digital marketing agency in Noida. We design custom marketing systems — SEO, Google Ads, PPC, and branding — engineered to deliver leads, sales, and measurable ROI for your business in Delhi NCR.
@@ -128,11 +128,11 @@ export default function ServicesPage() {
             </section>
 
             {/* Services Grid */}
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
-                            Our <span className="text-primary-400">Core Services</span>
+                            Our <span className="text-[#C39A2B]">Core Services</span>
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             Each service is designed to work independently or as part of a complete revenue system tailored to your business.
@@ -141,7 +141,7 @@ export default function ServicesPage() {
 
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
-                            <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                            <div className="w-8 h-8 border-2 border-[#C39A2B] border-t-transparent rounded-full animate-spin" />
                         </div>
                     ) : services.length === 0 ? (
                         <p className="text-center text-paragraph text-lg">Services coming soon.</p>
@@ -166,13 +166,13 @@ export default function ServicesPage() {
                                         {ICON_MAP[service.icon] || <Search size={28} />}
                                     </div>
                                     <h3 className="text-xl font-heading font-bold text-heading mb-2">{service.title}</h3>
-                                    <p className="text-primary-400 font-semibold mb-4">{service.benefit}</p>
+                                    <p className="text-[#C39A2B] font-semibold mb-4">{service.benefit}</p>
                                     <p className="text-paragraph mb-6">{service.description}</p>
 
                                     <ul className="space-y-2 mb-8">
                                         {service.features.map((feature, i) => (
                                             <li key={i} className="flex items-center gap-2">
-                                                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                                                <div className="w-2 h-2 bg-[#C39A2B] rounded-full"></div>
                                                 <span className="text-paragraph text-sm">{feature}</span>
                                             </li>
                                         ))}
@@ -180,7 +180,7 @@ export default function ServicesPage() {
 
                                     <Link
                                         href={service.href}
-                                        className="inline-flex items-center gap-2 text-primary-400 font-semibold group/btn"
+                                        className="inline-flex items-center gap-2 text-[#C39A2B] font-semibold group/btn"
                                     >
                                         Learn More
                                         <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -194,11 +194,11 @@ export default function ServicesPage() {
             </section>
 
             {/* Why Choose Us */}
-            <section className="section-padding bg-dark-100">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
-                            Why Choose <span className="text-primary-400">Deeplink Creators</span>?
+                            Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             The best digital marketing company in Delhi NCR. Here&apos;s what makes us different from other SEO agencies in Greater Noida.
@@ -218,8 +218,8 @@ export default function ServicesPage() {
                                 variants={cardVariants}
                                 className="glass-card rounded-2xl p-8 text-center"
                             >
-                                <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <div className="text-primary-400">{item.icon}</div>
+                                <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                    <div className="text-[#C39A2B]">{item.icon}</div>
                                 </div>
                                 <h3 className="text-xl font-heading font-bold text-heading mb-3">{item.title}</h3>
                                 <p className="text-paragraph">{item.description}</p>
@@ -230,7 +230,7 @@ export default function ServicesPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative section-padding bg-dark-200 text-white">
+            <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <motion.div
@@ -241,7 +241,7 @@ export default function ServicesPage() {
                     >
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
                             Not Sure Which Service You Need?{' '}
-                            <span className="text-accent">Let's Talk.</span>
+                            <span className="text-[#C39A2B]">Let's Talk.</span>
                         </h2>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             Book a FREE strategy call with the best SEO consultant in Greater Noida. We&apos;ll build a custom digital marketing plan — SEO, Google Ads, or performance marketing — based on your business goals and budget.
@@ -249,7 +249,7 @@ export default function ServicesPage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
+                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
                             >
                                 Get FREE Strategy Call
                                 <ArrowRight size={20} />

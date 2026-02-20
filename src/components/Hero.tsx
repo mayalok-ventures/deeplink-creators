@@ -6,12 +6,12 @@ import Link from 'next/link'
 
 const floatingOrbs = [
     {
-        className: 'w-[500px] h-[500px] bg-primary-500/10',
+        className: 'w-[500px] h-[500px] bg-[#C39A2B]/8',
         style: { left: '60%', top: '-10%' },
         animationDuration: '8s',
     },
     {
-        className: 'w-[400px] h-[400px] bg-accent/10',
+        className: 'w-[400px] h-[400px] bg-[#C39A2B]/5',
         style: { left: '-10%', top: '50%' },
         animationDuration: '10s',
     },
@@ -36,13 +36,13 @@ const itemVariants = {
 const Hero = () => {
     return (
         <section
-            className="relative min-h-[90vh] flex items-center bg-dark text-white overflow-hidden"
+            className="relative min-h-[90vh] flex items-center bg-white text-heading overflow-hidden"
         >
             {/* Grid Pattern Overlay - Engineering/Precision feel */}
             <div className="absolute inset-0 grid-bg animate-grid-pulse" />
 
             {/* Gradient Mesh Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-transparent to-dark/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60 pointer-events-none" />
 
             {/* Animated Floating Orbs */}
             {floatingOrbs.map((orb, i) => (
@@ -57,7 +57,7 @@ const Hero = () => {
             <div className="container-custom section-padding relative z-10">
                 <div className="relative max-w-5xl">
                     {/* Outer glow */}
-                    <div className="absolute -inset-[1px] bg-gradient-to-r from-primary-500/20 via-accent/15 to-primary-500/20 rounded-3xl blur-sm pointer-events-none" />
+                    <div className="absolute -inset-[1px] bg-gradient-to-r from-[#C39A2B]/15 via-[#E0C27A]/10 to-[#C39A2B]/15 rounded-3xl blur-sm pointer-events-none" />
 
                     <div className="relative glass-card rounded-3xl p-8 md:p-12 lg:p-16">
                         {/* Gold accent line at top */}
@@ -70,10 +70,10 @@ const Hero = () => {
                         >
                             {/* Badge */}
                             <motion.div variants={itemVariants}>
-                                <div className="inline-flex items-center gap-2.5 bg-primary-500/10 border border-primary-500/20 rounded-full px-5 py-2.5 mb-8 animate-glow-pulse">
+                                <div className="inline-flex items-center gap-2.5 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-5 py-2.5 mb-8 animate-glow-pulse">
                                     <span className="relative flex h-2.5 w-2.5">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C39A2B] opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C39A2B]" />
                                     </span>
                                     <span className="text-sm font-medium text-paragraph tracking-wide">
                                         Best Digital Marketing Agency in Greater Noida & Noida
@@ -86,12 +86,12 @@ const Hero = () => {
                                 variants={itemVariants}
                                 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight"
                             >
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-500">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
                                     Ads pe paisa jala rahe ho?
                                 </span>
                                 <br />
                                 <span className="text-heading">We Build </span>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-300">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
                                     Revenue Machines
                                 </span>
                                 <br className="hidden md:block" />
@@ -120,9 +120,9 @@ const Hero = () => {
                             >
                                 <Link
                                     href="/contact"
-                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-gradient-to-r from-accent-500 to-accent-600 text-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,229,153,0.4)] hover:-translate-y-0.5"
+                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(195,154,43,0.4)] hover:-translate-y-0.5"
                                 >
-                                    <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-500 to-accent-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                    <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#E0C27A] to-[#B87A14] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     <span className="relative flex items-center gap-2">
                                         Scale My Business
                                         <ArrowRight
@@ -133,7 +133,7 @@ const Hero = () => {
                                 </Link>
                                 <Link
                                     href="/blog"
-                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-white/[0.04] text-heading border border-white/[0.1] transition-all duration-300 hover:bg-white/[0.08] hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
+                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-[#F4F5F6] text-heading border border-[#4A4A4A]/15 transition-all duration-300 hover:bg-[#F4F5F6]/80 hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(195,154,43,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
                                 >
                                     <Play
                                         size={20}

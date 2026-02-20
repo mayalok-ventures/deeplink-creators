@@ -35,8 +35,8 @@ export default function ContactForm() {
     if (submitted) {
         return (
             <div className="glass-card rounded-2xl p-8 md:p-12 text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Send className="text-accent" size={28} />
+                <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Send className="text-[#C39A2B]" size={28} />
                 </div>
                 <h3 className="text-2xl font-extrabold font-heading text-heading mb-4">
                     Thank You!
@@ -46,7 +46,7 @@ export default function ContactForm() {
                 </p>
                 <button
                     onClick={() => setSubmitted(false)}
-                    className="text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors"
+                    className="text-[#C39A2B] hover:text-[#A9791B] text-sm font-medium transition-colors"
                 >
                     Submit another request
                 </button>
@@ -58,7 +58,7 @@ export default function ContactForm() {
         <div className="glass-card rounded-2xl p-8 md:p-12">
             <div className="text-center mb-8">
                 <h3 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
-                    Get Your <span className="text-primary-400">FREE ROI Audit</span>
+                    Get Your <span className="text-[#C39A2B]">FREE ROI Audit</span>
                 </h3>
                 <p className="text-paragraph">
                     Fill this form to schedule your audit. We only work with serious businesses.
@@ -76,7 +76,7 @@ export default function ContactForm() {
                             id="name"
                             name="name"
                             required
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                             placeholder="Your name"
                         />
                     </div>
@@ -90,7 +90,7 @@ export default function ContactForm() {
                             id="company"
                             name="company"
                             required
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                             placeholder="Your business name"
                         />
                     </div>
@@ -106,7 +106,7 @@ export default function ContactForm() {
                             id="email"
                             name="email"
                             required
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                             placeholder="you@company.com"
                         />
                     </div>
@@ -120,7 +120,7 @@ export default function ContactForm() {
                             id="phone"
                             name="phone"
                             required
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                             placeholder="+91 123 456 7890"
                         />
                     </div>
@@ -140,8 +140,8 @@ export default function ContactForm() {
                             <label
                                 key={option.value}
                                 className={`relative flex flex-col p-4 border rounded-lg cursor-pointer transition-all ${budget === option.value
-                                        ? 'border-primary-500/50 bg-primary-500/10 ring-1 ring-primary-500/30'
-                                        : 'border-white/[0.08] hover:border-white/[0.15] bg-dark/60'
+                                        ? 'border-[#C39A2B]/50 bg-[#C39A2B]/10 ring-1 ring-[#C39A2B]/30'
+                                        : 'border-[#4A4A4A]/15 hover:border-[#4A4A4A]/25 bg-white'
                                     }`}
                             >
                                 <input
@@ -156,7 +156,7 @@ export default function ContactForm() {
                                 <span className="font-semibold text-heading">{option.label}</span>
                                 <span className="text-sm text-paragraph mt-1">{option.description}</span>
                                 {budget === option.value && (
-                                    <div className="absolute top-2 right-2 w-3 h-3 bg-primary-500 rounded-full"></div>
+                                    <div className="absolute top-2 right-2 w-3 h-3 bg-[#C39A2B] rounded-full"></div>
                                 )}
                             </label>
                         ))}
@@ -173,7 +173,7 @@ export default function ContactForm() {
                         name="challenge"
                         rows={3}
                         required
-                        className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                         placeholder="Example: We're getting website traffic but no leads. OR Our ads are expensive but not converting..."
                     />
                     <p className="text-xs text-paragraph mt-2">
@@ -189,7 +189,7 @@ export default function ContactForm() {
                         type="url"
                         id="website"
                         name="website"
-                        className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading placeholder-[#4A4A4A]/40 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                         placeholder="https://yourwebsite.com"
                     />
                 </div>
@@ -202,16 +202,16 @@ export default function ContactForm() {
                         id="industry"
                         name="industry"
                         required
-                        className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[#4A4A4A]/15 rounded-lg text-heading focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
                     >
-                        <option value="" className="bg-dark">Select your industry</option>
-                        <option value="manufacturing" className="bg-dark">Manufacturing/Industrial</option>
-                        <option value="real-estate" className="bg-dark">Real Estate/Construction</option>
-                        <option value="education" className="bg-dark">Education/Training</option>
-                        <option value="healthcare" className="bg-dark">Healthcare/Medical</option>
-                        <option value="ecommerce" className="bg-dark">E-commerce/Retail</option>
-                        <option value="services" className="bg-dark">Professional Services</option>
-                        <option value="other" className="bg-dark">Other</option>
+                        <option value="" className="bg-white">Select your industry</option>
+                        <option value="manufacturing" className="bg-white">Manufacturing/Industrial</option>
+                        <option value="real-estate" className="bg-white">Real Estate/Construction</option>
+                        <option value="education" className="bg-white">Education/Training</option>
+                        <option value="healthcare" className="bg-white">Healthcare/Medical</option>
+                        <option value="ecommerce" className="bg-white">E-commerce/Retail</option>
+                        <option value="services" className="bg-white">Professional Services</option>
+                        <option value="other" className="bg-white">Other</option>
                     </select>
                 </div>
 

@@ -40,11 +40,11 @@ const Header = () => {
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${
                 scrolled
-                    ? 'bg-dark/80 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/[0.05]'
-                    : 'bg-dark/95 backdrop-blur-sm'
+                    ? 'bg-white/90 backdrop-blur-xl shadow-lg shadow-black/5 border-b border-[#4A4A4A]/10'
+                    : 'bg-white/95 backdrop-blur-sm'
             }`}
         >
-            <div className="h-[2px] bg-gradient-to-r from-primary-500 via-accent to-primary-500" />
+            <div className="h-[2px] bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14]" />
 
             <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex justify-between items-center">
@@ -56,7 +56,7 @@ const Header = () => {
                         />
                         <div className="flex flex-col">
                             <span className="text-2xl font-bold font-heading">
-                                <span className="bg-gradient-to-r from-primary-400 to-accent bg-clip-text text-transparent">
+                                <span className="bg-gradient-to-r from-[#B87A14] to-[#E0C27A] bg-clip-text text-transparent">
                                     Deeplink
                                 </span>{' '}
                                 <span className="text-heading">Creators</span>
@@ -70,7 +70,7 @@ const Header = () => {
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
                             href="/"
-                            className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group"
+                            className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group"
                         >
                             Home
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
@@ -84,7 +84,7 @@ const Header = () => {
                         >
                             <Link
                                 href="/services"
-                                className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group flex items-center gap-1"
+                                className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group flex items-center gap-1"
                             >
                                 Services
                                 <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -98,22 +98,22 @@ const Header = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 8 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute top-full left-0 mt-2 w-64 bg-dark-200/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                        className="absolute top-full left-0 mt-2 w-64 bg-white/95 backdrop-blur-xl border border-[#4A4A4A]/10 rounded-xl shadow-2xl overflow-hidden z-50"
                                     >
                                         <div className="py-2">
                                             {serviceSubItems.map((sub) => (
                                                 <Link
                                                     key={sub.href}
                                                     href={sub.href}
-                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-400 hover:bg-white/[0.05] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] transition-colors"
                                                 >
                                                     {sub.label}
                                                 </Link>
                                             ))}
-                                            <div className="border-t border-white/[0.06] mt-1 pt-1">
+                                            <div className="border-t border-[#4A4A4A]/10 mt-1 pt-1">
                                                 <Link
                                                     href="/services"
-                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-white/[0.05] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] transition-colors"
                                                 >
                                                     View All Services →
                                                 </Link>
@@ -134,7 +134,7 @@ const Header = () => {
                                 key={item.label}
                                 href={item.href}
                                 {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                className="text-paragraph hover:text-primary-400 font-medium transition-colors relative group"
+                                className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group"
                             >
                                 {item.label}
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
@@ -149,8 +149,8 @@ const Header = () => {
                             <span className="relative flex items-center gap-2">
                                 Get Your ROI Audit
                                 <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-500 opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
                                 </span>
                             </span>
                         </Link>
@@ -174,7 +174,7 @@ const Header = () => {
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="md:hidden overflow-hidden"
                         >
-                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-white/[0.08] mt-4">
+                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#4A4A4A]/10 mt-4">
                                 <motion.div
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
@@ -182,7 +182,7 @@ const Header = () => {
                                 >
                                     <Link
                                         href="/"
-                                        className="text-paragraph hover:text-primary-400 font-medium py-2 block"
+                                        className="text-paragraph hover:text-primary-500 font-medium py-2 block"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         Home
@@ -197,7 +197,7 @@ const Header = () => {
                                 >
                                     <button
                                         onClick={() => setServicesOpen(!servicesOpen)}
-                                        className="text-paragraph hover:text-primary-400 font-medium py-2 w-full text-left flex items-center justify-between"
+                                        className="text-paragraph hover:text-primary-500 font-medium py-2 w-full text-left flex items-center justify-between"
                                     >
                                         Services
                                         <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -209,13 +209,13 @@ const Header = () => {
                                                 animate={{ height: 'auto', opacity: 1 }}
                                                 exit={{ height: 0, opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="overflow-hidden pl-4 border-l border-white/[0.08]"
+                                                className="overflow-hidden pl-4 border-l border-[#4A4A4A]/10"
                                             >
                                                 {serviceSubItems.map((sub) => (
                                                     <Link
                                                         key={sub.href}
                                                         href={sub.href}
-                                                        className="block py-2 text-sm text-paragraph hover:text-primary-400 transition-colors"
+                                                        className="block py-2 text-sm text-paragraph hover:text-primary-500 transition-colors"
                                                         onClick={() => setIsMenuOpen(false)}
                                                     >
                                                         {sub.label}
@@ -248,7 +248,7 @@ const Header = () => {
                                         <Link
                                             href={item.href}
                                             {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                            className="text-paragraph hover:text-primary-400 font-medium py-2 block"
+                                            className="text-paragraph hover:text-primary-500 font-medium py-2 block"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             {item.label}
@@ -268,8 +268,8 @@ const Header = () => {
                                         <span className="relative flex items-center gap-2">
                                             Get Your ROI Audit
                                             <span className="relative flex h-2.5 w-2.5">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-500 opacity-75" />
+                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
                                             </span>
                                         </span>
                                     </Link>

@@ -32,13 +32,13 @@ export default async function BlogPage() {
     return (
         <>
             {/* Hero */}
-            <section className="relative pt-32 pb-20 bg-dark overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
-                <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-[#C39A2B]/8 rounded-full blur-3xl"></div>
                 <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-heading mb-6">
-                            <span className="text-primary-400">Insights & Strategies</span>
+                            <span className="text-[#C39A2B]">Insights & Strategies</span>
                         </h1>
                         <p className="text-xl text-paragraph mb-8">
                             Digital marketing insights, SEO tips, and actionable strategies for businesses in Greater Noida, Noida &amp; Delhi NCR.
@@ -48,12 +48,12 @@ export default async function BlogPage() {
             </section>
 
             {/* Blog Grid */}
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     {blogs.length === 0 ? (
                         <div className="glass-card rounded-2xl p-12 text-center max-w-2xl mx-auto">
-                            <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                <TrendingUp className="text-primary-400" size={32} />
+                            <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <TrendingUp className="text-[#C39A2B]" size={32} />
                             </div>
                             <h3 className="text-2xl font-heading font-bold text-heading mb-4">
                                 Blog Posts Coming Soon
@@ -69,16 +69,16 @@ export default async function BlogPage() {
             </section>
 
             {/* CTA */}
-            <section className="relative section-padding bg-dark-200 text-white">
+            <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
-                        Ready to See <span className="text-accent">Growth</span> for Your Business?
+                        Ready to See <span className="text-[#C39A2B]">Growth</span> for Your Business?
                     </h2>
                     <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                         Whether you need SEO services in Greater Noida, PPC management, or a digital marketing strategy for your startup in Delhi NCR — book your FREE Revenue Growth Session today.
                     </p>
-                    <Link href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark">
+                    <Link href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white">
                         Book Free Growth Session
                         <TrendingUp size={20} />
                     </Link>

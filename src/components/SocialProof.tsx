@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 const SocialProof = () => {
     return (
-        <section className="section-padding bg-dark-100 relative overflow-hidden">
+        <section className="section-padding bg-[#F4F5F6] relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
             <div className="container-custom relative z-10">
                 <motion.div
@@ -16,15 +16,15 @@ const SocialProof = () => {
                     className="text-center"
                 >
                     <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-heading mb-4">
-                        Real Results for <span className="text-primary-400">Greater Noida, Noida &amp; Delhi NCR</span> Businesses
+                        Real Results for <span className="text-[#C39A2B]">Greater Noida, Noida &amp; Delhi NCR</span> Businesses
                     </h2>
                     <p className="text-xl text-paragraph max-w-3xl mx-auto mb-12">
                         SEO, performance marketing, and digital marketing case studies for businesses in Greater Noida, Noida &amp; Delhi NCR — coming soon.
                     </p>
 
                     <div className="glass-card rounded-2xl p-8 md:p-12 max-w-2xl mx-auto border-t border-gold/20">
-                        <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                            <TrendingUp className="text-primary-400" size={32} />
+                        <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <TrendingUp className="text-[#C39A2B]" size={32} />
                         </div>
                         <h3 className="text-xl font-heading font-bold text-heading mb-4">
                             Case Studies Coming Soon

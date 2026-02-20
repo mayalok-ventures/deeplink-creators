@@ -102,12 +102,12 @@
 }
 
 .hover-glow:hover {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 30px rgba(195, 154, 43, 0.3);
 }
 
 /* Gradient Text */
 .text-gradient {
-    background: linear-gradient(135deg, #3b82f6 0%, #00E599 100%);
+    background: linear-gradient(135deg, #B87A14 0%, #E0C27A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -120,8 +120,8 @@
     width: 10px;
     height: 10px;
     border-radius: 5px;
-    background-color: #3b82f6;
-    color: #3b82f6;
+    background-color: #C39A2B;
+    color: #C39A2B;
     box-shadow: 9999px 0 0 -5px;
     animation: dot-pulse 1.5s infinite linear;
     animation-delay: 0.25s;
@@ -136,8 +136,8 @@
     width: 10px;
     height: 10px;
     border-radius: 5px;
-    background-color: #3b82f6;
-    color: #3b82f6;
+    background-color: #C39A2B;
+    color: #C39A2B;
 }
 
 .dot-pulse::before {

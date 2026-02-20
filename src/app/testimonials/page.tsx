@@ -34,11 +34,11 @@ export default function TestimonialsPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-dark text-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
-                    className="absolute top-1/3 right-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"
+                    className="absolute top-1/3 right-10 w-72 h-72 bg-[#C39A2B]/8 rounded-full blur-3xl"
                     animate={{ y: [0, -20, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
                 />
@@ -50,14 +50,14 @@ export default function TestimonialsPage() {
                         transition={{ duration: 0.6 }}
                         className="max-w-4xl mx-auto text-center"
                     >
-                        <div className="inline-flex items-center gap-2 bg-primary-600/20 border border-primary-500/30 rounded-full px-4 py-2 mb-6">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full animate-pulse"></span>
                             <span className="text-sm font-medium">Trusted by Businesses Across India</span>
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
                             What Our Clients{' '}
-                            <span className="text-primary-400">Say About Us</span>
+                            <span className="text-[#C39A2B]">Say About Us</span>
                         </h1>
                         <p className="text-xl text-paragraph max-w-2xl mx-auto">
                             Real feedback from real businesses. See why companies trust Deeplink Creators to deliver measurable results.
@@ -67,11 +67,11 @@ export default function TestimonialsPage() {
             </section>
 
             {/* Testimonials Grid */}
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
-                            Client <span className="text-primary-400">Testimonials</span>
+                            Client <span className="text-[#C39A2B]">Testimonials</span>
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
                             Every review is from a real client who experienced real growth with our strategies.
@@ -80,11 +80,11 @@ export default function TestimonialsPage() {
 
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
-                            <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                            <div className="w-8 h-8 border-2 border-[#C39A2B] border-t-transparent rounded-full animate-spin" />
                         </div>
                     ) : testimonials.length === 0 ? (
                         <div className="text-center py-16">
-                            <Quote size={48} className="text-primary-500/30 mx-auto mb-4" />
+                            <Quote size={48} className="text-[#C39A2B]/30 mx-auto mb-4" />
                             <p className="text-lg text-paragraph">No testimonials yet. Check back soon!</p>
                         </div>
                     ) : (
@@ -102,8 +102,8 @@ export default function TestimonialsPage() {
                                     whileHover={{ y: -8 }}
                                     className="glass-card rounded-2xl p-8 flex flex-col"
                                 >
-                                    <div className="w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mb-6">
-                                        <Quote size={24} className="text-primary-400" />
+                                    <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center mb-6">
+                                        <Quote size={24} className="text-[#C39A2B]" />
                                     </div>
 
                                     <p className="text-paragraph leading-relaxed flex-1 mb-6">
@@ -118,7 +118,7 @@ export default function TestimonialsPage() {
                                                 className={
                                                     i < testimonial.rating
                                                         ? 'text-yellow-400 fill-yellow-400'
-                                                        : 'text-dark-300'
+                                                        : 'text-[#4A4A4A]/30'
                                                 }
                                             />
                                         ))}
@@ -140,7 +140,7 @@ export default function TestimonialsPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative section-padding bg-dark-200 text-white">
+            <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <motion.div
@@ -151,14 +151,14 @@ export default function TestimonialsPage() {
                     >
                         <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
                             Ready to Be Our Next{' '}
-                            <span className="text-accent">Success Story?</span>
+                            <span className="text-[#C39A2B]">Success Story?</span>
                         </h2>
                         <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
                             Join the growing list of businesses that chose results over promises. Let&apos;s build something measurable together.
                         </p>
                         <Link
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-dark"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
                         >
                             Start Your Project
                             <ArrowRight size={20} />

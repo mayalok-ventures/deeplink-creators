@@ -58,7 +58,7 @@ function renderContent(content: string): string {
     html = html.replace(/^# (.*$)/gm, '<h1 class="text-3xl font-bold text-heading mt-10 mb-4">$1</h1>')
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="text-heading font-semibold">$1</strong>')
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-400 hover:text-primary-300 underline" target="_blank" rel="noopener">$1</a>')
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[#C39A2B] hover:text-[#A9791B] underline" target="_blank" rel="noopener">$1</a>')
     html = html.replace(/^- (.*$)/gm, '<li class="ml-4 list-disc text-paragraph">$1</li>')
     html = html.replace(/(<li.*<\/li>\n?)+/g, '<ul class="space-y-2 my-4">$&</ul>')
     html = html.replace(/^(?!<[hulo])(.*\S.*)$/gm, '<p class="text-paragraph leading-relaxed mb-4">$1</p>')
@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
             />
 
-            <section className="relative pt-32 pb-12 bg-dark overflow-hidden">
+            <section className="relative pt-32 pb-12 bg-white overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom relative z-10">
                     <Link href="/blog" className="inline-flex items-center gap-2 text-paragraph hover:text-heading mb-8 transition-colors">
@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         {post.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {post.tags.map((tag: string) => (
-                                    <span key={tag} className="text-xs bg-primary-500/10 text-primary-400 px-3 py-1 rounded-full border border-primary-500/20">
+                                    <span key={tag} className="text-xs bg-[#C39A2B]/10 text-[#C39A2B] px-3 py-1 rounded-full border border-[#C39A2B]/20">
                                         {tag}
                                     </span>
                                 ))}
@@ -162,13 +162,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         <img
                             src={post.coverImage}
                             alt={post.title}
-                            className="w-full rounded-2xl border border-white/[0.08] object-cover max-h-[400px]"
+                            className="w-full rounded-2xl border border-[#4A4A4A]/10 object-cover max-h-[400px]"
                         />
                     </div>
                 </div>
             )}
 
-            <section className="section-padding bg-dark-50">
+            <section className="section-padding bg-[#F4F5F6]">
                 <div className="container-custom">
                     <article
                         className="max-w-3xl blog-content"

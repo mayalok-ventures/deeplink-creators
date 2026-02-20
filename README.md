@@ -70,7 +70,7 @@ A unit of **Mayalok Venture**, we serve businesses across **Greater Noida, Noida
 | Performance Marketing | `/services/performance-marketing/` | PPC & ads service page |
 | Branding | `/services/branding/` | Brand strategy service page |
 | About | `/about/` | Company story & methodology |
-| Results & Blog | `/results/` | Case studies & blog posts |
+| Results & Blog | `/blog/` | Case studies & blog posts |
 | Contact | `/contact/` | Lead generation form |
 
 ## Getting Started

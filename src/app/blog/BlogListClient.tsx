@@ -71,7 +71,7 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search articles by title, tag, or author..."
-                    className="w-full pl-12 pr-10 py-3 rounded-xl bg-white/[0.05] border border-white/[0.1] text-heading placeholder:text-paragraph/60 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all"
+                    className="w-full pl-12 pr-10 py-3 rounded-xl bg-white border border-[#4A4A4A]/15 text-heading placeholder:text-paragraph/60 focus:outline-none focus:border-[#C39A2B]/50 focus:ring-1 focus:ring-[#C39A2B]/30 transition-all"
                 />
                 {searchQuery && (
                     <button
@@ -85,8 +85,8 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
 
             {filteredBlogs.length === 0 && searchQuery ? (
                 <div className="glass-card rounded-2xl p-12 text-center max-w-2xl mx-auto">
-                    <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <Search className="text-primary-400" size={32} />
+                    <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <Search className="text-[#C39A2B]" size={32} />
                     </div>
                     <h3 className="text-2xl font-heading font-bold text-heading mb-4">
                         No Results Found
@@ -121,13 +121,13 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
                                     {blog.tags.length > 0 && (
                                         <div className="flex flex-wrap gap-2 mb-3">
                                             {blog.tags.slice(0, 3).map(tag => (
-                                                <span key={tag} className="text-xs bg-primary-500/10 text-primary-400 px-2 py-0.5 rounded-full">
+                                                <span key={tag} className="text-xs bg-[#C39A2B]/10 text-[#C39A2B] px-2 py-0.5 rounded-full">
                                                     {tag}
                                                 </span>
                                             ))}
                                         </div>
                                     )}
-                                    <h2 className="text-lg font-bold font-heading text-heading mb-2 group-hover:text-primary-400 transition-colors">
+                                    <h2 className="text-lg font-bold font-heading text-heading mb-2 group-hover:text-[#C39A2B] transition-colors">
                                         {blog.title}
                                     </h2>
                                     <p className="text-paragraph text-sm mb-4 line-clamp-3">
@@ -142,7 +142,7 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
                                                 <Calendar size={12} /> {blog.publishedAt}
                                             </span>
                                         </div>
-                                        <ArrowRight size={14} className="text-primary-400 group-hover:translate-x-1 transition-transform" />
+                                        <ArrowRight size={14} className="text-[#C39A2B] group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </div>
                             </Link>

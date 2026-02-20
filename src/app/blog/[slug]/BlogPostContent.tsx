@@ -18,7 +18,7 @@ export default function BlogPostContent({ shortId, slug }: BlogPostContentProps)
     }
 
     return (
-        <div className="max-w-3xl mt-12 pt-8 border-t border-white/[0.06]">
+        <div className="max-w-3xl mt-12 pt-8 border-t border-[#4A4A4A]/10">
             <div className="glass-card rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                     <p className="font-bold text-heading mb-1">Share this post</p>
@@ -27,7 +27,7 @@ export default function BlogPostContent({ shortId, slug }: BlogPostContentProps)
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => copyLink(`https://deeplinkcreators.com/blog/${slug}/`)}
-                        className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors text-sm"
+                        className="flex items-center gap-2 text-[#C39A2B] hover:text-[#A9791B] transition-colors text-sm"
                     >
                         {copied ? <Check size={16} /> : <Share2 size={16} />}
                         {copied ? 'Copied!' : 'Share'}

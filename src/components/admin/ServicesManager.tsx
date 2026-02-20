@@ -50,6 +50,8 @@ const GRADIENT_OPTIONS = [
 const PAGE_OPTIONS = [
     { value: 'homepage', label: 'Homepage' },
     { value: 'greater-noida', label: 'Greater Noida' },
+    { value: 'noida', label: 'Noida' },
+    { value: 'delhi', label: 'Delhi' },
 ] as const
 
 type EditorMode = 'list' | 'create' | 'edit'

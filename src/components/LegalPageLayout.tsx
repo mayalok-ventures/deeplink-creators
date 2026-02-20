@@ -40,7 +40,7 @@ export default function LegalPageLayout({ title, lastUpdated, children }: LegalP
                         Effective Date: <span className="text-heading font-medium">{lastUpdated}</span>
                     </p>
                     <p className="text-xs text-paragraph/60 mt-1">
-                        Deeplink Creators — A Unit of Mayalok Venture (Private Limited)
+                        Deeplink Creators — A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-heading transition-colors">Mayalok Venture</a> (Private Limited)
                     </p>
                 </div>
 

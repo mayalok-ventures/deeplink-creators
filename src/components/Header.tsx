@@ -62,9 +62,9 @@ const Header = () => {
                                 </span>{' '}
                                 <span className="text-heading">Creators</span>
                             </span>
-                            <span className="text-xs text-gold tracking-wide">
+                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-xs text-gold tracking-wide hover:text-gold-light transition-colors">
                                 A Unit of Mayalok Venture
-                            </span>
+                            </a>
                         </div>
                     </Link>
 

@@ -8,7 +8,7 @@ export default function DisclaimerPage() {
             {/* Introduction */}
             <section>
                 <p className="text-paragraph leading-relaxed">
-                    This Disclaimer (&ldquo;Disclaimer&rdquo;) applies to the website <a href="https://deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">deeplinkcreators.com</a> and all services provided by Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a unit of <strong className="text-heading">Mayalok Venture (Private Limited)</strong>. By accessing our website or engaging our services, you acknowledge and accept this Disclaimer in its entirety.
+                    This Disclaimer (&ldquo;Disclaimer&rdquo;) applies to the website <a href="https://deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">deeplinkcreators.com</a> and all services provided by Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>. By accessing our website or engaging our services, you acknowledge and accept this Disclaimer in its entirety.
                 </p>
                 <p className="text-paragraph leading-relaxed mt-4">
                     This Disclaimer should be read in conjunction with our <a href="/terms" className="text-primary-400 hover:text-primary-300 transition-colors">Terms &amp; Conditions</a> and <a href="/privacy" className="text-primary-400 hover:text-primary-300 transition-colors">Privacy Policy</a>.
@@ -142,7 +142,7 @@ export default function DisclaimerPage() {
                     </li>
                 </ul>
                 <p className="text-paragraph leading-relaxed mt-4">
-                    Testimonials reflect the personal opinions of the individuals quoted and do not necessarily reflect the views of Deeplink Creators or Mayalok Venture (Private Limited).
+                    Testimonials reflect the personal opinions of the individuals quoted and do not necessarily reflect the views of Deeplink Creators or <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>.
                 </p>
             </section>
 
@@ -303,7 +303,7 @@ export default function DisclaimerPage() {
             <section id="limitation-of-liability">
                 <h2 className="text-xl font-semibold text-heading mb-4">11. Limitation of Liability</h2>
                 <p className="text-paragraph leading-relaxed mb-4">
-                    To the maximum extent permitted by applicable law, Deeplink Creators and Mayalok Venture (Private Limited), including their directors, officers, employees, contractors, and agents, shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or related to:
+                    To the maximum extent permitted by applicable law, Deeplink Creators and <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, including their directors, officers, employees, contractors, and agents, shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or related to:
                 </p>
                 <ul className="space-y-2 text-paragraph leading-relaxed">
                     <li className="flex gap-3">
@@ -336,7 +336,7 @@ export default function DisclaimerPage() {
             <section id="indemnification">
                 <h2 className="text-xl font-semibold text-heading mb-4">12. Indemnification</h2>
                 <p className="text-paragraph leading-relaxed">
-                    You agree to indemnify, defend, and hold harmless Deeplink Creators, Mayalok Venture (Private Limited), and their respective directors, officers, employees, and agents from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable legal fees) arising out of or related to your use of our website, your engagement of our services, your violation of this Disclaimer or any applicable law, or your infringement of any third-party rights.
+                    You agree to indemnify, defend, and hold harmless Deeplink Creators, <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, and their respective directors, officers, employees, and agents from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable legal fees) arising out of or related to your use of our website, your engagement of our services, your violation of this Disclaimer or any applicable law, or your infringement of any third-party rights.
                 </p>
             </section>
 
@@ -369,7 +369,7 @@ export default function DisclaimerPage() {
                 </p>
                 <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
-                    <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
+                    <p className="text-paragraph text-sm mb-1">A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a></p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
                     <p className="text-paragraph text-sm mb-1">
                         Email: <a href="mailto:legal@deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">legal@deeplinkcreators.com</a>

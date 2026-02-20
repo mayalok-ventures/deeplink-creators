@@ -51,9 +51,9 @@ const Footer = () => {
                                 <span className="text-2xl font-extrabold font-heading bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14] bg-clip-text text-transparent">
                                     Deeplink Creators
                                 </span>
-                                <span className="block text-xs tracking-widest uppercase text-gold mt-1">
+                                <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="block text-xs tracking-widest uppercase text-gold mt-1 hover:text-gold-light transition-colors">
                                     A Unit of Mayalok Venture
-                                </span>
+                                </a>
                             </div>
                             <p className="text-white/60 leading-relaxed mb-6 max-w-md">
                                 Best digital marketing company in India. We combine Data Science with Neuro-Marketing to deliver enterprise SEO services, performance marketing, lead generation, Google Ads management, and revenue-focused strategies for businesses across India.
@@ -197,7 +197,7 @@ const Footer = () => {
 
                 <div className="border-t border-white/[0.1]">
                     <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
-                        <p>&copy; {new Date().getFullYear()} Deeplink Creators. A Unit of Mayalok Venture. All rights reserved.</p>
+                        <p>&copy; {new Date().getFullYear()} Deeplink Creators. A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>. All rights reserved.</p>
                         <div className="flex items-center gap-4">
                             <Link href="/terms" className="hover:text-[#C39A2B] transition-colors">Terms</Link>
                             <span className="text-white/20">|</span>

@@ -11,7 +11,7 @@ export default function TermsPage() {
             {/* Introduction */}
             <section>
                 <p className="text-paragraph leading-relaxed">
-                    Welcome to Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a high-performance Digital Marketing &amp; Technology Agency. These Terms and Conditions (&ldquo;Agreement&rdquo;) constitute a legally binding contract between you (&ldquo;Client,&rdquo; &ldquo;you,&rdquo; &ldquo;your&rdquo;) and <strong className="text-heading">Mayalok Venture (Private Limited)</strong>, operating under the trade name &ldquo;Deeplink Creators.&rdquo;
+                    Welcome to Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a high-performance Digital Marketing &amp; Technology Agency. These Terms and Conditions (&ldquo;Agreement&rdquo;) constitute a legally binding contract between you (&ldquo;Client,&rdquo; &ldquo;you,&rdquo; &ldquo;your&rdquo;) and <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, operating under the trade name &ldquo;Deeplink Creators.&rdquo;
                 </p>
                 <p className="text-paragraph leading-relaxed mt-4">
                     By engaging our services, accessing our website at <a href="https://deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">deeplinkcreators.com</a>, or signing a service proposal or work order, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions in their entirety. If you do not agree with any provision herein, you must not use our services.
@@ -24,19 +24,19 @@ export default function TermsPage() {
                 <ul className="space-y-3 text-paragraph leading-relaxed">
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
-                        <span>&ldquo;Deeplink Creators&rdquo; is a registered trade name and operational unit of <strong className="text-heading">Mayalok Venture (Private Limited)</strong>, a company incorporated under the Companies Act, 2013, and registered in India.</span>
+                        <span>&ldquo;Deeplink Creators&rdquo; is a registered trade name and operational unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, a company incorporated under the Companies Act, 2013, and registered in India.</span>
                     </li>
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
-                        <span>All service agreements, contracts, invoices, and legal obligations arising from services rendered by Deeplink Creators are legally entered into with <strong className="text-heading">Mayalok Venture (Private Limited)</strong> as the contracting entity.</span>
+                        <span>All service agreements, contracts, invoices, and legal obligations arising from services rendered by Deeplink Creators are legally entered into with <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a> as the contracting entity.</span>
                     </li>
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
-                        <span>Any reference to &ldquo;Deeplink Creators,&rdquo; &ldquo;the Agency,&rdquo; &ldquo;we,&rdquo; or &ldquo;us&rdquo; in any document, proposal, or communication shall be construed as a reference to Mayalok Venture (Private Limited).</span>
+                        <span>Any reference to &ldquo;Deeplink Creators,&rdquo; &ldquo;the Agency,&rdquo; &ldquo;we,&rdquo; or &ldquo;us&rdquo; in any document, proposal, or communication shall be construed as a reference to <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>.</span>
                     </li>
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
-                        <span>The registered office of Mayalok Venture is located in Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India.</span>
+                        <span>The registered office of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture</a> is located in Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India.</span>
                     </li>
                 </ul>
             </section>
@@ -294,7 +294,7 @@ export default function TermsPage() {
             <section id="indemnification">
                 <h2 className="text-xl font-semibold text-heading mb-4">10. Indemnification</h2>
                 <p className="text-paragraph leading-relaxed mb-3">
-                    The Client agrees to indemnify, defend, and hold harmless Deeplink Creators, Mayalok Venture (Private Limited), and their directors, officers, employees, and agents from and against any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorney&rsquo;s fees) arising out of or related to:
+                    The Client agrees to indemnify, defend, and hold harmless Deeplink Creators, <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, and their directors, officers, employees, and agents from and against any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorney&rsquo;s fees) arising out of or related to:
                 </p>
                 <ul className="space-y-2 text-paragraph leading-relaxed">
                     <li className="flex gap-3">
@@ -452,7 +452,7 @@ export default function TermsPage() {
                 </p>
                 <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
-                    <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
+                    <p className="text-paragraph text-sm mb-1">A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a></p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
                     <p className="text-paragraph text-sm mb-1">
                         Email: <a href="mailto:legal@deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">legal@deeplinkcreators.com</a>

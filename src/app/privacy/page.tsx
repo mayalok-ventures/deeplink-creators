@@ -11,7 +11,7 @@ export default function PrivacyPage() {
             {/* Introduction */}
             <section>
                 <p className="text-paragraph leading-relaxed">
-                    Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a unit of <strong className="text-heading">Mayalok Venture (Private Limited)</strong>, is committed to protecting the privacy and security of your personal information. This Privacy Policy explains how we collect, use, store, protect, and disclose information when you visit our website at <a href="https://deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">deeplinkcreators.com</a>, use our services, or interact with us in any manner.
+                    Deeplink Creators (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, is committed to protecting the privacy and security of your personal information. This Privacy Policy explains how we collect, use, store, protect, and disclose information when you visit our website at <a href="https://deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">deeplinkcreators.com</a>, use our services, or interact with us in any manner.
                 </p>
                 <p className="text-paragraph leading-relaxed mt-4">
                     By accessing our website or engaging our services, you consent to the collection, use, and processing of your information as described in this Privacy Policy. If you do not agree with this Privacy Policy, please do not use our website or services.
@@ -247,7 +247,7 @@ export default function PrivacyPage() {
                     </li>
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
-                        <span><strong className="text-heading">Business Transfers:</strong> In connection with any merger, acquisition, reorganization, or sale of assets involving Mayalok Venture (Private Limited), your information may be transferred as part of the transaction.</span>
+                        <span><strong className="text-heading">Business Transfers:</strong> In connection with any merger, acquisition, reorganization, or sale of assets involving <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, your information may be transferred as part of the transaction.</span>
                     </li>
                     <li className="flex gap-3">
                         <span className="text-primary-400 mt-1 flex-shrink-0">&#x2022;</span>
@@ -423,7 +423,7 @@ export default function PrivacyPage() {
                     <p className="text-gold font-semibold text-sm uppercase tracking-wider mb-2">Compliance Statement</p>
                 </div>
                 <p className="text-paragraph leading-relaxed mb-3">
-                    Deeplink Creators, as a unit of Mayalok Venture (Private Limited), is committed to complying with the provisions of the Digital Personal Data Protection Act, 2023 (DPDP Act) enacted by the Parliament of India. In accordance with the DPDP Act:
+                    Deeplink Creators, as a unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-heading font-bold hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a>, is committed to complying with the provisions of the Digital Personal Data Protection Act, 2023 (DPDP Act) enacted by the Parliament of India. In accordance with the DPDP Act:
                 </p>
                 <ul className="space-y-3 text-paragraph leading-relaxed">
                     <li className="flex gap-3">
@@ -485,7 +485,7 @@ export default function PrivacyPage() {
                 </p>
                 <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Grievance Officer</p>
-                    <p className="text-paragraph text-sm mb-1">Deeplink Creators (A Unit of Mayalok Venture Pvt. Ltd.)</p>
+                    <p className="text-paragraph text-sm mb-1">Deeplink Creators (A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture Pvt. Ltd.</a>)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
                     <p className="text-paragraph text-sm mb-1">
                         Email: <a href="mailto:grievance@deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">grievance@deeplinkcreators.com</a>
@@ -504,7 +504,7 @@ export default function PrivacyPage() {
                 </p>
                 <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
-                    <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
+                    <p className="text-paragraph text-sm mb-1">A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a></p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
                     <p className="text-paragraph text-sm mb-1">
                         Email: <a href="mailto:privacy@deeplinkcreators.com" className="text-primary-400 hover:text-primary-300 transition-colors">privacy@deeplinkcreators.com</a>

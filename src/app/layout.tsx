@@ -117,7 +117,8 @@ const organizationSchema = {
     "url": "https://deeplinkcreators.com",
     "parentOrganization": {
         "@type": "Organization",
-        "name": "Mayalok Venture"
+        "name": "Mayalok Venture",
+        "url": "https://mayalokventures.com"
     },
     "areaServed": "India",
     "knowsAbout": ["SEO", "Enterprise SEO", "Predictive SEO", "Performance Marketing", "B2B Performance Marketing", "Google Ads", "PPC", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Customer Acquisition for Startups", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Next.js Web Development"]

@@ -87,7 +87,7 @@ export default function AboutPage() {
                             Deeplink Creators was born from a simple frustration: businesses across India were pouring money into digital marketing agencies and getting nothing but pretty reports in return.
                         </p>
                         <p className="text-base text-paragraph mb-4">
-                            As a unit of <span className="font-semibold">Mayalok Venture</span>, we set out to build the best digital marketing company in India — one that combines the precision of <span className="font-semibold text-[#C39A2B]">Data Science</span> with the persuasion power of <span className="font-semibold text-[#C39A2B]">Neuro-Marketing</span> to deliver enterprise SEO services and ROI-focused performance marketing.
+                            As a unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>, we set out to build the best digital marketing company in India — one that combines the precision of <span className="font-semibold text-[#C39A2B]">Data Science</span> with the persuasion power of <span className="font-semibold text-[#C39A2B]">Neuro-Marketing</span> to deliver enterprise SEO services and ROI-focused performance marketing.
                         </p>
                         <p className="text-base text-paragraph">
                             The result? Marketing systems that don't just attract eyeballs — they trigger buying decisions and deliver measurable revenue growth.

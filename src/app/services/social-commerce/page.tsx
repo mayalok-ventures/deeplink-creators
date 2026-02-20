@@ -56,7 +56,7 @@ export default function SocialCommercePage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="absolute top-1/3 left-10 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
                 <div className="container-custom relative z-10">
@@ -65,16 +65,16 @@ export default function SocialCommercePage() {
                             <ShoppingCart size={16} className="text-pink-400" />
                             <span className="text-sm font-medium text-pink-300">Social Commerce & Monetization</span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold text-heading mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-heading mb-6 leading-tight">
                             Your Followers Are Watching.{' '}
                             <span className="text-pink-400">Make Them Buy.</span>
                         </h1>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
                             10K followers and zero revenue? That&apos;s not a social media strategy\u2014it&apos;s an expensive hobby. We build commerce-first social systems that turn engagement into wire transfers.
                         </p>
                         <Link
                             href="/contact"
-                            className="btn-primary inline-flex items-center gap-2 text-lg py-4 px-8"
+                            className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-8"
                         >
                             Audit Your Social Revenue
                             <ArrowRight size={20} />
@@ -84,11 +84,11 @@ export default function SocialCommercePage() {
             </section>
 
             {/* Problem/Agitation Section */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
+                            <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
                                 Why Your Social Media{' '}
                                 <span className="text-red-400">Isn&apos;t Making Money</span>
                             </h2>
@@ -137,10 +137,10 @@ export default function SocialCommercePage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-white dark:bg-[#0F1112]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             The Deeplink <span className="text-pink-400">Social Commerce Engine</span>
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
@@ -163,10 +163,10 @@ export default function SocialCommercePage() {
             </section>
 
             {/* Deliverables Grid */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             What You <span className="text-pink-400">Actually Get</span>
                         </h2>
                     </div>
@@ -188,17 +188,17 @@ export default function SocialCommercePage() {
             <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                    <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                         Stop Entertaining.{' '}
                         <span className="text-[#C39A2B]">Start Selling.</span>
                     </h2>
-                    <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                    <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                         Book a free social revenue audit. We&apos;ll show you exactly how much money your current social media presence is leaving on the table\u2014and the system to capture it.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8 text-white"
                         >
                             Audit Your Social Revenue
                             <ArrowRight size={20} />

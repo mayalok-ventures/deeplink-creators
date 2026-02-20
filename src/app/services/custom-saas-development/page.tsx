@@ -56,7 +56,7 @@ export default function CustomSaasDevelopmentPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="absolute top-1/3 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
                 <div className="container-custom relative z-10">
@@ -65,16 +65,16 @@ export default function CustomSaasDevelopmentPage() {
                             <Code size={16} className="text-blue-400" />
                             <span className="text-sm font-medium text-blue-300">Enterprise Software Engineering</span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold text-heading mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-heading mb-6 leading-tight">
                             We Don&apos;t Build Websites.{' '}
                             <span className="text-blue-400">We Engineer Revenue Infrastructure.</span>
                         </h1>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
                             Your SaaS product shouldn&apos;t be a glorified WordPress site. We architect production-grade platforms on Next.js and Cloudflare that handle 100K+ concurrent users without breaking a sweat.
                         </p>
                         <Link
                             href="/contact"
-                            className="btn-primary inline-flex items-center gap-2 text-lg py-4 px-8"
+                            className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-8"
                         >
                             Claim Your Architecture Audit
                             <ArrowRight size={20} />
@@ -84,11 +84,11 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Problem/Agitation Section */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
+                            <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
                                 Your &ldquo;Developer&rdquo; Is Costing You{' '}
                                 <span className="text-red-400">More Than You Think</span>
                             </h2>
@@ -137,10 +137,10 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-white dark:bg-[#0F1112]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             The Deeplink <span className="text-blue-400">Engineering Protocol</span>
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
@@ -163,10 +163,10 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Deliverables Grid */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             What You <span className="text-blue-400">Actually Get</span>
                         </h2>
                     </div>
@@ -188,17 +188,17 @@ export default function CustomSaasDevelopmentPage() {
             <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                    <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                         Stop Paying for Code That{' '}
                         <span className="text-[#C39A2B]">Breaks Under Pressure.</span>
                     </h2>
-                    <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                    <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                         Book a free architecture audit. We&apos;ll review your current stack, identify the bottlenecks, and show you the exact roadmap to a production-grade platform.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8 text-white"
                         >
                             Claim Your Architecture Audit
                             <ArrowRight size={20} />

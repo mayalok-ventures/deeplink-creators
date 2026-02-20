@@ -61,7 +61,7 @@ const ServiceStack = () => {
     if (loading || services.length === 0) return null
 
     return (
-        <section id="services" className="section-padding bg-white relative overflow-hidden">
+        <section id="services" className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
 
@@ -73,14 +73,14 @@ const ServiceStack = () => {
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-heading mb-4">
+                    <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
                         We Don&apos;t Sell Services. We{' '}
                         <span className="text-gradient">
                             Deliver Results
                         </span>
                         .
                     </h2>
-                    <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                    <p className="text-lg text-paragraph max-w-3xl mx-auto">
                         Every strategy is designed with one goal: <span className="font-semibold text-heading">maximize your revenue</span>.
                         No vanity metrics, only what actually impacts your bottom line.
                     </p>

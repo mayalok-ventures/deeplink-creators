@@ -56,7 +56,7 @@ export default function AIMarketingAutomationPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="absolute top-1/3 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
                 <div className="container-custom relative z-10">
@@ -65,16 +65,16 @@ export default function AIMarketingAutomationPage() {
                             <Bot size={16} className="text-emerald-400" />
                             <span className="text-sm font-medium text-emerald-300">AI-Powered Marketing Automation</span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold text-heading mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-heading mb-6 leading-tight">
                             Your Sales Team Sleeps.{' '}
                             <span className="text-emerald-400">Your AI Funnels Don&apos;t.</span>
                         </h1>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
                             Every lead that goes unfollowed is revenue gifted to your competitor. We build AI-driven automation systems that capture, nurture, and close leads around the clock\u2014without adding headcount.
                         </p>
                         <Link
                             href="/contact"
-                            className="btn-primary inline-flex items-center gap-2 text-lg py-4 px-8"
+                            className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-8"
                         >
                             Claim Your Automation Audit
                             <ArrowRight size={20} />
@@ -84,11 +84,11 @@ export default function AIMarketingAutomationPage() {
             </section>
 
             {/* Problem/Agitation Section */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
+                            <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
                                 Manual Follow-Up Is{' '}
                                 <span className="text-red-400">Killing Your Pipeline</span>
                             </h2>
@@ -137,10 +137,10 @@ export default function AIMarketingAutomationPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-white">
+            <section className="section-padding bg-white dark:bg-[#0F1112]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             The Deeplink <span className="text-emerald-400">Automation Architecture</span>
                         </h2>
                         <p className="text-xl text-paragraph max-w-3xl mx-auto">
@@ -163,10 +163,10 @@ export default function AIMarketingAutomationPage() {
             </section>
 
             {/* Deliverables Grid */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             What You <span className="text-emerald-400">Actually Get</span>
                         </h2>
                     </div>
@@ -188,17 +188,17 @@ export default function AIMarketingAutomationPage() {
             <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                    <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                         Stop Losing Leads to{' '}
                         <span className="text-[#C39A2B]">Slow Follow-Up.</span>
                     </h2>
-                    <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                    <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                         Book a free automation audit. We&apos;ll map your current funnel, identify every leak, and show you the exact AI workflows that will close more deals without more people.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/contact"
-                            className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white"
+                            className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8 text-white"
                         >
                             Claim Your Automation Audit
                             <ArrowRight size={20} />

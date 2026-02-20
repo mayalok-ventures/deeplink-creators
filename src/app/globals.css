@@ -7,8 +7,16 @@
         @apply bg-white text-paragraph antialiased;
     }
 
+    .dark body {
+        @apply bg-[#0F1112] text-white/60;
+    }
+
     h1, h2, h3, h4, h5, h6 {
         @apply font-heading text-heading;
+    }
+
+    .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+        @apply text-white;
     }
 }
 
@@ -191,5 +199,59 @@
         /* no backdrop-blur needed for light theme */
     }
 }
+
+/* Dark Mode Overrides */
+.dark .glass-card {
+    @apply bg-[#1A1B1C] border-white/[0.08];
+}
+
+.dark .glass-card-hover {
+    @apply bg-[#1A1B1C] border-white/[0.08];
+}
+
+.dark .glass-card-hover:hover {
+    border-color: rgba(195, 154, 43, 0.3);
+    box-shadow: 0 0 30px rgba(195, 154, 43, 0.08);
+}
+
+.dark .grid-bg {
+    background-image:
+        linear-gradient(rgba(195, 154, 43, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(195, 154, 43, 0.06) 1px, transparent 1px);
+}
+
+.dark .text-heading {
+    color: #ffffff;
+}
+
+.dark .text-paragraph {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.dark ::selection {
+    background-color: rgba(195, 154, 43, 0.3);
+    color: #ffffff;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #1A1B1C;
+}
+
+.dark .blog-content h1,
+.dark .blog-content h2,
+.dark .blog-content h3 { color: #ffffff; }
+.dark .blog-content p { color: rgba(255, 255, 255, 0.6); }
+.dark .blog-content strong { color: #ffffff; }
+.dark .blog-content ul,
+.dark .blog-content ol { color: rgba(255, 255, 255, 0.6); }
+.dark .blog-content code { color: #ffffff; }
+.dark .blog-content blockquote { color: rgba(255, 255, 255, 0.6); }
+.dark .blog-content th,
+.dark .blog-content td { color: rgba(255, 255, 255, 0.6); border-color: rgba(255, 255, 255, 0.08); }
+.dark .blog-content th { background: #1A1B1C; color: #ffffff; }
+.dark .blog-content pre { background: #1A1B1C; border-color: rgba(255, 255, 255, 0.08); }
+.dark .blog-content p code { background: #1A1B1C; }
+.dark .blog-content hr { border-top-color: rgba(255, 255, 255, 0.08); }
+.dark .blog-content .cta-outline { color: #ffffff; }
 
 @import '../styles/animations.css';

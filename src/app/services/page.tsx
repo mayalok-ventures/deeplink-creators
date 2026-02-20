@@ -93,7 +93,7 @@ export default function ServicesPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
@@ -114,11 +114,11 @@ export default function ServicesPage() {
                             <span className="text-sm font-medium">Best Digital Marketing Agency in Greater Noida &amp; Noida</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
                             Digital Marketing Services in Greater Noida That Build{' '}
                             <span className="text-[#C39A2B]">Revenue Machines</span>
                         </h1>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
                             The top SEO company &amp; digital marketing agency in Noida. We design custom marketing systems — SEO, Google Ads, PPC, and branding — engineered to deliver leads, sales, and measurable ROI for your business in Delhi NCR.
                         </p>
 
@@ -128,13 +128,13 @@ export default function ServicesPage() {
             </section>
 
             {/* Services Grid */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Our <span className="text-[#C39A2B]">Core Services</span>
                         </h2>
-                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
                             Each service is designed to work independently or as part of a complete revenue system tailored to your business.
                         </p>
                     </div>
@@ -194,13 +194,13 @@ export default function ServicesPage() {
             </section>
 
             {/* Why Choose Us */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
                         </h2>
-                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
                             The best digital marketing company in Delhi NCR. Here&apos;s what makes us different from other SEO agencies in Greater Noida.
                         </p>
                     </div>
@@ -239,17 +239,17 @@ export default function ServicesPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                             Not Sure Which Service You Need?{' '}
                             <span className="text-[#C39A2B]">Let's Talk.</span>
                         </h2>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                             Book a FREE strategy call with the best SEO consultant in Greater Noida. We&apos;ll build a custom digital marketing plan — SEO, Google Ads, or performance marketing — based on your business goals and budget.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8"
+                                className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8"
                             >
                                 Get FREE Strategy Call
                                 <ArrowRight size={20} />

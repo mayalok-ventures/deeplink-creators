@@ -27,7 +27,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.8 }}
-                className="section-padding relative overflow-hidden bg-[#F4F5F6]"
+                className="section-padding relative overflow-hidden bg-[#F4F5F6] dark:bg-[#131415]"
             >
                 <div className="absolute inset-0 grid-bg" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(195,154,43,0.04),_transparent_60%)]" />
@@ -41,10 +41,10 @@ export default function HomePage() {
                         transition={{ duration: 0.6 }}
                         className="text-center max-w-4xl mx-auto"
                     >
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-heading mb-6">
+                        <h2 className="text-2xl md:text-3xl font-extrabold text-heading mb-6">
                             Are You Getting <span className="text-red-400">Vanity Metrics</span> Instead of <span className="text-[#C39A2B]">Real Revenue</span>?
                         </h2>
-                        <p className="text-xl text-paragraph mb-8">
+                        <p className="text-lg text-paragraph mb-8">
                             Most digital marketing agencies in Delhi NCR give you &quot;likes&quot; and &quot;views&quot; that look good in reports but don&apos;t fill your bank account.
                             As the best SEO company in Greater Noida, we only measure what matters: <span className="font-semibold text-[#C39A2B]">leads, sales, and ROI</span>.
                         </p>
@@ -193,14 +193,14 @@ export default function HomePage() {
                 >
                     <div className="mx-auto max-w-3xl">
                         <div className="h-[1px] w-32 mx-auto bg-gradient-to-r from-transparent via-gold/40 to-transparent mb-10" />
-                        <h2 className="text-3xl md:text-4xl font-extrabold font-heading mb-6 text-heading">
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading mb-6 text-white">
                             Ready to Turn Your Marketing into a{' '}
                             <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14] animate-shimmer" style={{ backgroundSize: '200% auto' }}>
                                 Revenue Machine
                             </span>
                             ?
                         </h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto text-paragraph">
+                        <p className="text-lg mb-8 max-w-2xl mx-auto text-white/60">
                             Whether you need SEO services in Greater Noida, performance marketing, or a complete digital marketing strategy — get your FREE ROI Audit and discover how to get more customers for less money.
                         </p>
                     </div>
@@ -217,7 +217,7 @@ export default function HomePage() {
                     </div>
                     <Link
                         href="/contact"
-                        className="bg-white/[0.05] border border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all"
+                        className="bg-white/[0.05] border border-white/[0.1] text-white font-semibold py-3 px-6 rounded-lg hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all"
                     >
                         Schedule a Call
                     </Link>

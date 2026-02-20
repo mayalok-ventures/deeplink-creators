@@ -20,7 +20,7 @@ const TestimonialSection = () => {
     if (loading || testimonials.length === 0) return null
 
     return (
-        <section className="section-padding bg-[#F4F5F6] relative overflow-hidden">
+        <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
 
@@ -32,11 +32,11 @@ const TestimonialSection = () => {
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-heading mb-4">
+                    <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
                         What Our Clients{' '}
                         <span className="text-gradient">Say</span>
                     </h2>
-                    <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                    <p className="text-lg text-paragraph max-w-3xl mx-auto">
                         Don&apos;t just take our word for it — hear from the businesses we&apos;ve helped grow.
                     </p>
                 </motion.div>

@@ -71,7 +71,7 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search articles by title, tag, or author..."
-                    className="w-full pl-12 pr-10 py-3 rounded-xl bg-white border border-[#4A4A4A]/15 text-heading placeholder:text-paragraph/60 focus:outline-none focus:border-[#C39A2B]/50 focus:ring-1 focus:ring-[#C39A2B]/30 transition-all"
+                    className="w-full pl-12 pr-10 py-3 rounded-xl bg-white dark:bg-[#1A1B1C] border border-[#4A4A4A]/15 dark:border-white/[0.08] text-heading dark:text-white placeholder:text-paragraph/60 dark:placeholder:text-white/40 focus:outline-none focus:border-[#C39A2B]/50 focus:ring-1 focus:ring-[#C39A2B]/30 transition-all"
                 />
                 {searchQuery && (
                     <button

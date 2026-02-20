@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
+import ThemeToggle from './ThemeToggle'
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -40,8 +41,8 @@ const Header = () => {
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${
                 scrolled
-                    ? 'bg-white/90 backdrop-blur-xl shadow-lg shadow-black/5 border-b border-[#4A4A4A]/10'
-                    : 'bg-white/95 backdrop-blur-sm'
+                    ? 'bg-white/90 dark:bg-[#0F1112]/90 backdrop-blur-xl shadow-lg shadow-black/5 border-b border-[#4A4A4A]/10 dark:border-white/[0.08]'
+                    : 'bg-white/95 dark:bg-[#0F1112]/95 backdrop-blur-sm'
             }`}
         >
             <div className="h-[2px] bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14]" />
@@ -98,22 +99,22 @@ const Header = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 8 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute top-full left-0 mt-2 w-64 bg-white/95 backdrop-blur-xl border border-[#4A4A4A]/10 rounded-xl shadow-2xl overflow-hidden z-50"
+                                        className="absolute top-full left-0 mt-2 w-64 bg-white/95 dark:bg-[#1A1B1C]/95 backdrop-blur-xl border border-[#4A4A4A]/10 dark:border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
                                     >
                                         <div className="py-2">
                                             {serviceSubItems.map((sub) => (
                                                 <Link
                                                     key={sub.href}
                                                     href={sub.href}
-                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05] transition-colors"
                                                 >
                                                     {sub.label}
                                                 </Link>
                                             ))}
-                                            <div className="border-t border-[#4A4A4A]/10 mt-1 pt-1">
+                                            <div className="border-t border-[#4A4A4A]/10 dark:border-white/[0.08] mt-1 pt-1">
                                                 <Link
                                                     href="/services"
-                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05] transition-colors"
                                                 >
                                                     View All Services →
                                                 </Link>
@@ -140,6 +141,8 @@ const Header = () => {
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
                             </Link>
                         ))}
+
+                        <ThemeToggle />
 
                         <Link
                             href="/contact"
@@ -174,7 +177,7 @@ const Header = () => {
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="md:hidden overflow-hidden"
                         >
-                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#4A4A4A]/10 mt-4">
+                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#4A4A4A]/10 dark:border-white/[0.08] mt-4">
                                 <motion.div
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
@@ -209,7 +212,7 @@ const Header = () => {
                                                 animate={{ height: 'auto', opacity: 1 }}
                                                 exit={{ height: 0, opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="overflow-hidden pl-4 border-l border-[#4A4A4A]/10"
+                                                className="overflow-hidden pl-4 border-l border-[#4A4A4A]/10 dark:border-white/[0.08]"
                                             >
                                                 {serviceSubItems.map((sub) => (
                                                     <Link
@@ -259,10 +262,12 @@ const Header = () => {
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: navItems.length * 0.05 }}
+                                    className="flex items-center gap-3 mt-2"
                                 >
+                                    <ThemeToggle />
                                     <Link
                                         href="/contact"
-                                        className="btn-primary inline-flex items-center justify-center gap-2 mt-2"
+                                        className="btn-primary inline-flex items-center justify-center gap-2 flex-1"
                                     >
                                         <Phone size={18} />
                                         <span className="relative flex items-center gap-2">

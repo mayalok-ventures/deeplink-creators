@@ -34,7 +34,7 @@ export default function TestimonialsPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
@@ -55,11 +55,11 @@ export default function TestimonialsPage() {
                             <span className="text-sm font-medium">Trusted by Businesses Across India</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-4xl font-heading font-extrabold mb-6 leading-tight">
                             What Our Clients{' '}
                             <span className="text-[#C39A2B]">Say About Us</span>
                         </h1>
-                        <p className="text-xl text-paragraph max-w-2xl mx-auto">
+                        <p className="text-lg text-paragraph max-w-2xl mx-auto">
                             Real feedback from real businesses. See why companies trust Deeplink Creators to deliver measurable results.
                         </p>
                     </motion.div>
@@ -67,13 +67,13 @@ export default function TestimonialsPage() {
             </section>
 
             {/* Testimonials Grid */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-4">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Client <span className="text-[#C39A2B]">Testimonials</span>
                         </h2>
-                        <p className="text-xl text-paragraph max-w-3xl mx-auto">
+                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
                             Every review is from a real client who experienced real growth with our strategies.
                         </p>
                     </div>
@@ -149,11 +149,11 @@ export default function TestimonialsPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                             Ready to Be Our Next{' '}
                             <span className="text-[#C39A2B]">Success Story?</span>
                         </h2>
-                        <p className="text-xl text-paragraph mb-8 max-w-2xl mx-auto">
+                        <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                             Join the growing list of businesses that chose results over promises. Let&apos;s build something measurable together.
                         </p>
                         <Link

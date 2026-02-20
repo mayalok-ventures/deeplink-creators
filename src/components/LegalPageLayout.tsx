@@ -50,7 +50,7 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
     }
 
     return (
-        <div className="bg-white min-h-screen pt-8 pb-20">
+        <div className="bg-white dark:bg-[#0F1112] min-h-screen pt-8 pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-8 border-b border-[#4A4A4A]/10 pb-8">
                     <div className="flex items-center gap-3 mb-4">

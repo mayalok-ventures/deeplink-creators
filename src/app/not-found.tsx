@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function NotFound() {
     return (
-        <section className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden">
+        <section className="min-h-screen bg-white dark:bg-[#0F1112] flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C39A2B]/5 rounded-full blur-3xl pointer-events-none" />
 

@@ -36,13 +36,13 @@ const itemVariants = {
 const Hero = () => {
     return (
         <section
-            className="relative min-h-[90vh] flex items-center bg-white text-heading overflow-hidden"
+            className="relative min-h-[90vh] flex items-center bg-white dark:bg-[#0F1112] text-heading overflow-hidden"
         >
             {/* Grid Pattern Overlay - Engineering/Precision feel */}
             <div className="absolute inset-0 grid-bg animate-grid-pulse" />
 
             {/* Gradient Mesh Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60 dark:from-[#0F1112]/90 dark:to-[#0F1112]/60 pointer-events-none" />
 
             {/* Animated Floating Orbs */}
             {floatingOrbs.map((orb, i) => (
@@ -84,7 +84,7 @@ const Hero = () => {
                             {/* Main Headline */}
                             <motion.h1
                                 variants={itemVariants}
-                                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight"
+                                className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight"
                             >
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
                                     Ads pe paisa jala rahe ho?
@@ -104,7 +104,7 @@ const Hero = () => {
                             {/* Sub-headline */}
                             <motion.p
                                 variants={itemVariants}
-                                className="text-lg md:text-xl lg:text-2xl text-paragraph mb-10 max-w-2xl leading-relaxed"
+                                className="text-base md:text-lg lg:text-xl text-paragraph mb-10 max-w-2xl leading-relaxed"
                             >
                                 The top SEO company in Greater Noida &amp; Noida. We don&apos;t deliver clicks — we deliver{' '}
                                 <span className="font-semibold text-heading">
@@ -120,7 +120,7 @@ const Hero = () => {
                             >
                                 <Link
                                     href="/contact"
-                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(195,154,43,0.4)] hover:-translate-y-0.5"
+                                    className="group relative inline-flex items-center justify-center gap-2 text-base font-semibold py-3.5 px-8 rounded-xl bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(195,154,43,0.4)] hover:-translate-y-0.5"
                                 >
                                     <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#E0C27A] to-[#B87A14] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     <span className="relative flex items-center gap-2">
@@ -133,7 +133,7 @@ const Hero = () => {
                                 </Link>
                                 <Link
                                     href="/blog"
-                                    className="group relative inline-flex items-center justify-center gap-2 text-lg font-semibold py-4 px-10 rounded-xl bg-[#F4F5F6] text-heading border border-[#4A4A4A]/15 transition-all duration-300 hover:bg-[#F4F5F6]/80 hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(195,154,43,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
+                                    className="group relative inline-flex items-center justify-center gap-2 text-base font-semibold py-3.5 px-8 rounded-xl bg-[#F4F5F6] dark:bg-white/[0.05] text-heading border border-[#4A4A4A]/15 dark:border-white/[0.1] transition-all duration-300 hover:bg-[#F4F5F6]/80 dark:hover:bg-white/[0.1] hover:border-primary-500/30 hover:shadow-[0_0_25px_rgba(195,154,43,0.15)] hover:-translate-y-0.5 backdrop-blur-sm"
                                 >
                                     <Play
                                         size={20}

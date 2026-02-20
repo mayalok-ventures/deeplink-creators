@@ -13,7 +13,7 @@ export default function ContactPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
 
                 <motion.div
@@ -34,10 +34,10 @@ export default function ContactPage() {
                             <span className="text-sm font-medium">We Respond Within 24 Hours</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-4xl font-heading font-extrabold mb-6 leading-tight">
                             Ready to <span className="text-[#C39A2B]">Scale Your Business</span>?
                         </h1>
-                        <p className="text-xl text-paragraph">
+                        <p className="text-lg text-paragraph">
                             Fill out the form to get your FREE ROI Audit. The best digital marketing agency in Greater Noida &amp; Noida — serving businesses across Delhi NCR with SEO, performance marketing, and branding.
                         </p>
                     </motion.div>
@@ -45,7 +45,7 @@ export default function ContactPage() {
             </section>
 
             {/* Form + Contact Info */}
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Contact Form */}

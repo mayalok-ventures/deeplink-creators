@@ -3,12 +3,12 @@ import HomePage from '@/components/HomePage'
 
 export const metadata: Metadata = {
     title: {
-        absolute: 'Deeplink Creators | Top Digital Marketing Agency in Greater Noida & Delhi',
+        absolute: 'Deeplink Creators | Best Digital Marketing Company in India',
     },
-    description: 'Scale your revenue with AI-driven SEO, Google Ads, and Social Media Marketing. The preferred agency for Noida Real Estate & Tech Startups.',
+    description: 'Scale your revenue with enterprise SEO, performance marketing, and lead generation. India\'s premier revenue-focused digital marketing agency for enterprises and startups.',
     openGraph: {
-        title: 'Deeplink Creators | Top Digital Marketing Agency in Greater Noida & Delhi',
-        description: 'Scale your revenue with AI-driven SEO, Google Ads, and Social Media Marketing. The preferred agency for Noida Real Estate & Tech Startups.',
+        title: 'Deeplink Creators | Best Digital Marketing Company in India',
+        description: 'Scale your revenue with enterprise SEO, performance marketing, and lead generation. India\'s premier revenue-focused digital marketing agency for enterprises and startups.',
         url: 'https://deeplinkcreators.com/',
     },
     alternates: {

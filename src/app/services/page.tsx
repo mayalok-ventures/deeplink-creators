@@ -111,15 +111,15 @@ export default function ServicesPage() {
                     >
                         <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
                             <span className="w-2 h-2 bg-[#C39A2B] rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium">Best Digital Marketing Agency in Greater Noida &amp; Noida</span>
+                            <span className="text-sm font-medium">Best Digital Marketing Company in India</span>
                         </div>
 
                         <h1 className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
-                            Digital Marketing Services in Greater Noida That Build{' '}
+                            Digital Marketing Services in India That Build{' '}
                             <span className="text-[#C39A2B]">Revenue Machines</span>
                         </h1>
                         <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
-                            The top SEO company &amp; digital marketing agency in Noida. We design custom marketing systems — SEO, Google Ads, PPC, and branding — engineered to deliver leads, sales, and measurable ROI for your business in Delhi NCR.
+                            The top digital marketing company in India. We design custom marketing systems — enterprise SEO, Google Ads, PPC, performance marketing, and lead generation — engineered to deliver customers, revenue, and measurable ROI for your business.
                         </p>
 
 
@@ -201,7 +201,7 @@ export default function ServicesPage() {
                             Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            The best digital marketing company in Delhi NCR. Here&apos;s what makes us different from other SEO agencies in Greater Noida.
+                            The best digital marketing company in India. Here&apos;s what makes us different from other agencies.
                         </p>
                     </div>
 
@@ -244,7 +244,7 @@ export default function ServicesPage() {
                             <span className="text-[#C39A2B]">Let's Talk.</span>
                         </h2>
                         <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
-                            Book a FREE strategy call with the best SEO consultant in Greater Noida. We&apos;ll build a custom digital marketing plan — SEO, Google Ads, or performance marketing — based on your business goals and budget.
+                            Book a FREE strategy call with India&apos;s leading digital marketing experts. We&apos;ll build a custom plan — SEO, Google Ads, or performance marketing — based on your business goals and budget.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link

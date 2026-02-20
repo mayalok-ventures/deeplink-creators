@@ -2,17 +2,17 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Contact Deeplink Creators | Free ROI Audit & Strategy Session',
-    description: 'Get in touch with the top digital marketing agency in Greater Noida. Book a free ROI audit, request a custom SEO or PPC proposal, or schedule a strategy call for your business in Noida & Delhi NCR.',
+    description: 'Get in touch with India\'s leading revenue-focused digital marketing agency. Book a free ROI audit, request a custom SEO or performance marketing proposal, or schedule a strategy call.',
     openGraph: {
         title: 'Contact Deeplink Creators | Free ROI Audit & Strategy Session',
-        description: 'Book a free ROI audit or schedule a strategy call with the top digital marketing agency in Greater Noida & Delhi NCR.',
+        description: 'Book a free ROI audit or schedule a strategy call with the best digital marketing company in India.',
         url: 'https://deeplinkcreators.com/contact/',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Contact Deeplink Creators | Free Strategy Session',
-        description: 'Book a free ROI audit with the best digital marketing agency in Greater Noida & Delhi NCR.',
+        description: 'Book a free ROI audit with the best digital marketing company in India.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com/contact/',

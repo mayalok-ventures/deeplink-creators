@@ -9,7 +9,7 @@ export default function ContactManager() {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [form, setForm] = useState<SiteSettings>({
-        phone: '', email: '', address: '', city: 'Greater Noida',
+        phone: '', email: '', address: '', city: '',
         state: 'Uttar Pradesh', pincode: '', workingHoursWeekdays: '9:00 AM - 6:00 PM',
         workingHoursSaturday: '10:00 AM - 2:00 PM', workingHoursSunday: 'Closed',
     })

@@ -38,7 +38,7 @@ export default function ContactPage() {
                             Ready to <span className="text-[#C39A2B]">Scale Your Business</span>?
                         </h1>
                         <p className="text-lg text-paragraph">
-                            Fill out the form to get your FREE ROI Audit. The best digital marketing agency in Greater Noida &amp; Noida — serving businesses across Delhi NCR with SEO, performance marketing, and branding.
+                            Fill out the form to get your FREE ROI Audit. India&apos;s leading revenue-focused digital marketing agency — serving businesses across India with enterprise SEO, performance marketing, and lead generation.
                         </p>
                     </motion.div>
                 </div>
@@ -88,8 +88,8 @@ export default function ContactPage() {
                                             <div className="w-2 h-2 bg-[#C39A2B] rounded-full"></div>
                                         </div>
                                         <div>
-                                            <h4 className="font-semibold text-heading">Greater Noida Specialists</h4>
-                                            <p className="text-sm text-paragraph">Local SEO &amp; digital marketing experts for Greater Noida, Noida &amp; Delhi NCR</p>
+                                            <h4 className="font-semibold text-heading">Pan-India Expertise</h4>
+                                            <p className="text-sm text-paragraph">Enterprise SEO, performance marketing &amp; lead generation experts serving businesses across India</p>
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
@@ -140,8 +140,7 @@ export default function ContactPage() {
                                         <div>
                                             <p className="font-medium text-heading">Visit Us</p>
                                             <p className="text-paragraph">
-                                                Sector Alpha 1<br />
-                                                <span className="font-semibold">Greater Noida</span>, UP 201310
+                                               <span className="font-semibold">India</span>
                                             </p>
                                         </div>
                                     </div>

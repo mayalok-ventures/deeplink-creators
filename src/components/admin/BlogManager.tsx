@@ -300,7 +300,7 @@ export default function BlogManager() {
                                 value={tags}
                                 onChange={(e) => setTags(e.target.value)}
                                 className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                placeholder="SEO, Marketing, Greater Noida"
+                                placeholder="SEO, Marketing, India"
                             />
                         </div>
                     </div>
@@ -338,7 +338,7 @@ export default function BlogManager() {
                                     value={keywords}
                                     onChange={(e) => setKeywords(e.target.value)}
                                     className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                    placeholder="seo, digital marketing, web development, greater noida"
+                                    placeholder="seo, digital marketing, performance marketing, lead generation"
                                 />
                                 <p className="text-xs text-paragraph mt-1">Comma-separated keywords for search engines</p>
                             </div>

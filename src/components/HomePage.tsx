@@ -45,8 +45,8 @@ export default function HomePage() {
                             Are You Getting <span className="text-red-400">Vanity Metrics</span> Instead of <span className="text-[#C39A2B]">Real Revenue</span>?
                         </h2>
                         <p className="text-lg text-paragraph mb-8">
-                            Most digital marketing agencies in Delhi NCR give you &quot;likes&quot; and &quot;views&quot; that look good in reports but don&apos;t fill your bank account.
-                            As the best SEO company in Greater Noida, we only measure what matters: <span className="font-semibold text-[#C39A2B]">leads, sales, and ROI</span>.
+                            Most digital marketing agencies in India give you &quot;likes&quot; and &quot;views&quot; that look good in reports but don&apos;t fill your bank account.
+                            As the best digital marketing company in India, we only measure what matters: <span className="font-semibold text-[#C39A2B]">leads, sales, and ROI</span>.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 relative">
@@ -161,7 +161,7 @@ export default function HomePage() {
                                 </div>
                                 <h3 className="font-bold text-lg mb-2 text-heading">The Difference</h3>
                                 <p className="text-paragraph text-left">
-                                    We don&apos;t just run Google Ads or Facebook Ads. As a top digital marketing agency in Noida, we build complete <span className="font-semibold text-heading">Revenue Machines</span> — SEO, PPC, and performance marketing systems that bring you customers 24/7.
+                                    We don&apos;t just run Google Ads or Facebook Ads. As a top performance marketing agency in India, we build complete <span className="font-semibold text-heading">Revenue Machines</span> — enterprise SEO, PPC, and lead generation systems that bring you customers 24/7.
                                 </p>
                             </motion.div>
                         </div>
@@ -201,7 +201,7 @@ export default function HomePage() {
                             ?
                         </h2>
                         <p className="text-lg mb-8 max-w-2xl mx-auto text-white/60">
-                            Whether you need SEO services in Greater Noida, performance marketing, or a complete digital marketing strategy — get your FREE ROI Audit and discover how to get more customers for less money.
+                            Whether you need enterprise SEO services, performance marketing, or a complete digital marketing strategy — get your FREE ROI Audit and discover how to get more customers for less money.
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">

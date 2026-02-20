@@ -33,10 +33,10 @@ const Footer = () => {
     ].filter(s => s.href)
 
     const displayEmail = contact?.email || 'growth@deeplinkcreators.com'
-    const displayCity = contact?.city || 'Greater Noida'
+    const displayCity = contact?.city || 'India'
     const displayAddress = contact?.address
-        ? `${contact.address}, ${contact.city || 'Greater Noida'}, ${contact.state || 'UP'} ${contact.pincode || ''}`
-        : 'Greater Noida, Uttar Pradesh, India'
+        ? `${contact.address}, ${contact.city || 'India'}, ${contact.state || ''} ${contact.pincode || ''}`
+        : 'India'
 
     return (
         <footer className="relative bg-[#0F1112] text-white overflow-hidden">
@@ -56,7 +56,7 @@ const Footer = () => {
                                 </span>
                             </div>
                             <p className="text-white/60 leading-relaxed mb-6 max-w-md">
-                                Best digital marketing agency in Greater Noida &amp; Noida. We combine Data Science with Neuro-Marketing to deliver SEO services, performance marketing, Google Ads management, and branding for businesses across Delhi NCR.
+                                Best digital marketing company in India. We combine Data Science with Neuro-Marketing to deliver enterprise SEO services, performance marketing, lead generation, Google Ads management, and revenue-focused strategies for businesses across India.
                             </p>
                             <div className="flex items-start gap-3">
                                 <MapPin className="text-[#C39A2B] flex-shrink-0 mt-1" size={20} />
@@ -75,7 +75,7 @@ const Footer = () => {
                             </h3>
                             <ul className="space-y-2">
                                 {[
-                                    { href: '/services/industrial-seo', label: 'SEO Services Greater Noida' },
+                                    { href: '/services/industrial-seo', label: 'Enterprise SEO Services India' },
                                     { href: '/services/performance-marketing', label: 'Performance Marketing & PPC' },
                                     { href: '/services/brand-psychology', label: 'Branding & Identity' },
                                     { href: '/services/ai-marketing-automation', label: 'AI Marketing Automation' },

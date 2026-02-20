@@ -4,10 +4,10 @@ import { Search, TrendingUp, Globe, Target, FileText, Link2, ArrowRight, CheckCi
 
 export const metadata: Metadata = {
     title: 'Predictive SEO & Market Dominance | Deeplink Creators',
-    description: 'Capture high-intent buyers with technical SEO architecture, AI-driven content clusters, and high-authority link building in Noida & Delhi.',
+    description: 'Capture high-intent buyers with technical SEO architecture, AI-driven content clusters, and high-authority link building across India.',
     openGraph: {
         title: 'Predictive SEO & Market Dominance | Deeplink Creators',
-        description: 'Capture high-intent buyers with technical SEO architecture, AI-driven content clusters, and high-authority link building in Noida & Delhi.',
+        description: 'Capture high-intent buyers with technical SEO architecture, AI-driven content clusters, and high-authority link building across India.',
         url: 'https://deeplinkcreators.com/services/industrial-seo/',
         type: 'website',
     },
@@ -70,7 +70,7 @@ export default function IndustrialSEOPage() {
                             <span className="text-amber-400">Haven&apos;t Even Found Yet.</span>
                         </h1>
                         <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
-                            Generic SEO agencies optimize for last year&apos;s keywords. We use predictive intelligence to capture high-intent search demand in Noida, Delhi, and nationwide\u2014before anyone else.
+                            Generic SEO agencies optimize for last year&apos;s keywords. We use predictive intelligence to capture high-intent search demand across India\u2014before anyone else.
                         </p>
                         <Link
                             href="/contact"

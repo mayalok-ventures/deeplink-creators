@@ -76,7 +76,7 @@ const Hero = () => {
                                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C39A2B]" />
                                     </span>
                                     <span className="text-sm font-medium text-paragraph tracking-wide">
-                                        Best Digital Marketing Agency in Greater Noida & Noida
+                                        Best Digital Marketing Company in India
                                     </span>
                                 </div>
                             </motion.div>
@@ -87,7 +87,7 @@ const Hero = () => {
                                 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight"
                             >
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
-                                    Ads pe paisa jala rahe ho?
+                                    Still Burning Money on Ads?
                                 </span>
                                 <br />
                                 <span className="text-heading">We Build </span>
@@ -97,7 +97,7 @@ const Hero = () => {
                                 <br className="hidden md:block" />
                                 <span className="text-heading">
                                     {' '}
-                                    for Greater Noida Businesses
+                                    for Businesses Across India
                                 </span>
                             </motion.h1>
 
@@ -106,11 +106,11 @@ const Hero = () => {
                                 variants={itemVariants}
                                 className="text-base md:text-lg lg:text-xl text-paragraph mb-10 max-w-2xl leading-relaxed"
                             >
-                                The top SEO company in Greater Noida &amp; Noida. We don&apos;t deliver clicks — we deliver{' '}
+                                The top performance marketing agency in India. We don&apos;t deliver clicks — we deliver{' '}
                                 <span className="font-semibold text-heading">
-                                    customers, sales, and ROI
+                                    customers, revenue, and measurable ROI
                                 </span>{' '}
-                                through SEO, performance marketing, and Google Ads.
+                                through enterprise SEO, performance marketing, and lead generation.
                             </motion.p>
 
                             {/* CTA Buttons */}

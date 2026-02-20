@@ -1,13 +1,13 @@
 export const COMPANY_INFO = {
     name: "Deeplink Creators",
     parentCompany: "Mayalok Venture",
-    tagline: "Revenue Machines for Greater Noida Businesses",
-    description: "We combine Data Science with Human Psychology to build predictable revenue systems for businesses in Greater Noida.",
+    tagline: "Revenue Machines for Businesses Across India",
+    description: "We combine Data Science with Human Psychology to build predictable revenue systems for businesses across India.",
     phone: "",
     email: "growth@deeplinkcreators.com",
     address: {
-        city: "Greater Noida",
-        state: "Uttar Pradesh",
+        city: "India",
+        state: "",
         country: "India"
     },
     workingHours: {
@@ -29,11 +29,11 @@ export const SERVICES = [
     {
         id: "seo",
         name: "Neuro-SEO",
-        slug: "seo-greater-noida",
+        slug: "enterprise-seo",
         description: "Free Traffic from Google That Actually Converts",
         icon: "Search",
         features: [
-            "Local SEO for Greater Noida",
+            "Enterprise SEO for India",
             "Conversion-Optimized Pages",
             "Competitor Analysis",
             "Monthly Performance Reports"
@@ -56,7 +56,7 @@ export const SERVICES = [
         id: "branding",
         name: "Brand Authority",
         slug: "branding",
-        description: "Become The Industry Leader in Greater Noida",
+        description: "Become The Industry Leader in India",
         icon: "Award",
         features: [
             "Content Strategy",

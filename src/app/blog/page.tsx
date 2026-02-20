@@ -41,7 +41,7 @@ export default async function BlogPage() {
                             <span className="text-[#C39A2B]">Insights & Strategies</span>
                         </h1>
                         <p className="text-lg text-paragraph mb-8">
-                            Digital marketing insights, SEO tips, and actionable strategies for businesses in Greater Noida, Noida &amp; Delhi NCR.
+                            Digital marketing insights, SEO strategies, and actionable growth frameworks for businesses across India.
                         </p>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ export default async function BlogPage() {
                                 Blog Posts Coming Soon
                             </h3>
                             <p className="text-lg text-paragraph">
-                                We are preparing insightful articles about SEO services, performance marketing, Google Ads tips, and digital marketing strategies for businesses in Greater Noida, Noida &amp; Delhi NCR. Check back soon.
+                                We are preparing insightful articles about enterprise SEO, performance marketing, Google Ads strategies, and lead generation for businesses across India. Check back soon.
                             </p>
                         </div>
                     ) : (
@@ -76,7 +76,7 @@ export default async function BlogPage() {
                         Ready to See <span className="text-[#C39A2B]">Growth</span> for Your Business?
                     </h2>
                     <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
-                        Whether you need SEO services in Greater Noida, PPC management, or a digital marketing strategy for your startup in Delhi NCR — book your FREE Revenue Growth Session today.
+                        Whether you need enterprise SEO services, PPC management, or a digital marketing strategy for your business — book your FREE Revenue Growth Session today.
                     </p>
                     <Link href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2 text-lg py-4 px-8 text-white">
                         Book Free Growth Session

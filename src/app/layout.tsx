@@ -9,20 +9,29 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space
 export const metadata: Metadata = {
     metadataBase: new URL('https://deeplinkcreators.com'),
     title: {
-        default: 'Deeplink Creators | AI-Driven Digital Marketing Agency in Greater Noida',
+        default: 'Deeplink Creators | Best Digital Marketing Company in India',
         template: '%s | Deeplink Creators'
     },
-    description: 'Deeplink Creators is a data-driven digital marketing agency in Greater Noida & Delhi NCR specializing in SEO, Performance Marketing, and Branding for Real Estate & Startups.',
+    description: 'Deeplink Creators is a data-driven digital marketing agency in India specializing in SEO, Performance Marketing, Lead Generation, and Revenue-Focused Digital Transformation for enterprises and startups.',
     keywords: [
-        'digital marketing agency in Greater Noida', 'digital marketing agency in Noida', 'SEO company in Greater Noida', 'SEO company in Noida',
-        'SEO services in Greater Noida', 'SEO services in Noida', 'local SEO services Greater Noida', 'best digital marketing company in Delhi NCR',
-        'digital marketing agency in Delhi', 'SEO consultant in Greater Noida', 'SEO consultant in Noida', 'website SEO services Delhi NCR',
-        'affordable SEO services Noida', 'SEO company near me Greater Noida', 'top SEO agency in Noida',
-        'small business SEO services Greater Noida', 'Google My Business optimization Greater Noida', 'SEO & social media marketing Greater Noida',
-        'ecommerce SEO services Noida', 'digital marketing for startups Delhi NCR', 'SEO for local businesses Noida',
-        'content marketing services in Noida', 'website SEO audit Greater Noida', 'SEO expert in Delhi NCR', 'technical SEO services Noida',
-        'performance marketing', 'branding agency Greater Noida', 'neuro-marketing', 'lead generation Greater Noida', 'ROI focused marketing',
-        'PPC services Greater Noida', 'Google Ads expert Delhi NCR', 'Facebook Ads agency Noida',
+        'best digital marketing company in india', 'digital marketing agency in india', 'top digital marketing company in india',
+        'digital marketing services in india', 'digital marketing firm in india', 'online marketing company in india',
+        'performance marketing agency in india', 'growth marketing agency in india', 'ROI focused digital marketing agency india',
+        'seo company in india', 'seo agency in india', 'enterprise seo services india',
+        'ppc agency in india', 'google ads agency in india', 'performance marketing company india',
+        'lead generation company in india', 'b2b lead generation agency india', 'high ticket lead generation india',
+        'website development company india', 'conversion focused web design india',
+        'data driven digital marketing agency india', 'revenue focused digital marketing company india',
+        'enterprise digital marketing agency india', 'predictive seo company india',
+        'B2B performance marketing agency India', 'enterprise lead generation company India',
+        'revenue marketing agency India', 'customer acquisition agency for startups',
+        'conversion rate optimization agency India', 'predictive SEO services India',
+        'real estate digital marketing agency India', 'digital marketing for SaaS companies India',
+        'healthcare performance marketing India', 'premium digital marketing agency in India',
+        'Next.js web development agency India',
+        'best agency for digital marketing in india', 'digital marketing company for businesses in india',
+        'scalable digital marketing solutions india', 'digital marketing agency for startups in india',
+        'performance marketing', 'neuro-marketing', 'ROI focused marketing',
     ],
     authors: [{ name: 'Deeplink Creators' }],
     creator: 'Deeplink Creators',
@@ -43,21 +52,21 @@ export const metadata: Metadata = {
         locale: 'en_IN',
         url: 'https://deeplinkcreators.com',
         siteName: 'Deeplink Creators',
-        title: 'Deeplink Creators | AI-Driven Digital Marketing Agency in Greater Noida',
-        description: 'Data-driven digital marketing agency in Greater Noida & Delhi NCR. SEO, Performance Marketing, PPC, Google Ads, and Branding for Real Estate & Startups.',
+        title: 'Deeplink Creators | Best Digital Marketing Company in India',
+        description: 'Data-driven digital marketing agency in India. SEO, Performance Marketing, PPC, Google Ads, Lead Generation, and Revenue-Focused Digital Transformation for enterprises and startups.',
         images: [
             {
                 url: '/images/logo.svg',
                 width: 1200,
                 height: 630,
-                alt: 'Deeplink Creators - AI-Driven Digital Marketing Agency in Greater Noida',
+                alt: 'Deeplink Creators - Best Digital Marketing Company in India',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Deeplink Creators | AI-Driven Digital Marketing Agency',
-        description: 'Data-driven digital marketing agency in Greater Noida & Delhi NCR. SEO, Performance Marketing & Branding that delivers real ROI.',
+        title: 'Deeplink Creators | Best Digital Marketing Company in India',
+        description: 'Data-driven digital marketing agency in India. SEO, Performance Marketing, Lead Generation & Revenue-Focused strategies that deliver real ROI.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com',
@@ -72,24 +81,22 @@ const jsonLd = {
     "@id": "https://deeplinkcreators.com",
     "url": "https://deeplinkcreators.com",
     "logo": "https://deeplinkcreators.com/logo.png",
-    "description": "AI-Driven Digital Marketing Agency in Greater Noida.",
+    "description": "Best Digital Marketing Company in India — Revenue-Focused SEO, Performance Marketing & Lead Generation.",
     "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Greater Noida",
-        "addressRegion": "Uttar Pradesh",
+        "addressLocality": "India",
+        "addressRegion": "India",
         "addressCountry": "IN"
     },
     "geo": {
         "@type": "GeoCoordinates",
-        "latitude": "28.4744",
-        "longitude": "77.5040"
+        "latitude": "20.5937",
+        "longitude": "78.9629"
     },
     "areaServed": [
-        { "@type": "City", "name": "Greater Noida" },
-        { "@type": "City", "name": "Noida" },
-        { "@type": "AdministrativeArea", "name": "Delhi NCR" }
+        { "@type": "Country", "name": "India" }
     ],
-    "serviceType": ["SEO Services", "Local SEO", "Performance Marketing", "Google Ads Management", "Facebook Ads", "PPC Services", "Branding", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Ecommerce SEO", "Technical SEO", "Google My Business Optimization", "Lead Generation"],
+    "serviceType": ["SEO Services", "Enterprise SEO Services", "Predictive SEO", "Performance Marketing", "B2B Performance Marketing", "Google Ads Management", "PPC Services", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Customer Acquisition", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Next.js Web Development"],
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -99,7 +106,7 @@ const jsonLd = {
     "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "sales",
-        "areaServed": ["Noida", "Greater Noida", "Delhi"]
+        "areaServed": ["India"]
     }
 }
 
@@ -112,8 +119,8 @@ const organizationSchema = {
         "@type": "Organization",
         "name": "Mayalok Venture"
     },
-    "areaServed": "Greater Noida, Noida, Delhi NCR, Uttar Pradesh, India",
-    "knowsAbout": ["SEO", "Local SEO", "Performance Marketing", "Google Ads", "Facebook Ads", "PPC", "Branding", "Neuro-Marketing", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Ecommerce SEO", "Technical SEO", "Lead Generation", "Google My Business Optimization"]
+    "areaServed": "India",
+    "knowsAbout": ["SEO", "Enterprise SEO", "Predictive SEO", "Performance Marketing", "B2B Performance Marketing", "Google Ads", "PPC", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Customer Acquisition for Startups", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Next.js Web Development"]
 }
 
 const websiteSchema = {
@@ -134,34 +141,34 @@ const faqSchema = {
     "mainEntity": [
         {
             "@type": "Question",
-            "name": "What is the best digital marketing agency in Greater Noida?",
+            "name": "What is the best digital marketing company in India?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators is the best digital marketing agency in Greater Noida, specializing in SEO services, performance marketing, Google Ads, PPC, and branding with a focus on delivering measurable ROI for local businesses."
+                "text": "Deeplink Creators is the best digital marketing company in India, specializing in Enterprise SEO, Predictive SEO, B2B Performance Marketing, Lead Generation, Revenue Marketing, and Conversion Rate Optimization with a focus on delivering measurable ROI for enterprises and startups."
             }
         },
         {
             "@type": "Question",
-            "name": "How much do SEO services cost in Greater Noida?",
+            "name": "How much do SEO services cost in India?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators offers affordable SEO services in Greater Noida starting from customized plans based on your business needs. Contact us for a free SEO audit and custom quote."
+                "text": "Deeplink Creators offers affordable and enterprise-grade SEO services in India with customized plans based on your business needs. Contact us for a free SEO audit and custom quote."
             }
         },
         {
             "@type": "Question",
-            "name": "Do you provide Google Ads management in Noida?",
+            "name": "Do you provide Google Ads management in India?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, Deeplink Creators provides expert Google Ads management and PPC services in Noida and Greater Noida with a focus on ROI-positive campaigns for businesses across Delhi NCR."
+                "text": "Yes, Deeplink Creators provides expert Google Ads management and PPC services across India with a focus on ROI-positive campaigns for enterprises and startups."
             }
         },
         {
             "@type": "Question",
-            "name": "What digital marketing services do you offer in Delhi NCR?",
+            "name": "What digital marketing services do you offer in India?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "We offer SEO services, local SEO, Google Ads, Facebook Ads, performance marketing, branding, content marketing, social media marketing, ecommerce SEO, technical SEO, and Google My Business optimization for businesses in Greater Noida, Noida, and Delhi NCR."
+                "text": "We offer Enterprise SEO, Predictive SEO, B2B Performance Marketing, Google Ads, PPC, Lead Generation, Revenue Marketing, Conversion Rate Optimization, Customer Acquisition, Content Marketing, Social Media Marketing, and Next.js Web Development for businesses across India."
             }
         }
     ]
@@ -234,20 +241,20 @@ export default function RootLayout({
                 <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
 
                 {/* Additional SEO meta for all crawlers */}
-                <meta name="geo.region" content="IN-UP" />
-                <meta name="geo.placename" content="Greater Noida" />
-                <meta name="geo.position" content="28.4744;77.5040" />
-                <meta name="ICBM" content="28.4744, 77.5040" />
+                <meta name="geo.region" content="IN" />
+                <meta name="geo.placename" content="India" />
+                <meta name="geo.position" content="20.5937;78.9629" />
+                <meta name="ICBM" content="20.5937, 78.9629" />
                 <meta name="language" content="English" />
                 <meta name="revisit-after" content="7 days" />
                 <meta name="rating" content="general" />
                 <meta name="distribution" content="global" />
 
                 {/* Dublin Core metadata for academic/advanced crawlers */}
-                <meta name="DC.title" content="Deeplink Creators - Digital Marketing Agency in Greater Noida" />
+                <meta name="DC.title" content="Deeplink Creators - Best Digital Marketing Company in India" />
                 <meta name="DC.creator" content="Deeplink Creators" />
-                <meta name="DC.subject" content="Digital Marketing, SEO, Performance Marketing, Branding" />
-                <meta name="DC.description" content="Best digital marketing agency in Greater Noida & Noida specializing in SEO, PPC, Google Ads, and branding for Delhi NCR businesses." />
+                <meta name="DC.subject" content="Digital Marketing, SEO, Performance Marketing, Lead Generation, Revenue Marketing, B2B Marketing" />
+                <meta name="DC.description" content="Best digital marketing company in India specializing in SEO, Performance Marketing, Lead Generation, PPC, Google Ads, and revenue-focused strategies for enterprises and startups." />
                 <meta name="DC.language" content="en" />
                 <script
                     type="application/ld+json"

@@ -108,13 +108,13 @@ export default function AnalyticsDashboard() {
                     <button
                         onClick={() => loadData(selectedPeriod)}
                         disabled={loading}
-                        className="p-2 rounded-lg text-paragraph hover:text-heading hover:bg-white/[0.05] transition-colors disabled:opacity-50"
+                        className="p-2 rounded-lg text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-colors disabled:opacity-50"
                         title="Refresh"
                     >
                         <Activity size={16} className={loading ? 'animate-spin' : ''} />
                     </button>
                 </div>
-                <div className="flex items-center gap-1 bg-white/[0.03] rounded-xl p-1">
+                <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] rounded-xl p-1">
                     {PERIODS.map(p => (
                         <button
                             key={p.days}
@@ -122,7 +122,7 @@ export default function AnalyticsDashboard() {
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                                 selectedPeriod === p.days
                                     ? 'bg-primary-500/20 text-primary-400 border border-primary-500/20'
-                                    : 'text-paragraph hover:text-heading hover:bg-white/[0.03] border border-transparent'
+                                    : 'text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.03] border border-transparent'
                             }`}
                         >
                             {p.label}
@@ -144,7 +144,7 @@ export default function AnalyticsDashboard() {
                                 style={{ backgroundColor: getSourceColor(s.source) }}
                             />
                             <span className="text-sm text-heading w-28 flex-shrink-0 truncate">{s.source}</span>
-                            <div className="flex-1 relative h-2 bg-white/[0.04] rounded-full overflow-hidden">
+                            <div className="flex-1 relative h-2 bg-gray-100 dark:bg-white/[0.04] rounded-full overflow-hidden">
                                 <div
                                     className="absolute inset-y-0 left-0 rounded-full transition-all duration-500"
                                     style={{
@@ -239,7 +239,7 @@ function TrafficChart({
         <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-heading">Visitor Analytics</h3>
-                <div className="flex items-center gap-1 bg-white/[0.03] rounded-lg p-1">
+                <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] rounded-lg p-1">
                     {(['visitors', 'pageViews'] as const).map(tab => (
                         <button
                             key={tab}
@@ -267,7 +267,7 @@ function TrafficChart({
                     {yTicks.map(tick => (
                         <div
                             key={tick}
-                            className="absolute left-0 right-0 border-t border-white/[0.04]"
+                            className="absolute left-0 right-0 border-t border-gray-200 dark:border-white/[0.04]"
                             style={{ bottom: `${(tick / topTick) * 100}%` }}
                         />
                     ))}
@@ -285,7 +285,7 @@ function TrafficChart({
                                 style={{ minWidth: 0 }}
                             >
                                 <div className="absolute bottom-full mb-2 hidden group-hover:block z-10">
-                                    <div className="bg-dark-300 border border-white/[0.1] rounded-lg px-3 py-1.5 text-xs text-heading whitespace-nowrap shadow-xl">
+                                    <div className="bg-white dark:bg-dark-300 border border-gray-200 dark:border-white/[0.1] rounded-lg px-3 py-1.5 text-xs text-heading whitespace-nowrap shadow-lg">
                                         <p className="font-medium">{formatDate(d.date)}</p>
                                         <p className="text-paragraph">
                                             {chartTab === 'visitors' ? 'Visitors' : 'Views'}: {val.toLocaleString()}
@@ -353,7 +353,7 @@ function DevicesCard({ devices }: { devices: AnalyticsData['devices'] }) {
                                     <span className="text-sm font-medium" style={{ color }}>{d.percentage}%</span>
                                 </div>
                             </div>
-                            <div className="h-2 bg-white/[0.04] rounded-full overflow-hidden">
+                            <div className="h-2 bg-gray-100 dark:bg-white/[0.04] rounded-full overflow-hidden">
                                 <div
                                     className="h-full rounded-full transition-all duration-500"
                                     style={{ width: `${d.percentage}%`, backgroundColor: color }}
@@ -378,7 +378,7 @@ function TopPagesCard({ topPages }: { topPages: AnalyticsData['topPages'] }) {
                     <div
                         key={p.page}
                         className={`flex items-center justify-between py-2.5 px-3 rounded-lg ${
-                            i % 2 === 0 ? 'bg-white/[0.02]' : ''
+                            i % 2 === 0 ? 'bg-gray-50 dark:bg-white/[0.02]' : ''
                         }`}
                     >
                         <span className="text-sm text-heading truncate flex-1 mr-4" title={p.page}>

@@ -38,6 +38,29 @@ export default function AdminPage() {
     }, [])
 
     useEffect(() => {
+        const root = document.documentElement
+        if (adminDark) {
+            root.classList.add('dark')
+        } else {
+            root.classList.remove('dark')
+        }
+        return () => {
+            const siteTheme = localStorage.getItem('theme')
+            if (siteTheme === 'dark') {
+                root.classList.add('dark')
+            } else if (siteTheme === 'light') {
+                root.classList.remove('dark')
+            } else {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    root.classList.add('dark')
+                } else {
+                    root.classList.remove('dark')
+                }
+            }
+        }
+    }, [adminDark])
+
+    useEffect(() => {
         getAllBlogs().then(blogs => {
             setStats({
                 total: blogs.length,
@@ -60,19 +83,19 @@ export default function AdminPage() {
 
     return (
         <AdminAuth>
-            <div className={`min-h-screen ${adminDark ? 'bg-[#0F1112] text-white/60' : 'bg-gray-50 text-gray-600'}`}>
+            <div className="min-h-screen bg-gray-50 dark:bg-[#0F1112] text-gray-600 dark:text-white/60">
                 {/* Mobile header */}
-                <div className={`lg:hidden flex items-center justify-between p-4 border-b ${adminDark ? 'border-white/[0.06]' : 'border-gray-200'}`}>
-                    <h1 className={`text-lg font-bold font-heading ${adminDark ? 'text-white' : 'text-gray-900'}`}>Admin Panel</h1>
+                <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/[0.06]">
+                    <h1 className="text-lg font-bold font-heading text-gray-900 dark:text-white">Admin Panel</h1>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={toggleAdminTheme}
-                            className={`flex items-center justify-center w-9 h-9 rounded-lg border transition-colors ${adminDark ? 'border-white/[0.1] bg-white/[0.05] hover:bg-white/[0.1] text-white' : 'border-gray-200 bg-white hover:bg-gray-100 text-gray-700'}`}
+                            className="flex items-center justify-center w-9 h-9 rounded-lg border transition-colors border-gray-200 dark:border-white/[0.1] bg-white dark:bg-white/[0.05] hover:bg-gray-100 dark:hover:bg-white/[0.1] text-gray-700 dark:text-white"
                             aria-label="Toggle admin theme"
                         >
                             {adminDark ? <Sun size={16} /> : <Moon size={16} />}
                         </button>
-                        <button onClick={() => setSidebarOpen(!sidebarOpen)} className={adminDark ? 'text-white' : 'text-gray-900'}>
+                        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-900 dark:text-white">
                             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>
@@ -80,18 +103,18 @@ export default function AdminPage() {
 
                 <div className="flex">
                     {/* Sidebar */}
-                    <aside className={`${sidebarOpen ? 'block' : 'hidden'} lg:block fixed lg:sticky top-0 left-0 z-40 w-64 h-screen flex-shrink-0 ${adminDark ? 'bg-[#131415] border-r border-white/[0.06]' : 'bg-white border-r border-gray-200'}`}>
-                        <div className={`p-6 border-b ${adminDark ? 'border-white/[0.06]' : 'border-gray-200'} flex items-center justify-between`}>
+                    <aside className={`${sidebarOpen ? 'block' : 'hidden'} lg:block fixed lg:sticky top-0 left-0 z-40 w-64 h-screen flex-shrink-0 bg-white dark:bg-[#131415] border-r border-gray-200 dark:border-white/[0.06]`}>
+                        <div className="p-6 border-b border-gray-200 dark:border-white/[0.06] flex items-center justify-between">
                             <div>
                                 <h1 className="text-xl font-bold font-heading">
                                     <span className="text-primary-400">Deeplink</span>{' '}
-                                    <span className={adminDark ? 'text-white' : 'text-gray-900'}>Admin</span>
+                                    <span className="text-gray-900 dark:text-white">Admin</span>
                                 </h1>
-                                <p className={`text-xs mt-1 ${adminDark ? 'text-white/50' : 'text-gray-400'}`}>deeplinkcreators.com</p>
+                                <p className="text-xs mt-1 text-gray-400 dark:text-white/50">deeplinkcreators.com</p>
                             </div>
                             <button
                                 onClick={toggleAdminTheme}
-                                className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-lg border transition-colors ${adminDark ? 'border-white/[0.1] bg-white/[0.05] hover:bg-white/[0.1] text-white' : 'border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700'}`}
+                                className="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg border transition-colors border-gray-200 dark:border-white/[0.1] bg-gray-50 dark:bg-white/[0.05] hover:bg-gray-100 dark:hover:bg-white/[0.1] text-gray-700 dark:text-white"
                                 aria-label="Toggle admin theme"
                             >
                                 {adminDark ? <Sun size={16} /> : <Moon size={16} />}
@@ -106,9 +129,7 @@ export default function AdminPage() {
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                                         activeTab === tab.id
                                             ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20'
-                                            : adminDark
-                                                ? 'text-white/50 hover:text-white hover:bg-white/[0.03]'
-                                                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                                            : 'text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/[0.03]'
                                     }`}
                                 >
                                     <tab.icon size={18} />
@@ -117,7 +138,7 @@ export default function AdminPage() {
                             ))}
                         </nav>
 
-                        <div className={`absolute bottom-0 left-0 right-0 p-4 border-t ${adminDark ? 'border-white/[0.06]' : 'border-gray-200'}`}>
+                        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-white/[0.06]">
                             <button
                                 onClick={handleLogout}
                                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
@@ -132,23 +153,23 @@ export default function AdminPage() {
                     <main className="flex-1 min-h-screen p-6 lg:p-8">
                         {activeTab === 'dashboard' && (
                             <div>
-                                <h2 className={`text-2xl font-bold font-heading mb-6 ${adminDark ? 'text-white' : 'text-gray-900'}`}>Dashboard</h2>
+                                <h2 className="text-2xl font-bold font-heading mb-6 text-gray-900 dark:text-white">Dashboard</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                    <div className={`rounded-xl p-6 ${adminDark ? 'bg-[#1A1B1C] border border-white/[0.08]' : 'bg-white border border-gray-200 shadow-sm'}`}>
-                                        <p className={`text-sm mb-1 ${adminDark ? 'text-white/50' : 'text-gray-500'}`}>Total Posts</p>
-                                        <p className={`text-3xl font-bold ${adminDark ? 'text-white' : 'text-gray-900'}`}>{stats.total}</p>
+                                    <div className="rounded-xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm dark:shadow-none">
+                                        <p className="text-sm mb-1 text-gray-500 dark:text-white/50">Total Posts</p>
+                                        <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
                                     </div>
-                                    <div className={`rounded-xl p-6 ${adminDark ? 'bg-[#1A1B1C] border border-white/[0.08]' : 'bg-white border border-gray-200 shadow-sm'}`}>
-                                        <p className={`text-sm mb-1 ${adminDark ? 'text-white/50' : 'text-gray-500'}`}>Published</p>
+                                    <div className="rounded-xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm dark:shadow-none">
+                                        <p className="text-sm mb-1 text-gray-500 dark:text-white/50">Published</p>
                                         <p className="text-3xl font-bold text-accent">{stats.published}</p>
                                     </div>
-                                    <div className={`rounded-xl p-6 ${adminDark ? 'bg-[#1A1B1C] border border-white/[0.08]' : 'bg-white border border-gray-200 shadow-sm'}`}>
-                                        <p className={`text-sm mb-1 ${adminDark ? 'text-white/50' : 'text-gray-500'}`}>Drafts</p>
+                                    <div className="rounded-xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm dark:shadow-none">
+                                        <p className="text-sm mb-1 text-gray-500 dark:text-white/50">Drafts</p>
                                         <p className="text-3xl font-bold text-yellow-400">{stats.drafts}</p>
                                     </div>
                                 </div>
-                                <div className={`rounded-xl p-6 ${adminDark ? 'bg-[#1A1B1C] border border-white/[0.08]' : 'bg-white border border-gray-200 shadow-sm'}`}>
-                                    <h3 className={`text-lg font-bold mb-4 ${adminDark ? 'text-white' : 'text-gray-900'}`}>Quick Actions</h3>
+                                <div className="rounded-xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm dark:shadow-none">
+                                    <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">Quick Actions</h3>
                                     <div className="flex flex-wrap gap-3">
                                         <button
                                             onClick={() => setActiveTab('analytics')}
@@ -158,19 +179,19 @@ export default function AdminPage() {
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('blogs')}
-                                            className={`text-sm py-2 px-4 rounded-lg transition-colors ${adminDark ? 'bg-white/[0.05] border border-white/[0.08] text-white hover:bg-white/[0.08]' : 'bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200'}`}
+                                            className="text-sm py-2 px-4 rounded-lg transition-colors bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.08]"
                                         >
                                             Manage Blog Posts
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('contact')}
-                                            className={`text-sm py-2 px-4 rounded-lg transition-colors ${adminDark ? 'bg-white/[0.05] border border-white/[0.08] text-white hover:bg-white/[0.08]' : 'bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200'}`}
+                                            className="text-sm py-2 px-4 rounded-lg transition-colors bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.08]"
                                         >
                                             Update Contact Info
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('seo')}
-                                            className={`text-sm py-2 px-4 rounded-lg transition-colors ${adminDark ? 'bg-white/[0.05] border border-white/[0.08] text-white hover:bg-white/[0.08]' : 'bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200'}`}
+                                            className="text-sm py-2 px-4 rounded-lg transition-colors bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.08]"
                                         >
                                             SEO Settings
                                         </button>

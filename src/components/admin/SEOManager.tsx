@@ -58,7 +58,7 @@ export default function SEOManager() {
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Site Title</label>
                         <input type="text" value={form.siteTitle} onChange={e => update('siteTitle', e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="Site title for search engines" />
                         <p className="text-xs text-paragraph mt-1">{form.siteTitle.length}/60 characters</p>
                     </div>
@@ -66,7 +66,7 @@ export default function SEOManager() {
                         <label className="block text-sm font-medium text-heading mb-2">Site Description</label>
                         <textarea value={form.siteDescription} onChange={e => update('siteDescription', e.target.value)}
                             rows={3}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="Meta description" />
                         <p className="text-xs text-paragraph mt-1">{form.siteDescription.length}/160 characters</p>
                     </div>
@@ -74,13 +74,13 @@ export default function SEOManager() {
                         <label className="block text-sm font-medium text-heading mb-2">Keywords (comma separated)</label>
                         <textarea value={form.siteKeywords} onChange={e => update('siteKeywords', e.target.value)}
                             rows={2}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="keyword1, keyword2, keyword3" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">OG Image URL</label>
                         <input type="url" value={form.ogImage} onChange={e => update('ogImage', e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="https://deeplinkcreators.com/og-image.jpg" />
                     </div>
                 </div>
@@ -90,13 +90,13 @@ export default function SEOManager() {
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Google Analytics Measurement ID</label>
                         <input type="text" value={form.googleAnalyticsId} onChange={e => update('googleAnalyticsId', e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="G-XXXXXXXXXX" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Meta Pixel ID</label>
                         <input type="text" value={form.metaPixelId} onChange={e => update('metaPixelId', e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="XXXXXXXXXXXXXXX" />
                     </div>
                 </div>

@@ -56,37 +56,37 @@ export default function ContactManager() {
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Phone</label>
                             <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="+91 XXXXX XXXXX" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Email</label>
                             <input type="email" value={form.email} onChange={e => update('email', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="growth@deeplinkcreators.com" />
                         </div>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Address</label>
                         <input type="text" value={form.address} onChange={e => update('address', e.target.value)}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="Street address" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">City</label>
                             <input type="text" value={form.city} onChange={e => update('city', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">State</label>
                             <input type="text" value={form.state} onChange={e => update('state', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Pincode</label>
                             <input type="text" value={form.pincode} onChange={e => update('pincode', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="201310" />
                         </div>
                     </div>
@@ -98,17 +98,17 @@ export default function ContactManager() {
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Weekdays</label>
                             <input type="text" value={form.workingHoursWeekdays} onChange={e => update('workingHoursWeekdays', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Saturday</label>
                             <input type="text" value={form.workingHoursSaturday} onChange={e => update('workingHoursSaturday', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-heading mb-2">Sunday</label>
                             <input type="text" value={form.workingHoursSunday} onChange={e => update('workingHoursSunday', e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
                         </div>
                     </div>
                 </div>

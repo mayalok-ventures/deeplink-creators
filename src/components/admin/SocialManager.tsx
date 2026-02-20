@@ -65,12 +65,12 @@ export default function SocialManager() {
                                     type="url"
                                     value={form[field.key]}
                                     onChange={e => update(field.key, e.target.value)}
-                                    className="flex-1 px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                    className="flex-1 px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                     placeholder={field.placeholder}
                                 />
                                 {form[field.key] && (
                                     <a href={form[field.key]} target="_blank" rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-12 bg-white/[0.05] border border-white/[0.08] rounded-lg text-paragraph hover:text-heading transition-colors">
+                                        className="flex items-center justify-center w-12 bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] rounded-lg text-paragraph hover:text-heading transition-colors">
                                         <ExternalLink size={16} />
                                     </a>
                                 )}

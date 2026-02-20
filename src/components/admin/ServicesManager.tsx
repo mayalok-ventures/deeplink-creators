@@ -57,7 +57,7 @@ const PAGE_OPTIONS = [
 
 type EditorMode = 'list' | 'create' | 'edit'
 
-const inputClass = 'w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
+const inputClass = 'w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
 
 export default function ServicesManager() {
     const [cards, setCards] = useState<ServiceCardData[]>([])
@@ -361,7 +361,7 @@ export default function ServicesManager() {
                                     onChange={(e) => setVisible(e.target.checked)}
                                     className="sr-only"
                                 />
-                                <div className={`w-11 h-6 rounded-full transition-colors ${visible ? 'bg-accent' : 'bg-white/[0.1]'}`}>
+                                <div className={`w-11 h-6 rounded-full transition-colors ${visible ? 'bg-accent' : 'bg-gray-300 dark:bg-white/[0.1]'}`}>
                                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${visible ? 'translate-x-5' : ''}`} />
                                 </div>
                             </div>
@@ -389,7 +389,7 @@ export default function ServicesManager() {
                                             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
                                                 isSelected
                                                     ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
-                                                    : 'bg-white/[0.05] border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                                                    : 'bg-gray-100 dark:bg-white/[0.05] border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08]'
                                             }`}
                                         >
                                             {opt.value === 'homepage' ? <Home size={14} /> : <MapPin size={14} />}
@@ -415,7 +415,7 @@ export default function ServicesManager() {
                         </button>
                         <button
                             onClick={() => { setMode('list'); resetForm() }}
-                            className="bg-white/[0.05] border border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-white/[0.08] transition-colors"
+                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                         >
                             Cancel
                         </button>
@@ -434,7 +434,7 @@ export default function ServicesManager() {
                         <button
                             onClick={handleSeed}
                             disabled={seeding}
-                            className="bg-white/[0.05] border border-white/[0.08] text-heading py-2 px-4 rounded-lg hover:bg-white/[0.08] transition-colors text-sm flex items-center gap-2 disabled:opacity-50"
+                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors text-sm flex items-center gap-2 disabled:opacity-50"
                         >
                             {seeding ? (
                                 <Loader2 size={16} className="animate-spin" />
@@ -503,7 +503,7 @@ export default function ServicesManager() {
                                     <button
                                         onClick={() => moveCard(index, 'up')}
                                         disabled={index === 0}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                                         title="Move Up"
                                     >
                                         <ChevronUp size={16} />
@@ -511,7 +511,7 @@ export default function ServicesManager() {
                                     <button
                                         onClick={() => moveCard(index, 'down')}
                                         disabled={index === cards.length - 1}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                                         title="Move Down"
                                     >
                                         <ChevronDown size={16} />
@@ -521,7 +521,7 @@ export default function ServicesManager() {
                                         className={`p-2 rounded-lg border transition-colors ${
                                             card.featured
                                                 ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
-                                                : 'bg-white/[0.05] border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                                                : 'bg-gray-100 dark:bg-white/[0.05] border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08]'
                                         }`}
                                         title={card.featured ? 'Remove from Homepage' : 'Show on Homepage'}
                                     >
@@ -529,14 +529,14 @@ export default function ServicesManager() {
                                     </button>
                                     <button
                                         onClick={() => toggleVisibility(card)}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                                         title={card.visible ? 'Hide' : 'Show'}
                                     >
                                         {card.visible ? <EyeOff size={16} /> : <Eye size={16} />}
                                     </button>
                                     <button
                                         onClick={() => openEdit(card)}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                                         title="Edit"
                                     >
                                         <Edit2 size={16} />
@@ -551,7 +551,7 @@ export default function ServicesManager() {
                                             </button>
                                             <button
                                                 onClick={() => setDeleteConfirm('')}
-                                                className="text-xs bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
+                                                className="text-xs bg-gray-100 dark:bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
                                             >
                                                 Cancel
                                             </button>
@@ -559,7 +559,7 @@ export default function ServicesManager() {
                                     ) : (
                                         <button
                                             onClick={() => setDeleteConfirm(card.id!)}
-                                            className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
+                                            className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 size={16} />

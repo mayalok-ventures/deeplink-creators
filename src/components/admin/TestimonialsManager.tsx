@@ -6,7 +6,7 @@ import { getTestimonials, createTestimonial, updateTestimonial, deleteTestimonia
 
 type EditorMode = 'list' | 'create' | 'edit'
 
-const inputClass = 'w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
+const inputClass = 'w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
 
 const emptyForm = {
     name: '',
@@ -25,7 +25,7 @@ function StarRating({ rating, size = 14 }: { rating: number; size?: number }) {
                 <Star
                     key={i}
                     size={size}
-                    className={i <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/[0.15]'}
+                    className={i <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-white/[0.15]'}
                 />
             ))}
         </div>
@@ -219,7 +219,7 @@ export default function TestimonialsManager() {
                                     onChange={(e) => setForm({ ...form, featured: e.target.checked })}
                                     className="sr-only"
                                 />
-                                <div className={`w-11 h-6 rounded-full transition-colors ${form.featured ? 'bg-primary-500' : 'bg-white/[0.1]'}`}>
+                                <div className={`w-11 h-6 rounded-full transition-colors ${form.featured ? 'bg-primary-500' : 'bg-gray-300 dark:bg-white/[0.1]'}`}>
                                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${form.featured ? 'translate-x-5' : ''}`} />
                                 </div>
                             </div>
@@ -241,7 +241,7 @@ export default function TestimonialsManager() {
                         </button>
                         <button
                             onClick={() => { setMode('list'); resetForm() }}
-                            className="bg-white/[0.05] border border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-white/[0.08] transition-colors"
+                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                         >
                             Cancel
                         </button>
@@ -303,7 +303,7 @@ export default function TestimonialsManager() {
                                         className={`p-2 rounded-lg border transition-colors ${
                                             t.featured
                                                 ? 'bg-yellow-500/20 border-yellow-500/30 text-yellow-400'
-                                                : 'bg-white/[0.05] border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                                                : 'bg-gray-100 dark:bg-white/[0.05] border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08]'
                                         }`}
                                         title={t.featured ? 'Remove from Homepage' : 'Feature on Homepage'}
                                     >
@@ -311,7 +311,7 @@ export default function TestimonialsManager() {
                                     </button>
                                     <button
                                         onClick={() => handleEdit(t)}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                                         title="Edit"
                                     >
                                         <Edit2 size={16} />
@@ -326,7 +326,7 @@ export default function TestimonialsManager() {
                                             </button>
                                             <button
                                                 onClick={() => setDeleteConfirm(null)}
-                                                className="text-xs bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
+                                                className="text-xs bg-gray-100 dark:bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
                                             >
                                                 Cancel
                                             </button>
@@ -334,7 +334,7 @@ export default function TestimonialsManager() {
                                     ) : (
                                         <button
                                             onClick={() => setDeleteConfirm(t.id!)}
-                                            className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
+                                            className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 size={16} />

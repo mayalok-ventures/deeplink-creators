@@ -142,7 +142,7 @@ function ToolbarButton({ active, onClick, children, title, disabled }: {
             className={`p-2 rounded transition-colors ${
                 active
                     ? 'bg-primary-500/20 text-primary-400'
-                    : 'text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                    : 'text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.08]'
             } ${disabled ? 'opacity-30 cursor-not-allowed' : ''}`}
         >
             {children}
@@ -151,7 +151,7 @@ function ToolbarButton({ active, onClick, children, title, disabled }: {
 }
 
 function Divider() {
-    return <div className="w-px h-6 bg-white/[0.08] mx-1 self-center" />
+    return <div className="w-px h-6 bg-gray-200 dark:bg-white/[0.08] mx-1 self-center" />
 }
 
 function DropdownMenu({ trigger, children, open, onToggle }: {
@@ -169,12 +169,12 @@ function DropdownMenu({ trigger, children, open, onToggle }: {
 
     return (
         <div className="relative" ref={ref}>
-            <button type="button" onClick={onToggle} className="flex items-center gap-1 px-2 py-1.5 rounded text-sm text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors">
+            <button type="button" onClick={onToggle} className="flex items-center gap-1 px-2 py-1.5 rounded text-sm text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.08] transition-colors">
                 {trigger}
                 <ChevronDown size={14} />
             </button>
             {open && (
-                <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 min-w-[160px] py-1 max-h-[320px] overflow-y-auto">
+                <div className="absolute top-full left-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 min-w-[160px] py-1 max-h-[320px] overflow-y-auto">
                     {children}
                 </div>
             )}
@@ -380,7 +380,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
 
     const containerClass = isFullscreen
         ? 'fixed inset-0 z-[9999] bg-dark flex flex-col'
-        : 'border border-white/[0.08] rounded-xl overflow-hidden'
+        : 'border border-gray-200 dark:border-white/[0.08] rounded-xl overflow-hidden'
 
     return (
         <div className={containerClass}>
@@ -422,7 +422,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
             `}</style>
 
             {/* Toolbar */}
-            <div className={`bg-[#141C2F] border-b border-white/[0.08] px-2 py-1.5 flex flex-wrap items-center gap-0.5 ${isFullscreen ? 'sticky top-0 z-10' : ''}`}>
+            <div className={`bg-gray-50 dark:bg-[#141C2F] border-b border-gray-200 dark:border-white/[0.08] px-2 py-1.5 flex flex-wrap items-center gap-0.5 ${isFullscreen ? 'sticky top-0 z-10' : ''}`}>
                 {/* Undo/Redo */}
                 <ToolbarButton onClick={() => editor.chain().focus().undo().run()} title="Undo" disabled={!editor.can().undo()}>
                     <Undo2 size={16} />
@@ -440,19 +440,19 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                     trigger={<span className="text-sm min-w-[80px] text-left">{getActiveBlockLabel()}</span>}
                 >
                     <button type="button" onClick={() => { editor.chain().focus().setParagraph().run(); setShowBlockType(false) }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('paragraph') ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
+                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('paragraph') ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
                         <Pilcrow size={14} /> Paragraph
                     </button>
                     <button type="button" onClick={() => { editor.chain().focus().toggleHeading({ level: 1 }).run(); setShowBlockType(false) }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 1 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
+                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 1 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
                         <Heading1 size={14} /> Heading 1
                     </button>
                     <button type="button" onClick={() => { editor.chain().focus().toggleHeading({ level: 2 }).run(); setShowBlockType(false) }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 2 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
+                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 2 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
                         <Heading2 size={14} /> Heading 2
                     </button>
                     <button type="button" onClick={() => { editor.chain().focus().toggleHeading({ level: 3 }).run(); setShowBlockType(false) }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 3 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
+                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('heading', { level: 3 }) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>
                         <Heading3 size={14} /> Heading 3
                     </button>
                 </DropdownMenu>
@@ -468,7 +468,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                     {FONT_FAMILIES.map(font => (
                         <button key={font.value} type="button"
                             onClick={() => { editor.chain().focus().setFontFamily(font.value).run(); setShowFontFamily(false) }}
-                            className={`w-full px-3 py-2 text-left text-sm hover:bg-white/[0.05] ${getActiveFontFamily().includes(font.value) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}
+                            className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] ${getActiveFontFamily().includes(font.value) ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}
                             style={{ fontFamily: font.value }}>
                             {font.label}
                         </button>
@@ -505,7 +505,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <Palette size={16} />
                     </ToolbarButton>
                     {showTextColor && (
-                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-64">
+                        <div className="absolute top-full left-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-64">
                             <div className="flex items-center justify-between mb-2 px-1">
                                 <p className="text-xs text-paragraph">Text Color</p>
                                 <button type="button"
@@ -532,7 +532,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <Highlighter size={16} />
                     </ToolbarButton>
                     {showHighlight && (
-                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-48">
+                        <div className="absolute top-full left-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-2 w-48">
                             <p className="text-xs text-paragraph mb-2 px-1">Highlight</p>
                             <div className="grid grid-cols-4 gap-1">
                                 {HIGHLIGHT_COLORS.map(c => (
@@ -596,16 +596,16 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         </ToolbarButton>
                     )}
                     {showLinkPopover && (
-                        <div className="absolute top-full left-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-72">
+                        <div className="absolute top-full left-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-72">
                             <p className="text-xs text-paragraph mb-2">Insert Link</p>
                             <input type="url" value={linkUrl} onChange={e => setLinkUrl(e.target.value)}
                                 placeholder="https://example.com"
-                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                className="w-full px-3 py-2 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
                                 onKeyDown={e => e.key === 'Enter' && setLink()}
                                 autoFocus />
                             <label className="flex items-center gap-2 text-xs text-paragraph mb-3 cursor-pointer">
                                 <input type="checkbox" checked={linkNewTab} onChange={e => setLinkNewTab(e.target.checked)}
-                                    className="rounded border-white/[0.2] bg-dark" />
+                                    className="rounded border-gray-300 dark:border-white/[0.2] bg-white dark:bg-dark" />
                                 Open in new tab
                             </label>
                             <div className="flex gap-2">
@@ -614,7 +614,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                     <Check size={12} /> Apply
                                 </button>
                                 <button type="button" onClick={() => setShowLinkPopover(false)}
-                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    className="flex-1 bg-gray-100 dark:bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors">
                                     Cancel
                                 </button>
                             </div>
@@ -628,7 +628,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <ImageIcon size={16} />
                     </ToolbarButton>
                     {showImageDialog && (
-                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-80">
+                        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-80">
                             <div className="flex gap-1 mb-3">
                                 <button type="button" onClick={() => setImageTab('upload')}
                                     className={`flex-1 text-xs py-1.5 rounded-lg transition-colors ${imageTab === 'upload' ? 'bg-primary-500/20 text-primary-400' : 'text-paragraph hover:text-heading'}`}>
@@ -647,12 +647,12 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                         onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add('border-primary-500/50') }}
                                         onDragLeave={e => { e.preventDefault(); e.currentTarget.classList.remove('border-primary-500/50') }}
                                         onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove('border-primary-500/50'); const f = e.dataTransfer.files?.[0]; if (f && f.type.startsWith('image/')) handleImageUpload(f) }}
-                                        className="w-full border-2 border-dashed border-white/[0.1] rounded-lg py-8 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors">
+                                        className="w-full border-2 border-dashed border-gray-300 dark:border-white/[0.1] rounded-lg py-8 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors">
                                         {uploading ? (
                                             <div className="flex flex-col items-center gap-2 px-4">
                                                 <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
                                                 <span className="text-sm">Uploading... {uploadProgress}%</span>
-                                                <div className="w-full bg-white/[0.08] rounded-full h-1.5">
+                                                <div className="w-full bg-gray-200 dark:bg-white/[0.08] rounded-full h-1.5">
                                                     <div className="bg-primary-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
                                                 </div>
                                             </div>
@@ -668,7 +668,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                 <div>
                                     <input type="url" value={imageUrl} onChange={e => setImageUrl(e.target.value)}
                                         placeholder="https://example.com/image.jpg"
-                                        className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                        className="w-full px-3 py-2 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
                                         onKeyDown={e => e.key === 'Enter' && addImage(imageUrl)} />
                                     <button type="button" onClick={() => addImage(imageUrl)}
                                         className="w-full bg-primary-500 text-white text-xs py-1.5 rounded-lg hover:bg-primary-600 transition-colors">
@@ -690,11 +690,11 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <YoutubeIcon size={16} />
                     </ToolbarButton>
                     {showYoutubePopover && (
-                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-72">
+                        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-72">
                             <p className="text-xs text-paragraph mb-2">YouTube URL</p>
                             <input type="url" value={youtubeUrl} onChange={e => setYoutubeUrl(e.target.value)}
                                 placeholder="https://youtube.com/watch?v=..."
-                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                className="w-full px-3 py-2 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
                                 onKeyDown={e => e.key === 'Enter' && addYoutube()}
                                 autoFocus />
                             <div className="flex gap-2">
@@ -703,7 +703,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                     Embed
                                 </button>
                                 <button type="button" onClick={() => setShowYoutubePopover(false)}
-                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    className="flex-1 bg-gray-100 dark:bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors">
                                     Cancel
                                 </button>
                             </div>
@@ -717,15 +717,15 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <MousePointerClick size={16} />
                     </ToolbarButton>
                     {showCtaDialog && (
-                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-80">
+                        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-80">
                             <p className="text-xs text-paragraph mb-2">Insert CTA Button</p>
                             <input type="text" value={ctaText} onChange={e => setCtaText(e.target.value)}
                                 placeholder="Button text"
-                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                className="w-full px-3 py-2 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm mb-2 outline-none focus:ring-1 focus:ring-primary-500/50"
                                 autoFocus />
                             <input type="url" value={ctaUrl} onChange={e => setCtaUrl(e.target.value)}
                                 placeholder="https://example.com"
-                                className="w-full px-3 py-2 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm mb-3 outline-none focus:ring-1 focus:ring-primary-500/50"
+                                className="w-full px-3 py-2 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm mb-3 outline-none focus:ring-1 focus:ring-primary-500/50"
                                 onKeyDown={e => e.key === 'Enter' && insertCta()} />
                             <p className="text-xs text-paragraph mb-2">Style</p>
                             <div className="flex gap-2 mb-3">
@@ -751,7 +751,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                     Insert
                                 </button>
                                 <button type="button" onClick={() => setShowCtaDialog(false)}
-                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    className="flex-1 bg-gray-100 dark:bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors">
                                     Cancel
                                 </button>
                             </div>
@@ -787,7 +787,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                         <TableIcon size={16} />
                     </ToolbarButton>
                     {showTableDialog && (
-                        <div className="absolute top-full right-0 mt-1 bg-dark-200 border border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-64">
+                        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-dark-200 border border-gray-200 dark:border-white/[0.08] rounded-lg shadow-xl z-50 p-3 w-64">
                             <p className="text-xs text-paragraph mb-2">Insert Table</p>
                             <div className="grid grid-cols-6 gap-1 mb-2 p-1"
                                 onMouseLeave={() => { setHoverRow(0); setHoverCol(0) }}>
@@ -799,7 +799,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                             className={`w-6 h-6 rounded-sm border transition-colors ${
                                                 r < hoverRow && c < hoverCol
                                                     ? 'bg-primary-500/30 border-primary-500/50'
-                                                    : 'bg-white/[0.03] border-white/[0.08]'
+                                                    : 'bg-gray-50 dark:bg-white/[0.03] border-gray-200 dark:border-white/[0.08]'
                                             }`} />
                                     ))
                                 )}
@@ -811,17 +811,17 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                 <div className="flex-1">
                                     <label className="text-xs text-paragraph block mb-1">Rows</label>
                                     <input type="number" min={1} max={20} value={tableRows} onChange={e => setTableRows(parseInt(e.target.value) || 1)}
-                                        className="w-full px-2 py-1.5 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
+                                        className="w-full px-2 py-1.5 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
                                 </div>
                                 <div className="flex-1">
                                     <label className="text-xs text-paragraph block mb-1">Columns</label>
                                     <input type="number" min={1} max={10} value={tableCols} onChange={e => setTableCols(parseInt(e.target.value) || 1)}
-                                        className="w-full px-2 py-1.5 bg-dark/80 border border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
+                                        className="w-full px-2 py-1.5 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading text-sm outline-none focus:ring-1 focus:ring-primary-500/50" />
                                 </div>
                             </div>
                             <label className="flex items-center gap-2 text-xs text-paragraph mb-3 cursor-pointer">
                                 <input type="checkbox" checked={tableWithHeader} onChange={e => setTableWithHeader(e.target.checked)}
-                                    className="rounded border-white/[0.2] bg-dark" />
+                                    className="rounded border-gray-300 dark:border-white/[0.2] bg-white dark:bg-dark" />
                                 Include header row
                             </label>
                             <div className="flex gap-2">
@@ -830,7 +830,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                                     Insert Table
                                 </button>
                                 <button type="button" onClick={() => setShowTableDialog(false)}
-                                    className="flex-1 bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-white/[0.08] transition-colors">
+                                    className="flex-1 bg-gray-100 dark:bg-white/[0.05] text-paragraph text-xs py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors">
                                     Cancel
                                 </button>
                             </div>
@@ -852,13 +852,13 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
             </div>
 
             {/* Editor Content */}
-            <div className={`bg-dark/80 ${isFullscreen ? 'flex-1 overflow-y-auto' : ''}`}>
+            <div className={`bg-white dark:bg-dark/80 ${isFullscreen ? 'flex-1 overflow-y-auto' : ''}`}>
                 <EditorContent editor={editor} />
             </div>
 
             {/* Image Resize & Align Bar - shows when image is selected */}
             {editor.isActive('image') && (
-                <div className="bg-[#141C2F] border-t border-white/[0.08] px-3 py-2 flex flex-wrap items-center gap-2">
+                <div className="bg-gray-100 dark:bg-[#141C2F] border-t border-gray-200 dark:border-white/[0.08] px-3 py-2 flex flex-wrap items-center gap-2">
                     <span className="text-xs text-paragraph mr-1">Size:</span>
                     {['25%', '50%', '75%', '100%'].map(w => (
                         <button key={w} type="button" onClick={() => {
@@ -867,7 +867,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                             const alignPart = alignMatch ? alignMatch[0] : ''
                             editor.chain().focus().updateAttributes('image', { style: `width: ${w}; ${alignPart}`.trim() } as any).run()
                         }}
-                            className="text-xs px-2 py-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                            className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-white/[0.05] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors border border-gray-200 dark:border-white/[0.08]">
                             {w}
                         </button>
                     ))}
@@ -876,23 +876,23 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                             onChange={e => setImageWidth(e.target.value)}
                             onKeyDown={e => { if (e.key === 'Enter') applyImageWidth(imageWidth) }}
                             onBlur={() => { if (imageWidth) applyImageWidth(imageWidth) }}
-                            className="w-16 px-2 py-1 bg-dark/80 border border-white/[0.08] rounded text-heading text-xs outline-none focus:ring-1 focus:ring-primary-500/50" />
+                            className="w-16 px-2 py-1 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded text-heading text-xs outline-none focus:ring-1 focus:ring-primary-500/50" />
                         <span className="text-xs text-paragraph">px</span>
                     </div>
 
-                    <div className="w-px h-5 bg-white/[0.08] mx-1" />
+                    <div className="w-px h-5 bg-gray-200 dark:bg-white/[0.08] mx-1" />
 
                     <span className="text-xs text-paragraph mr-1">Align:</span>
                     <button type="button" onClick={() => applyImageAlign('left')} title="Align Left"
-                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        className="p-1 rounded bg-gray-100 dark:bg-white/[0.05] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors border border-gray-200 dark:border-white/[0.08]">
                         <AlignLeft size={14} />
                     </button>
                     <button type="button" onClick={() => applyImageAlign('center')} title="Align Center"
-                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        className="p-1 rounded bg-gray-100 dark:bg-white/[0.05] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors border border-gray-200 dark:border-white/[0.08]">
                         <AlignCenter size={14} />
                     </button>
                     <button type="button" onClick={() => applyImageAlign('right')} title="Align Right"
-                        className="p-1 rounded bg-white/[0.05] text-paragraph hover:text-heading hover:bg-white/[0.1] transition-colors border border-white/[0.08]">
+                        className="p-1 rounded bg-gray-100 dark:bg-white/[0.05] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors border border-gray-200 dark:border-white/[0.08]">
                         <AlignRight size={14} />
                     </button>
                 </div>

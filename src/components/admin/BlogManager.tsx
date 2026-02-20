@@ -7,7 +7,7 @@ import { Timestamp } from 'firebase/firestore'
 import dynamic from 'next/dynamic'
 
 const RichTextEditor = dynamic(() => import('./RichTextEditor'), { ssr: false, loading: () => (
-    <div className="border border-white/[0.08] rounded-xl p-12 flex items-center justify-center">
+    <div className="border border-gray-200 dark:border-white/[0.08] rounded-xl p-12 flex items-center justify-center">
         <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
     </div>
 ) })
@@ -196,7 +196,7 @@ export default function BlogManager() {
                                 type="text"
                                 value={title}
                                 onChange={(e) => handleTitleChange(e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="Post title"
                             />
                         </div>
@@ -206,7 +206,7 @@ export default function BlogManager() {
                                 type="text"
                                 value={slug}
                                 onChange={(e) => setSlug(e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="url-friendly-slug"
                             />
                         </div>
@@ -220,7 +220,7 @@ export default function BlogManager() {
 
                         {coverImage ? (
                             <div className="relative group">
-                                <img src={coverImage} alt="Cover" className="w-full max-h-[300px] object-cover rounded-lg border border-white/[0.08]" />
+                                <img src={coverImage} alt="Cover" className="w-full max-h-[300px] object-cover rounded-lg border border-gray-200 dark:border-white/[0.08]" />
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-3">
                                     <button type="button" onClick={() => coverInputRef.current?.click()}
                                         className="bg-primary-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2">
@@ -235,7 +235,7 @@ export default function BlogManager() {
                         ) : (
                             <div className="flex flex-col md:flex-row gap-4">
                                 <button type="button" onClick={() => coverInputRef.current?.click()} disabled={uploadingCover}
-                                    className="flex-1 border-2 border-dashed border-white/[0.1] rounded-lg py-10 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors cursor-pointer">
+                                    className="flex-1 border-2 border-dashed border-gray-300 dark:border-white/[0.1] rounded-lg py-10 text-center text-paragraph hover:border-primary-500/30 hover:text-heading transition-colors cursor-pointer">
                                     {uploadingCover ? (
                                         <div className="flex items-center justify-center gap-2">
                                             <Loader2 size={20} className="animate-spin" />
@@ -255,7 +255,7 @@ export default function BlogManager() {
                                         type="url"
                                         value={coverImage}
                                         onChange={(e) => setCoverImage(e.target.value)}
-                                        className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                        className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                         placeholder="https://example.com/image.jpg"
                                     />
                                 </div>
@@ -276,7 +276,7 @@ export default function BlogManager() {
                             value={excerpt}
                             onChange={(e) => setExcerpt(e.target.value)}
                             rows={3}
-                            className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                             placeholder="Brief summary (auto-generated from content if empty)"
                         />
                     </div>
@@ -289,7 +289,7 @@ export default function BlogManager() {
                                 type="text"
                                 value={author}
                                 onChange={(e) => setAuthor(e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="Author name"
                             />
                         </div>
@@ -299,7 +299,7 @@ export default function BlogManager() {
                                 type="text"
                                 value={tags}
                                 onChange={(e) => setTags(e.target.value)}
-                                className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                 placeholder="SEO, Marketing, India"
                             />
                         </div>
@@ -315,7 +315,7 @@ export default function BlogManager() {
                                     type="text"
                                     value={seoTitle}
                                     onChange={(e) => setSeoTitle(e.target.value)}
-                                    className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                    className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                     placeholder="SEO title (auto-filled from title)"
                                 />
                                 <p className="text-xs text-paragraph mt-1">{seoTitle.length}/60 characters</p>
@@ -326,7 +326,7 @@ export default function BlogManager() {
                                     value={seoDescription}
                                     onChange={(e) => setSeoDescription(e.target.value)}
                                     rows={2}
-                                    className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                    className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                     placeholder="Meta description for search engines"
                                 />
                                 <p className="text-xs text-paragraph mt-1">{seoDescription.length}/160 characters</p>
@@ -337,7 +337,7 @@ export default function BlogManager() {
                                     type="text"
                                     value={keywords}
                                     onChange={(e) => setKeywords(e.target.value)}
-                                    className="w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
+                                    className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
                                     placeholder="seo, digital marketing, performance marketing, lead generation"
                                 />
                                 <p className="text-xs text-paragraph mt-1">Comma-separated keywords for search engines</p>
@@ -355,7 +355,7 @@ export default function BlogManager() {
                                     onChange={(e) => setPublished(e.target.checked)}
                                     className="sr-only"
                                 />
-                                <div className={`w-11 h-6 rounded-full transition-colors ${published ? 'bg-accent' : 'bg-white/[0.1]'}`}>
+                                <div className={`w-11 h-6 rounded-full transition-colors ${published ? 'bg-accent' : 'bg-gray-300 dark:bg-white/[0.1]'}`}>
                                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${published ? 'translate-x-5' : ''}`} />
                                 </div>
                             </div>
@@ -378,7 +378,7 @@ export default function BlogManager() {
                         </button>
                         <button
                             onClick={() => { setMode('list'); resetForm() }}
-                            className="bg-white/[0.05] border border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-white/[0.08] transition-colors"
+                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                         >
                             Cancel
                         </button>
@@ -461,14 +461,14 @@ export default function BlogManager() {
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => togglePublish(blog)}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                                         title={blog.published ? 'Unpublish' : 'Publish'}
                                     >
                                         {blog.published ? <EyeOff size={16} /> : <Eye size={16} />}
                                     </button>
                                     <button
                                         onClick={() => openEdit(blog)}
-                                        className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08] transition-colors"
+                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
                                         title="Edit"
                                     >
                                         <Edit2 size={16} />
@@ -483,7 +483,7 @@ export default function BlogManager() {
                                             </button>
                                             <button
                                                 onClick={() => setDeleteConfirm('')}
-                                                className="text-xs bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
+                                                className="text-xs bg-gray-100 dark:bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
                                             >
                                                 Cancel
                                             </button>
@@ -491,7 +491,7 @@ export default function BlogManager() {
                                     ) : (
                                         <button
                                             onClick={() => setDeleteConfirm(blog.id!)}
-                                            className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
+                                            className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 size={16} />

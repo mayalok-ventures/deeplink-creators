@@ -49,6 +49,7 @@ const industries = [
         description: 'Pipeline architecture for Greater Noida\'s real estate market. We build lead generation systems that fill your inventory — not your inbox with tire-kickers.',
         keywords: ['Lead generation for builders', 'Real estate digital marketing', 'Inventory liquidation campaigns'],
         gradient: 'from-amber-400 to-orange-500',
+        href: '/services/real-estate-marketing',
     },
     {
         icon: <GraduationCap size={28} />,
@@ -56,6 +57,7 @@ const industries = [
         description: 'Knowledge Park institutions need qualified admission leads, not form-fills from students who never show up. We build admission pipelines that convert.',
         keywords: ['College admission lead generation', 'Higher education marketing', 'Student acquisition funnels'],
         gradient: 'from-blue-400 to-indigo-500',
+        href: '/services/education-marketing',
     },
     {
         icon: <Factory size={28} />,
@@ -63,6 +65,7 @@ const industries = [
         description: 'Greater Noida\'s manufacturing corridor needs enterprise-grade demand generation, not social media posts. We build B2B pipelines that deliver qualified RFQs.',
         keywords: ['B2B industrial marketing', 'Manufacturing lead generation', 'Enterprise demand generation'],
         gradient: 'from-emerald-400 to-teal-500',
+        href: '/services/b2b-industrial-marketing',
     },
 ]
 
@@ -357,7 +360,7 @@ export default function GreaterNoidaPage() {
                                     </div>
                                     <h3 className="text-xl font-heading font-bold text-heading mb-3">{industry.title}</h3>
                                     <p className="text-paragraph mb-6">{industry.description}</p>
-                                    <div className="space-y-2">
+                                    <div className="space-y-2 mb-6">
                                         {industry.keywords.map((kw, i) => (
                                             <div key={i} className="flex items-center gap-2">
                                                 <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${industry.gradient}`} />
@@ -365,6 +368,16 @@ export default function GreaterNoidaPage() {
                                             </div>
                                         ))}
                                     </div>
+                                    <Link
+                                        href={industry.href}
+                                        className="inline-flex items-center gap-2 text-[#C39A2B] font-semibold group/btn"
+                                    >
+                                        <span className="relative">
+                                            Learn More
+                                            <span className={`absolute left-0 -bottom-0.5 w-0 h-0.5 bg-gradient-to-r ${industry.gradient} group-hover/btn:w-full transition-all duration-300`} />
+                                        </span>
+                                        <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    </Link>
                                 </div>
                             </motion.div>
                         ))}

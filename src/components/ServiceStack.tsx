@@ -112,7 +112,7 @@ const ServiceStack = () => {
                 >
                     <Link
                         href="/services"
-                        className="inline-flex items-center gap-2 bg-[#F4F5F6] border border-[#4A4A4A]/15 text-heading font-semibold py-3 px-8 rounded-lg hover:bg-[#F4F5F6]/80 hover:border-[#C39A2B]/30 transition-all"
+                        className="inline-flex items-center gap-2 bg-[#F4F5F6] dark:bg-white/[0.05] border border-[#4A4A4A]/15 dark:border-white/[0.1] text-heading font-semibold py-3 px-8 rounded-lg hover:bg-[#F4F5F6]/80 dark:hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all"
                     >
                         View All Services
                         <ArrowRight size={18} />

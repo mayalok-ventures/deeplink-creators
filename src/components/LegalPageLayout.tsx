@@ -52,7 +52,7 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
     return (
         <div className="bg-white dark:bg-[#0F1112] min-h-screen pt-8 pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-8 border-b border-[#4A4A4A]/10 pb-8">
+                <div className="mb-8 border-b border-[#4A4A4A]/10 dark:border-white/[0.08] pb-8">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#C39A2B]/10 border border-[#C39A2B]/20">
                             <FileText className="text-[#C39A2B]" size={20} />
@@ -69,13 +69,13 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
                 <div className="lg:hidden mb-6">
                     <button
                         onClick={() => setTocOpen(!tocOpen)}
-                        className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-[#F4F5F6] border border-[#4A4A4A]/10 text-heading text-sm font-medium"
+                        className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] text-heading text-sm font-medium"
                     >
                         <span>Table of Contents</span>
                         {tocOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                     </button>
                     {tocOpen && (
-                        <nav className="mt-2 rounded-lg bg-[#F4F5F6] border border-[#4A4A4A]/10 p-4 space-y-1">
+                        <nav className="mt-2 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] p-4 space-y-1">
                             {tocItems.map((item) => (
                                 <button
                                     key={item.id}
@@ -83,7 +83,7 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
                                     className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
                                         activeSection === item.id
                                             ? 'bg-[#C39A2B]/10 text-[#C39A2B] font-medium'
-                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6]'
+                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05]'
                                     }`}
                                 >
                                     {item.label}
@@ -95,7 +95,7 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
 
                 <div className="lg:flex lg:gap-10">
                     <aside className="hidden lg:block lg:w-64 flex-shrink-0">
-                        <nav className="sticky top-24 rounded-lg bg-[#F4F5F6] border border-[#4A4A4A]/10 p-4 space-y-1 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                        <nav className="sticky top-24 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] p-4 space-y-1 max-h-[calc(100vh-8rem)] overflow-y-auto">
                             <p className="text-xs font-semibold uppercase tracking-wider text-paragraph/60 mb-3 px-3">
                                 On This Page
                             </p>
@@ -106,7 +106,7 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
                                     className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
                                         activeSection === item.id
                                             ? 'bg-[#C39A2B]/10 text-[#C39A2B] font-medium border-l-2 border-[#C39A2B]'
-                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6]'
+                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05]'
                                     }`}
                                 >
                                     {item.label}
@@ -120,16 +120,16 @@ export default function LegalPageLayout({ title, lastUpdated, tocItems, children
                             {children}
                         </div>
 
-                        <div className="mt-16 pt-8 border-t border-[#4A4A4A]/10">
+                        <div className="mt-16 pt-8 border-t border-[#4A4A4A]/10 dark:border-white/[0.08]">
                             <div className="flex flex-wrap gap-4 text-sm text-paragraph">
                                 <Link href="/terms" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
                                     Terms & Conditions
                                 </Link>
-                                <span className="text-[#4A4A4A]/30">|</span>
+                                <span className="text-[#4A4A4A]/30 dark:text-white/20">|</span>
                                 <Link href="/privacy" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
                                     Privacy Policy
                                 </Link>
-                                <span className="text-[#4A4A4A]/30">|</span>
+                                <span className="text-[#4A4A4A]/30 dark:text-white/20">|</span>
                                 <Link href="/disclaimer" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
                                     Disclaimer
                                 </Link>

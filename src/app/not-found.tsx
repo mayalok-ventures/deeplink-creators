@@ -25,7 +25,7 @@ export default function NotFound() {
                     </Link>
                     <Link
                         href="/contact"
-                        className="bg-[#F4F5F6] border border-[#4A4A4A]/15 text-heading font-semibold py-3 px-6 rounded-lg hover:bg-[#F4F5F6]/80 hover:border-[#C39A2B]/30 transition-all inline-flex items-center justify-center"
+                        className="bg-[#F4F5F6] dark:bg-white/[0.05] border border-[#4A4A4A]/15 dark:border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-[#F4F5F6]/80 dark:hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all inline-flex items-center justify-center"
                     >
                         Contact Us
                     </Link>

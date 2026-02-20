@@ -119,7 +119,7 @@ export default function HomePage() {
                             >
                                 <div className="absolute -inset-[2px] rounded-xl bg-gradient-to-br from-[#B87A14] via-[#C39A2B] to-[#E0C27A] -z-10 opacity-80" />
                                 <div className="absolute -inset-[2px] rounded-xl bg-gradient-to-br from-[#B87A14] via-[#C39A2B] to-[#E0C27A] -z-20 blur-md opacity-30" />
-                                <div className="absolute inset-0 rounded-xl bg-white -z-[5]" />
+                                <div className="absolute inset-0 rounded-xl bg-white dark:bg-[#1A1B1C] -z-[5]" />
 
                                 <motion.div
                                     initial={{ opacity: 0, y: -10, scale: 0.8 }}

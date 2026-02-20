@@ -290,7 +290,7 @@ export default function AboutPage() {
                                 <motion.div
                                     key={index}
                                     variants={fadeUp}
-                                    className="bg-[#F4F5F6] rounded-xl p-6"
+                                    className="bg-[#F4F5F6] dark:bg-[#1A1B1C] rounded-xl p-6"
                                 >
                                     <div className="text-3xl font-bold text-[#C39A2B] mb-4">{process.step}</div>
                                     <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-lg flex items-center justify-center mb-4">

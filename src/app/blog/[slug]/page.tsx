@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
             />
 
-            <section className="relative pt-32 pb-12 bg-white overflow-hidden">
+            <section className="relative pt-32 pb-12 bg-white dark:bg-[#0F1112] overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom relative z-10">
                     <Link href="/blog" className="inline-flex items-center gap-2 text-paragraph hover:text-heading mb-8 transition-colors">
@@ -162,13 +162,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         <img
                             src={post.coverImage}
                             alt={post.title}
-                            className="w-full rounded-2xl border border-[#4A4A4A]/10 object-cover max-h-[400px]"
+                            className="w-full rounded-2xl border border-[#4A4A4A]/10 dark:border-white/[0.08] object-cover max-h-[400px]"
                         />
                     </div>
                 </div>
             )}
 
-            <section className="section-padding bg-[#F4F5F6]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <article
                         className="max-w-3xl blog-content"

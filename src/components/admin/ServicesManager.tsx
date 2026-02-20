@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home } from 'lucide-react'
+import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home, MapPin } from 'lucide-react'
 import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData } from '@/lib/firestore'
 import {
     Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users,
@@ -47,6 +47,11 @@ const GRADIENT_OPTIONS = [
     { value: 'from-teal-400 to-cyan-500', label: 'Teal → Cyan' },
 ]
 
+const PAGE_OPTIONS = [
+    { value: 'homepage', label: 'Homepage' },
+    { value: 'greater-noida', label: 'Greater Noida' },
+] as const
+
 type EditorMode = 'list' | 'create' | 'edit'
 
 const inputClass = 'w-full px-4 py-3 bg-dark/80 border border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
@@ -70,6 +75,7 @@ export default function ServicesManager() {
     const [features, setFeatures] = useState<string[]>([''])
     const [visible, setVisible] = useState(true)
     const [featured, setFeatured] = useState(false)
+    const [pages, setPages] = useState<string[]>([])
 
     const loadCards = async () => {
         setLoading(true)
@@ -87,7 +93,7 @@ export default function ServicesManager() {
     const resetForm = () => {
         setTitle(''); setBenefit(''); setDescription('')
         setIconName('Search'); setGradient(GRADIENT_OPTIONS[0].value)
-        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false)
+        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false); setPages([])
         setEditingCard(null)
     }
 
@@ -108,6 +114,7 @@ export default function ServicesManager() {
         setFeatures(card.features.length > 0 ? card.features : [''])
         setVisible(card.visible)
         setFeatured(card.featured ?? false)
+        setPages(card.pages ?? [])
         setMode('edit')
     }
 
@@ -128,6 +135,7 @@ export default function ServicesManager() {
                 features: trimmedFeatures,
                 visible,
                 featured,
+                pages,
                 order: mode === 'edit' && editingCard ? editingCard.order : cards.length,
             }
 
@@ -341,7 +349,7 @@ export default function ServicesManager() {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    <div className="space-y-4">
                         <label className="flex items-center gap-3 cursor-pointer">
                             <div className="relative">
                                 <input
@@ -356,20 +364,38 @@ export default function ServicesManager() {
                             </div>
                             <span className="text-heading font-medium">{visible ? 'Visible on Services Page' : 'Hidden'}</span>
                         </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <div className="relative">
-                                <input
-                                    type="checkbox"
-                                    checked={featured}
-                                    onChange={(e) => setFeatured(e.target.checked)}
-                                    className="sr-only"
-                                />
-                                <div className={`w-11 h-6 rounded-full transition-colors ${featured ? 'bg-primary-500' : 'bg-white/[0.1]'}`}>
-                                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${featured ? 'translate-x-5' : ''}`} />
-                                </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-heading mb-3">Show on Pages</label>
+                            <div className="flex flex-wrap gap-3">
+                                {PAGE_OPTIONS.map(opt => {
+                                    const isSelected = pages.includes(opt.value)
+                                    return (
+                                        <button
+                                            key={opt.value}
+                                            type="button"
+                                            onClick={() => {
+                                                if (isSelected) {
+                                                    setPages(pages.filter(p => p !== opt.value))
+                                                    if (opt.value === 'homepage') setFeatured(false)
+                                                } else {
+                                                    setPages([...pages, opt.value])
+                                                    if (opt.value === 'homepage') setFeatured(true)
+                                                }
+                                            }}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                                                isSelected
+                                                    ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
+                                                    : 'bg-white/[0.05] border-white/[0.08] text-paragraph hover:text-heading hover:bg-white/[0.08]'
+                                            }`}
+                                        >
+                                            {opt.value === 'homepage' ? <Home size={14} /> : <MapPin size={14} />}
+                                            {opt.label}
+                                        </button>
+                                    )
+                                })}
                             </div>
-                            <span className="text-heading font-medium">{featured ? 'Show on Homepage' : 'Not on Homepage'}</span>
-                        </label>
+                        </div>
                     </div>
 
                     <div className="flex gap-4 pt-4">
@@ -448,11 +474,17 @@ export default function ServicesManager() {
                                         }`}>
                                             {card.visible ? 'Visible' : 'Hidden'}
                                         </span>
-                                        {card.featured && (
+                                        {(card.pages ?? []).length > 0 ? (
+                                            (card.pages ?? []).map(p => (
+                                                <span key={p} className="text-xs px-2 py-0.5 rounded-full font-medium bg-primary-500/10 text-primary-400">
+                                                    {PAGE_OPTIONS.find(o => o.value === p)?.label ?? p}
+                                                </span>
+                                            ))
+                                        ) : card.featured ? (
                                             <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-primary-500/10 text-primary-400">
                                                 Homepage
                                             </span>
-                                        )}
+                                        ) : null}
                                     </div>
                                     <p className="text-sm text-paragraph mb-2">{card.benefit}</p>
                                     <div className="flex items-center gap-3 text-xs text-paragraph">

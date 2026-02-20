@@ -65,6 +65,7 @@ export interface ServiceCardData {
     order: number
     visible: boolean
     featured: boolean
+    pages?: string[]
 }
 
 export interface TestimonialData {
@@ -206,7 +207,12 @@ export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
 
 export async function getFeaturedServiceCards(): Promise<ServiceCardData[]> {
     const all = await getServiceCards()
-    return all.filter(c => c.visible === true && c.featured === true)
+    return all.filter(c => c.visible === true && (c.featured === true || (c.pages ?? []).includes('homepage')))
+}
+
+export async function getServiceCardsByPage(page: string): Promise<ServiceCardData[]> {
+    const all = await getServiceCards()
+    return all.filter(c => c.visible === true && (c.pages ?? []).includes(page))
 }
 
 export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {

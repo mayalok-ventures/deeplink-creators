@@ -1,141 +1,74 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { ChevronDown, ChevronUp, FileText } from 'lucide-react'
+import { useEffect } from 'react'
+import { FileText } from 'lucide-react'
 import Link from 'next/link'
-
-interface TocItem {
-    id: string
-    label: string
-}
 
 interface LegalPageLayoutProps {
     title: string
     lastUpdated: string
-    tocItems: TocItem[]
     children: React.ReactNode
 }
 
-export default function LegalPageLayout({ title, lastUpdated, tocItems, children }: LegalPageLayoutProps) {
-    const [activeSection, setActiveSection] = useState(tocItems[0]?.id || '')
-    const [tocOpen, setTocOpen] = useState(false)
-    const contentRef = useRef<HTMLDivElement>(null)
-
+export default function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayoutProps) {
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const visible = entries.filter((e) => e.isIntersecting)
-                if (visible.length > 0) {
-                    setActiveSection(visible[0].target.id)
-                }
-            },
-            { rootMargin: '-80px 0px -60% 0px', threshold: 0.1 }
-        )
-
-        tocItems.forEach((item) => {
-            const el = document.getElementById(item.id)
-            if (el) observer.observe(el)
-        })
-
-        return () => observer.disconnect()
-    }, [tocItems])
-
-    const scrollTo = (id: string) => {
-        const el = document.getElementById(id)
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            setActiveSection(id)
-            setTocOpen(false)
+        const handler = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u')) {
+                e.preventDefault()
+            }
         }
-    }
+        document.addEventListener('keydown', handler)
+        return () => document.removeEventListener('keydown', handler)
+    }, [])
 
     return (
-        <div className="bg-white dark:bg-[#0F1112] min-h-screen pt-8 pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-8 border-b border-[#4A4A4A]/10 dark:border-white/[0.08] pb-8">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#C39A2B]/10 border border-[#C39A2B]/20">
-                            <FileText className="text-[#C39A2B]" size={20} />
-                        </div>
-                        <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold font-heading text-heading">{title}</h1>
-                        </div>
+        <div className="bg-[#F0EDE6] dark:bg-[#0F1112] min-h-screen py-10 sm:py-16">
+            <div
+                className="max-w-[820px] mx-auto bg-white dark:bg-[#161718] shadow-[0_2px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_40px_rgba(0,0,0,0.4)] rounded-sm sm:rounded-md select-none"
+                onContextMenu={(e) => e.preventDefault()}
+                onCopy={(e) => e.preventDefault()}
+                style={{ WebkitUserSelect: 'none', MozUserSelect: 'none' } as React.CSSProperties}
+            >
+                {/* Document header */}
+                <div className="border-b-2 border-[#C39A2B]/40 px-8 sm:px-14 pt-12 pb-8">
+                    <div className="flex items-center gap-3 mb-3">
+                        <FileText className="text-[#C39A2B] flex-shrink-0" size={22} />
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C39A2B]">Legal Document</p>
                     </div>
-                    <p className="text-sm text-paragraph">
-                        Last Updated: <span className="text-gold font-medium">{lastUpdated}</span>
+                    <h1 className="text-2xl sm:text-3xl font-bold font-heading text-heading leading-tight">{title}</h1>
+                    <p className="text-sm text-paragraph mt-3">
+                        Effective Date: <span className="text-heading font-medium">{lastUpdated}</span>
+                    </p>
+                    <p className="text-xs text-paragraph/60 mt-1">
+                        Deeplink Creators — A Unit of Mayalok Venture (Private Limited)
                     </p>
                 </div>
 
-                <div className="lg:hidden mb-6">
-                    <button
-                        onClick={() => setTocOpen(!tocOpen)}
-                        className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] text-heading text-sm font-medium"
-                    >
-                        <span>Table of Contents</span>
-                        {tocOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                    </button>
-                    {tocOpen && (
-                        <nav className="mt-2 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] p-4 space-y-1">
-                            {tocItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => scrollTo(item.id)}
-                                    className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                                        activeSection === item.id
-                                            ? 'bg-[#C39A2B]/10 text-[#C39A2B] font-medium'
-                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05]'
-                                    }`}
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
-                        </nav>
-                    )}
+                {/* Document body */}
+                <div className="px-8 sm:px-14 py-10">
+                    <div className="legal-document space-y-8 text-[15px] leading-[1.85] text-paragraph">
+                        {children}
+                    </div>
                 </div>
 
-                <div className="lg:flex lg:gap-10">
-                    <aside className="hidden lg:block lg:w-64 flex-shrink-0">
-                        <nav className="sticky top-24 rounded-lg bg-[#F4F5F6] dark:bg-[#1A1B1C] border border-[#4A4A4A]/10 dark:border-white/[0.08] p-4 space-y-1 max-h-[calc(100vh-8rem)] overflow-y-auto">
-                            <p className="text-xs font-semibold uppercase tracking-wider text-paragraph/60 mb-3 px-3">
-                                On This Page
-                            </p>
-                            {tocItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => scrollTo(item.id)}
-                                    className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                                        activeSection === item.id
-                                            ? 'bg-[#C39A2B]/10 text-[#C39A2B] font-medium border-l-2 border-[#C39A2B]'
-                                            : 'text-paragraph hover:text-heading hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05]'
-                                    }`}
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
-                        </nav>
-                    </aside>
-
-                    <div ref={contentRef} className="flex-1 min-w-0 max-w-4xl">
-                        <div className="prose-legal space-y-10">
-                            {children}
-                        </div>
-
-                        <div className="mt-16 pt-8 border-t border-[#4A4A4A]/10 dark:border-white/[0.08]">
-                            <div className="flex flex-wrap gap-4 text-sm text-paragraph">
-                                <Link href="/terms" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
-                                    Terms & Conditions
-                                </Link>
-                                <span className="text-[#4A4A4A]/30 dark:text-white/20">|</span>
-                                <Link href="/privacy" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
-                                    Privacy Policy
-                                </Link>
-                                <span className="text-[#4A4A4A]/30 dark:text-white/20">|</span>
-                                <Link href="/disclaimer" className="text-[#C39A2B] hover:text-[#A9791B] transition-colors">
-                                    Disclaimer
-                                </Link>
-                            </div>
-                        </div>
+                {/* Footer */}
+                <div className="border-t border-gray-200 dark:border-white/[0.08] px-8 sm:px-14 py-6">
+                    <div className="flex flex-wrap gap-4 text-sm text-paragraph">
+                        <Link href="/terms" className="text-[#C39A2B] hover:underline transition-colors">
+                            Terms & Conditions
+                        </Link>
+                        <span className="text-paragraph/30">·</span>
+                        <Link href="/privacy" className="text-[#C39A2B] hover:underline transition-colors">
+                            Privacy Policy
+                        </Link>
+                        <span className="text-paragraph/30">·</span>
+                        <Link href="/disclaimer" className="text-[#C39A2B] hover:underline transition-colors">
+                            Disclaimer
+                        </Link>
                     </div>
+                    <p className="text-xs text-paragraph/50 mt-3">
+                        © {new Date().getFullYear()} Deeplink Creators. All rights reserved. This document may not be reproduced or copied without prior written consent.
+                    </p>
                 </div>
             </div>
         </div>

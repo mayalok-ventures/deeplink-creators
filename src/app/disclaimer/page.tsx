@@ -2,31 +2,9 @@
 
 import LegalPageLayout from '@/components/LegalPageLayout'
 
-const tocItems = [
-    { id: 'general-disclaimer', label: '1. General Disclaimer' },
-    { id: 'earnings-disclaimer', label: '2. Earnings & Results Disclaimer' },
-    { id: 'third-party-platforms', label: '3. Third-Party Platform Disclaimer' },
-    { id: 'case-studies', label: '4. Case Studies & Testimonials' },
-    { id: 'professional-advice', label: '5. Not Professional Advice' },
-    { id: 'website-content', label: '6. Website Content Accuracy' },
-    { id: 'external-links', label: '7. External Links Disclaimer' },
-    { id: 'technology-disclaimer', label: '8. Technology & Uptime Disclaimer' },
-    { id: 'ai-tools', label: '9. AI & Automation Tools Disclaimer' },
-    { id: 'client-responsibility', label: '10. Client Responsibility' },
-    { id: 'limitation-of-liability', label: '11. Limitation of Liability' },
-    { id: 'indemnification', label: '12. Indemnification' },
-    { id: 'changes-to-disclaimer', label: '13. Changes to This Disclaimer' },
-    { id: 'governing-law', label: '14. Governing Law & Jurisdiction' },
-    { id: 'contact-information', label: '15. Contact Information' },
-]
-
 export default function DisclaimerPage() {
     return (
-        <LegalPageLayout
-            title="Disclaimer"
-            lastUpdated="February 10, 2026"
-            tocItems={tocItems}
-        >
+        <LegalPageLayout title="Disclaimer" lastUpdated="February 10, 2026">
             {/* Introduction */}
             <section>
                 <p className="text-paragraph leading-relaxed">
@@ -389,7 +367,7 @@ export default function DisclaimerPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     If you have any questions, concerns, or require clarification regarding this Disclaimer, please contact us at:
                 </p>
-                <div className="rounded-lg bg-dark-50 border border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
                     <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>

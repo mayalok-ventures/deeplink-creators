@@ -2,31 +2,11 @@
 
 import LegalPageLayout from '@/components/LegalPageLayout'
 
-const tocItems = [
-    { id: 'information-we-collect', label: '1. Information We Collect' },
-    { id: 'how-we-collect', label: '2. How We Collect Information' },
-    { id: 'use-of-information', label: '3. Use of Information' },
-    { id: 'tracking-technologies', label: '4. Tracking Technologies & Analytics' },
-    { id: 'data-sharing', label: '5. Data Sharing & Disclosure' },
-    { id: 'data-retention', label: '6. Data Retention' },
-    { id: 'data-security', label: '7. Data Security' },
-    { id: 'your-rights', label: '8. Your Rights' },
-    { id: 'cookies-policy', label: '9. Cookies Policy' },
-    { id: 'third-party-links', label: '10. Third-Party Links' },
-    { id: 'childrens-privacy', label: '11. Children\'s Privacy' },
-    { id: 'dpdp-compliance', label: '12. DPDP Act 2023 Compliance' },
-    { id: 'international-transfers', label: '13. International Data Transfers' },
-    { id: 'changes-to-policy', label: '14. Changes to This Policy' },
-    { id: 'grievance-officer', label: '15. Grievance Officer' },
-    { id: 'contact-information', label: '16. Contact Information' },
-]
-
 export default function PrivacyPage() {
     return (
         <LegalPageLayout
             title="Privacy Policy"
             lastUpdated="February 10, 2026"
-            tocItems={tocItems}
         >
             {/* Introduction */}
             <section>
@@ -385,29 +365,29 @@ export default function PrivacyPage() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-white/[0.08]">
+                            <tr className="border-b border-gray-200 dark:border-white/[0.08]">
                                 <th className="py-3 pr-4 text-heading font-semibold">Cookie Type</th>
                                 <th className="py-3 pr-4 text-heading font-semibold">Purpose</th>
                                 <th className="py-3 text-heading font-semibold">Duration</th>
                             </tr>
                         </thead>
                         <tbody className="text-paragraph">
-                            <tr className="border-b border-white/[0.05]">
+                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
                                 <td className="py-3 pr-4 font-medium text-heading">Essential Cookies</td>
                                 <td className="py-3 pr-4">Required for basic website functionality (navigation, form submission)</td>
                                 <td className="py-3">Session</td>
                             </tr>
-                            <tr className="border-b border-white/[0.05]">
+                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
                                 <td className="py-3 pr-4 font-medium text-heading">Analytics Cookies</td>
                                 <td className="py-3 pr-4">Google Analytics 4 — to understand website traffic and user behaviour</td>
                                 <td className="py-3">Up to 2 years</td>
                             </tr>
-                            <tr className="border-b border-white/[0.05]">
+                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
                                 <td className="py-3 pr-4 font-medium text-heading">Marketing Cookies</td>
                                 <td className="py-3 pr-4">Meta Pixel — for retargeting and ad conversion tracking</td>
                                 <td className="py-3">Up to 180 days</td>
                             </tr>
-                            <tr className="border-b border-white/[0.05]">
+                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
                                 <td className="py-3 pr-4 font-medium text-heading">Preference Cookies</td>
                                 <td className="py-3 pr-4">To remember your preferences (e.g., cookie consent choice)</td>
                                 <td className="py-3">Up to 1 year</td>
@@ -503,7 +483,7 @@ export default function PrivacyPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     In accordance with the Information Technology Act, 2000, and the DPDP Act, 2023, the details of our Grievance Officer are as follows:
                 </p>
-                <div className="rounded-lg bg-dark-50 border border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Grievance Officer</p>
                     <p className="text-paragraph text-sm mb-1">Deeplink Creators (A Unit of Mayalok Venture Pvt. Ltd.)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
@@ -522,7 +502,7 @@ export default function PrivacyPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     For any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
                 </p>
-                <div className="rounded-lg bg-dark-50 border border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
                     <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>

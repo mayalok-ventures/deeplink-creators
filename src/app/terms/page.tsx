@@ -2,32 +2,11 @@
 
 import LegalPageLayout from '@/components/LegalPageLayout'
 
-const tocItems = [
-    { id: 'entity-definition', label: '1. Entity Definition & Legal Identity' },
-    { id: 'scope-of-services', label: '2. Scope of Services' },
-    { id: 'no-guarantee', label: '3. No Guarantee of Results' },
-    { id: 'payment-terms', label: '4. Payment Terms' },
-    { id: 'client-responsibilities', label: '5. Client Responsibilities' },
-    { id: 'intellectual-property', label: '6. Intellectual Property Rights' },
-    { id: 'confidentiality', label: '7. Confidentiality' },
-    { id: 'termination', label: '8. Termination' },
-    { id: 'limitation-of-liability', label: '9. Limitation of Liability' },
-    { id: 'indemnification', label: '10. Indemnification' },
-    { id: 'force-majeure', label: '11. Force Majeure' },
-    { id: 'dispute-resolution', label: '12. Dispute Resolution' },
-    { id: 'governing-law', label: '13. Governing Law' },
-    { id: 'amendments', label: '14. Amendments' },
-    { id: 'severability', label: '15. Severability' },
-    { id: 'entire-agreement', label: '16. Entire Agreement' },
-    { id: 'contact-information', label: '17. Contact Information' },
-]
-
 export default function TermsPage() {
     return (
         <LegalPageLayout
             title="Terms & Conditions"
             lastUpdated="February 10, 2026"
-            tocItems={tocItems}
         >
             {/* Introduction */}
             <section>
@@ -471,7 +450,7 @@ export default function TermsPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     For any questions, concerns, or notices regarding these Terms and Conditions, please contact us at:
                 </p>
-                <div className="rounded-lg bg-dark-50 border border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
                     <p className="text-paragraph text-sm mb-1">A Unit of Mayalok Venture (Private Limited)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>

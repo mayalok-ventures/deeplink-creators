@@ -4,7 +4,7 @@ import { useState, useEffect, ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
-    ArrowRight, Target, BarChart3, Users, Building2, GraduationCap, Factory,
+    ArrowRight, Target, BarChart3, Users,
     TrendingUp, Zap, Shield, Brain, Search, Layers, Rocket, Star, Heart,
     MessageCircle, Code, Palette, Megaphone, Mail, Globe, Award, CheckCircle2, Loader2
 } from 'lucide-react'
@@ -41,33 +41,6 @@ const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 }
-
-const industries = [
-    {
-        icon: <Building2 size={28} />,
-        title: 'Real Estate & Builders',
-        description: 'Pipeline architecture for Greater Noida\'s real estate market. We build lead generation systems that fill your inventory — not your inbox with tire-kickers.',
-        keywords: ['Lead generation for builders', 'Real estate digital marketing', 'Inventory liquidation campaigns'],
-        gradient: 'from-amber-400 to-orange-500',
-        href: '/services/real-estate-marketing',
-    },
-    {
-        icon: <GraduationCap size={28} />,
-        title: 'Higher Education & Colleges',
-        description: 'Knowledge Park institutions need qualified admission leads, not form-fills from students who never show up. We build admission pipelines that convert.',
-        keywords: ['College admission lead generation', 'Higher education marketing', 'Student acquisition funnels'],
-        gradient: 'from-blue-400 to-indigo-500',
-        href: '/services/education-marketing',
-    },
-    {
-        icon: <Factory size={28} />,
-        title: 'B2B Manufacturing & Industrial',
-        description: 'Greater Noida\'s manufacturing corridor needs enterprise-grade demand generation, not social media posts. We build B2B pipelines that deliver qualified RFQs.',
-        keywords: ['B2B industrial marketing', 'Manufacturing lead generation', 'Enterprise demand generation'],
-        gradient: 'from-emerald-400 to-teal-500',
-        href: '/services/b2b-industrial-marketing',
-    },
-]
 
 const processSteps = [
     {
@@ -320,70 +293,6 @@ export default function GreaterNoidaPage() {
                     </div>
                 </section>
             )}
-
-            {/* INDUSTRIES WE DOMINATE */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
-                <div className="absolute inset-0 grid-bg" />
-                <div className="container-custom relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
-                            Industries We <span className="text-gradient">Dominate</span> in Greater Noida
-                        </h2>
-                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            Greater Noida&apos;s economy runs on three pillars. We&apos;ve built specialized revenue systems for each.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-                    >
-                        {industries.map((industry, index) => (
-                            <motion.div
-                                key={index}
-                                variants={fadeUp}
-                                className="glass-card rounded-2xl overflow-hidden group hover:border-[#C39A2B]/30 transition-all duration-300"
-                            >
-                                <div className={`h-1.5 bg-gradient-to-r ${industry.gradient}`} />
-                                <div className="p-8">
-                                    <div className={`w-14 h-14 bg-gradient-to-br ${industry.gradient} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
-                                        {industry.icon}
-                                    </div>
-                                    <h3 className="text-xl font-heading font-bold text-heading mb-3">{industry.title}</h3>
-                                    <p className="text-paragraph mb-6">{industry.description}</p>
-                                    <div className="space-y-2 mb-6">
-                                        {industry.keywords.map((kw, i) => (
-                                            <div key={i} className="flex items-center gap-2">
-                                                <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${industry.gradient}`} />
-                                                <span className="text-sm text-paragraph">{kw}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <Link
-                                        href={industry.href}
-                                        className="inline-flex items-center gap-2 text-[#C39A2B] font-semibold group/btn"
-                                    >
-                                        <span className="relative">
-                                            Learn More
-                                            <span className={`absolute left-0 -bottom-0.5 w-0 h-0.5 bg-gradient-to-r ${industry.gradient} group-hover/btn:w-full transition-all duration-300`} />
-                                        </span>
-                                        <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                                    </Link>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
 
             {/* HOW WE BUILD REVENUE ARCHITECTURES */}
             <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">

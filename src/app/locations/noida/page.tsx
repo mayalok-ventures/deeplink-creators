@@ -108,7 +108,7 @@ export default function NoidaPage() {
                 <img
                     src="/images/hero/noida-hero.webp"
                     alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-25 dark:opacity-[0.12] pointer-events-none select-none"
+                    className="absolute inset-0 w-full h-full object-cover opacity-40 dark:opacity-25 pointer-events-none select-none"
                 />
                 <div className="absolute inset-0 grid-bg animate-grid-pulse" />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60 dark:from-[#0F1112]/90 dark:to-[#0F1112]/60 pointer-events-none" />
@@ -118,7 +118,7 @@ export default function NoidaPage() {
                 <div className="container-custom section-padding relative z-10">
                     <div className="relative max-w-5xl">
                         <div className="absolute -inset-[1px] bg-gradient-to-r from-[#C39A2B]/15 via-[#E0C27A]/10 to-[#C39A2B]/15 rounded-3xl blur-sm pointer-events-none" />
-                        <div className="relative glass-card rounded-3xl p-8 md:p-12 lg:p-16">
+                        <div className="relative glass-card rounded-3xl p-8 md:p-12 lg:p-16 !bg-[#F4F5F6]/70 dark:!bg-[#1A1B1C]/70 backdrop-blur-md">
                             <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
                             <motion.div variants={containerVariants} initial="hidden" animate="visible">
@@ -295,6 +295,7 @@ export default function NoidaPage() {
                                     href={service.href}
                                     gradient={service.gradient}
                                     index={index}
+                                    imageUrl={service.imageUrl}
                                 />
                             ))}
                         </div>

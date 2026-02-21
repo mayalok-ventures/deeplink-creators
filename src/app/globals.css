@@ -189,6 +189,10 @@
     animation: marquee 25s linear infinite;
 }
 
+.animate-marquee-tech {
+    animation: marquee 35s linear infinite;
+}
+
 .blog-content h1 {
     font-size: 2em;
     font-weight: 800;

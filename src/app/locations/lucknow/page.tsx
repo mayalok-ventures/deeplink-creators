@@ -10,6 +10,7 @@ import {
     AlertTriangle, Lightbulb, MapPin, MonitorSmartphone
 } from 'lucide-react'
 import ServiceCard from '@/components/ServiceCard'
+import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
@@ -440,6 +441,8 @@ export default function LucknowPage() {
                     </div>
                 </section>
             )}
+
+            <TechStack />
 
             {/* HOW WE BUILD GROWTH SYSTEMS */}
             <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">

@@ -2,6 +2,7 @@
 
 import Hero from '@/components/Hero'
 import ServiceStack from '@/components/ServiceStack'
+import TechStack from '@/components/TechStack'
 import TestimonialSection from '@/components/TestimonialSection'
 import SpotSection from '@/components/SpotSection'
 import { ArrowRight, Target, BarChart3, Users } from 'lucide-react'
@@ -172,6 +173,7 @@ export default function HomePage() {
             </motion.section>
 
             <ServiceStack />
+            <TechStack />
             <TestimonialSection />
 
             {/* Final CTA Section */}

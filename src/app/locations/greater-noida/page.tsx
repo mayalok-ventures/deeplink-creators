@@ -9,6 +9,7 @@ import {
     MessageCircle, Code, Palette, Megaphone, Mail, Globe, Award, CheckCircle2, Loader2
 } from 'lucide-react'
 import ServiceCard from '@/components/ServiceCard'
+import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
@@ -302,6 +303,8 @@ export default function GreaterNoidaPage() {
                     </div>
                 </section>
             )}
+
+            <TechStack />
 
             {/* HOW WE BUILD REVENUE ARCHITECTURES */}
             <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">

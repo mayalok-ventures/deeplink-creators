@@ -9,6 +9,7 @@ import {
     MessageCircle, Code, Palette, Megaphone, Mail, Globe, Award, CheckCircle2, Loader2
 } from 'lucide-react'
 import ServiceCard from '@/components/ServiceCard'
+import SpotSection from '@/components/SpotSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
@@ -338,6 +339,8 @@ export default function DelhiPage() {
                     </div>
                 </div>
             </section>
+
+            <SpotSection />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

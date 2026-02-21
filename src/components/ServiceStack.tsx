@@ -37,6 +37,7 @@ interface ServiceItem {
     cta: string
     href: string
     gradient: string
+    imageUrl?: string
 }
 
 const ServiceStack = () => {
@@ -54,6 +55,7 @@ const ServiceStack = () => {
                 cta: c.cta,
                 href: c.href,
                 gradient: c.gradient,
+                imageUrl: c.imageUrl,
             })))
         }).catch(() => {}).finally(() => setLoading(false))
     }, [])
@@ -99,6 +101,7 @@ const ServiceStack = () => {
                             href={service.href}
                             gradient={service.gradient}
                             index={index}
+                            imageUrl={service.imageUrl}
                         />
                     ))}
                 </div>

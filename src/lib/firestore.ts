@@ -66,6 +66,7 @@ export interface ServiceCardData {
     visible: boolean
     featured: boolean
     pages?: string[]
+    imageUrl?: string
 }
 
 export interface TestimonialData {

@@ -106,6 +106,11 @@ export default function LucknowPage() {
         <>
             {/* HERO SECTION */}
             <section className="relative min-h-[90vh] flex items-center bg-white dark:bg-[#0F1112] overflow-hidden">
+                <img
+                    src="/images/hero/lucknow-hero.webp"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-25 dark:opacity-[0.12] pointer-events-none select-none"
+                />
                 <div className="absolute inset-0 grid-bg animate-grid-pulse" />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60 dark:from-[#0F1112]/90 dark:to-[#0F1112]/60 pointer-events-none" />
                 <div className="absolute top-[-10%] right-[60%] w-[500px] h-[500px] bg-[#C39A2B]/8 rounded-full blur-[120px] pointer-events-none animate-float-orb" style={{ animationDuration: '8s' }} />

@@ -35,6 +35,7 @@ interface ServiceItem {
     features: string[]
     href: string
     gradient: string
+    imageUrl?: string
 }
 
 const whyChooseUs = [
@@ -86,6 +87,7 @@ export default function ServicesPage() {
                 features: c.features,
                 href: c.href,
                 gradient: c.gradient,
+                imageUrl: c.imageUrl,
             })))
         }).catch(() => {}).finally(() => setLoading(false))
     }, [])
@@ -161,8 +163,22 @@ export default function ServicesPage() {
                                 className="group glass-card-hover rounded-2xl overflow-hidden"
                             >
                                 <div className={`h-2 bg-gradient-to-r ${service.gradient}`}></div>
+                                {service.imageUrl && (
+                                    <div className="relative h-48 overflow-hidden">
+                                        <motion.img
+                                            src={service.imageUrl}
+                                            alt={service.title}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            initial={{ scale: 1.1, opacity: 0 }}
+                                            whileInView={{ scale: 1, opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.8 }}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#131415] via-transparent to-transparent opacity-80" />
+                                    </div>
+                                )}
                                 <div className="p-8">
-                                    <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
+                                    <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300 ${service.imageUrl ? '-mt-8 relative z-10 shadow-lg ring-2 ring-white/20' : ''}`}>
                                         {ICON_MAP[service.icon] || <Search size={28} />}
                                     </div>
                                     <h3 className="text-xl font-heading font-bold text-heading mb-2">{service.title}</h3>

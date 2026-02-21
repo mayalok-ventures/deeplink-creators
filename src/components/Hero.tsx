@@ -38,6 +38,13 @@ const Hero = () => {
         <section
             className="relative min-h-[90vh] flex items-center bg-white dark:bg-[#0F1112] text-heading overflow-hidden"
         >
+            {/* Hero Background Image */}
+            <img
+                src="/images/hero/home-hero.webp"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover opacity-25 dark:opacity-[0.12] pointer-events-none select-none"
+            />
+
             {/* Grid Pattern Overlay - Engineering/Precision feel */}
             <div className="absolute inset-0 grid-bg animate-grid-pulse" />
 

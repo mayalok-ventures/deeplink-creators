@@ -15,6 +15,7 @@ interface ServiceCardProps {
     href: string
     gradient?: string
     index?: number
+    imageUrl?: string
 }
 
 const ServiceCard = ({
@@ -27,6 +28,7 @@ const ServiceCard = ({
     href,
     gradient = 'from-primary-500 to-primary-600',
     index = 0,
+    imageUrl,
 }: ServiceCardProps) => {
     const formattedIndex = String(index + 1).padStart(2, '0')
 
@@ -40,6 +42,21 @@ const ServiceCard = ({
             className="group relative glass-card-hover rounded-xl overflow-hidden"
         >
             <div className={`h-1 bg-gradient-to-r ${gradient}`} />
+
+            {imageUrl && (
+                <div className="relative h-48 overflow-hidden">
+                    <motion.img
+                        src={imageUrl}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                        initial={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t from-white dark:from-[#181A1B] via-transparent to-transparent opacity-80`} />
+                    <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                </div>
+            )}
 
             <div className="absolute top-4 right-4">
                 <span className={`text-4xl font-black font-heading bg-gradient-to-br ${gradient} bg-clip-text text-transparent opacity-10 group-hover:opacity-25 transition-opacity duration-300`}>

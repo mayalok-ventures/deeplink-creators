@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home, MapPin } from 'lucide-react'
-import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData } from '@/lib/firestore'
+import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home, MapPin, Image } from 'lucide-react'
+import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData, uploadImage } from '@/lib/firestore'
 import {
     Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users,
     BarChart, Rocket, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail
@@ -79,6 +79,9 @@ export default function ServicesManager() {
     const [visible, setVisible] = useState(true)
     const [featured, setFeatured] = useState(false)
     const [pages, setPages] = useState<string[]>([])
+    const [imageUrl, setImageUrl] = useState('')
+    const [imageUploading, setImageUploading] = useState(false)
+    const [imageProgress, setImageProgress] = useState(0)
 
     const loadCards = async () => {
         setLoading(true)
@@ -96,7 +99,7 @@ export default function ServicesManager() {
     const resetForm = () => {
         setTitle(''); setBenefit(''); setDescription('')
         setIconName('Search'); setGradient(GRADIENT_OPTIONS[0].value)
-        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false); setPages([])
+        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false); setPages([]); setImageUrl('')
         setEditingCard(null)
     }
 
@@ -118,6 +121,7 @@ export default function ServicesManager() {
         setVisible(card.visible)
         setFeatured(card.featured ?? false)
         setPages(card.pages ?? [])
+        setImageUrl(card.imageUrl ?? '')
         setMode('edit')
     }
 
@@ -140,6 +144,7 @@ export default function ServicesManager() {
                 featured,
                 pages,
                 order: mode === 'edit' && editingCard ? editingCard.order : cards.length,
+                imageUrl: imageUrl || undefined,
             }
 
             if (mode === 'edit' && editingCard?.id) {
@@ -217,6 +222,21 @@ export default function ServicesManager() {
         setFeatures(features.filter((_, i) => i !== index))
     }
 
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        setImageUploading(true)
+        setImageProgress(0)
+        try {
+            const url = await uploadImage(file, `services/${Date.now()}-${file.name}`, (p) => setImageProgress(p))
+            setImageUrl(url)
+        } catch (err) {
+            console.error('Image upload failed:', err)
+            alert('Image upload failed.')
+        }
+        setImageUploading(false)
+    }
+
     if (mode === 'create' || mode === 'edit') {
         const trimmedFeatures = features.map(f => f.trim()).filter(Boolean)
         const canSave = title.trim() && benefit.trim() && description.trim() && cta.trim() && href.trim() && trimmedFeatures.length > 0
@@ -268,6 +288,46 @@ export default function ServicesManager() {
                             className={inputClass}
                             placeholder="Service description"
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-heading mb-2">Card Image</label>
+                        {imageUrl ? (
+                            <div className="relative group/img w-full max-w-sm">
+                                <img src={imageUrl} alt="Card preview" className="w-full h-48 object-cover rounded-lg border border-gray-200 dark:border-white/[0.08]" />
+                                <button
+                                    type="button"
+                                    onClick={() => setImageUrl('')}
+                                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="relative">
+                                <label className="flex flex-col items-center justify-center w-full max-w-sm h-40 border-2 border-dashed border-gray-300 dark:border-white/[0.15] rounded-lg cursor-pointer hover:border-primary-500/50 transition-colors bg-gray-50 dark:bg-white/[0.02]">
+                                    {imageUploading ? (
+                                        <div className="text-center">
+                                            <Loader2 size={24} className="animate-spin text-primary-500 mx-auto mb-2" />
+                                            <span className="text-sm text-paragraph">{imageProgress}%</span>
+                                        </div>
+                                    ) : (
+                                        <div className="text-center">
+                                            <Image size={32} className="text-paragraph/50 mx-auto mb-2" />
+                                            <span className="text-sm text-paragraph">Click to upload image</span>
+                                            <span className="text-xs text-paragraph/50 mt-1">PNG, JPG up to 5MB</span>
+                                        </div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        disabled={imageUploading}
+                                        className="sr-only"
+                                    />
+                                </label>
+                            </div>
+                        )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -467,6 +527,9 @@ export default function ServicesManager() {
                     {cards.map((card, index) => (
                         <div key={card.id} className="glass-card rounded-xl p-5">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                {card.imageUrl && (
+                                    <img src={card.imageUrl} alt={card.title} className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-white/[0.08] flex-shrink-0" />
+                                )}
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
                                         <h3 className="font-bold text-heading">{card.title}</h3>

@@ -21,6 +21,7 @@ export default function HomePage() {
     return (
         <>
             <Hero />
+            <SpotSection />
 
             {/* The Agitation Section */}
             <motion.section
@@ -172,7 +173,6 @@ export default function HomePage() {
 
             <ServiceStack />
             <TestimonialSection />
-            <SpotSection />
 
             {/* Final CTA Section */}
             <motion.section

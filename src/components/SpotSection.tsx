@@ -1,14 +1,14 @@
 'use client'
 
 const platforms = [
-    { src: '/spot/google ads.png', alt: 'Google Ads' },
-    { src: '/spot/facebook ads.png', alt: 'Facebook Ads' },
-    { src: '/spot/insyagram ads.png', alt: 'Instagram Ads' },
-    { src: '/spot/youtube ads.png', alt: 'YouTube Ads' },
-    { src: '/spot/meta ads.png', alt: 'Meta Ads' },
-    { src: '/spot/linkedin ads.png', alt: 'LinkedIn Ads' },
-    { src: '/spot/bing ads.png', alt: 'Bing Ads' },
-    { src: '/spot/apple ads.png', alt: 'Apple Ads' },
+    { src: '/spot/google-ads.png', alt: 'Google Ads' },
+    { src: '/spot/facebook-ads.png', alt: 'Facebook Ads' },
+    { src: '/spot/instagram-ads.png', alt: 'Instagram Ads' },
+    { src: '/spot/youtube-ads.png', alt: 'YouTube Ads' },
+    { src: '/spot/meta-ads.png', alt: 'Meta Ads' },
+    { src: '/spot/linkedin-ads.png', alt: 'LinkedIn Ads' },
+    { src: '/spot/bing-ads.png', alt: 'Bing Ads' },
+    { src: '/spot/apple-ads.png', alt: 'Apple Ads' },
 ]
 
 export default function SpotSection() {

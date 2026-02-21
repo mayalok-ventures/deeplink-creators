@@ -177,6 +177,8 @@ export default function DelhiPage() {
                 </div>
             </section>
 
+            <SpotSection />
+
             {/* AGITATION SECTION */}
             <motion.section
                 initial={{ opacity: 0 }}
@@ -339,8 +341,6 @@ export default function DelhiPage() {
                     </div>
                 </div>
             </section>
-
-            <SpotSection />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

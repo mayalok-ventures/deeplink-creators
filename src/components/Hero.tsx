@@ -127,7 +127,7 @@ const Hero = () => {
                                 </span>
                                 <br />
                                 <span className="text-heading">We Build </span>
-                                <span className="inline-block relative align-bottom overflow-hidden" style={{ height: '1.15em', verticalAlign: 'baseline' }}>
+                                <span className="inline-block relative overflow-hidden" style={{ height: '1.2em', verticalAlign: 'text-bottom' }}>
                                     <AnimatePresence mode="wait">
                                         <motion.span
                                             key={wordIndex}

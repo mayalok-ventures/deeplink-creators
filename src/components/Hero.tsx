@@ -1,8 +1,28 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { ArrowRight, Play } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+
+const rotatingWords = [
+    'Revenue Machines',
+    'Revenue Systems',
+    'Scalable Revenue',
+    'Predictable Revenue',
+    'Growth Systems',
+    'Sales Engine',
+    'ROI Growth',
+    'Traffic to Sales',
+    'Profit First',
+    'Premium Leads',
+    'High-Value Leads',
+    'Client Growth',
+    'Full Funnel',
+    'Conversion Web',
+    'Revenue Engine',
+    'No BS Revenue',
+]
 
 const floatingOrbs = [
     {
@@ -34,6 +54,15 @@ const itemVariants = {
 }
 
 const Hero = () => {
+    const [wordIndex, setWordIndex] = useState(0)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setWordIndex((prev) => (prev + 1) % rotatingWords.length)
+        }, 3000)
+        return () => clearInterval(interval)
+    }, [])
+
     return (
         <section
             className="relative min-h-[90vh] flex items-center bg-white dark:bg-[#0F1112] text-heading overflow-hidden"
@@ -98,8 +127,19 @@ const Hero = () => {
                                 </span>
                                 <br />
                                 <span className="text-heading">We Build </span>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
-                                    Revenue Machines
+                                <span className="inline-block relative align-bottom overflow-hidden" style={{ height: '1.15em', verticalAlign: 'baseline' }}>
+                                    <AnimatePresence mode="wait">
+                                        <motion.span
+                                            key={wordIndex}
+                                            initial={{ y: '100%', opacity: 0 }}
+                                            animate={{ y: '0%', opacity: 1 }}
+                                            exit={{ y: '-100%', opacity: 0 }}
+                                            transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                                            className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]"
+                                        >
+                                            {rotatingWords[wordIndex]}
+                                        </motion.span>
+                                    </AnimatePresence>
                                 </span>
                                 <br className="hidden md:block" />
                                 <span className="text-heading">

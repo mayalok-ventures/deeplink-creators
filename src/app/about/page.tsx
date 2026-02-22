@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Brain, Target, Users, Zap, Shield, TrendingUp, Award, Heart } from 'lucide-react'
+import { Brain, Target, Zap, Shield, TrendingUp, Award, Heart, ArrowRight } from 'lucide-react'
 
 const values = [
     {
@@ -19,6 +19,23 @@ const values = [
         icon: <Award size={24} />,
         title: 'Radical Transparency',
         description: 'No hidden fees, no jargon-filled reports. You see exactly what we do and what it delivers.',
+    },
+]
+
+const founders = [
+    {
+        name: 'Kunal Pratap Singh',
+        role: 'Founder & Strategy Lead',
+        initials: 'KS',
+        image: '/images/founders/kunal.webp',
+        bio: "I didn\u2019t build Deeplink Creators to win design awards or sell \u2018creative ideas.\u2019 I built it because I saw traditional businesses in NCR bleeding capital to agencies that sold them illusions instead of revenue. My singular directive is to transition our clients into scalable, high-margin market leaders. I look at your business through one lens only: the P&L statement. If our strategy isn\u2019t aggressively multiplying your company\u2019s enterprise value and capturing market share, we aren\u2019t doing our job. We don\u2019t take on \u2018projects\u2019; we engineer financial assets.",
+    },
+    {
+        name: 'Dileep Yadav',
+        role: 'Co-Founder & Operations Head',
+        initials: 'DY',
+        image: '/images/founders/dileep.webp',
+        bio: "Marketing without rigorous data science is just gambling with the client\u2019s money. My role is to strip the emotion out of the process and build the mathematical infrastructure behind every campaign we launch. I focus on ruthless execution\u2014tracking every rupee spent, plugging the leaks in your sales funnel, and optimizing the conversion architecture. While Kunal focuses on market dominance, my job is to ensure our internal systems make that growth predictable, trackable, and financially bulletproof.",
     },
 ]
 
@@ -60,21 +77,24 @@ export default function AboutPage() {
                     >
                         <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
                             <Brain size={18} />
-                            <span className="text-sm font-medium">Best Digital Marketing Company in India</span>
+                            <span className="text-sm font-medium">Premier Revenue Engineering Firm in NCR</span>
                         </div>
 
-                        <h1 className="text-3xl md:text-4xl font-heading font-extrabold mb-6 leading-tight">
-                            We Combine <span className="text-[#C39A2B]">Data Science</span> with{' '}
-                            <span className="text-[#C39A2B]">Human Psychology</span>
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
+                            We Don&apos;t Guess. We{' '}
+                            <span className="text-[#C39A2B]">Engineer Revenue.</span>
                         </h1>
                         <p className="text-lg text-paragraph mb-8 max-w-3xl">
-                            Most digital marketing agencies run ads blindly. As India&apos;s leading revenue-focused digital marketing company, we analyze buying behavior, predict customer decisions, and build marketing systems that work like clockwork.
+                            Deeplink Creators is an elite revenue-engineering unit of{' '}
+                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>.
+                            We combine <span className="font-semibold text-[#C39A2B]">Data Science</span> and{' '}
+                            <span className="font-semibold text-[#C39A2B]">Neuro-Marketing</span> to build predictable growth systems for Enterprise &amp; High-Ticket Businesses.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Our Story */}
+            {/* Our Genesis */}
             <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <motion.div
@@ -85,26 +105,29 @@ export default function AboutPage() {
                         className="max-w-3xl mx-auto text-center mb-16"
                     >
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
-                            Our <span className="text-[#C39A2B]">Story</span>
+                            Our <span className="text-[#C39A2B]">Genesis</span>
                         </h2>
                         <p className="text-base text-paragraph mb-4">
-                            Deeplink Creators was born from a simple frustration: businesses across India were pouring money into digital marketing agencies and getting nothing but pretty reports in return.
+                            The digital marketing industry is broken. It is obsessed with vanity metrics — likes, shares, and meaningless traffic that never convert into actual capital.
                         </p>
                         <p className="text-base text-paragraph mb-4">
-                            As a unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>, we set out to build the best digital marketing company in India — one that combines the precision of <span className="font-semibold text-[#C39A2B]">Data Science</span> with the persuasion power of <span className="font-semibold text-[#C39A2B]">Neuro-Marketing</span> to deliver enterprise SEO services and ROI-focused performance marketing.
+                            Deeplink Creators was launched with a singular, ruthless directive: <span className="font-semibold text-heading">To align marketing strictly with P&amp;L (Profit &amp; Loss).</span>
                         </p>
                         <p className="text-base text-paragraph">
-                            The result? Marketing systems that don't just attract eyeballs — they trigger buying decisions and deliver measurable revenue growth.
+                            Backed by the enterprise infrastructure of{' '}
+                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>,
+                            we stripped away the &ldquo;fluff&rdquo; of traditional agencies. We replaced guesswork with <span className="font-semibold text-[#C39A2B]">Predictive Data Science</span>,
+                            and basic copywriting with <span className="font-semibold text-[#C39A2B]">Consumer Psychology</span>. We don&apos;t build campaigns; we build scalable digital assets that capture market share.
                         </p>
                     </motion.div>
 
-                    {/* The Difference */}
-                    <div className="text-center mb-16">
+                    {/* The Paradigm Shift */}
+                    <div className="text-center mb-12">
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                            Why We're <span className="text-[#C39A2B]">Different</span>
+                            The <span className="text-[#C39A2B]">Paradigm Shift</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            We don't just follow marketing trends. We understand why they work at a psychological level.
+                            Why the old model is dead — and what we replaced it with.
                         </p>
                     </div>
 
@@ -113,100 +136,55 @@ export default function AboutPage() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16"
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
                     >
-                        <motion.div variants={fadeUp}>
-                            <h3 className="text-2xl font-heading font-bold text-heading mb-6">
-                                The Problem with Traditional Marketing Agencies
-                            </h3>
-                            <div className="space-y-6">
-                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
-                                    <div className="text-red-400 mt-1">
-                                        <Target size={24} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-heading mb-2">Focus on Vanity Metrics</h4>
-                                        <p className="text-paragraph">
-                                            They show you "likes", "shares", and traffic numbers that look good but don't fill your bank account.
-                                        </p>
-                                    </div>
+                        <motion.div
+                            variants={fadeUp}
+                            className="rounded-2xl p-8 bg-red-500/[0.04] border border-red-500/20 dark:bg-red-500/[0.03]"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
+                                    <Shield size={24} className="text-red-400" />
                                 </div>
-
-                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
-                                    <div className="text-red-400 mt-1">
-                                        <Users size={24} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-heading mb-2">One-Size-Fits-All Approach</h4>
-                                        <p className="text-paragraph">
-                                            Same strategy for every client, regardless of industry, audience, or business model.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4 p-4 bg-red-500/10 rounded-lg">
-                                    <div className="text-red-400 mt-1">
-                                        <TrendingUp size={24} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-heading mb-2">Monthly Retainers with No ROI</h4>
-                                        <p className="text-paragraph">
-                                            You keep paying whether you get results or not. No skin in the game.
-                                        </p>
-                                    </div>
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-widest text-red-400">The Old Way</p>
+                                    <h3 className="text-xl font-heading font-bold text-heading">The Traditional Agency</h3>
                                 </div>
                             </div>
+                            <p className="text-paragraph leading-relaxed">
+                                Sells you &ldquo;Brand Awareness&rdquo; and monthly retainers with <span className="font-semibold text-red-400">zero accountability</span>.
+                                You pay every month regardless of results. They hand you reports filled with impressions, reach, and follower counts — metrics that never touch your bank account. No skin in the game. No revenue alignment. Just invoices.
+                            </p>
                         </motion.div>
 
                         <motion.div
                             variants={fadeUp}
-                            className="glass-card rounded-2xl p-8 text-heading border-[#C39A2B]/30"
+                            className="rounded-2xl p-8 bg-[#C39A2B]/[0.04] border border-[#C39A2B]/30 dark:bg-[#C39A2B]/[0.03] relative"
                         >
-                            <h3 className="text-2xl font-heading font-bold mb-6">Our Neuro-Marketing Approach</h3>
-                            <div className="space-y-6">
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-white/[0.08] p-3 rounded-lg">
-                                        <Brain size={20} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold mb-2">Psychology-First Strategy</h4>
-                                        <p className="text-paragraph">
-                                            We study your customer's buying psychology before creating any campaigns.
-                                        </p>
-                                    </div>
+                            <div className="absolute -top-3 right-6 bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg tracking-wider">
+                                THE DEEPLINK STANDARD
+                            </div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center">
+                                    <Target size={24} className="text-[#C39A2B]" />
                                 </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-white/[0.08] p-3 rounded-lg">
-                                        <Zap size={20} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold mb-2">Data-Driven Decisions</h4>
-                                        <p className="text-paragraph">
-                                            Every campaign is backed by data analysis and predictive modeling.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-white/[0.08] p-3 rounded-lg">
-                                        <Shield size={20} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold mb-2">ROI-Focused Reporting</h4>
-                                        <p className="text-paragraph">
-                                            We only measure what impacts your revenue. Clear, profit-focused metrics.
-                                        </p>
-                                    </div>
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-widest text-[#C39A2B]">Our Standard</p>
+                                    <h3 className="text-xl font-heading font-bold text-heading">Market Dominance</h3>
                                 </div>
                             </div>
+                            <p className="text-paragraph leading-relaxed">
+                                We sell <span className="font-semibold text-[#C39A2B]">Market Dominance</span>. We operate as your outsourced Growth Partner.
+                                If a metric doesn&apos;t directly impact your <span className="font-semibold text-heading">Net Profit</span>, we don&apos;t track it.
+                                Every rupee we spend is reverse-engineered from your revenue target. We align our success with yours — because that&apos;s the only model that builds long-term partnerships.
+                            </p>
                         </motion.div>
                     </motion.div>
                 </div>
             </section>
 
             {/* Values Section */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-white dark:bg-[#0F1112]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
@@ -242,7 +220,7 @@ export default function AboutPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-white dark:bg-[#0F1112]">
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
                 <div className="container-custom">
                     <div className="glass-card rounded-2xl p-8 md:p-12">
                         <div className="text-center mb-12">
@@ -309,6 +287,73 @@ export default function AboutPage() {
                 </div>
             </section>
 
+            {/* The Operators */}
+            <section className="section-padding bg-[#0A0B0C] text-white relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg opacity-40" />
+                <div className="absolute top-20 left-[10%] w-72 h-72 bg-[#C39A2B]/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 right-[10%] w-64 h-64 bg-[#C39A2B]/3 rounded-full blur-3xl" />
+
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <div className="h-[1px] w-32 mx-auto bg-gradient-to-r from-transparent via-[#C39A2B]/50 to-transparent mb-8" />
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-4">
+                            The <span className="text-[#C39A2B]">Operators</span>
+                        </h2>
+                        <p className="text-lg text-white/50 max-w-2xl mx-auto">
+                            Driven by Enterprise Vision
+                        </p>
+                        <p className="text-base text-white/40 max-w-3xl mx-auto mt-4">
+                            Deeplink Creators operates under the leadership of founders who understand that business is a numbers game.
+                            We don&apos;t hire &ldquo;creative artists&rdquo;; we deploy data analysts and behavioral psychologists.
+                            Our mandate is to transition traditional businesses in NCR into scalable, high-margin market leaders.
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+                    >
+                        {founders.map((founder, index) => (
+                            <motion.div
+                                key={index}
+                                variants={fadeUp}
+                                className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 backdrop-blur-sm hover:border-[#C39A2B]/20 transition-colors duration-300"
+                            >
+                                <div className="flex items-center gap-5 mb-6">
+                                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[#B87A14] to-[#E0C27A] flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <img
+                                            src={founder.image}
+                                            alt={founder.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement
+                                                target.style.display = 'none'
+                                                target.parentElement!.innerHTML = `<span class="text-2xl font-extrabold text-white/90">${founder.initials}</span>`
+                                            }}
+                                        />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-heading font-bold text-white">{founder.name}</h3>
+                                        <p className="text-sm font-semibold text-[#C39A2B] tracking-wide uppercase">{founder.role}</p>
+                                    </div>
+                                </div>
+                                <div className="h-[1px] w-full bg-gradient-to-r from-[#C39A2B]/20 via-white/[0.06] to-transparent mb-6" />
+                                <p className="text-white/50 leading-relaxed text-[15px]">{founder.bio}</p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* CTA Section */}
             <section className="relative section-padding bg-[#0F1112] text-white">
                 <div className="absolute inset-0 grid-bg"></div>
@@ -320,24 +365,25 @@ export default function AboutPage() {
                         transition={{ duration: 0.6 }}
                     >
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
-                            Ready to Apply <span className="text-[#C39A2B]">Neuro-Marketing</span> to Your Business?
+                            Ready to Engineer{' '}
+                            <span className="text-[#C39A2B]">Predictable Revenue?</span>
                         </h2>
                         <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
-                            Whether you need enterprise SEO services, performance marketing expertise, or a complete digital marketing strategy for your business — start using psychology and data to predictably grow your revenue.
+                            We don&apos;t take on every client. If you&apos;re serious about dominating your market and want a growth partner who operates on data, psychology, and ruthless execution — let&apos;s talk.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
                                 className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8"
                             >
-                                Book Psychology Audit
-                                <Brain size={20} />
+                                Book a Strategy Call
+                                <ArrowRight size={20} />
                             </Link>
                             <Link
-                                href="/contact"
+                                href="/services"
                                 className="bg-white/[0.08] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
                             >
-                                Speak With Our Strategist
+                                View Our Services
                             </Link>
                         </div>
                     </motion.div>

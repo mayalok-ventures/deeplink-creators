@@ -32,11 +32,12 @@ const Footer = () => {
         { icon: Youtube, href: social?.youtube, label: 'YouTube' },
     ].filter(s => s.href)
 
-    const displayEmail = contact?.email || 'growth@deeplinkcreators.com'
-    const displayCity = contact?.city || 'India'
+    const displayEmail = contact?.email || 'kunal@deeplinkcreators.com'
+    const displayPhone = contact?.phone || '+91 9719364834'
+    const displayCity = contact?.city || 'Greater Noida'
     const displayAddress = contact?.address
-        ? `${contact.address}, ${contact.city || 'India'}, ${contact.state || ''} ${contact.pincode || ''}`
-        : 'India'
+        ? `${contact.address}, ${contact.city || 'Greater Noida'}, ${contact.state || 'Uttar Pradesh'} ${contact.pincode || '201310'}`
+        : 'Alpha 1, Pari Chowk, Greater Noida, Uttar Pradesh 201310'
 
     return (
         <footer className="relative bg-[#0F1112] text-white overflow-hidden">
@@ -56,7 +57,7 @@ const Footer = () => {
                                 </a>
                             </div>
                             <p className="text-white/60 leading-relaxed mb-6 max-w-md">
-                                Best digital marketing company in India. We combine Data Science with Neuro-Marketing to deliver enterprise SEO services, performance marketing, lead generation, Google Ads management, and revenue-focused strategies for businesses across India.
+                                Premier revenue-engineering firm in NCR. We combine Data Science with Neuro-Marketing to deliver enterprise SEO services, performance marketing, lead generation, Google Ads management, and revenue-focused strategies for businesses across India.
                             </p>
                             <div className="flex items-start gap-3">
                                 <MapPin className="text-[#C39A2B] flex-shrink-0 mt-1" size={20} />
@@ -146,24 +147,15 @@ const Footer = () => {
                                 Get In Touch
                             </h3>
                             <div className="space-y-4">
-                                {contact?.phone ? (
-                                    <a
-                                        href={`tel:${contact.phone}`}
-                                        className="flex items-center gap-3 text-white/60 hover:text-white transition-colors group"
-                                    >
-                                        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] group-hover:border-[#C39A2B]/30 group-hover:bg-[#C39A2B]/10 transition-colors">
-                                            <Phone size={16} />
-                                        </span>
-                                        {contact.phone}
-                                    </a>
-                                ) : (
-                                    <div className="flex items-center gap-3 text-white/60">
-                                        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08]">
-                                            <Phone size={16} />
-                                        </span>
-                                        Coming Soon
-                                    </div>
-                                )}
+                                <a
+                                    href={`tel:${displayPhone}`}
+                                    className="flex items-center gap-3 text-white/60 hover:text-white transition-colors group"
+                                >
+                                    <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] group-hover:border-[#C39A2B]/30 group-hover:bg-[#C39A2B]/10 transition-colors">
+                                        <Phone size={16} />
+                                    </span>
+                                    {displayPhone}
+                                </a>
                                 <a
                                     href={`mailto:${displayEmail}`}
                                     className="flex items-center gap-3 text-white/60 hover:text-white transition-colors group"

@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'About Us | Data-Driven Neuro-Marketing Agency',
-    description: 'Learn about Deeplink Creators — the best digital marketing company in India. We combine data science with neuro-marketing to deliver enterprise SEO, performance marketing, and lead generation for businesses across India.',
+    title: 'About Us | Premier Revenue Engineering Firm in NCR',
+    description: 'Learn about Deeplink Creators — a premier revenue-engineering unit of Mayalok Venture. We combine Data Science with Neuro-Marketing to build predictable growth systems for Enterprise & High-Ticket Businesses.',
     openGraph: {
-        title: 'About Deeplink Creators | Best Digital Marketing Company in India',
-        description: 'We combine data science with neuro-marketing to deliver enterprise SEO, performance marketing, and lead generation for businesses across India.',
+        title: 'About Deeplink Creators | Revenue Engineering & Growth Systems',
+        description: 'We combine Data Science with Neuro-Marketing to build predictable growth systems for Enterprise & High-Ticket Businesses in NCR and across India.',
         url: 'https://deeplinkcreators.com/about/',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'About Deeplink Creators | Best Digital Marketing Company in India',
-        description: 'Data science + neuro-marketing. Enterprise SEO, performance marketing & lead generation for businesses across India.',
+        title: 'About Deeplink Creators | Revenue Engineering & Growth Systems',
+        description: 'Data Science + Neuro-Marketing. Predictable growth systems for Enterprise & High-Ticket Businesses in NCR.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com/about/',

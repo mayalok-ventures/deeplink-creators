@@ -1,13 +1,13 @@
 export const COMPANY_INFO = {
     name: "Deeplink Creators",
     parentCompany: "Mayalok Venture",
-    tagline: "Revenue Machines for Businesses Across India",
-    description: "We combine Data Science with Human Psychology to build predictable revenue systems for businesses across India.",
-    phone: "",
-    email: "growth@deeplinkcreators.com",
+    tagline: "Premier Revenue Engineering Firm in NCR",
+    description: "We combine Data Science with Neuro-Marketing to build predictable growth systems for Enterprise & High-Ticket Businesses.",
+    phone: "+91 9719364834",
+    email: "kunal@deeplinkcreators.com",
     address: {
-        city: "India",
-        state: "",
+        city: "Greater Noida",
+        state: "Uttar Pradesh",
         country: "India"
     },
     workingHours: {

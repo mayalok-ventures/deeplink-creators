@@ -6,7 +6,7 @@ import TechStack from '@/components/TechStack'
 import TestimonialSection from '@/components/TestimonialSection'
 import FAQSection from '@/components/FAQSection'
 import SpotSection from '@/components/SpotSection'
-import { ArrowRight, Target, BarChart3, Users, CheckCircle2, XCircle, Search, FileBarChart, Presentation } from 'lucide-react'
+import { ArrowRight, Target, BarChart3, Users, CheckCircle2, XCircle, Search, FileBarChart, Presentation, Brain, Zap, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -175,6 +175,77 @@ export default function HomePage() {
 
             <ServiceStack />
             <TechStack />
+
+            {/* How We Build Revenue Architectures */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
+                            How We Build{' '}
+                            <span className="text-gradient">Revenue Architectures</span>
+                        </h2>
+                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
+                            A 3-phase system engineered to transform your business from &quot;running campaigns&quot; to &quot;operating a revenue machine.&quot;
+                        </p>
+                    </motion.div>
+
+                    <div className="relative">
+                        <div className="hidden lg:block absolute top-1/2 left-[10%] right-[10%] -translate-y-1/2 h-[2px] bg-gradient-to-r from-[#C39A2B]/20 via-[#C39A2B]/40 to-[#C39A2B]/20" />
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.2 }}
+                            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
+                            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+                        >
+                            {[
+                                {
+                                    step: '01',
+                                    title: 'Revenue Forensics',
+                                    subtitle: 'Week 1–2',
+                                    description: 'We dissect your current acquisition funnel — every traffic source, every conversion point, every revenue leak. No guesswork. We map the exact points where you\'re hemorrhaging pipeline.',
+                                    icon: <Brain size={24} />,
+                                },
+                                {
+                                    step: '02',
+                                    title: 'Architecture Deployment',
+                                    subtitle: 'Week 3–6',
+                                    description: 'We engineer your custom revenue architecture — SEO infrastructure, paid media systems, conversion assets, and tracking frameworks. Every component is built to generate measurable pipeline.',
+                                    icon: <Zap size={24} />,
+                                },
+                                {
+                                    step: '03',
+                                    title: 'Compound Scaling',
+                                    subtitle: 'Month 2+',
+                                    description: 'Once the architecture is validated, we activate compound scaling — doubling down on what works, eliminating what doesn\'t, and systematically increasing your customer acquisition velocity.',
+                                    icon: <TrendingUp size={24} />,
+                                },
+                            ].map((step, index) => (
+                                <motion.div
+                                    key={index}
+                                    variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } } }}
+                                    className="relative glass-card rounded-2xl p-8"
+                                >
+                                    <div className="text-5xl font-extrabold text-[#C39A2B]/10 absolute top-4 right-4">{step.step}</div>
+                                    <div className="w-14 h-14 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center mb-6 text-[#C39A2B]">
+                                        {step.icon}
+                                    </div>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-[#C39A2B] mb-2 block">{step.subtitle}</span>
+                                    <h3 className="text-xl font-heading font-bold text-heading mb-3">{step.title}</h3>
+                                    <p className="text-paragraph">{step.description}</p>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
 
             {/* Who We Work With (And Who We Don't) */}
             <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">

@@ -46,9 +46,9 @@ export const metadata: Metadata = {
         description: 'Data-driven digital marketing agency in India. Enterprise SEO, Performance Marketing, PPC, Lead Generation, and Revenue-Focused Growth Systems for enterprises and high-ticket businesses.',
         images: [
             {
-                url: '/images/logo.svg',
-                width: 1200,
-                height: 630,
+                url: '/android-chrome-512x512.png',
+                width: 512,
+                height: 512,
                 alt: 'Deeplink Creators - Revenue-Focused Digital Marketing Agency',
             },
         ],
@@ -129,99 +129,9 @@ const websiteSchema = {
     "@type": "WebSite",
     "name": "Deeplink Creators",
     "url": "https://deeplinkcreators.com",
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://deeplinkcreators.com/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
-    }
 }
 
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-        {
-            "@type": "Question",
-            "name": "What does Deeplink Creators specialize in?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Deeplink Creators specializes in Enterprise SEO, Predictive SEO, Performance Marketing, B2B Lead Generation, Revenue Marketing, and Conversion Rate Optimization. We focus on delivering measurable ROI for enterprises and high-ticket businesses across India."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How much do SEO services cost in India?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "SEO investment varies based on your business scope, competitive landscape, and growth targets. Deeplink Creators offers enterprise-grade SEO services with customized plans. Contact us for a free SEO audit and a tailored proposal."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Do you provide Google Ads management?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes. Deeplink Creators provides ROI-focused Google Ads management and PPC services with a strict focus on cost-per-acquisition and revenue attribution — not vanity clicks."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "What digital marketing services do you offer?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "We offer Enterprise SEO, Predictive SEO, Performance Marketing, Google Ads, PPC, B2B Lead Generation, Revenue Marketing, Conversion Rate Optimization, Neuro-Marketing Strategy, and Next.js Web Development."
-            }
-        }
-    ]
-}
 
-const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deeplinkcreators.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://deeplinkcreators.com/services/" },
-        { "@type": "ListItem", "position": 3, "name": "About", "item": "https://deeplinkcreators.com/about/" },
-        { "@type": "ListItem", "position": 4, "name": "Contact", "item": "https://deeplinkcreators.com/contact/" }
-    ]
-}
-
-const siteNavigationSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": [
-        {
-            "@type": "SiteNavigationElement",
-            "position": 1,
-            "name": "Home",
-            "url": "https://deeplinkcreators.com/"
-        },
-        {
-            "@type": "SiteNavigationElement",
-            "position": 2,
-            "name": "Services",
-            "url": "https://deeplinkcreators.com/services/"
-        },
-        {
-            "@type": "SiteNavigationElement",
-            "position": 3,
-            "name": "Blog & Insights",
-            "url": "https://deeplinkcreators.com/blog/"
-        },
-        {
-            "@type": "SiteNavigationElement",
-            "position": 4,
-            "name": "About Us",
-            "url": "https://deeplinkcreators.com/about/"
-        },
-        {
-            "@type": "SiteNavigationElement",
-            "position": 5,
-            "name": "Contact",
-            "url": "https://deeplinkcreators.com/contact/"
-        }
-    ]
-}
 
 export default function RootLayout({
     children,
@@ -269,18 +179,7 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
                 />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-                />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-                />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }}
-                />
+
                 <script
                     dangerouslySetInnerHTML={{
                         __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}`

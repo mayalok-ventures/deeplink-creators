@@ -11,6 +11,7 @@ import {
 import ServiceCard from '@/components/ServiceCard'
 import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
+import FAQSection from '@/components/FAQSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
@@ -350,6 +351,25 @@ export default function NoidaPage() {
                     </div>
                 </div>
             </section>
+
+            <FAQSection
+                title="Questions Noida&apos;s Tech Leaders Ask Us"
+                subtitle="Direct answers for B2B and SaaS founders who are tired of agency BS."
+                faqs={[
+                    {
+                        question: "We are a B2B Tech/SaaS company in Noida. Can you help us scale our ARR?",
+                        answer: "Yes. Scaling ARR requires precision. We deploy Account-Based Marketing (ABM) and advanced Sales Funnel architectures to target specific decision-makers (CTOs, CEOs) in your ideal client profile, reducing your Customer Acquisition Cost (CAC) significantly."
+                    },
+                    {
+                        question: "Our current agency is getting us traffic, but no high-quality leads. Can you fix this?",
+                        answer: "Traffic without conversion is just an expense. We use Neuro-Marketing to analyze why your current traffic isn't converting. We restructure your website's copy and user experience (UX) to trigger buying decisions, turning your website from a brochure into a lead-generation machine."
+                    },
+                    {
+                        question: "Do you handle end-to-end marketing automation?",
+                        answer: "Yes. For fast-paced Noida businesses, relying on manual follow-ups is a mistake. We integrate AI-driven marketing automation to nurture your leads 24/7, ensuring no high-ticket prospect slips through the cracks."
+                    },
+                ]}
+            />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

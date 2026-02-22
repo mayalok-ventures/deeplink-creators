@@ -12,6 +12,7 @@ import {
 import ServiceCard from '@/components/ServiceCard'
 import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
+import FAQSection from '@/components/FAQSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
@@ -488,6 +489,25 @@ export default function LucknowPage() {
                     </div>
                 </div>
             </section>
+
+            <FAQSection
+                title="Questions Lucknow Businesses Ask Us"
+                subtitle="Seedhi baat, no bakwaas — honest answers for Lucknow ke serious business owners."
+                faqs={[
+                    {
+                        question: "The Lucknow market is very traditional. Will high-end digital marketing work here?",
+                        answer: "The traditional nature of the market is your biggest advantage. Most of your local competitors have weak digital presences. By moving first with a heavy, data-driven SEO and Performance Marketing strategy, you can monopolize the digital space in Lucknow before it gets crowded."
+                    },
+                    {
+                        question: "We want to expand our Lucknow-based business to the rest of UP and Delhi NCR. Can you help?",
+                        answer: "Yes. That is exactly what our Revenue Systems are built for. We design hyper-targeted geographic ad campaigns to test new markets (like NCR) with minimal risk, establishing your brand presence and generating leads before you even open a physical office there."
+                    },
+                    {
+                        question: "Do we need a massive budget to start dominating our local market?",
+                        answer: "You don't need a massive budget; you need a precise one. We start by capturing the existing high-intent search traffic in Lucknow (people already looking for your services) to generate immediate cash flow, which can then be reinvested into larger brand-building campaigns."
+                    },
+                ]}
+            />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

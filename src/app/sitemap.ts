@@ -1,15 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { initializeApp, getApps } from 'firebase/app'
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore/lite'
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC-GjOsncZtHG-Zq7jh-ioyFl7Phv98NO8",
-    authDomain: "mayalok-ventures.firebaseapp.com",
-    projectId: "mayalok-ventures",
-    storageBucket: "mayalok-ventures.firebasestorage.app",
-    messagingSenderId: "6750906250",
-    appId: "1:6750906250:web:497b788e75f5ff1bee0a73",
-}
+import { firebaseConfig } from '@/lib/firebase-config'
 
 async function getPublishedBlogSlugs(): Promise<{ slug: string; updatedAt?: any }[]> {
     try {

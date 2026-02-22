@@ -11,6 +11,7 @@ import {
 import ServiceCard from '@/components/ServiceCard'
 import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
+import FAQSection from '@/components/FAQSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
@@ -350,6 +351,25 @@ export default function DelhiPage() {
                     </div>
                 </div>
             </section>
+
+            <FAQSection
+                title="Questions Delhi&apos;s Business Leaders Ask Us"
+                subtitle="Straight answers for legacy businesses and premium brands ready to dominate digitally."
+                faqs={[
+                    {
+                        question: "We are a legacy business in Delhi with an established offline network. Why do we need your systems?",
+                        answer: "Because your competitors are actively digitizing and stealing your future market share. We don't replace your offline network; we digitize your legacy. We build high-authority digital assets that translate your decades of offline trust into online market dominance."
+                    },
+                    {
+                        question: "Can you handle large-scale enterprise ad budgets without wasting capital?",
+                        answer: "Yes. Wasting large budgets is easy; scaling them profitably is a science. We use strict predictive modeling and tracking architectures. We test small, prove the ROI, and then scale aggressively to ensure every rupee spent defends your bottom line."
+                    },
+                    {
+                        question: "How do you position premium brands in a crowded Delhi market?",
+                        answer: "Through ruthless positioning and Neuro-Branding. We don't compete on price; we compete on value and psychology. We craft brand narratives that make your services look like the only logical choice for high-net-worth clients."
+                    },
+                ]}
+            />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

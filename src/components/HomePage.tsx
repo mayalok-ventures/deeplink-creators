@@ -4,6 +4,7 @@ import Hero from '@/components/Hero'
 import ServiceStack from '@/components/ServiceStack'
 import TechStack from '@/components/TechStack'
 import TestimonialSection from '@/components/TestimonialSection'
+import FAQSection from '@/components/FAQSection'
 import SpotSection from '@/components/SpotSection'
 import { ArrowRight, Target, BarChart3, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -175,6 +176,33 @@ export default function HomePage() {
             <ServiceStack />
             <TechStack />
             <TestimonialSection />
+
+            <FAQSection
+                title="Got Questions? Here Are Honest Answers."
+                subtitle="We don't hide behind jargon. Here's what serious business owners ask us before they sign."
+                faqs={[
+                    {
+                        question: "How is Deeplink Creators different from other digital marketing agencies in NCR?",
+                        answer: "We are not a traditional agency; we are a Revenue Engineering firm. While other agencies sell you \"likes, shares, and brand awareness,\" we strictly focus on your P&L. If a marketing campaign doesn't directly decrease your Cost Per Acquisition (CPA) or increase your Net Profit, we shut it down. We use Data Science and Neuro-Marketing to build predictable sales systems."
+                    },
+                    {
+                        question: "Do you guarantee results or a specific ROI?",
+                        answer: "We guarantee absolute mathematical transparency. In B2B and High-Ticket sales, anyone promising a fixed overnight ROI is lying to you. We guarantee that your ad spend will be tracked to the last rupee, your vanity metrics will be ignored, and every campaign will be ruthlessly optimized to scale your revenue."
+                    },
+                    {
+                        question: "We have burned money on digital marketing before. Why should we trust you?",
+                        answer: "Because we don't operate on guesswork. We start with a brutal ROI Audit of your current systems to show you exactly where your money is leaking (leaky funnels, bad tracking, weak positioning). We fix the foundation before asking you to scale your ad budget."
+                    },
+                    {
+                        question: "Do you work with all types of businesses?",
+                        answer: "No. We are highly selective. We exclusively partner with high-ticket businesses (Manufacturers, Real Estate Developers, EdTech, and Enterprise SaaS) who have the capacity to scale and are serious about dominating their market. We do not work with early-stage startups looking for \"cheap branding.\""
+                    },
+                    {
+                        question: "What does your pricing structure look like?",
+                        answer: "Our pricing is structured for serious operators. We do not offer generic ₹15,000/month packages. We operate on a combination of strategic retainers and performance-driven scaling models. Book a Discovery Call, and we will build a custom financial model for your growth."
+                    },
+                ]}
+            />
 
             {/* Final CTA Section */}
             <motion.section

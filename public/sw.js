@@ -1,4 +1,4 @@
-const CACHE_NAME = 'deeplink-v1'
+const CACHE_NAME = 'deeplink-v2'
 const OFFLINE_URL = '/'
 
 self.addEventListener('install', (event) => {

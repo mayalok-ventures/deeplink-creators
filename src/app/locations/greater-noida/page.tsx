@@ -11,6 +11,7 @@ import {
 import ServiceCard from '@/components/ServiceCard'
 import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
+import FAQSection from '@/components/FAQSection'
 import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
 
 const ICON_MAP: Record<string, ReactNode> = {
@@ -350,6 +351,29 @@ export default function GreaterNoidaPage() {
                     </div>
                 </div>
             </section>
+
+            <FAQSection
+                title="Questions Greater Noida Businesses Ask Us"
+                subtitle="Real answers for real business owners — no jargon, no fake promises."
+                faqs={[
+                    {
+                        question: "We are a heavy manufacturing plant in Ecotech. Does digital marketing even work for B2B factories?",
+                        answer: "Absolutely. Your buyers (procurement managers and B2B distributors) are searching on Google before they ever attend a trade show. We use Industrial SEO and highly targeted LinkedIn/Google Ads to ensure your factory ranks #1 when large contracts are being negotiated in Greater Noida and NCR."
+                    },
+                    {
+                        question: "How do you generate leads for high-ticket Real Estate projects in Noida Extension?",
+                        answer: "We stop running generic \"Buy Now\" Facebook ads. We use Neuro-Branding to position your property as a high-status asset. We build high-speed conversion funnels that filter out junk leads, ensuring your sales team only talks to qualified, high-net-worth individuals."
+                    },
+                    {
+                        question: "Can we visit your office for an in-person consultation?",
+                        answer: "Yes. We understand that in Greater Noida, business is built on trust and handshakes. We prefer in-person strategy sessions with decision-makers at our headquarters or your facility to map out your revenue goals."
+                    },
+                    {
+                        question: "How fast can we see an increase in qualified B2B inquiries?",
+                        answer: "For immediate lead flow, our Performance Marketing (Paid Ads) systems can start generating qualified inquiries within 14 days. For long-term market dominance and zero-cost leads, our Industrial SEO systems build compound growth over 3 to 6 months."
+                    },
+                ]}
+            />
 
             {/* EXIT-INTENT LEAD FORM */}
             <section id="apply" className="section-padding bg-[#0F1112] text-white relative overflow-hidden">

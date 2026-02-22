@@ -117,7 +117,7 @@ export default function ServicesPage() {
                     >
                         <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
                             <span className="w-2 h-2 bg-[#C39A2B] rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium">Best Digital Marketing Company in India</span>
+                            <span className="text-sm font-medium">Revenue-Focused Digital Marketing Services</span>
                         </div>
 
                         <h1 className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
@@ -125,7 +125,7 @@ export default function ServicesPage() {
                             <span className="text-[#C39A2B]">Revenue Machines</span>
                         </h1>
                         <p className="text-lg text-paragraph mb-8 max-w-2xl mx-auto">
-                            The top digital marketing company in India. We design custom marketing systems — enterprise SEO, Google Ads, PPC, performance marketing, and lead generation — engineered to deliver customers, revenue, and measurable ROI for your business.
+                            We design custom marketing systems — Enterprise SEO, Google Ads, PPC, Performance Marketing, and Lead Generation — engineered to deliver customers, revenue, and measurable ROI for your business.
                         </p>
 
 
@@ -221,7 +221,7 @@ export default function ServicesPage() {
                             Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            The best digital marketing company in India. Here&apos;s what makes us different from other agencies.
+                            Here&apos;s what makes us different from every other agency.
                         </p>
                     </div>
 

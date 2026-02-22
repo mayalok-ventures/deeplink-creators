@@ -9,29 +9,19 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space
 export const metadata: Metadata = {
     metadataBase: new URL('https://deeplinkcreators.com'),
     title: {
-        default: 'Deeplink Creators | Best Digital Marketing Company in India',
+        default: 'Deeplink Creators | Revenue-Focused Digital Marketing Agency',
         template: '%s | Deeplink Creators'
     },
-    description: 'Deeplink Creators is a data-driven digital marketing agency in India specializing in SEO, Performance Marketing, Lead Generation, and Revenue-Focused Digital Transformation for enterprises and startups.',
+    description: 'Deeplink Creators is a data-driven digital marketing agency specializing in Enterprise SEO, Performance Marketing, Lead Generation, and Revenue-Focused Growth Systems for enterprises and high-ticket businesses across India.',
     keywords: [
-        'best digital marketing company in india', 'digital marketing agency in india', 'top digital marketing company in india',
-        'digital marketing services in india', 'digital marketing firm in india', 'online marketing company in india',
-        'performance marketing agency in india', 'growth marketing agency in india', 'ROI focused digital marketing agency india',
-        'seo company in india', 'seo agency in india', 'enterprise seo services india',
-        'ppc agency in india', 'google ads agency in india', 'performance marketing company india',
-        'lead generation company in india', 'b2b lead generation agency india', 'high ticket lead generation india',
-        'website development company india', 'conversion focused web design india',
-        'data driven digital marketing agency india', 'revenue focused digital marketing company india',
-        'enterprise digital marketing agency india', 'predictive seo company india',
-        'B2B performance marketing agency India', 'enterprise lead generation company India',
-        'revenue marketing agency India', 'customer acquisition agency for startups',
-        'conversion rate optimization agency India', 'predictive SEO services India',
-        'real estate digital marketing agency India', 'digital marketing for SaaS companies India',
-        'healthcare performance marketing India', 'premium digital marketing agency in India',
-        'Next.js web development agency India',
-        'best agency for digital marketing in india', 'digital marketing company for businesses in india',
-        'scalable digital marketing solutions india', 'digital marketing agency for startups in india',
-        'performance marketing', 'neuro-marketing', 'ROI focused marketing',
+        'digital marketing agency india', 'revenue focused digital marketing',
+        'enterprise seo services india', 'performance marketing agency india',
+        'lead generation company india', 'b2b lead generation agency india',
+        'google ads management india', 'ppc agency india',
+        'data driven digital marketing', 'conversion rate optimization india',
+        'predictive seo services', 'growth marketing agency india',
+        'digital marketing for enterprises', 'neuro-marketing agency',
+        'ROI focused marketing agency', 'revenue engineering firm',
     ],
     authors: [{ name: 'Deeplink Creators' }],
     creator: 'Deeplink Creators',
@@ -52,21 +42,21 @@ export const metadata: Metadata = {
         locale: 'en_IN',
         url: 'https://deeplinkcreators.com',
         siteName: 'Deeplink Creators',
-        title: 'Deeplink Creators | Best Digital Marketing Company in India',
-        description: 'Data-driven digital marketing agency in India. SEO, Performance Marketing, PPC, Google Ads, Lead Generation, and Revenue-Focused Digital Transformation for enterprises and startups.',
+        title: 'Deeplink Creators | Revenue-Focused Digital Marketing Agency',
+        description: 'Data-driven digital marketing agency in India. Enterprise SEO, Performance Marketing, PPC, Lead Generation, and Revenue-Focused Growth Systems for enterprises and high-ticket businesses.',
         images: [
             {
                 url: '/images/logo.svg',
                 width: 1200,
                 height: 630,
-                alt: 'Deeplink Creators - Best Digital Marketing Company in India',
+                alt: 'Deeplink Creators - Revenue-Focused Digital Marketing Agency',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Deeplink Creators | Best Digital Marketing Company in India',
-        description: 'Data-driven digital marketing agency in India. SEO, Performance Marketing, Lead Generation & Revenue-Focused strategies that deliver real ROI.',
+        title: 'Deeplink Creators | Revenue-Focused Digital Marketing Agency',
+        description: 'Data-driven digital marketing agency. Enterprise SEO, Performance Marketing, Lead Generation & Revenue-Focused strategies that deliver real ROI.',
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com',
@@ -81,22 +71,26 @@ const jsonLd = {
     "@id": "https://deeplinkcreators.com",
     "url": "https://deeplinkcreators.com",
     "logo": "https://deeplinkcreators.com/logo.png",
-    "description": "Best Digital Marketing Company in India — Revenue-Focused SEO, Performance Marketing & Lead Generation.",
+    "description": "Revenue-focused digital marketing agency specializing in Enterprise SEO, Performance Marketing & Lead Generation for businesses across India.",
+    "telephone": "+919719364834",
+    "email": "kunal@deeplinkcreators.com",
     "address": {
         "@type": "PostalAddress",
-        "addressLocality": "India",
-        "addressRegion": "India",
+        "streetAddress": "Alpha 1, Pari Chowk",
+        "addressLocality": "Greater Noida",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "201310",
         "addressCountry": "IN"
     },
     "geo": {
         "@type": "GeoCoordinates",
-        "latitude": "20.5937",
-        "longitude": "78.9629"
+        "latitude": "28.4744",
+        "longitude": "77.5040"
     },
     "areaServed": [
         { "@type": "Country", "name": "India" }
     ],
-    "serviceType": ["SEO Services", "Enterprise SEO Services", "Predictive SEO", "Performance Marketing", "B2B Performance Marketing", "Google Ads Management", "PPC Services", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Customer Acquisition", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Next.js Web Development"],
+    "serviceType": ["Enterprise SEO", "Predictive SEO", "Performance Marketing", "Google Ads Management", "PPC Services", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Neuro-Marketing", "Next.js Web Development"],
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -105,9 +99,15 @@ const jsonLd = {
     },
     "contactPoint": {
         "@type": "ContactPoint",
+        "telephone": "+919719364834",
         "contactType": "sales",
-        "areaServed": ["India"]
-    }
+        "areaServed": ["India"],
+        "availableLanguage": ["English", "Hindi"]
+    },
+    "founder": [
+        { "@type": "Person", "name": "Kunal Pratap Singh", "jobTitle": "Founder & Strategy Lead" },
+        { "@type": "Person", "name": "Dileep Yadav", "jobTitle": "Co-Founder & Operations Head" }
+    ]
 }
 
 const organizationSchema = {
@@ -121,7 +121,7 @@ const organizationSchema = {
         "url": "https://mayalokventures.com"
     },
     "areaServed": "India",
-    "knowsAbout": ["SEO", "Enterprise SEO", "Predictive SEO", "Performance Marketing", "B2B Performance Marketing", "Google Ads", "PPC", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Customer Acquisition for Startups", "Digital Marketing", "Content Marketing", "Social Media Marketing", "Next.js Web Development"]
+    "knowsAbout": ["Enterprise SEO", "Predictive SEO", "Performance Marketing", "Google Ads", "PPC", "Lead Generation", "Revenue Marketing", "Conversion Rate Optimization", "Neuro-Marketing", "Next.js Web Development"]
 }
 
 const websiteSchema = {
@@ -142,10 +142,10 @@ const faqSchema = {
     "mainEntity": [
         {
             "@type": "Question",
-            "name": "What is the best digital marketing company in India?",
+            "name": "What does Deeplink Creators specialize in?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators is the best digital marketing company in India, specializing in Enterprise SEO, Predictive SEO, B2B Performance Marketing, Lead Generation, Revenue Marketing, and Conversion Rate Optimization with a focus on delivering measurable ROI for enterprises and startups."
+                "text": "Deeplink Creators specializes in Enterprise SEO, Predictive SEO, Performance Marketing, B2B Lead Generation, Revenue Marketing, and Conversion Rate Optimization. We focus on delivering measurable ROI for enterprises and high-ticket businesses across India."
             }
         },
         {
@@ -153,23 +153,23 @@ const faqSchema = {
             "name": "How much do SEO services cost in India?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators offers affordable and enterprise-grade SEO services in India with customized plans based on your business needs. Contact us for a free SEO audit and custom quote."
+                "text": "SEO investment varies based on your business scope, competitive landscape, and growth targets. Deeplink Creators offers enterprise-grade SEO services with customized plans. Contact us for a free SEO audit and a tailored proposal."
             }
         },
         {
             "@type": "Question",
-            "name": "Do you provide Google Ads management in India?",
+            "name": "Do you provide Google Ads management?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, Deeplink Creators provides expert Google Ads management and PPC services across India with a focus on ROI-positive campaigns for enterprises and startups."
+                "text": "Yes. Deeplink Creators provides ROI-focused Google Ads management and PPC services with a strict focus on cost-per-acquisition and revenue attribution — not vanity clicks."
             }
         },
         {
             "@type": "Question",
-            "name": "What digital marketing services do you offer in India?",
+            "name": "What digital marketing services do you offer?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "We offer Enterprise SEO, Predictive SEO, B2B Performance Marketing, Google Ads, PPC, Lead Generation, Revenue Marketing, Conversion Rate Optimization, Customer Acquisition, Content Marketing, Social Media Marketing, and Next.js Web Development for businesses across India."
+                "text": "We offer Enterprise SEO, Predictive SEO, Performance Marketing, Google Ads, PPC, B2B Lead Generation, Revenue Marketing, Conversion Rate Optimization, Neuro-Marketing Strategy, and Next.js Web Development."
             }
         }
     ]
@@ -241,21 +241,21 @@ export default function RootLayout({
                 <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
                 <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
 
-                {/* Additional SEO meta for all crawlers */}
-                <meta name="geo.region" content="IN" />
-                <meta name="geo.placename" content="India" />
-                <meta name="geo.position" content="20.5937;78.9629" />
-                <meta name="ICBM" content="20.5937, 78.9629" />
+                {/* Additional SEO meta */}
+                <meta name="geo.region" content="IN-UP" />
+                <meta name="geo.placename" content="Greater Noida, Uttar Pradesh" />
+                <meta name="geo.position" content="28.4744;77.5040" />
+                <meta name="ICBM" content="28.4744, 77.5040" />
                 <meta name="language" content="English" />
                 <meta name="revisit-after" content="7 days" />
                 <meta name="rating" content="general" />
                 <meta name="distribution" content="global" />
 
-                {/* Dublin Core metadata for academic/advanced crawlers */}
-                <meta name="DC.title" content="Deeplink Creators - Best Digital Marketing Company in India" />
+                {/* Dublin Core metadata */}
+                <meta name="DC.title" content="Deeplink Creators - Revenue-Focused Digital Marketing Agency" />
                 <meta name="DC.creator" content="Deeplink Creators" />
-                <meta name="DC.subject" content="Digital Marketing, SEO, Performance Marketing, Lead Generation, Revenue Marketing, B2B Marketing" />
-                <meta name="DC.description" content="Best digital marketing company in India specializing in SEO, Performance Marketing, Lead Generation, PPC, Google Ads, and revenue-focused strategies for enterprises and startups." />
+                <meta name="DC.subject" content="Digital Marketing, Enterprise SEO, Performance Marketing, Lead Generation, Revenue Marketing" />
+                <meta name="DC.description" content="Revenue-focused digital marketing agency specializing in Enterprise SEO, Performance Marketing, Lead Generation, and Growth Systems for enterprises across India." />
                 <meta name="DC.language" content="en" />
                 <script
                     type="application/ld+json"

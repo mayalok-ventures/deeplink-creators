@@ -9,9 +9,9 @@ export default function SEOManager() {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [form, setForm] = useState<SEOSettings>({
-        siteTitle: 'Deeplink Creators | Best Digital Marketing Company in India',
-        siteDescription: 'Deeplink Creators is a revenue-focused digital marketing agency in India specializing in SEO, Performance Marketing, and Lead Generation.',
-        siteKeywords: 'best digital marketing company in india, seo agency india, performance marketing agency india, lead generation company india',
+        siteTitle: 'Deeplink Creators | Revenue-Focused Digital Marketing Agency',
+        siteDescription: 'Deeplink Creators is a revenue-focused digital marketing agency specializing in Enterprise SEO, Performance Marketing, and Lead Generation.',
+        siteKeywords: 'digital marketing agency india, enterprise seo services, performance marketing agency, lead generation company india, revenue focused marketing',
         ogImage: '',
         googleAnalyticsId: '',
         metaPixelId: '',

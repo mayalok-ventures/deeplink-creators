@@ -48,8 +48,8 @@ export default function HomePage() {
                             Are You Getting <span className="text-red-400">Vanity Metrics</span> Instead of <span className="text-[#C39A2B]">Real Revenue</span>?
                         </h2>
                         <p className="text-lg text-paragraph mb-8">
-                            Most digital marketing agencies in India give you &quot;likes&quot; and &quot;views&quot; that look good in reports but don&apos;t fill your bank account.
-                            As the best digital marketing company in India, we only measure what matters: <span className="font-semibold text-[#C39A2B]">leads, sales, and ROI</span>.
+                            Most digital marketing agencies give you &quot;likes&quot; and &quot;views&quot; that look good in reports but don&apos;t fill your bank account.
+                            We only measure what matters: <span className="font-semibold text-[#C39A2B]">leads, sales, and ROI</span>.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 relative">

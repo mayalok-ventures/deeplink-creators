@@ -112,7 +112,7 @@ const Hero = () => {
                                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C39A2B]" />
                                     </span>
                                     <span className="text-sm font-medium text-paragraph tracking-wide">
-                                        Best Digital Marketing Company in India
+                                        Revenue-Focused Digital Marketing Agency
                                     </span>
                                 </div>
                             </motion.div>
@@ -153,7 +153,7 @@ const Hero = () => {
                                 variants={itemVariants}
                                 className="text-base md:text-lg lg:text-xl text-paragraph mb-10 max-w-2xl leading-relaxed"
                             >
-                                The top performance marketing agency in India. We don&apos;t deliver clicks — we deliver{' '}
+                                We don&apos;t deliver clicks — we deliver{' '}
                                 <span className="font-semibold text-heading">
                                     customers, revenue, and measurable ROI
                                 </span>{' '}

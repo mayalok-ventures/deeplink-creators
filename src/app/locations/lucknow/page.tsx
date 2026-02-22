@@ -131,7 +131,7 @@ export default function LucknowPage() {
                                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C39A2B]" />
                                         </span>
                                         <span className="text-sm font-medium text-paragraph tracking-wide">
-                                            Best Digital Marketing Agency in Lucknow
+                                            Digital Marketing Agency in Lucknow
                                         </span>
                                     </div>
                                 </motion.div>

@@ -49,23 +49,23 @@ const fadeUp = {
 const processSteps = [
     {
         step: '01',
-        title: 'Business Audit',
+        title: 'Revenue Forensics',
         subtitle: 'Week 1–2',
-        description: 'We sit with you to understand your business — your customers, your local market, your past marketing experience. We audit every rupee you\'ve spent and map exactly where it went wrong. No jargon, just clarity.',
+        description: 'We dissect your current revenue architecture — every acquisition channel, every conversion metric, every margin leak. For real estate developers, we audit cost-per-site-visit and booking ratios. For legacy businesses, we map the digital opportunity gap your competitors are already exploiting.',
         icon: <Brain size={24} />,
     },
     {
         step: '02',
-        title: 'System Setup',
+        title: 'Architecture Deployment',
         subtitle: 'Week 3–6',
-        description: 'We build your complete digital system — Local SEO to dominate Google Maps, targeted ad campaigns with real tracking, high-converting landing pages, and lead management. Every piece is built to generate real enquiries, not vanity metrics.',
+        description: 'We engineer your custom growth architecture — Local SEO infrastructure to dominate Lucknow search, performance marketing systems with real attribution, high-converting landing pages, and lead pipeline management. Every component drives measurable revenue, not vanity metrics.',
         icon: <Zap size={24} />,
     },
     {
         step: '03',
-        title: 'Growth & Scale',
+        title: 'Profit Scaling',
         subtitle: 'Month 2+',
-        description: 'Once your system starts delivering enquiries, we scale what works and cut what doesn\'t. Monthly performance reviews with real numbers — not PDF reports. Step-by-step growth, no experiments with your money.',
+        description: 'Once the architecture is validated, we activate profit scaling — doubling down on channels driving qualified leads, eliminating underperforming spend, and systematically decreasing your customer acquisition cost while your competitors waste budgets on experiments.',
         icon: <TrendingUp size={24} />,
     },
 ]
@@ -132,7 +132,7 @@ export default function LucknowPage() {
                                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C39A2B]" />
                                         </span>
                                         <span className="text-sm font-medium text-paragraph tracking-wide">
-                                            Digital Marketing Agency in Lucknow
+                                            Premium Digital Marketing Agency in Lucknow
                                         </span>
                                     </div>
                                 </motion.div>
@@ -141,14 +141,14 @@ export default function LucknowPage() {
                                     variants={fadeUp}
                                     className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight"
                                 >
-                                    <span className="text-heading">Digital Marketing That </span>
+                                    <span className="text-heading">Scaling Lucknow&apos;s </span>
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
-                                        Lucknow&apos;s Businesses
+                                        Real Estate, Education &amp; Heritage Brands
                                     </span>
                                     <br />
-                                    <span className="text-heading">Can Actually </span>
+                                    <span className="text-heading">With Revenue-Proven </span>
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B87A14] to-[#E0C27A]">
-                                        Trust &amp; Measure.
+                                        Growth Architecture.
                                     </span>
                                 </motion.h1>
 
@@ -156,9 +156,9 @@ export default function LucknowPage() {
                                     variants={fadeUp}
                                     className="text-base md:text-lg lg:text-xl text-paragraph mb-10 max-w-2xl leading-relaxed"
                                 >
-                                    Lucknow ke builders, coaching institutes, aur heritage brands ko &quot;social media management&quot; nahi chahiye. Inhe chahiye{' '}
-                                    <span className="font-semibold text-heading">real enquiries, trackable ROI, aur step-by-step growth</span>{' '}
-                                    — bina kisi experiment ke. We build digital systems that deliver real leads, not fake promises.
+                                    Lucknow&apos;s Gomti Nagar developers, Hazratganj coaching institutes, and heritage retail brands don&apos;t need &quot;social media management.&quot; They need{' '}
+                                    <span className="font-semibold text-heading">qualified lead pipelines, revenue-attributed tracking, and systematic market dominance</span>{' '}
+                                    — engineered by a team that proves ROI, not promises it.
                                 </motion.p>
 
                                 <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 mb-14">
@@ -168,7 +168,7 @@ export default function LucknowPage() {
                                     >
                                         <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#E0C27A] to-[#B87A14] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                         <span className="relative flex items-center gap-2">
-                                            Get Your Free Business Audit
+                                            Apply for Revenue Audit
                                             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
                                         </span>
                                     </a>
@@ -206,10 +206,10 @@ export default function LucknowPage() {
                     >
                         <h2 className="text-2xl md:text-3xl font-extrabold text-heading mb-6">
                             Lucknow Has 300+ &quot;Digital Marketing Agencies.&quot;{' '}
-                            <span className="text-red-400">Sab Same Lag Rahi Hain — Because They Are.</span>
+                            <span className="text-red-400">None of Them Prove Revenue.</span>
                         </h2>
                         <p className="text-lg text-paragraph mb-12">
-                            ₹5k–₹10k mein sab kuch karne wali agencies ne Lucknow ke businesses ka trust todh diya hai. Fake promises, WhatsApp pe gayab hone wali teams, aur PDF reports jo koi nahi padhta. Your business deserves better.
+                            Gomti Nagar, Hazratganj, Aliganj — flooded with agencies making hollow promises at throwaway prices. You&apos;ve already burned capital on experiments that delivered vanity metrics. Your business needs proven systems that deliver accountable ROI, not another agency selling dreams.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -217,7 +217,7 @@ export default function LucknowPage() {
                                 <div className="text-red-400 mb-4"><Users size={32} /></div>
                                 <h3 className="font-bold text-lg mb-2 text-heading dark:text-white">What They Sell You</h3>
                                 <ul className="text-paragraph dark:text-white/60 text-left space-y-2">
-                                    {['₹5k/month "complete digital marketing"', 'Facebook boosts with zero lead tracking', '"SEO packages" that never move rankings', 'WhatsApp broadcasts they call "lead generation"'].map((item) => (
+                                    {['"Guaranteed rankings" that never materialize', 'Facebook boosts with zero lead attribution', '"SEO packages" with no measurable pipeline impact', 'WhatsApp broadcasts disguised as "demand generation"'].map((item) => (
                                         <li key={item} className="flex items-center gap-2">
                                             <span className="text-red-400 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500/10 text-xs font-bold flex-shrink-0">✗</span>
                                             {item}
@@ -240,9 +240,9 @@ export default function LucknowPage() {
                                     ★ OUR STANDARD
                                 </motion.div>
                                 <div className="text-[#C39A2B] mb-4"><Target size={32} /></div>
-                                <h3 className="font-bold text-lg mb-2 text-heading dark:text-white">What We Build For You</h3>
+                                <h3 className="font-bold text-lg mb-2 text-heading dark:text-white">What We Engineer</h3>
                                 <ul className="text-paragraph dark:text-white/60 text-left space-y-2">
-                                    {['Google Maps dominance for local searches', 'Real enquiry pipelines with call tracking', 'Ad campaigns with exact cost-per-lead data', 'Landing pages built to convert Lucknow buyers'].map((item) => (
+                                    {['Google Maps dominance across Lucknow micro-markets', 'Revenue-attributed campaign tracking with real ROI', 'Performance marketing systems with exact cost-per-lead', 'Conversion architectures built for Lucknow\'s premium buyers'].map((item) => (
                                         <li key={item} className="flex items-center gap-2">
                                             <span className="text-[#C39A2B] inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#C39A2B]/10 text-xs font-bold flex-shrink-0">✓</span>
                                             {item}
@@ -255,7 +255,7 @@ export default function LucknowPage() {
                                 <div className="text-[#C39A2B] mb-4"><BarChart3 size={32} /></div>
                                 <h3 className="font-bold text-lg mb-2 text-heading dark:text-white">The Outcome</h3>
                                 <p className="text-paragraph dark:text-white/60 text-left">
-                                    Ads nahi, real enquiries. We don&apos;t deliver reports — we deliver results. Whether you&apos;re a builder liquidating 200 flats in Gomti Nagar or a coaching institute filling 500 seats, every rupee is tracked and accountable.
+                                    Not ads — revenue. We don&apos;t deliver PDF reports; we deliver measurable business outcomes. Whether you&apos;re a developer liquidating 200 units in Gomti Nagar or a coaching institute scaling to 500 admissions, every rupee is tracked to a qualified lead.
                                 </p>
                             </motion.div>
                         </div>
@@ -279,7 +279,7 @@ export default function LucknowPage() {
                             <span className="text-gradient">Lucknow Businesses Face</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            Ye woh cheezein hain jo business owners raat ko sochte hain — aur koi agency address nahi karti.
+                            These are the critical challenges that keep Lucknow&apos;s business leaders up at night — and no local agency has the architecture to solve them.
                         </p>
                     </motion.div>
 
@@ -294,9 +294,9 @@ export default function LucknowPage() {
                             <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 text-red-400">
                                 <AlertTriangle size={24} />
                             </div>
-                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Online ka fayda samajh nahi aa raha&quot;</h3>
+                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Digital Spend With Zero Measurable Return&quot;</h3>
                             <p className="text-paragraph">
-                                Website banwa rakhi hai, Facebook page hai — par leads nahi aati. Jo aati hain woh timepass hoti hain. Paise daal rahe hain, result nahi mil raha. Sound familiar?
+                                You have a website, social media presence, and ongoing ad spend — but no qualified leads. The enquiries that trickle in are unqualified, and there is zero attribution between your spend and your revenue. Sound familiar?
                             </p>
                         </motion.div>
 
@@ -304,9 +304,9 @@ export default function LucknowPage() {
                             <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 text-red-400">
                                 <Users size={24} />
                             </div>
-                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Sab agency same hi lag rahi hai&quot;</h3>
+                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Every Agency Looks Identical — Because They Are&quot;</h3>
                             <p className="text-paragraph">
-                                2–3 local agencies ₹5k–₹10k mein sab kuch bol deti hain. Quality vs price ka farq nahi samajh aata. Aur result? Sab ka same — zero accountability.
+                                Local agencies promise everything at throwaway rates with zero differentiation. The result is always the same — no accountability, no tracking, and no provable business impact. You deserve a partner, not a vendor.
                             </p>
                         </motion.div>
 
@@ -314,9 +314,9 @@ export default function LucknowPage() {
                             <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 text-red-400">
                                 <Shield size={24} />
                             </div>
-                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Is baar bhi dhokha hua to?&quot;</h3>
+                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Burned by Agencies Before — Trust Deficit is Real&quot;</h3>
                             <p className="text-paragraph">
-                                Past experience kharab rahi hai. Fake promises, WhatsApp pe gayab ho jaane wali agencies. Trust deficit bahut zyada hai — aur hum samajhte hain kyun.
+                                Hollow commitments, disappearing teams, and fabricated reports have eroded your confidence in digital marketing entirely. We understand the trust deficit — which is why every engagement is built on transparent tracking and provable outcomes.
                             </p>
                         </motion.div>
 
@@ -324,9 +324,9 @@ export default function LucknowPage() {
                             <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 text-red-400">
                                 <MonitorSmartphone size={24} />
                             </div>
-                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Hamare business ke liye kaam karega?&quot;</h3>
+                            <h3 className="text-xl font-heading font-bold text-heading mb-3">&quot;Will This Actually Work for Our Industry?&quot;</h3>
                             <p className="text-paragraph">
-                                Word-of-mouth pe chal raha business. Google, Ads, SEO — sab unfamiliar lagta hai. Offline se online shift ka darr real hai. We make this transition simple and risk-free.
+                                Your business has thrived on referrals and offline reputation for decades. The shift to digital feels unfamiliar and risky. We don&apos;t replace what works — we digitize your legacy, translating offline trust into online market dominance with zero disruption.
                             </p>
                         </motion.div>
                     </motion.div>
@@ -352,10 +352,10 @@ export default function LucknowPage() {
                     >
                         <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
                             Our Solution:{' '}
-                            <span className="text-gradient">A Complete Digital System for Lucknow</span>
+                            <span className="text-gradient">Revenue Architecture for Lucknow</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            Hum experiments nahi karte. Hum proven digital systems build karte hain jo Lucknow ke local buyers ko target karte hain aur real enquiries laate hain.
+                            We don&apos;t run experiments with your capital. We deploy proven revenue systems engineered to capture Lucknow&apos;s high-intent local demand and convert it into qualified, trackable pipeline.
                         </p>
                     </motion.div>
 
@@ -414,11 +414,11 @@ export default function LucknowPage() {
                             className="text-center mb-16"
                         >
                             <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
-                                Growth Systems for{' '}
-                                <span className="text-gradient">Lucknow Businesses</span>
+                                Revenue Pillars for{' '}
+                                <span className="text-gradient">Lucknow Enterprises</span>
                             </h2>
                             <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                                Each service is built as a complete growth system for Lucknow&apos;s unique market. Real results, real accountability, real growth.
+                                Each service pillar is engineered as a standalone revenue system for Lucknow&apos;s diverse business ecosystem. Combined, they create compound growth that your competitors cannot replicate.
                             </p>
                         </motion.div>
 
@@ -457,11 +457,11 @@ export default function LucknowPage() {
                         className="text-center mb-16"
                     >
                         <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
-                            Step-by-Step Growth,{' '}
-                            <span className="text-gradient">No Experiments</span>
+                            How We Build{' '}
+                            <span className="text-gradient">Revenue Architectures</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            A 3-phase system that takes your Lucknow business from &quot;online ka kya fayda&quot; to &quot;aur leads chahiye.&quot;
+                            A 3-phase system engineered to transform your Lucknow business from &quot;running experiments&quot; to &quot;operating a proven revenue machine.&quot;
                         </p>
                     </motion.div>
 
@@ -491,8 +491,8 @@ export default function LucknowPage() {
             </section>
 
             <FAQSection
-                title="Questions Lucknow Businesses Ask Us"
-                subtitle="Seedhi baat, no bakwaas — honest answers for Lucknow ke serious business owners."
+                title="Questions Lucknow&apos;s Business Leaders Ask Us"
+                subtitle="Straight answers for legacy businesses and premium brands ready to dominate digitally."
                 faqs={[
                     {
                         question: "The Lucknow market is very traditional. Will high-end digital marketing work here?",
@@ -529,13 +529,13 @@ export default function LucknowPage() {
                                 <span className="text-sm font-medium text-white/70">Limited to 5 New Clients Per Quarter</span>
                             </div>
                             <h2 className="text-2xl md:text-3xl font-extrabold font-heading mb-6">
-                                Get Your Free{' '}
+                                Apply for a{' '}
                                 <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14]">
-                                    Business Growth Audit
+                                    Revenue Architecture Session
                                 </span>
                             </h2>
                             <p className="text-lg text-white/60 max-w-2xl mx-auto">
-                                No fake promises, no jargon. A 30-minute honest conversation where we tell you exactly what&apos;s working, what&apos;s not, and what it will take to get real leads for your Lucknow business.
+                                This isn&apos;t a &quot;free consultation.&quot; It&apos;s a 45-minute deep-dive where we reverse-engineer your profit target and map the exact growth system needed to hit it — with proof, not promises.
                             </p>
                         </motion.div>
 
@@ -549,7 +549,7 @@ export default function LucknowPage() {
                                     <CheckCircle2 className="text-[#C39A2B]" size={32} />
                                 </div>
                                 <h3 className="text-2xl font-extrabold font-heading mb-4">Application Received.</h3>
-                                <p className="text-white/60 mb-6">Our team will review your application and get back to you within 24 hours.</p>
+                                <p className="text-white/60 mb-6">Our revenue strategist will review your application and respond within 24 hours if you qualify.</p>
                                 <button onClick={() => setFormSubmitted(false)} className="text-[#C39A2B] hover:text-[#A9791B] text-sm font-medium transition-colors">
                                     Submit another application
                                 </button>
@@ -569,14 +569,14 @@ export default function LucknowPage() {
                                         <input type="text" name="name" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors" placeholder="Your name" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-white mb-2">Business Name *</label>
-                                        <input type="text" name="company" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors" placeholder="Business name" />
+                                        <label className="block text-sm font-medium text-white mb-2">Company *</label>
+                                        <input type="text" name="company" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors" placeholder="Company name" />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-white mb-2">Email *</label>
-                                        <input type="email" name="email" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors" placeholder="you@business.com" />
+                                        <label className="block text-sm font-medium text-white mb-2">Business Email *</label>
+                                        <input type="email" name="email" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors" placeholder="you@company.com" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-white mb-2">Phone *</label>
@@ -588,13 +588,13 @@ export default function LucknowPage() {
                                     <label className="block text-sm font-medium text-white mb-2">Industry *</label>
                                     <select name="industry" required className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors">
                                         <option value="" className="bg-[#0F1112]">Select industry</option>
-                                        <option value="real-estate" className="bg-[#0F1112]">Real Estate / Builders</option>
-                                        <option value="coaching" className="bg-[#0F1112]">Coaching Institute / Education</option>
-                                        <option value="healthcare" className="bg-[#0F1112]">Doctors / Clinics / Hospitals</option>
+                                        <option value="real-estate" className="bg-[#0F1112]">Real Estate / Development</option>
+                                        <option value="coaching" className="bg-[#0F1112]">Education / Coaching Institutes</option>
+                                        <option value="healthcare" className="bg-[#0F1112]">Healthcare / Super-Specialty Clinics</option>
                                         <option value="retail-dcc" className="bg-[#0F1112]">Heritage Retail / D2C / Jewellery</option>
-                                        <option value="manufacturing" className="bg-[#0F1112]">Manufacturing / Distribution</option>
-                                        <option value="family-business" className="bg-[#0F1112]">Traditional Family Business</option>
-                                        <option value="other" className="bg-[#0F1112]">Other</option>
+                                        <option value="manufacturing" className="bg-[#0F1112]">Manufacturing / Industrial</option>
+                                        <option value="family-business" className="bg-[#0F1112]">Legacy Family Enterprise</option>
+                                        <option value="other" className="bg-[#0F1112]">Other Premium Business</option>
                                     </select>
                                 </div>
 
@@ -602,9 +602,9 @@ export default function LucknowPage() {
                                     <label className="block text-sm font-medium text-white mb-2">Monthly Marketing Investment *</label>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                         {[
-                                            { value: '20k-50k', label: '₹20k – ₹50k', desc: 'Starting out' },
                                             { value: '50k-1l', label: '₹50k – ₹1L', desc: 'Growth stage' },
-                                            { value: '1l-plus', label: '₹1L+', desc: 'Scaling fast' },
+                                            { value: '1l-3l', label: '₹1L – ₹3L', desc: 'Scaling stage' },
+                                            { value: '3l-plus', label: '₹3L+', desc: 'Enterprise' },
                                         ].map((opt) => (
                                             <label
                                                 key={opt.value}
@@ -620,13 +620,13 @@ export default function LucknowPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-white mb-2">What&apos;s your biggest challenge right now? *</label>
+                                    <label className="block text-sm font-medium text-white mb-2">What&apos;s your current revenue target? *</label>
                                     <textarea
                                         name="challenge"
                                         rows={3}
                                         required
                                         className="w-full px-4 py-3 bg-[#0F1112]/80 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C39A2B]/50 focus:border-[#C39A2B]/50 transition-colors"
-                                        placeholder="Example: We're a coaching institute in Hazratganj. We spend ₹30k/month on ads but get mostly timepass enquiries. We need serious admission leads."
+                                        placeholder="Example: We are a real estate developer in Gomti Nagar with 200 unsold units. Current ad spend is ₹1.5L/month but site visit quality is poor. We need qualified buyer leads with trackable attribution."
                                     />
                                 </div>
 
@@ -640,11 +640,11 @@ export default function LucknowPage() {
                                     {formSubmitting ? (
                                         <><Loader2 className="animate-spin" size={20} /> Processing...</>
                                     ) : (
-                                        <>Get My Free Audit <ArrowRight size={20} /></>
+                                        <>Submit Application <ArrowRight size={20} /></>
                                     )}
                                 </button>
                                 <p className="text-center text-sm text-white/40">
-                                    We review every application. Qualified businesses receive a response within 24 hours.
+                                    We review every application. Only qualified businesses receive a response within 24 hours.
                                 </p>
                             </motion.form>
                         )}

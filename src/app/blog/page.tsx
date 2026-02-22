@@ -34,6 +34,10 @@ export default async function BlogPage() {
             {/* Hero */}
             <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
+                <div className="absolute inset-0 z-[1] pointer-events-none">
+                    <img src="/images/hero/hero-blog.webp" alt="" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
+                </div>
                 <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-[#C39A2B]/8 rounded-full blur-3xl"></div>
                 <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">

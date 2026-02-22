@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Users, TrendingUp, ShoppingCart, Target, MessageCircle, BarChart, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Social Commerce & Audience Monetization | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function SocialCommercePage() {
                             Audit Your Social Revenue
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/social-commerce" />
                     </div>
                 </div>
             </section>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Zap, Bot, Mail, Target, BarChart, GitBranch, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'AI-Driven Marketing Automation Services | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function AIMarketingAutomationPage() {
                             Claim Your Automation Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/ai-marketing-automation" />
                     </div>
                 </div>
             </section>

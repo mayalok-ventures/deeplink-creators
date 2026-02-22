@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Palette, Eye, Brain, Award, Layers, Fingerprint, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Brand Psychology & Corporate Identity Strategy | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function BrandPsychologyPage() {
                             Audit Your Brand
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/brand-psychology" />
                     </div>
                 </div>
             </section>

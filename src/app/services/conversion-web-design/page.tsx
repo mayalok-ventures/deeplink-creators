@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Layout, Gauge, MousePointer, Eye, Smartphone, Shield, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Conversion-First Web Design & UI/UX | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function ConversionWebDesignPage() {
                             Claim Your Conversion Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/conversion-web-design" />
                     </div>
                 </div>
             </section>

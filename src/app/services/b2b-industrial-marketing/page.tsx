@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Factory, Target, Globe, FileText, TrendingUp, CheckCircle2, ArrowRight } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'B2B Industrial & Manufacturing Marketing Agency | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function B2BIndustrialMarketingPage() {
                             Get Your Pipeline Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/b2b-industrial-marketing" />
                     </div>
                 </div>
             </section>

@@ -24,10 +24,20 @@ const technologies = [
 export default function TechStack() {
     return (
         <section className="py-12 bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
-            <div className="container-custom mb-8">
+            <div className="container-custom mb-6">
                 <h2 className="text-xl md:text-2xl font-extrabold font-heading text-center text-heading">
                     Our Latest <span className="text-[#C39A2B]">Technologies</span>
                 </h2>
+                <p className="text-sm text-paragraph text-center mt-2 max-w-lg mx-auto">
+                    Powering your digital growth with cutting-edge frameworks, databases & platforms
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mt-3">
+                    {['Frontend', 'Backend', 'Databases', 'CMS & Platforms'].map(cat => (
+                        <span key={cat} className="text-xs font-medium px-3 py-0.5 rounded-full bg-[#C39A2B]/10 text-[#C39A2B] border border-[#C39A2B]/20">
+                            {cat}
+                        </span>
+                    ))}
+                </div>
             </div>
 
             <div
@@ -46,7 +56,7 @@ export default function TechStack() {
                             <img
                                 src={t.src}
                                 alt={t.alt}
-                                className="h-7 md:h-10 w-auto object-contain pointer-events-none grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                                className="h-7 md:h-10 w-auto object-contain pointer-events-none hover:scale-110 transition-all duration-300"
                                 draggable={false}
                                 loading="lazy"
                             />

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Code, Layers, Zap, Shield, Server, GitBranch, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Custom SaaS & Enterprise Software Engineering | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function CustomSaasDevelopmentPage() {
                             Claim Your Architecture Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/custom-saas-development" />
                     </div>
                 </div>
             </section>

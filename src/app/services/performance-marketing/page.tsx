@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Target, TrendingUp, DollarSign, BarChart, Megaphone, MousePointer, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'High-Ticket Lead Acquisition & Paid Ads | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function PerformanceMarketingPage() {
                             Get Your Free Ad Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/performance-marketing" />
                     </div>
                 </div>
             </section>

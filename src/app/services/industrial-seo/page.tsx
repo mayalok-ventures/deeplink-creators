@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Search, TrendingUp, Globe, Target, FileText, Link2, ArrowRight, CheckCircle2 } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Predictive SEO & Market Dominance | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function IndustrialSEOPage() {
                             Claim Your SEO Strategy
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/industrial-seo" />
                     </div>
                 </div>
             </section>

@@ -97,6 +97,10 @@ export default function ServicesPage() {
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
                 <div className="absolute inset-0 grid-bg"></div>
+                <div className="absolute inset-0 z-[1] pointer-events-none">
+                    <img src="/images/hero/hero-services.webp" alt="" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
+                </div>
 
                 <motion.div
                     className="absolute top-1/3 right-10 w-72 h-72 bg-[#C39A2B]/8 rounded-full blur-3xl"

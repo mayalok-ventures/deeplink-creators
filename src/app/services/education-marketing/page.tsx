@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { GraduationCap, Target, Search, Users, TrendingUp, CheckCircle2, ArrowRight } from 'lucide-react'
+import ServiceHeroImage from '@/components/ServiceHeroImage'
 
 export const metadata: Metadata = {
     title: 'Higher Education & College Marketing Agency | Deeplink Creators',
@@ -79,6 +80,7 @@ export default function EducationMarketingPage() {
                             Get Your Admission Audit
                             <ArrowRight size={20} />
                         </Link>
+                        <ServiceHeroImage href="/services/education-marketing" />
                     </div>
                 </div>
             </section>

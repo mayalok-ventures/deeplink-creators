@@ -6,7 +6,7 @@ import TechStack from '@/components/TechStack'
 import TestimonialSection from '@/components/TestimonialSection'
 import FAQSection from '@/components/FAQSection'
 import SpotSection from '@/components/SpotSection'
-import { ArrowRight, Target, BarChart3, Users } from 'lucide-react'
+import { ArrowRight, Target, BarChart3, Users, CheckCircle2, XCircle, Search, FileBarChart, Presentation } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -165,7 +165,7 @@ export default function HomePage() {
                                 </div>
                                 <h3 className="font-bold text-lg mb-2 text-heading">The Difference</h3>
                                 <p className="text-paragraph text-left">
-                                    We don&apos;t just run Google Ads or Facebook Ads. As a top performance marketing agency in India, we build complete <span className="font-semibold text-heading">Revenue Machines</span> — enterprise SEO, PPC, and lead generation systems that bring you customers 24/7.
+                                    We don&apos;t just run Google Ads or Facebook Ads. As NCR&apos;s premier Revenue Engineering firm, we build complete <span className="font-semibold text-heading">Revenue Machines</span> — enterprise SEO, PPC, and lead generation systems that bring you customers 24/7.
                                 </p>
                             </motion.div>
                         </div>
@@ -175,6 +175,112 @@ export default function HomePage() {
 
             <ServiceStack />
             <TechStack />
+
+            {/* Who We Work With (And Who We Don't) */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#C39A2B]/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-14"
+                    >
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
+                            We Are <span className="text-[#C39A2B]">Not</span> For Everyone.
+                        </h2>
+                        <p className="text-lg text-paragraph max-w-2xl mx-auto">
+                            We act as an outsourced Growth Partner. We only take on clients when we are 100% certain we can scale their net profit.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* WHO THIS IS FOR */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="glass-card rounded-2xl p-8 border-[#C39A2B]/20 hover:border-[#C39A2B]/40 transition-colors"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-[#C39A2B]/10 rounded-lg flex items-center justify-center">
+                                    <CheckCircle2 size={22} className="text-[#C39A2B]" />
+                                </div>
+                                <h3 className="text-xl font-bold font-heading text-heading">Who This IS For</h3>
+                            </div>
+                            <ul className="space-y-5">
+                                {[
+                                    {
+                                        title: 'Established Enterprises & Manufacturers',
+                                        desc: 'You have a proven product but are losing digital market share to newer competitors.',
+                                    },
+                                    {
+                                        title: 'High-Ticket Real Estate & EdTech',
+                                        desc: 'A single customer brings you massive lifetime value, and you need a system to generate them predictably.',
+                                    },
+                                    {
+                                        title: 'Aggressive Scalers',
+                                        desc: 'You have the operational capacity to handle a 3X surge in leads and the budget to fuel real growth.',
+                                    },
+                                ].map((item) => (
+                                    <li key={item.title} className="flex gap-3">
+                                        <span className="text-[#C39A2B] inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#C39A2B]/10 text-xs font-bold flex-shrink-0 mt-0.5">✓</span>
+                                        <div>
+                                            <p className="font-semibold text-heading text-sm">{item.title}</p>
+                                            <p className="text-paragraph text-sm mt-1">{item.desc}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+
+                        {/* WHO THIS IS NOT FOR */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="glass-card rounded-2xl p-8 border-red-500/10 hover:border-red-500/20 transition-colors"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-red-500/10 rounded-lg flex items-center justify-center">
+                                    <XCircle size={22} className="text-red-400" />
+                                </div>
+                                <h3 className="text-xl font-bold font-heading text-heading">Who This Is NOT For</h3>
+                            </div>
+                            <ul className="space-y-5">
+                                {[
+                                    {
+                                        title: 'Early-Stage Startups',
+                                        desc: 'Looking for "cheap brand awareness" or viral social media posts.',
+                                    },
+                                    {
+                                        title: 'Indecisive Operators',
+                                        desc: 'You want guarantees without giving us the control to fix your broken sales funnels.',
+                                    },
+                                    {
+                                        title: 'Budget-Shoppers',
+                                        desc: 'You are looking for a ₹15,000/month agency to manage your Facebook page.',
+                                    },
+                                ].map((item) => (
+                                    <li key={item.title} className="flex gap-3">
+                                        <span className="text-red-400 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500/10 text-xs font-bold flex-shrink-0 mt-0.5">✗</span>
+                                        <div>
+                                            <p className="font-semibold text-heading text-sm">{item.title}</p>
+                                            <p className="text-paragraph text-sm mt-1">{item.desc}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             <TestimonialSection />
 
             <FAQSection
@@ -203,6 +309,81 @@ export default function HomePage() {
                     },
                 ]}
             />
+
+            {/* ROI Audit Roadmap */}
+            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-14"
+                    >
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
+                            What Happens When You{' '}
+                            <span className="text-[#C39A2B]">Claim Your Audit</span>?
+                        </h2>
+                        <p className="text-lg text-paragraph max-w-2xl mx-auto">
+                            No spam calls. No generic PDF. Here&apos;s exactly what happens next.
+                        </p>
+                    </motion.div>
+
+                    <div className="relative max-w-4xl mx-auto">
+                        <div className="hidden md:block absolute top-0 bottom-0 left-[calc(2rem+1px)] w-[2px] bg-gradient-to-b from-[#C39A2B]/40 via-[#C39A2B]/20 to-[#C39A2B]/40" />
+
+                        <div className="space-y-8 md:space-y-10">
+                            {[
+                                {
+                                    step: '01',
+                                    icon: <Search size={24} />,
+                                    title: 'The Discovery Diagnostic',
+                                    time: '15 Minutes',
+                                    desc: 'We get on a brief, no-BS call to understand your current CAC (Customer Acquisition Cost) and revenue leaks. No sales pitch — just questions.',
+                                },
+                                {
+                                    step: '02',
+                                    icon: <FileBarChart size={24} />,
+                                    title: 'The Data Teardown',
+                                    time: '48 Hours',
+                                    desc: 'Our team analyzes your current ad accounts, SEO positioning, and competitor strategies. We find exactly where your money is leaking.',
+                                },
+                                {
+                                    step: '03',
+                                    icon: <Presentation size={24} />,
+                                    title: 'The Revenue Blueprint',
+                                    time: 'In-Person / Zoom',
+                                    desc: 'We present a mathematical roadmap showing exactly how we will scale your ARR. If you like it, we partner up. If not, the blueprint is yours to keep.',
+                                },
+                            ].map((item, index) => (
+                                <motion.div
+                                    key={item.step}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                                    className="flex gap-6 md:gap-8"
+                                >
+                                    <div className="flex flex-col items-center flex-shrink-0">
+                                        <div className="w-16 h-16 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-2xl flex items-center justify-center text-[#C39A2B] relative z-10">
+                                            {item.icon}
+                                        </div>
+                                    </div>
+                                    <div className="glass-card rounded-xl p-6 flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <span className="text-xs font-bold uppercase tracking-widest text-[#C39A2B]">Step {item.step}</span>
+                                            <span className="text-xs text-paragraph bg-[#C39A2B]/10 px-2.5 py-0.5 rounded-full">{item.time}</span>
+                                        </div>
+                                        <h3 className="text-lg font-bold font-heading text-heading mb-2">{item.title}</h3>
+                                        <p className="text-paragraph text-sm">{item.desc}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Final CTA Section */}
             <motion.section

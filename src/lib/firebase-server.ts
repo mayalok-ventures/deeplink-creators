@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { getFirestore, collection, getDocs, query, where, limit } from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs, getDoc, doc, query, where, limit } from 'firebase/firestore/lite'
 import { firebaseConfig } from './firebase-config'
 
 function getDb() {
@@ -48,6 +48,19 @@ export async function getBlogBySlugServer(slug: string): Promise<BlogPostData | 
         return snapshot.docs[0].data() as BlogPostData
     } catch (err) {
         console.error('Server: Failed to fetch blog by slug', err)
+        return null
+    }
+}
+
+export async function getSEOSettingsServer(): Promise<{ siteTitle: string; siteDescription: string } | null> {
+    try {
+        const db = getDb()
+        const snap = await getDoc(doc(db, 'settings', 'seo'))
+        if (!snap.exists()) return null
+        const data = snap.data()
+        return { siteTitle: data.siteTitle || '', siteDescription: data.siteDescription || '' }
+    } catch (err) {
+        console.error('Server: Failed to fetch SEO settings', err)
         return null
     }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 
@@ -22,28 +22,38 @@ export default function FAQSection({ title = 'Frequently Asked Questions', subti
         setOpenIndex(openIndex === index ? null : index)
     }
 
-    const faqSchema = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faqs.map(faq => ({
-            "@type": "Question",
-            "name": faq.question,
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": faq.answer,
-            },
-        })),
-    }
+    useEffect(() => {
+        const id = 'faq-schema-ld'
+        const existing = document.getElementById(id)
+        if (existing) existing.remove()
+
+        const script = document.createElement('script')
+        script.id = id
+        script.type = 'application/ld+json'
+        script.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer,
+                },
+            })),
+        })
+        document.head.appendChild(script)
+
+        return () => {
+            const el = document.getElementById(id)
+            if (el) el.remove()
+        }
+    }, [faqs])
 
     return (
         <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
             <div className="absolute inset-0 grid-bg" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C39A2B]/5 rounded-full blur-3xl pointer-events-none" />
-
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-            />
 
             <div className="container-custom relative z-10">
                 <motion.div

@@ -54,8 +54,8 @@ export const SERVICES = [
     },
     {
         id: "branding",
-        name: "Brand Authority",
-        slug: "branding",
+        name: "Brand Psychology & Authority",
+        slug: "brand-psychology",
         description: "Become The Industry Leader in India",
         icon: "Award",
         features: [

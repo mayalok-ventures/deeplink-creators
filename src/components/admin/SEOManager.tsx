@@ -51,10 +51,11 @@ export default function SEOManager() {
 
     return (
         <div>
-            <h2 className="text-2xl font-bold font-heading text-heading mb-6">SEO Settings</h2>
+            <h2 className="text-2xl font-bold font-heading text-heading mb-6">Homepage SEO Settings</h2>
             <div className="max-w-2xl space-y-6">
                 <div className="glass-card rounded-xl p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-heading">Global Meta Tags</h3>
+                    <h3 className="text-lg font-bold text-heading">Homepage Meta Tags</h3>
+                    <p className="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-2 mb-4">These settings control only the main homepage meta title and description. City pages and service pages have their own permanent meta tags.</p>
                     <div>
                         <label className="block text-sm font-medium text-heading mb-2">Site Title</label>
                         <input type="text" value={form.siteTitle} onChange={e => update('siteTitle', e.target.value)}

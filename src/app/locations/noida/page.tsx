@@ -186,6 +186,103 @@ export default function NoidaPage() {
 
             <SpotSection />
 
+            {/* NOIDA LOCAL CONTEXT SECTION */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="max-w-4xl"
+                    >
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full" />
+                            <span className="text-sm font-medium text-paragraph">Noida&apos;s Digital Battlefield</span>
+                        </div>
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-6">
+                            Noida Is One of India&apos;s Most{' '}
+                            <span className="text-gradient">Competitive Digital Markets</span>
+                            {' '}— and Most Agencies Lose Here
+                        </h2>
+                        <p className="text-lg text-paragraph mb-4 max-w-3xl">
+                            Sector 18&apos;s commercial density, Sector 62&apos;s IT parks, and the Expressway corridor from Sector 125 to 142 collectively house thousands of businesses all competing for the same eyeballs on Google. The CPC rates in Noida&apos;s B2B SaaS and IT services categories are consistently 3–5× higher than in cities like Lucknow or Jaipur — because your competitors are also spending aggressively. Volume bidding alone will bankrupt your paid media budget.
+                        </p>
+                        <p className="text-lg text-paragraph mb-12 max-w-3xl">
+                            What separates businesses that scale ARR in Noida from those that burn through ad budgets is architecture — a precise system that targets decision-makers at the SQL (Sales Qualified Lead) stage rather than broad interest audiences. Delhi NCR&apos;s proximity means buyers in Noida compare you not just to local competitors but to South Delhi agencies, Gurugram SaaS providers, and national brands. You need enterprise-grade positioning, not SME-tier marketing.
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
+                        {[
+                            {
+                                label: 'IT & SaaS Companies',
+                                letter: 'I',
+                                color: '#C39A2B',
+                                points: [
+                                    'Sector 62, 125 & 132 IT companies compete for enterprise contracts nationally — local SEO alone will not win deals',
+                                    'SaaS startups need Account-Based Marketing to reach CTOs and procurement heads directly',
+                                    'High CAC is the norm; the fix is SQL-attributed tracking, not more ad spend',
+                                ],
+                            },
+                            {
+                                label: 'E-Commerce & D2C',
+                                letter: 'E',
+                                color: '#2bc39a',
+                                points: [
+                                    'E-commerce brands in Noida face Myntra, Amazon, and Flipkart on every search — organic positioning requires deep category authority',
+                                    'Repeat purchase and LTV optimization differentiates profitable brands from ones that survive on Meta ROAS',
+                                    'Sector 18&apos;s commercial retail belt needs hyperlocal Google Maps dominance for walk-in traffic',
+                                ],
+                            },
+                            {
+                                label: 'Noida vs. Delhi Dynamics',
+                                letter: 'N',
+                                color: '#e05c5c',
+                                points: [
+                                    'Buyers in Noida actively compare offers from Delhi NCR brands — you need positioning that wins cross-market',
+                                    'Noida&apos;s startup density means your competition is often better-funded than you — outmanoeuvre with precision',
+                                    'B2B buyers in Noida Expressway zone expect enterprise-grade digital presence before an intro call',
+                                ],
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                                className="glass-card rounded-2xl p-7 relative overflow-hidden"
+                            >
+                                <div
+                                    className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
+                                    style={{ background: item.color }}
+                                />
+                                <div
+                                    className="absolute bottom-3 right-4 text-[80px] font-black leading-none select-none pointer-events-none"
+                                    style={{ color: item.color, opacity: 0.06 }}
+                                >
+                                    {item.letter}
+                                </div>
+                                <h3 className="text-lg font-heading font-bold text-heading mb-4 pl-2">{item.label}</h3>
+                                <ul className="space-y-3 pl-2">
+                                    {item.points.map((pt, j) => (
+                                        <li key={j} className="flex items-start gap-2 text-paragraph text-sm">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
+                                            {pt}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* AGITATION SECTION */}
             <motion.section
                 initial={{ opacity: 0 }}

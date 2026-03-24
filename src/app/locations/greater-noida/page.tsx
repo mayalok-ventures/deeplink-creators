@@ -186,6 +186,103 @@ export default function GreaterNoidaPage() {
 
             <SpotSection />
 
+            {/* GREATER NOIDA LOCAL CONTEXT SECTION */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="max-w-4xl"
+                    >
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full" />
+                            <span className="text-sm font-medium text-paragraph">Our Home Ground</span>
+                        </div>
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-6">
+                            We Are Based in{' '}
+                            <span className="text-gradient">Alpha 1, Greater Noida</span>
+                            {' '}— and We Know Your Market Intimately
+                        </h2>
+                        <p className="text-lg text-paragraph mb-4 max-w-3xl">
+                            Our office at Alpha 1, Pari Chowk is not a satellite location. It is our headquarters — which means when we build a digital strategy for a Greater Noida real estate developer, a Knowledge Park coaching center, or an Ecotech manufacturing unit, we are drawing from direct, on-the-ground market knowledge, not guesswork pulled from a national playbook.
+                        </p>
+                        <p className="text-lg text-paragraph mb-12 max-w-3xl">
+                            Greater Noida&apos;s business ecosystem is unlike any other NCR market. Real estate developers like Gaur and ATS face hyper-competitive paid search, while coaching institutes along Knowledge Park II struggle to differentiate in a sea of identical landing pages. Manufacturing units in UPSIDC Kasna and Ecotech Industrial Area are completely invisible to procurement teams conducting B2B research online. These are not generic problems — they require city-specific solutions.
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
+                        {[
+                            {
+                                label: 'Real Estate & Builders',
+                                letter: 'R',
+                                color: '#C39A2B',
+                                points: [
+                                    'High-ticket projects need pre-qualified lead funnels — not volume Facebook ads',
+                                    'Long sales cycles demand retargeting sequences, not one-off campaigns',
+                                    'Builders in Sector 16B, Techzone IV, and Omicron need SEO that captures intent at every stage',
+                                ],
+                            },
+                            {
+                                label: 'Coaching & Education',
+                                letter: 'C',
+                                color: '#4f8ef7',
+                                points: [
+                                    'Coaching centers on Knowledge Park Drive compete nationally on Google — local visibility alone is not enough',
+                                    'Admission cycles are short; performance campaigns must go live at the right moment with the right message',
+                                    'Brand differentiation is zero — neuro-positioning is the only sustainable moat',
+                                ],
+                            },
+                            {
+                                label: 'Manufacturing & B2B',
+                                letter: 'M',
+                                color: '#7c63d4',
+                                points: [
+                                    'UPSIDC Kasna and Ecotech units are invisible to B2B procurement managers searching on Google',
+                                    'Industrial SEO and targeted LinkedIn campaigns can fill your quoting pipeline with enterprise buyers',
+                                    'Trade show dependency is a single point of failure — a digital pipeline runs 365 days a year',
+                                ],
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                                className="glass-card rounded-2xl p-7 relative overflow-hidden"
+                            >
+                                <div
+                                    className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
+                                    style={{ background: item.color }}
+                                />
+                                <div
+                                    className="absolute bottom-3 right-4 text-[80px] font-black leading-none select-none pointer-events-none"
+                                    style={{ color: item.color, opacity: 0.06 }}
+                                >
+                                    {item.letter}
+                                </div>
+                                <h3 className="text-lg font-heading font-bold text-heading mb-4 pl-2">{item.label}</h3>
+                                <ul className="space-y-3 pl-2">
+                                    {item.points.map((pt, j) => (
+                                        <li key={j} className="flex items-start gap-2 text-paragraph text-sm">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
+                                            {pt}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* AGITATION SECTION */}
             <motion.section
                 initial={{ opacity: 0 }}

@@ -20,6 +20,7 @@ export default async function BlogPage() {
             return bTime - aTime
         })
         .map(blog => ({
+            id: blog.slug,
             slug: blog.slug,
             title: blog.title,
             excerpt: blog.excerpt,

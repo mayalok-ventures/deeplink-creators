@@ -3,17 +3,21 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Calendar, User, ArrowRight, Search, X } from 'lucide-react'
+import { Calendar, Clock, User, ArrowRight, Search, X } from 'lucide-react'
 import { getPublishedBlogs } from '@/lib/firestore'
+import ScrollReveal from '@/components/ScrollReveal'
 
-interface BlogItem {
+export interface BlogItem {
+    id: string
     slug: string
     title: string
     excerpt: string
     coverImage: string
     author: string
     tags: string[]
-    publishedAt: string
+    category?: string
+    readTime?: string
+    publishedAt: any
 }
 
 function formatDate(timestamp: any): string {
@@ -38,7 +42,8 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
 
     useEffect(() => {
         getPublishedBlogs().then(data => {
-            const fresh = data.map(blog => ({
+            const fresh: BlogItem[] = data.map(blog => ({
+                id: blog.id || blog.slug,
                 slug: blog.slug,
                 title: blog.title,
                 excerpt: blog.excerpt,
@@ -99,56 +104,67 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: BlogIte
                     </button>
                 </div>
             ) : (
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    {filteredBlogs.map(blog => (
-                        <motion.div key={blog.slug} variants={cardVariants}>
-                            <Link href={`/blog/${blog.slug}`} className="group block glass-card-hover rounded-2xl overflow-hidden h-full text-left">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredBlogs.map((blog, index) => (
+                        <ScrollReveal
+                            key={blog.id || blog.slug}
+                            delay={Math.min(index % 3, 2) * 100}
+                            direction="up"
+                            className="group glass-card overflow-hidden hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full"
+                        >
+                            <Link href={`/blog/${blog.slug}`} className="flex flex-col h-full">
                                 {blog.coverImage && (
-                                    <div className="aspect-video overflow-hidden">
+                                    <div className="relative h-48 overflow-hidden bg-muted">
                                         <img
                                             src={blog.coverImage}
                                             alt={blog.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                        {blog.category && (
+                                            <div className="absolute bottom-4 left-4">
+                                                <span className="px-3 py-1 bg-[#C39A2B] text-black text-xs font-bold rounded-full uppercase tracking-wider">
+                                                    {blog.category}
+                                                </span>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
-                                <div className="p-6">
-                                    {blog.tags.length > 0 && (
-                                        <div className="flex flex-wrap gap-2 mb-3">
-                                            {blog.tags.slice(0, 3).map(tag => (
-                                                <span key={tag} className="text-xs bg-[#C39A2B]/10 text-[#C39A2B] px-2 py-0.5 rounded-full">
-                                                    {tag}
-                                                </span>
-                                            ))}
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <div className="flex items-center gap-4 text-sm text-paragraph mb-4">
+                                        <div className="flex items-center gap-1.5">
+                                            <Calendar size={14} className="text-[#C39A2B]" />
+                                            {blog.publishedAt}
                                         </div>
-                                    )}
-                                    <h2 className="text-lg font-bold font-heading text-heading mb-2 group-hover:text-[#C39A2B] transition-colors">
+                                        {blog.readTime && (
+                                            <div className="flex items-center gap-1.5">
+                                                <Clock size={14} className="text-[#C39A2B]" />
+                                                {blog.readTime}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <h3 className="text-xl font-heading font-bold text-heading mb-3 group-hover:text-[#C39A2B] transition-colors leading-tight">
                                         {blog.title}
-                                    </h2>
-                                    <p className="text-paragraph text-sm mb-4 line-clamp-3">
+                                    </h3>
+
+                                    <p className="text-paragraph text-sm mb-6 flex-1 line-clamp-3">
                                         {blog.excerpt}
                                     </p>
-                                    <div className="flex items-center justify-between text-xs text-paragraph">
-                                        <div className="flex items-center gap-3">
-                                            <span className="flex items-center gap-1">
-                                                <User size={12} /> {blog.author}
-                                            </span>
-                                            <span className="flex items-center gap-1">
-                                                <Calendar size={12} /> {blog.publishedAt}
-                                            </span>
-                                        </div>
-                                        <ArrowRight size={14} className="text-[#C39A2B] group-hover:translate-x-1 transition-transform" />
+
+                                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+                                        <span className="text-sm font-medium text-heading">
+                                            {blog.author}
+                                        </span>
+                                        <span className="text-[#C39A2B] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-sm">
+                                            Read More <ArrowRight size={16} />
+                                        </span>
                                     </div>
                                 </div>
                             </Link>
-                        </motion.div>
+                        </ScrollReveal>
                     ))}
-                </motion.div>
+                </div>
             )}
         </>
     )

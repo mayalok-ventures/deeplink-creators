@@ -63,8 +63,33 @@ function renderContent(content: string): string {
     html = html.replace(/(<li.*<\/li>\n?)+/g, '<ul class="space-y-2 my-4">$&</ul>')
     html = html.replace(/^(?!<[hulo])(.*\S.*)$/gm, '<p class="text-paragraph leading-relaxed mb-4">$1</p>')
     html = html.replace(/\n{2,}/g, '')
+
+    // Auto-link key service terms (first occurrence only, case-insensitive)
+    const keywordLinks: Array<{ pattern: RegExp; href: string; label: string }> = [
+        { pattern: /\bindustrial SEO\b/i, href: '/services/industrial-seo/', label: 'industrial SEO' },
+        { pattern: /\bperformance marketing\b/i, href: '/services/performance-marketing/', label: 'performance marketing' },
+        { pattern: /\bB2B lead generation\b/i, href: '/services/b2b-industrial-marketing/', label: 'B2B lead generation' },
+        { pattern: /\bB2B marketing\b/i, href: '/services/b2b-industrial-marketing/', label: 'B2B marketing' },
+        { pattern: /\bbrand psychology\b/i, href: '/services/brand-psychology/', label: 'brand psychology' },
+        { pattern: /\bneuro-marketing\b/i, href: '/services/brand-psychology/', label: 'neuro-marketing' },
+        { pattern: /\bconversion optimis[a-z]*\b/i, href: '/services/conversion-web-design/', label: 'conversion optimisation' },
+        { pattern: /\beducation marketing\b/i, href: '/services/education-marketing/', label: 'education marketing' },
+        { pattern: /\breal estate marketing\b/i, href: '/services/real-estate-marketing/', label: 'real estate marketing' },
+        { pattern: /\bAI marketing\b/i, href: '/services/ai-marketing-automation/', label: 'AI marketing' },
+    ]
+    for (const { pattern, href, label } of keywordLinks) {
+        let linked = false
+        html = html.replace(pattern, (match) => {
+            if (linked) return match
+            // Don't link inside existing <a> tags
+            linked = true
+            return `<a href="${href}" class="text-[#C39A2B] hover:text-[#A9791B] underline font-medium" rel="noopener">${label}</a>`
+        })
+    }
+
     return html
 }
+
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -174,6 +199,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         className="max-w-3xl blog-content"
                         dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}
                     />
+
+                    {/* ── Blog Post CTA ── */}
+                    <div className="mt-12 mb-4 rounded-2xl overflow-hidden border border-[#C39A2B]/30 bg-gradient-to-br from-[#0D0D0D] to-[#1a1209] p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
+                        <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold uppercase tracking-widest text-[#C39A2B] mb-2">Free Strategy Session</p>
+                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+                                Ready to turn readers into revenue?
+                            </h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Our revenue-engineering team will audit your funnel and map a custom growth roadmap — completely free, no strings attached.
+                            </p>
+                        </div>
+                        <div className="flex-shrink-0 flex flex-col items-center gap-3">
+                            <a
+                                href="/contact"
+                                className="inline-flex items-center gap-2 bg-[#C39A2B] hover:bg-[#A9791B] text-black font-bold px-7 py-3 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                            >
+                                Book Free Audit →
+                            </a>
+                            <a href="/services" className="text-xs text-gray-400 hover:text-[#C39A2B] transition-colors">
+                                Explore our services
+                            </a>
+                        </div>
+                    </div>
 
                     <BlogPostContent
                         shortId={post.shortId}

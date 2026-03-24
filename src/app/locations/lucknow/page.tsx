@@ -187,6 +187,103 @@ export default function LucknowPage() {
 
             <SpotSection />
 
+            {/* LUCKNOW LOCAL CONTEXT SECTION */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="max-w-4xl"
+                    >
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full" />
+                            <span className="text-sm font-medium text-paragraph">Lucknow&apos;s First-Mover Window</span>
+                        </div>
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-6">
+                            Lucknow Is an Emerging Market With{' '}
+                            <span className="text-gradient">First-Mover Advantages</span>
+                            {' '}That Close Quickly
+                        </h2>
+                        <p className="text-lg text-paragraph mb-4 max-w-3xl">
+                            Lucknow is at an inflection point. Hazratganj retail brands that thrived entirely on foot traffic and word-of-mouth for decades are now watching a new generation of buyers discover competitors on Google before they ever visit a store. Coaching institutes from the city are now competing nationally — against JEE factories in Kota and Hyderabad edtech platforms — for the same students who happen to be in Lucknow. The window to dominate Lucknow&apos;s digital landscape before it matures is open now, but it will not stay open.
+                        </p>
+                        <p className="text-lg text-paragraph mb-12 max-w-3xl">
+                            IT City on Vibhuti Khand and the Amausi/UPSIDA industrial corridor represent two very different but equally underserved digital opportunity zones. Lucknow&apos;s growing startup ecosystem — primarily in tech services, edtech, and agri-processing — is building company brands without the SEO and content infrastructure that converts online visibility into inbound revenue. We have worked with businesses in this exact phase. The playbook exists. The only missing variable is whether your business will be the one that deploys it first.
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
+                        {[
+                            {
+                                label: 'Traditional Businesses Going Digital',
+                                letter: 'T',
+                                color: '#C39A2B',
+                                points: [
+                                    'Hazratganj retail and heritage brands risk becoming invisible as buying decisions shift online — without disrupting their existing business',
+                                    'Family enterprises with 30+ year offline track records need digital authority that reflects their credibility, not a new identity',
+                                    'Local manufacturers in UPSIDA Amausi can reach national B2B buyers through systematic industrial SEO',
+                                ],
+                            },
+                            {
+                                label: 'Education & Coaching Sector',
+                                letter: 'E',
+                                color: '#4f8ef7',
+                                points: [
+                                    'IIT/NEET coaching institutes now compete nationally — Lucknow brands need SEO that captures intent across UP, Bihar, and Jharkhand',
+                                    'Admission cycles are 60-90 day windows — performance marketing must activate at the right moment with precision targeting',
+                                    'Ed-tech incumbents from Hyderabad and Bangalore are acquiring your students online — organic authority is your only durable defence',
+                                ],
+                            },
+                            {
+                                label: 'Lucknow\'s Startup Ecosystem',
+                                letter: 'L',
+                                color: '#2bc39a',
+                                points: [
+                                    'IT City on Vibhuti Khand is Lucknow\'s emerging tech hub — SaaS and services startups here need B2B lead systems, not brand-awareness campaigns',
+                                    'Agri-processing and manufacturing startups in Lucknow can access government procurement and institutional buyers through targeted digital pipelines',
+                                    'Early-stage companies benefit most from SEO investment — compound returns on organic content start accumulating from month 3 onwards',
+                                ],
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                                className="glass-card rounded-2xl p-7 relative overflow-hidden"
+                            >
+                                <div
+                                    className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
+                                    style={{ background: item.color }}
+                                />
+                                <div
+                                    className="absolute bottom-3 right-4 text-[80px] font-black leading-none select-none pointer-events-none"
+                                    style={{ color: item.color, opacity: 0.06 }}
+                                >
+                                    {item.letter}
+                                </div>
+                                <h3 className="text-lg font-heading font-bold text-heading mb-4 pl-2">{item.label}</h3>
+                                <ul className="space-y-3 pl-2">
+                                    {item.points.map((pt, j) => (
+                                        <li key={j} className="flex items-start gap-2 text-paragraph text-sm">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
+                                            {pt}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* AGITATION SECTION */}
             <motion.section
                 initial={{ opacity: 0 }}

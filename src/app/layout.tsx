@@ -131,6 +131,33 @@ const websiteSchema = {
     "url": "https://deeplinkcreators.com",
 }
 
+const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Deeplink Creators",
+    "url": "https://deeplinkcreators.com",
+    "logo": "https://deeplinkcreators.com/images/logo.svg",
+    "description": "Premier revenue-engineering and digital marketing agency in Greater Noida, NCR. We deliver enterprise SEO, performance marketing, and lead generation.",
+    "telephone": "+91-9719364834",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Alpha 1, Pari Chowk",
+        "addressLocality": "Greater Noida",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "201310",
+        "addressCountry": "IN"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 28.4595,
+        "longitude": 77.5020
+    },
+    "openingHours": "Mo-Sa 09:00-19:00",
+    "sameAs": [
+        "https://mayalokventures.com"
+    ]
+}
+
 
 
 export default function RootLayout({
@@ -178,6 +205,10 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
                 />
 
                 <script

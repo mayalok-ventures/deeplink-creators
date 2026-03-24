@@ -186,6 +186,103 @@ export default function DelhiPage() {
 
             <SpotSection />
 
+            {/* DELHI LOCAL CONTEXT SECTION */}
+            <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
+                <div className="absolute inset-0 grid-bg" />
+                <div className="container-custom relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="max-w-4xl"
+                    >
+                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
+                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full" />
+                            <span className="text-sm font-medium text-paragraph">Delhi&apos;s Enterprise Market Reality</span>
+                        </div>
+                        <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-6">
+                            Delhi&apos;s High-Ticket Clients Demand{' '}
+                            <span className="text-gradient">Enterprise-Grade Marketing</span>
+                            {' '}— Not Agency Templates
+                        </h2>
+                        <p className="text-lg text-paragraph mb-4 max-w-3xl">
+                            South Delhi&apos;s premium business belt — Greater Kailash, Vasant Kunj, Saket, and Defence Colony — houses India&apos;s most discerning B2C buyers and a dense concentration of high-value B2B buyers. Connaught Place&apos;s professional services corridor includes law firms, chartered accountancy practices, management consulting firms, and boutique investment offices that do not respond to standard performance marketing playbooks. They respond to authority, precision, and verifiable proof.
+                        </p>
+                        <p className="text-lg text-paragraph mb-12 max-w-3xl">
+                            Okhla&apos;s industrial and commercial belt is simultaneously one of Delhi&apos;s busiest B2B procurement hubs and one of the most underserved in terms of digital infrastructure. Manufacturers, exporters, and trading companies in Okhla Phase I, II, and III still rely almost entirely on relationships and trade shows — while their international competitors use LinkedIn ABM and SEO to win contracts before the relationship even starts. This is the window that revenue-focused B2B marketing can open.
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
+                        {[
+                            {
+                                label: 'South Delhi Premium Clients',
+                                letter: 'S',
+                                color: '#C39A2B',
+                                points: [
+                                    'GK, Vasant Kunj, and Saket buyers evaluate brand authority before a conversation begins — your digital presence must reflect premium positioning',
+                                    'High-net-worth client acquisition requires content that demonstrates domain mastery, not generic "services" pages',
+                                    'Premium brands need SEO that targets buyer intent, not traffic volume',
+                                ],
+                            },
+                            {
+                                label: 'Okhla & CP B2B Corridor',
+                                letter: 'O',
+                                color: '#7c63d4',
+                                points: [
+                                    'Okhla Phase I, II & III manufacturers need B2B SEO to appear in procurement-stage searches by enterprise buyers',
+                                    'Connaught Place professional services firms can generate inbound retainer clients via thought leadership + LinkedIn',
+                                    'B2B exporters in Okhla compete with global suppliers — digital authority bridges the credibility gap',
+                                ],
+                            },
+                            {
+                                label: 'Enterprise Service Providers',
+                                letter: 'E',
+                                color: '#2bc3a8',
+                                points: [
+                                    'Law firms, CA practices, and boutique consultancies need compliance-aware content marketing — not click-bait SEO',
+                                    'High-ticket service brands cannot afford brand erosion from mismatch between offline prestige and thin online presence',
+                                    'Enterprise leads are won on Google before they are won in a meeting room — the research phase is where we deploy',
+                                ],
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                                className="glass-card rounded-2xl p-7 relative overflow-hidden"
+                            >
+                                <div
+                                    className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
+                                    style={{ background: item.color }}
+                                />
+                                <div
+                                    className="absolute bottom-3 right-4 text-[80px] font-black leading-none select-none pointer-events-none"
+                                    style={{ color: item.color, opacity: 0.06 }}
+                                >
+                                    {item.letter}
+                                </div>
+                                <h3 className="text-lg font-heading font-bold text-heading mb-4 pl-2">{item.label}</h3>
+                                <ul className="space-y-3 pl-2">
+                                    {item.points.map((pt, j) => (
+                                        <li key={j} className="flex items-start gap-2 text-paragraph text-sm">
+                                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
+                                            {pt}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* AGITATION SECTION */}
             <motion.section
                 initial={{ opacity: 0 }}

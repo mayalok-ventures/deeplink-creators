@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import LayoutShell from '@/components/LayoutShell'
+import GlobalScrollWrapper from '@/components/GlobalScrollWrapper'
+import AnimationProvider from '@/components/AnimationProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
@@ -213,12 +215,16 @@ export default function RootLayout({
 
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}`
+                        __html: `if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}`
                     }}
                 />
             </head>
             <body className={inter.className}>
-                <LayoutShell>{children}</LayoutShell>
+                <AnimationProvider>
+                    <GlobalScrollWrapper>
+                        <LayoutShell>{children}</LayoutShell>
+                    </GlobalScrollWrapper>
+                </AnimationProvider>
             </body>
         </html>
     )

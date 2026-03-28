@@ -41,8 +41,7 @@ const Footer = () => {
 
     return (
         <footer className="relative bg-[#0F1112] text-white overflow-hidden">
-            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-            <div className="absolute inset-0 grid-bg opacity-50" />
+            <div className="h-px bg-white/[0.08]" />
 
             <div className="relative">
                 <div className="container-custom py-12 pb-12">
@@ -176,7 +175,7 @@ const Footer = () => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             aria-label={s.label}
-                                            className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/[0.05] border border-white/[0.1] text-white/60 hover:bg-[#C39A2B]/20 hover:border-[#C39A2B]/30 hover:text-[#C39A2B] hover:scale-110 transition-all duration-200"
+                                            className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/[0.05] border border-white/[0.1] text-white/60 hover:bg-[#C39A2B]/20 hover:border-[#C39A2B]/30 hover:text-[#C39A2B] transition-all duration-200"
                                         >
                                             <s.icon size={18} />
                                         </a>
@@ -204,7 +203,7 @@ const Footer = () => {
             <button
                 onClick={scrollToTop}
                 aria-label="Back to top"
-                className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-11 h-11 rounded-full bg-[#C39A2B] text-white shadow-lg hover:bg-[#A9791B] hover:scale-110 hover:shadow-[0_0_20px_rgba(195,154,43,0.4)] transition-all duration-200"
+                className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-11 h-11 rounded-full bg-[#C39A2B] text-white shadow-lg hover:bg-[#A9791B] transition-all duration-200"
             >
                 <ArrowUp size={20} />
             </button>

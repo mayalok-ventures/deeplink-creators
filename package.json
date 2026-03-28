@@ -9,6 +9,10 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@react-three/drei": "^9.122.0",
+        "@react-three/fiber": "^8.18.0",
+        "@react-three/postprocessing": "^2.19.1",
+        "@studio-freight/react-lenis": "^0.0.47",
         "@tiptap/extension-bubble-menu": "^3.19.0",
         "@tiptap/extension-code-block-lowlight": "^3.19.0",
         "@tiptap/extension-color": "^3.19.0",
@@ -34,14 +38,19 @@
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "@types/three": "^0.183.1",
+        "clsx": "^2.1.1",
         "firebase": "^12.9.0",
         "framer-motion": "^10.16.4",
+        "gsap": "^3.14.2",
         "lowlight": "^3.3.0",
         "lucide-react": "^0.309.0",
         "next": "^14.2.35",
         "react": "^18",
         "react-dom": "^18",
         "react-icons": "^4.12.0",
+        "tailwind-merge": "^3.5.0",
+        "three": "^0.170.0",
         "typescript": "^5"
     },
     "devDependencies": {

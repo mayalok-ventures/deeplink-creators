@@ -69,20 +69,11 @@ export default function TestimonialsPage() {
     return (
         <>
             {/* ── Hero Section ── */}
-            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
-                <div className="absolute inset-0 grid-bg" />
+            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 z-[1] pointer-events-none">
                     <img src="/images/hero/hero-testinomials.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
-                </div>
-
-                <motion.div
-                    className="absolute top-1/3 right-10 w-72 h-72 bg-[#C39A2B]/8 rounded-full blur-3xl"
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                />
-
-                <div className="container-custom relative z-10">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
+                </div><div className="container-custom relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -106,7 +97,7 @@ export default function TestimonialsPage() {
             </section>
 
             {/* ── Content Grid ── */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
@@ -129,7 +120,7 @@ export default function TestimonialsPage() {
                                         key={testimonial.id ?? index}
                                         delay={Math.min(index % 3, 2) * 100}
                                         direction="up"
-                                        className="glass-card rounded-2xl p-8 flex flex-col hover:-translate-y-2 transition-transform duration-300"
+                                        className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 flex flex-col hover:-translate-y-2 transition-transform duration-300"
                                     >
                                         <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center mb-6">
                                             <Quote size={24} className="text-[#C39A2B]" />
@@ -183,7 +174,7 @@ export default function TestimonialsPage() {
                                         key={idx}
                                         delay={idx % 2 * 100}
                                         direction="up"
-                                        className="group relative bg-white dark:bg-[#1C1E20] rounded-2xl p-8 border border-[#E5E7EB] dark:border-[#2A2D30] overflow-hidden hover:border-[#C39A2B]/40 transition-colors duration-300"
+                                        className="group relative bg-white rounded-2xl p-8 border border-[#E5E7EB] overflow-hidden hover:border-[#C39A2B]/40 transition-colors duration-300"
                                     >
                                         <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${study.gradient} rounded-bl-[100px] opacity-10 group-hover:opacity-20 transition-opacity`} />
                                         
@@ -197,7 +188,7 @@ export default function TestimonialsPage() {
                                         </div>
 
                                         {/* Metrics Block */}
-                                        <div className="grid grid-cols-2 gap-4 mb-8 bg-[#F8F9FA] dark:bg-[#131415] rounded-xl p-5 border border-black/5 dark:border-white/5">
+                                        <div className="grid grid-cols-2 gap-4 mb-8 bg-[#F8F9FA] rounded-xl p-5 border border-black/5">
                                             <div>
                                                 <div className="text-2xl md:text-3xl font-extrabold text-[#C39A2B] mb-1">{study.metric1}</div>
                                                 <div className="text-xs uppercase tracking-wider text-paragraph font-semibold">{study.metric1Label}</div>
@@ -228,7 +219,6 @@ export default function TestimonialsPage() {
 
             {/* ── CTA Section ── */}
             <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
                     <ScrollReveal direction="up">
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">

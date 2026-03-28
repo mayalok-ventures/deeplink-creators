@@ -13,20 +13,11 @@ export default function ContactPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
-                <div className="absolute inset-0 grid-bg"></div>
+            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 z-[1] pointer-events-none">
                     <img src="/images/hero/hero-contact.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
-                </div>
-
-                <motion.div
-                    className="absolute top-1/3 left-10 w-64 h-64 bg-[#C39A2B]/8 rounded-full blur-3xl"
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                />
-
-                <div className="container-custom relative z-10">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
+                </div><div className="container-custom relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -49,7 +40,7 @@ export default function ContactPage() {
             </section>
 
             {/* Form + Contact Info */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Contact Form */}
@@ -75,7 +66,7 @@ export default function ContactPage() {
                             className="space-y-8"
                         >
                             {/* Why Work With Us */}
-                            <motion.div variants={fadeUp} className="glass-card rounded-xl p-6">
+                            <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-6">
                                 <h3 className="text-xl font-heading font-bold text-heading mb-6">Why Work With Us?</h3>
                                 <ul className="space-y-4">
                                     <li className="flex items-start gap-3">
@@ -109,7 +100,7 @@ export default function ContactPage() {
                             </motion.div>
 
                             {/* Contact Details */}
-                            <motion.div variants={fadeUp} className="glass-card rounded-xl p-6 border-[#C39A2B]/20">
+                            <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-6 border-[#C39A2B]/20">
                                 <h3 className="text-xl font-heading font-bold text-heading mb-6">Contact Information</h3>
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3">
@@ -161,7 +152,7 @@ export default function ContactPage() {
                             </motion.div>
 
                             {/* High-Ticket CTA */}
-                            <motion.div variants={fadeUp} className="glass-card text-white rounded-xl p-6">
+                            <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-6">
                                 <h3 className="text-xl font-heading font-bold mb-4">For High-Ticket Clients</h3>
                                 <p className="text-paragraph mb-4">
                                     Businesses with ₹1L+ monthly budgets get:

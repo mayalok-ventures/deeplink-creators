@@ -57,9 +57,7 @@ export default function CustomSaasDevelopmentPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
-                <div className="absolute inset-0 grid-bg" />
-                <div className="absolute top-1/3 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
                 <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
                         <div className="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 rounded-full px-4 py-2 mb-6">
@@ -86,7 +84,7 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Problem/Agitation Section */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
@@ -111,7 +109,7 @@ export default function CustomSaasDevelopmentPage() {
                                 ))}
                             </ul>
                         </div>
-                        <div className="glass-card p-8 rounded-2xl border border-blue-500/20">
+                        <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8">
                             <h3 className="text-2xl font-heading font-bold text-heading mb-4">The Deeplink Standard</h3>
                             <p className="text-paragraph mb-6">
                                 Every project ships with production-grade infrastructure, not a prototype dressed up as a product.
@@ -139,7 +137,7 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-white dark:bg-[#0F1112]">
+            <section className="section-padding bg-white">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
@@ -151,7 +149,7 @@ export default function CustomSaasDevelopmentPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {processSteps.map((step) => (
-                            <div key={step.step} className="glass-card rounded-2xl p-8 relative">
+                            <div key={step.step} className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 relative">
                                 <div className="text-5xl font-extrabold text-blue-500/10 absolute top-4 right-4">{step.step}</div>
                                 <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 text-blue-400">
                                     {step.icon}
@@ -165,7 +163,7 @@ export default function CustomSaasDevelopmentPage() {
             </section>
 
             {/* Deliverables Grid */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <div className="text-center mb-16">
                         <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
@@ -174,7 +172,7 @@ export default function CustomSaasDevelopmentPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {deliverables.map((item, i) => (
-                            <div key={i} className="glass-card rounded-xl p-6 hover:border-blue-500/30 transition-colors">
+                            <div key={i} className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-6 hover:border-blue-500/30 transition-colors">
                                 <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
                                     <Layers className="text-blue-400" size={20} />
                                 </div>
@@ -188,7 +186,6 @@ export default function CustomSaasDevelopmentPage() {
 
             {/* Final CTA */}
             <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
                     <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                         Stop Paying for Code That{' '}

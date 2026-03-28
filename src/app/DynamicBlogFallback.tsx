@@ -32,9 +32,7 @@ function renderContent(content: string): string {
 
 function NotFoundUI() {
     return (
-        <section className="min-h-screen bg-white dark:bg-[#0F1112] flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C39A2B]/5 rounded-full blur-3xl pointer-events-none" />
+        <section className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden">
             <div className="relative z-10 text-center px-4">
                 <h1 className="text-8xl md:text-9xl font-extrabold font-heading bg-gradient-to-r from-[#B87A14] to-[#E0C27A] bg-clip-text text-transparent mb-4">
                     404
@@ -51,7 +49,7 @@ function NotFoundUI() {
                     </Link>
                     <Link
                         href="/contact"
-                        className="bg-[#F4F5F6] dark:bg-white/[0.05] border border-[#4A4A4A]/15 dark:border-white/[0.1] text-heading font-semibold py-3 px-6 rounded-lg hover:bg-[#F4F5F6]/80 dark:hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all inline-flex items-center justify-center"
+                        className="bg-[#F4F5F6] border border-[#4A4A4A]/15 text-heading font-semibold py-3 px-6 rounded-lg hover:bg-[#F4F5F6]/80 hover:border-[#C39A2B]/30 transition-all inline-flex items-center justify-center"
                     >
                         Contact Us
                     </Link>
@@ -63,7 +61,7 @@ function NotFoundUI() {
 
 function LoadingUI() {
     return (
-        <section className="min-h-screen bg-white dark:bg-[#0F1112] flex items-center justify-center">
+        <section className="min-h-screen bg-white flex items-center justify-center">
             <div className="text-center">
                 <div className="w-12 h-12 border-4 border-[#C39A2B]/30 border-t-[#C39A2B] rounded-full animate-spin mx-auto mb-4" />
                 <p className="text-paragraph">Loading...</p>
@@ -108,8 +106,7 @@ export default function DynamicBlogFallback() {
 
     return (
         <>
-            <section className="relative pt-32 pb-12 bg-white dark:bg-[#0F1112] overflow-hidden">
-                <div className="absolute inset-0 grid-bg"></div>
+            <section className="relative pt-32 pb-12 bg-white overflow-hidden">
                 <div className="container-custom relative z-10">
                     <Link href="/blog" className="inline-flex items-center gap-2 text-paragraph hover:text-heading mb-8 transition-colors">
                         <ArrowLeft size={18} /> Back to Blog
@@ -148,13 +145,13 @@ export default function DynamicBlogFallback() {
                         <img
                             src={blog.coverImage}
                             alt={blog.title}
-                            className="w-full rounded-2xl border border-[#4A4A4A]/10 dark:border-white/[0.08] object-cover max-h-[400px]"
+                            className="w-full rounded-2xl border border-[#E8E6E1] object-cover max-h-[400px]"
                         />
                     </div>
                 </div>
             )}
 
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <article
                         className="max-w-3xl blog-content"

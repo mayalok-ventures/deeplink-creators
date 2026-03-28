@@ -51,10 +51,7 @@ export default function FAQSection({ title = 'Frequently Asked Questions', subti
     }, [faqs])
 
     return (
-        <section className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C39A2B]/5 rounded-full blur-3xl pointer-events-none" />
-
+        <section className="section-padding bg-[#FAFAF8] relative overflow-hidden">
             <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -79,7 +76,7 @@ export default function FAQSection({ title = 'Frequently Asked Questions', subti
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: index * 0.05 }}
-                            className="glass-card rounded-xl overflow-hidden"
+                            className="bg-white rounded-xl border border-[#E8E6E1] shadow-sm overflow-hidden transform-gpu"
                         >
                             <button
                                 onClick={() => toggle(index)}
@@ -103,7 +100,7 @@ export default function FAQSection({ title = 'Frequently Asked Questions', subti
                                         className="overflow-hidden"
                                     >
                                         <div className="px-5 md:px-6 pb-5 md:pb-6 pt-0">
-                                            <div className="h-[1px] bg-[#4A4A4A]/10 dark:bg-white/[0.06] mb-4" />
+                                            <div className="h-[1px] bg-[#E8E6E1] mb-4" />
                                             <p className="text-paragraph text-sm md:text-base leading-relaxed">
                                                 {faq.answer}
                                             </p>

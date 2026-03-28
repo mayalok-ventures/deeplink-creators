@@ -55,20 +55,11 @@ export default function AboutPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
-                <div className="absolute inset-0 grid-bg"></div>
+            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 z-[1] pointer-events-none">
                     <img src="/images/hero/hero-about.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
-                </div>
-
-                <motion.div
-                    className="absolute top-1/4 right-10 w-64 h-64 bg-[#C39A2B]/8 rounded-full blur-3xl"
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                />
-
-                <div className="container-custom relative z-10">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
+                </div><div className="container-custom relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -95,7 +86,7 @@ export default function AboutPage() {
             </section>
 
             {/* Our Genesis */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -104,7 +95,7 @@ export default function AboutPage() {
                         transition={{ duration: 0.6 }}
                         className="max-w-3xl mx-auto text-center mb-16"
                     >
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6">
                             Our <span className="text-[#C39A2B]">Genesis</span>
                         </h2>
                         <p className="text-base text-paragraph mb-4">
@@ -123,7 +114,7 @@ export default function AboutPage() {
 
                     {/* The Paradigm Shift */}
                     <div className="text-center mb-12">
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             The <span className="text-[#C39A2B]">Paradigm Shift</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
@@ -140,7 +131,8 @@ export default function AboutPage() {
                     >
                         <motion.div
                             variants={fadeUp}
-                            className="rounded-2xl p-8 bg-red-500/[0.04] border border-red-500/20 dark:bg-red-500/[0.03]"
+                            data-anim="card"
+                            className="rounded-2xl p-8 bg-red-500/[0.04] border border-red-500/20"
                         >
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
@@ -159,7 +151,8 @@ export default function AboutPage() {
 
                         <motion.div
                             variants={fadeUp}
-                            className="rounded-2xl p-8 bg-[#C39A2B]/[0.04] border border-[#C39A2B]/30 dark:bg-[#C39A2B]/[0.03] relative"
+                            data-anim="card"
+                            className="rounded-2xl p-8 bg-[#C39A2B]/[0.04] border border-[#C39A2B]/30 relative"
                         >
                             <div className="absolute -top-3 right-6 bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg tracking-wider">
                                 THE DEEPLINK STANDARD
@@ -184,10 +177,10 @@ export default function AboutPage() {
             </section>
 
             {/* Values Section */}
-            <section className="section-padding bg-white dark:bg-[#0F1112]">
+            <section data-anim="section-glow" className="section-padding bg-white">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Our <span className="text-[#C39A2B]">Core Values</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
@@ -206,7 +199,8 @@ export default function AboutPage() {
                             <motion.div
                                 key={index}
                                 variants={fadeUp}
-                                className="glass-card rounded-2xl p-8 text-center"
+                                data-anim="card"
+                                className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 text-center"
                             >
                                 <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                                     <div className="text-[#C39A2B]">{value.icon}</div>
@@ -220,11 +214,11 @@ export default function AboutPage() {
             </section>
 
             {/* Process Section */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
-                    <div className="glass-card rounded-2xl p-8 md:p-12">
+                    <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 md:p-12">
                         <div className="text-center mb-12">
-                            <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
+                            <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                                 Our <span className="text-[#C39A2B]">4-Step</span> Neuro-Marketing Process
                             </h2>
                             <p className="text-lg text-paragraph max-w-3xl mx-auto">
@@ -272,7 +266,7 @@ export default function AboutPage() {
                                 <motion.div
                                     key={index}
                                     variants={fadeUp}
-                                    className="bg-[#F4F5F6] dark:bg-[#1A1B1C] rounded-xl p-6"
+                                    className="bg-[#F4F5F6] rounded-xl p-6"
                                 >
                                     <div className="text-3xl font-bold text-[#C39A2B] mb-4">{process.step}</div>
                                     <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-lg flex items-center justify-center mb-4">
@@ -289,9 +283,6 @@ export default function AboutPage() {
 
             {/* The Operators */}
             <section className="section-padding bg-[#0A0B0C] text-white relative overflow-hidden">
-                <div className="absolute inset-0 grid-bg opacity-40" />
-                <div className="absolute top-20 left-[10%] w-72 h-72 bg-[#C39A2B]/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-[10%] w-64 h-64 bg-[#C39A2B]/3 rounded-full blur-3xl" />
 
                 <div className="container-custom relative z-10">
                     <motion.div
@@ -356,7 +347,6 @@ export default function AboutPage() {
 
             {/* CTA Section */}
             <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -364,7 +354,7 @@ export default function AboutPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                             Ready to Engineer{' '}
                             <span className="text-[#C39A2B]">Predictable Revenue?</span>
                         </h2>
@@ -374,6 +364,7 @@ export default function AboutPage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
+                                data-anim="cta-pulse"
                                 className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8"
                             >
                                 Book a Strategy Call

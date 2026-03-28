@@ -33,13 +33,11 @@ export default async function BlogPage() {
     return (
         <>
             {/* Hero */}
-            <section className="relative pt-32 pb-20 bg-white dark:bg-[#0F1112] overflow-hidden">
-                <div className="absolute inset-0 grid-bg"></div>
+            <section className="relative pt-32 pb-20 bg-white overflow-hidden">
                 <div className="absolute inset-0 z-[1] pointer-events-none">
                     <img src="/images/hero/hero-blog.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
                 </div>
-                <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-[#C39A2B]/8 rounded-full blur-3xl"></div>
                 <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
@@ -53,10 +51,10 @@ export default async function BlogPage() {
             </section>
 
             {/* Blog Grid */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     {blogs.length === 0 ? (
-                        <div className="glass-card rounded-2xl p-12 text-center max-w-2xl mx-auto">
+                        <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-12 text-center max-w-2xl mx-auto">
                             <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                                 <TrendingUp className="text-[#C39A2B]" size={32} />
                             </div>
@@ -75,7 +73,6 @@ export default async function BlogPage() {
 
             {/* CTA */}
             <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="absolute inset-0 grid-bg"></div>
                 <div className="container-custom text-center relative z-10">
                     <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                         Ready to See <span className="text-[#C39A2B]">Growth</span> for Your Business?

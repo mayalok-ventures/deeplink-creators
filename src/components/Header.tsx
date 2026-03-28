@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
-import ThemeToggle from './ThemeToggle'
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -41,32 +40,34 @@ const Header = () => {
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${
                 scrolled
-                    ? 'bg-white/90 dark:bg-[#0F1112]/90 backdrop-blur-xl shadow-lg shadow-black/5 border-b border-[#4A4A4A]/10 dark:border-white/[0.08]'
-                    : 'bg-white/95 dark:bg-[#0F1112]/95 backdrop-blur-sm'
+                    ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-[#E8E6E1]'
+                    : 'bg-white/80 backdrop-blur-sm'
             }`}
         >
-            <div className="h-[2px] bg-gradient-to-r from-[#B87A14] via-[#E0C27A] to-[#B87A14]" />
+            <div className="h-px bg-[#E8E6E1]" />
 
             <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-3">
-                        <img
-                            src="/images/logo.svg"
-                            alt="Deeplink Creators Logo"
-                            className="h-10 w-10"
-                        />
-                        <div className="flex flex-col">
-                            <span className="text-2xl font-bold font-heading">
-                                <span className="bg-gradient-to-r from-[#B87A14] to-[#E0C27A] bg-clip-text text-transparent">
-                                    Deeplink
-                                </span>{' '}
-                                <span className="text-heading">Creators</span>
+                    <div className="flex items-center gap-3">
+                        <Link href="/" className="flex items-center gap-3">
+                            <img
+                                src="/images/logo.svg"
+                                alt="Deeplink Creators Logo"
+                                className="h-10 w-10"
+                            />
+                            <span className="flex flex-col">
+                                <span className="text-2xl font-bold font-heading">
+                                    <span className="bg-gradient-to-r from-[#B87A14] to-[#E0C27A] bg-clip-text text-transparent">
+                                        Deeplink
+                                    </span>{' '}
+                                    <span className="text-heading">Creators</span>
+                                </span>
                             </span>
-                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-xs text-gold tracking-wide hover:text-gold-light transition-colors">
-                                A Unit of Mayalok Venture
-                            </a>
-                        </div>
-                    </Link>
+                        </Link>
+                        <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-xs text-gold tracking-wide hover:text-gold-light transition-colors self-end -ml-2 mb-0.5">
+                            A Unit of Mayalok Venture
+                        </a>
+                    </div>
 
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
@@ -99,22 +100,22 @@ const Header = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 8 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute top-full left-0 mt-2 w-64 bg-white/95 dark:bg-[#1A1B1C]/95 backdrop-blur-xl border border-[#4A4A4A]/10 dark:border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                        className="absolute top-full left-0 mt-2 w-64 bg-white backdrop-blur-xl border border-[#E8E6E1] rounded-xl shadow-xl overflow-hidden z-50"
                                     >
                                         <div className="py-2">
                                             {serviceSubItems.map((sub) => (
                                                 <Link
                                                     key={sub.href}
                                                     href={sub.href}
-                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] transition-colors"
                                                 >
                                                     {sub.label}
                                                 </Link>
                                             ))}
-                                            <div className="border-t border-[#4A4A4A]/10 dark:border-white/[0.08] mt-1 pt-1">
+                                            <div className="border-t border-[#E8E6E1] mt-1 pt-1">
                                                 <Link
                                                     href="/services"
-                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] dark:hover:bg-white/[0.05] transition-colors"
+                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] transition-colors"
                                                 >
                                                     View All Services →
                                                 </Link>
@@ -142,20 +143,12 @@ const Header = () => {
                             </Link>
                         ))}
 
-                        <ThemeToggle />
-
                         <Link
                             href="/contact"
-                            className="btn-primary flex items-center gap-2"
+                            className="bg-[#0F1112] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[#1A1B1C] transition-all duration-300 flex items-center gap-2"
                         >
                             <Phone size={18} />
-                            <span className="relative flex items-center gap-2">
-                                Get Your ROI Audit
-                                <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-500 opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
-                                </span>
-                            </span>
+                            Get Your ROI Audit
                         </Link>
                     </nav>
 
@@ -177,7 +170,7 @@ const Header = () => {
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             className="md:hidden overflow-hidden"
                         >
-                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#4A4A4A]/10 dark:border-white/[0.08] mt-4">
+                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#E8E6E1] mt-4">
                                 <motion.div
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
@@ -212,7 +205,7 @@ const Header = () => {
                                                 animate={{ height: 'auto', opacity: 1 }}
                                                 exit={{ height: 0, opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="overflow-hidden pl-4 border-l border-[#4A4A4A]/10 dark:border-white/[0.08]"
+                                                className="overflow-hidden pl-4 border-l border-[#E8E6E1]"
                                             >
                                                 {serviceSubItems.map((sub) => (
                                                     <Link
@@ -262,21 +255,14 @@ const Header = () => {
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: navItems.length * 0.05 }}
-                                    className="flex items-center gap-3 mt-2"
+                                    className="mt-2"
                                 >
-                                    <ThemeToggle />
                                     <Link
                                         href="/contact"
-                                        className="btn-primary inline-flex items-center justify-center gap-2 flex-1"
+                                        className="bg-[#0F1112] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[#1A1B1C] transition-all duration-300 inline-flex items-center justify-center gap-2 w-full"
                                     >
                                         <Phone size={18} />
-                                        <span className="relative flex items-center gap-2">
-                                            Get Your ROI Audit
-                                            <span className="relative flex h-2.5 w-2.5">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-500 opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-500" />
-                                            </span>
-                                        </span>
+                                        Get Your ROI Audit
                                     </Link>
                                 </motion.div>
                             </div>

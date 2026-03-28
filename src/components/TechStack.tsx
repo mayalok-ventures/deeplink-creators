@@ -23,7 +23,7 @@ const technologies = [
 
 export default function TechStack() {
     return (
-        <section className="py-12 bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
+        <section className="py-12 bg-[#FAFAF8] relative overflow-hidden">
             <div className="container-custom mb-6">
                 <h2 className="text-xl md:text-2xl font-extrabold font-heading text-center text-heading">
                     Our Latest <span className="text-[#C39A2B]">Technologies</span>
@@ -33,7 +33,7 @@ export default function TechStack() {
                 </p>
                 <div className="flex flex-wrap justify-center gap-2 mt-3">
                     {['Frontend', 'Backend', 'Databases', 'CMS & Platforms'].map(cat => (
-                        <span key={cat} className="text-xs font-medium px-3 py-0.5 rounded-full bg-[#C39A2B]/10 text-[#C39A2B] border border-[#C39A2B]/20">
+                        <span key={cat} className="text-xs font-medium px-3 py-0.5 rounded-full bg-[#0F1112]/5 text-[#0F1112] border border-[#E8E6E1]">
                             {cat}
                         </span>
                     ))}
@@ -44,10 +44,10 @@ export default function TechStack() {
                 className="relative select-none"
                 onContextMenu={(e) => e.preventDefault()}
             >
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#F4F5F6] dark:from-[#131415] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#F4F5F6] dark:from-[#131415] to-transparent z-10 pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#FAFAF8] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#FAFAF8] to-transparent z-10 pointer-events-none" />
 
-                <div className="flex animate-marquee-tech">
+                <div className="flex animate-marquee-tech transform-gpu">
                     {[...technologies, ...technologies].map((t, i) => (
                         <div
                             key={i}
@@ -56,7 +56,7 @@ export default function TechStack() {
                             <img
                                 src={t.src}
                                 alt={t.alt}
-                                className="h-7 md:h-10 w-auto object-contain pointer-events-none hover:scale-110 transition-all duration-300"
+                                className="h-7 md:h-10 w-auto object-contain pointer-events-none transition-all duration-300"
                                 draggable={false}
                                 loading="lazy"
                             />

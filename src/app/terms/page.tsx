@@ -450,7 +450,7 @@ export default function TermsPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     For any questions, concerns, or notices regarding these Terms and Conditions, please contact us at:
                 </p>
-                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 border border-gray-200 p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
                     <p className="text-paragraph text-sm mb-1">A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a></p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>

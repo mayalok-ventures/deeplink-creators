@@ -22,9 +22,9 @@ export default function LegalPageLayout({ title, lastUpdated, children }: LegalP
     }, [])
 
     return (
-        <div className="bg-[#F0EDE6] dark:bg-[#0F1112] min-h-screen py-10 sm:py-16">
+        <div className="bg-[#FAFAF8] min-h-screen py-10 sm:py-16">
             <div
-                className="max-w-[820px] mx-auto bg-white dark:bg-[#161718] shadow-[0_2px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_40px_rgba(0,0,0,0.4)] rounded-sm sm:rounded-md select-none"
+                className="max-w-[820px] mx-auto bg-white shadow-[0_2px_40px_rgba(0,0,0,0.08)] rounded-sm sm:rounded-md select-none"
                 onContextMenu={(e) => e.preventDefault()}
                 onCopy={(e) => e.preventDefault()}
                 style={{ WebkitUserSelect: 'none', MozUserSelect: 'none' } as React.CSSProperties}
@@ -52,7 +52,7 @@ export default function LegalPageLayout({ title, lastUpdated, children }: LegalP
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-gray-200 dark:border-white/[0.08] px-8 sm:px-14 py-6">
+                <div className="border-t border-[#E8E6E1] px-8 sm:px-14 py-6">
                     <div className="flex flex-wrap gap-4 text-sm text-paragraph">
                         <Link href="/terms" className="text-[#C39A2B] hover:underline transition-colors">
                             Terms & Conditions

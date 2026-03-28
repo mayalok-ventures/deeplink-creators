@@ -16,7 +16,7 @@ export default function ServiceHeroImage({ href }: { href: string }) {
     if (!imageUrl) return null
 
     return (
-        <div className="mt-10 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5 dark:ring-white/10">
+        <div className="mt-10 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5">
             <img
                 src={imageUrl}
                 alt=""

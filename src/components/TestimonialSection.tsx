@@ -20,16 +20,13 @@ const TestimonialSection = () => {
     if (loading || testimonials.length === 0) return null
 
     return (
-        <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
-
+        <section className="section-padding bg-[#FAFAF8] relative overflow-hidden">
             <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
                     className="text-center mb-16"
                 >
                     <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
@@ -48,8 +45,8 @@ const TestimonialSection = () => {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.15, ease: 'easeOut' }}
-                            className="glass-card rounded-2xl p-8 flex flex-col"
+                            transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+                            className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 flex flex-col transform-gpu hover:shadow-lg hover:border-[#C39A2B]/20 transition-shadow duration-300"
                         >
                             <div className="w-10 h-10 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center mb-6">
                                 <Quote className="text-[#C39A2B]" size={20} />
@@ -81,7 +78,7 @@ const TestimonialSection = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
+                    transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
                     className="text-center mt-12"
                 >
                     <Link

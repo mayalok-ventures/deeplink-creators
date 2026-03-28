@@ -19,7 +19,7 @@ export default function BlogPostContent({ shortId, slug }: BlogPostContentProps)
 
     return (
         <div className="max-w-3xl mt-12 pt-8 border-t border-[#4A4A4A]/10">
-            <div className="glass-card rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                     <p className="font-bold text-heading mb-1">Share this post</p>
                     <p className="text-sm text-paragraph">deeplinkcreators.com/b/?id={shortId}</p>

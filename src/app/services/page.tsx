@@ -192,21 +192,13 @@ export default function ServicesPage() {
     return (
         <>
             {/* ── Hero ── */}
-            <section className="relative pt-32 pb-24 bg-white dark:bg-[#0F1112] text-heading overflow-hidden">
-                <div className="absolute inset-0 grid-bg" />
+            <section className="relative pt-32 pb-24 bg-white text-heading overflow-hidden">
                 <div className="absolute inset-0 z-[1] pointer-events-none">
                     <img src="/images/hero/hero-services.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-[#0F1112]/50 dark:via-[#0F1112]/80 dark:to-[#0F1112]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
                 </div>
 
-                {/* floating orb */}
-                <motion.div
-                    className="absolute top-1/3 right-10 w-72 h-72 bg-[#C39A2B]/8 rounded-full blur-3xl"
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                />
-
-                <div className="container-custom relative z-10">
+                {/* floating orb */}<div className="container-custom relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -240,10 +232,10 @@ export default function ServicesPage() {
             </section>
 
             {/* ── Services — Asymmetric Bespoke Grid ── */}
-            <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415]">
+            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
                 <div className="container-custom">
                     <ScrollReveal className="text-center mb-16">
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Our <span className="text-[#C39A2B]">Core Services</span>
                         </h2>
                         <p className="text-lg text-paragraph max-w-3xl mx-auto">
@@ -273,7 +265,7 @@ export default function ServicesPage() {
                                         key={index}
                                         delay={Math.min(index % 3, 2) * 80}
                                         direction="up"
-                                        className={`group relative rounded-2xl overflow-hidden bg-white dark:bg-[#1C1E20] border border-[#E5E7EB] dark:border-[#2A2D30] hover:border-[#C39A2B]/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${spanClass}`}
+                                        className={`group relative rounded-2xl overflow-hidden bg-white border border-[#E5E7EB] hover:border-[#C39A2B]/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${spanClass}`}
                                     >
                                         {/* Gradient top bar */}
                                         <div className={`h-1.5 w-full bg-gradient-to-r ${service.gradient}`} />
@@ -286,13 +278,13 @@ export default function ServicesPage() {
                                                     alt={service.title}
                                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#1C1E20] via-transparent to-transparent" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
                                             </div>
                                         )}
 
                                         <div className={`p-7 ${isFeatured ? 'md:p-10' : ''}`}>
                                             {/* Icon */}
-                                            <div className={`w-12 h-12 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-5 text-white transition-transform duration-300 group-hover:scale-110 ${isFeatured && service.imageUrl ? '-mt-8 relative z-10 shadow-lg ring-2 ring-white/20' : ''}`}>
+                                            <div className={`w-12 h-12 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-5 text-white transition-transform duration-300 group-hover:scale-105 ${isFeatured && service.imageUrl ? '-mt-8 relative z-10 shadow-lg ring-2 ring-white/20' : ''}`}>
                                                 {ICON_MAP[service.icon] ?? <Search size={26} />}
                                             </div>
 
@@ -332,10 +324,10 @@ export default function ServicesPage() {
             </section>
 
             {/* ── Why Choose Us — Stat-forward cards ── */}
-            <section className="section-padding bg-white dark:bg-[#0F1112]">
+            <section data-anim="section-glow" className="section-padding bg-white">
                 <div className="container-custom">
                     <ScrollReveal className="text-center mb-14">
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
                             Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
                         </h2>
                         <p className="text-lg text-paragraph max-w-2xl mx-auto">
@@ -346,7 +338,7 @@ export default function ServicesPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {whyChooseUs.map((item, index) => (
                             <ScrollReveal key={index} delay={index * 100} direction="up">
-                                <div className="glass-card rounded-2xl p-8 text-center hover:border-[#C39A2B]/40 transition-colors duration-300 border border-transparent">
+                                <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 text-center hover:border-[#C39A2B]/40 transition-colors duration-300">
                                     <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
                                         <div className="text-[#C39A2B]">{item.icon}</div>
                                     </div>
@@ -363,10 +355,9 @@ export default function ServicesPage() {
 
             {/* ── CTA Section ── */}
             <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="absolute inset-0 grid-bg" />
                 <div className="container-custom text-center relative z-10">
                     <ScrollReveal direction="up">
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
+                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
                             Not Sure Which Service You Need?{' '}
                             <span className="text-[#C39A2B]">Let&apos;s Talk.</span>
                         </h2>
@@ -376,6 +367,7 @@ export default function ServicesPage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/contact"
+                                data-anim="cta-pulse"
                                 className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8"
                             >
                                 Get FREE Strategy Call

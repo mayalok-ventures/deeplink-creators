@@ -5,8 +5,7 @@ import { motion } from 'framer-motion'
 
 const SocialProof = () => {
     return (
-        <section className="section-padding bg-[#F4F5F6] dark:bg-[#131415] relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg" />
+        <section className="section-padding bg-[#FAFAF8] relative overflow-hidden">
             <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -22,7 +21,7 @@ const SocialProof = () => {
                         SEO, performance marketing, and lead generation case studies for businesses across India — coming soon.
                     </p>
 
-                    <div className="glass-card rounded-2xl p-8 md:p-12 max-w-2xl mx-auto border-t border-gold/20">
+                    <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 md:p-12 max-w-2xl mx-auto">
                         <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <TrendingUp className="text-[#C39A2B]" size={32} />
                         </div>

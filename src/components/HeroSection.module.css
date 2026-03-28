@@ -1,0 +1,253 @@
+/* ── DLC Brand CSS Variables ── */
+.heroWrapper {
+  /* DLC brand palette */
+  --dlc-black:          #000000;
+  --dlc-charcoal-1:     #1A1A1A;
+  --dlc-charcoal-2:     #2E2E2E;
+  --dlc-charcoal-3:     #3D3D3D;
+  --dlc-gold-highlight: #D4B860;
+  --dlc-gold-main:      #C9A84C;
+  --dlc-gold-mid:       #A07830;
+  --dlc-gold-shadow:    #8B6520;
+  --dlc-gold-deep:      #5A3E0A;
+  --dlc-text-primary:   #F0EAD6;
+  --dlc-text-muted:     rgba(240,234,214,0.42);
+  --dlc-glow:           rgba(201,168,76,0.22);
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--dlc-black);
+}
+
+/* ── Background image layer ── */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: brightness(0.25) saturate(1.2);
+}
+
+.bgLayer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 60% at 50% 50%,
+    transparent 15%,
+    rgba(0,0,0,0.55) 60%,
+    rgba(0,0,0,0.93) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Cinematic grain overlay ── */
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ── Three.js canvas container ── */
+.canvasWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Three.js appends canvas as child — make it fill */
+.canvasWrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Center text overlay ── */
+.centerText {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  padding: 0 1.5rem;
+}
+
+/* ── Eyebrow pill ── */
+.eyebrowPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(201,168,76,0.35);
+  background: rgba(201,168,76,0.10);
+  border-radius: 9999px;
+  padding: 0.4rem 1.25rem;
+  margin-bottom: 1.25rem;
+  pointer-events: auto;
+}
+
+.eyebrowDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--dlc-gold-main);
+  animation: eyebrowPulse 2s ease-in-out infinite;
+}
+
+@keyframes eyebrowPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.eyebrowText {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--dlc-gold-main);
+  font-weight: 600;
+}
+
+/* ── H1 Headline ── */
+.headline {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--dlc-text-primary);
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+  max-width: 56rem;
+  text-shadow:
+    0 0 100px rgba(201,168,76,0.28),
+    0 0 30px rgba(201,168,76,0.12),
+    0 8px 50px rgba(0,0,0,1);
+}
+
+.headlineGold {
+  color: var(--dlc-gold-main);
+  text-shadow:
+    0 0 60px rgba(201,168,76,0.65),
+    0 0 20px rgba(201,168,76,0.35);
+}
+
+/* ── Subheading / tagline ── */
+.subtitle {
+  margin-top: 1rem;
+  font-size: clamp(0.88rem, 1.4vw, 1.1rem);
+  color: var(--dlc-text-muted);
+  max-width: 38rem;
+  line-height: 1.65;
+  letter-spacing: 0.04em;
+}
+
+/* ── CTA Buttons ── */
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  pointer-events: auto;
+  justify-content: center;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  background: linear-gradient(135deg, #C9A84C 0%, #D4B860 50%, #A07830 100%);
+  color: #000000;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 40px rgba(201,168,76,0.35), 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.ctaPrimary:hover {
+  box-shadow: 0 0 60px rgba(201,168,76,0.55), 0 8px 30px rgba(0,0,0,0.9);
+  transform: scale(1.03);
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: transparent;
+  color: var(--dlc-gold-main);
+  text-decoration: none;
+  border: 1px solid rgba(201,168,76,0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ctaSecondary:hover {
+  border-color: #C9A84C;
+  background: rgba(201,168,76,0.08);
+  box-shadow: 0 0 20px rgba(201,168,76,0.15);
+}
+
+/* ── Scroll cue ── */
+.scrollCue {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.scrollLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  font-weight: 600;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 3rem;
+  background: linear-gradient(180deg, #C9A84C, transparent);
+  transform-origin: top;
+  animation: pulseLine 2.6s ease-in-out infinite;
+}
+
+@keyframes pulseLine {
+  0%, 100% { opacity: 0.2; transform: scaleY(0.5); }
+  50%       { opacity: 1;   transform: scaleY(1); }
+}
+
+/* ── Mobile: disable background-attachment fixed ── */
+@media (max-width: 768px) {
+  .bgLayer {
+    background-attachment: scroll;
+  }
+  .headline {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+}

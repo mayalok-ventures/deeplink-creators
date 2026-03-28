@@ -40,6 +40,8 @@ interface ServiceItem {
     imageUrl?: string
 }
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop'
+
 const ServiceStack = () => {
     const [services, setServices] = useState<ServiceItem[]>([])
     const [loading, setLoading] = useState(true)
@@ -55,7 +57,7 @@ const ServiceStack = () => {
                 cta: c.cta,
                 href: c.href,
                 gradient: c.gradient,
-                imageUrl: c.imageUrl,
+                imageUrl: c.imageUrl || FALLBACK_IMAGE,
             })))
         }).catch(() => {}).finally(() => setLoading(false))
     }, [])
@@ -63,10 +65,7 @@ const ServiceStack = () => {
     if (loading || services.length === 0) return null
 
     return (
-        <section id="services" className="section-padding bg-white dark:bg-[#0F1112] relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-[#C39A2B]/5 via-[#E0C27A]/5 to-[#C39A2B]/3 rounded-full blur-3xl pointer-events-none" />
-
+        <section id="services" className="py-24 bg-[#FAFAF8] relative overflow-hidden">
             <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -75,35 +74,44 @@ const ServiceStack = () => {
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-2xl md:text-3xl font-extrabold font-heading text-heading mb-4">
+                    <h2 className="text-3xl md:text-5xl font-extrabold font-space-grotesk mb-6 text-[#0F1112]">
                         We Don&apos;t Sell Services. We{' '}
-                        <span className="text-gradient">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C39A2B] to-[#D4AC55]">
                             Deliver Results
                         </span>
                         .
                     </h2>
-                    <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                        Every strategy is designed with one goal: <span className="font-semibold text-heading">maximize your revenue</span>.
-                        No vanity metrics, only what actually impacts your bottom line.
+                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Every strategy is engineered with one goal: <span className="font-semibold text-[#0F1112]">maximizing revenue</span>.
+                        No vanity metrics, only what actively compounds pipeline.
                     </p>
                 </motion.div>
 
-                <div className={`grid grid-cols-1 md:grid-cols-2 ${services.length <= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-6`}>
-                    {services.map((service, index) => (
-                        <ServiceCard
-                            key={index}
-                            icon={ICON_MAP[service.icon] || <Search size={32} />}
-                            title={service.title}
-                            benefit={service.benefit}
-                            description={service.description}
-                            features={service.features}
-                            cta={service.cta}
-                            href={service.href}
-                            gradient={service.gradient}
-                            index={index}
-                            imageUrl={service.imageUrl}
-                        />
-                    ))}
+                {/* Bento Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 auto-rows-[minmax(380px,auto)] gap-6">
+                    {services.map((service, index) => {
+                        const isFeatured = index === 0;
+                        const colSpanClass = isFeatured ? 'lg:col-span-8' : 
+                                            index === 1 ? 'lg:col-span-4' :
+                                            index === 2 ? 'lg:col-span-4' : 'lg:col-span-8';
+
+                        return (
+                            <ServiceCard
+                                key={index}
+                                icon={ICON_MAP[service.icon] || <Search size={32} />}
+                                title={service.title}
+                                benefit={service.benefit}
+                                description={service.description}
+                                features={service.features}
+                                cta={service.cta}
+                                href={service.href}
+                                gradient={service.gradient}
+                                index={index}
+                                imageUrl={service.imageUrl}
+                                className={colSpanClass}
+                            />
+                        )
+                    })}
                 </div>
 
                 <motion.div
@@ -115,9 +123,9 @@ const ServiceStack = () => {
                 >
                     <Link
                         href="/services"
-                        className="inline-flex items-center gap-2 bg-[#F4F5F6] dark:bg-white/[0.05] border border-[#4A4A4A]/15 dark:border-white/[0.1] text-heading font-semibold py-3 px-8 rounded-lg hover:bg-[#F4F5F6]/80 dark:hover:bg-white/[0.1] hover:border-[#C39A2B]/30 transition-all"
+                        className="inline-flex items-center gap-2 border border-[#E8E6E1] bg-white text-[#0F1112] font-semibold py-4 px-10 rounded-full hover:shadow-md hover:border-[#C39A2B]/40 transition-all duration-300 transform-gpu"
                     >
-                        View All Services
+                        Explore All Ecosystems
                         <ArrowRight size={18} />
                     </Link>
                 </motion.div>

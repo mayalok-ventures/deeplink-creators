@@ -365,29 +365,29 @@ export default function PrivacyPage() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-gray-200 dark:border-white/[0.08]">
+                            <tr className="border-b border-gray-200">
                                 <th className="py-3 pr-4 text-heading font-semibold">Cookie Type</th>
                                 <th className="py-3 pr-4 text-heading font-semibold">Purpose</th>
                                 <th className="py-3 text-heading font-semibold">Duration</th>
                             </tr>
                         </thead>
                         <tbody className="text-paragraph">
-                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
+                            <tr className="border-b border-gray-100">
                                 <td className="py-3 pr-4 font-medium text-heading">Essential Cookies</td>
                                 <td className="py-3 pr-4">Required for basic website functionality (navigation, form submission)</td>
                                 <td className="py-3">Session</td>
                             </tr>
-                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
+                            <tr className="border-b border-gray-100">
                                 <td className="py-3 pr-4 font-medium text-heading">Analytics Cookies</td>
                                 <td className="py-3 pr-4">Google Analytics 4 — to understand website traffic and user behaviour</td>
                                 <td className="py-3">Up to 2 years</td>
                             </tr>
-                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
+                            <tr className="border-b border-gray-100">
                                 <td className="py-3 pr-4 font-medium text-heading">Marketing Cookies</td>
                                 <td className="py-3 pr-4">Meta Pixel — for retargeting and ad conversion tracking</td>
                                 <td className="py-3">Up to 180 days</td>
                             </tr>
-                            <tr className="border-b border-gray-100 dark:border-white/[0.05]">
+                            <tr className="border-b border-gray-100">
                                 <td className="py-3 pr-4 font-medium text-heading">Preference Cookies</td>
                                 <td className="py-3 pr-4">To remember your preferences (e.g., cookie consent choice)</td>
                                 <td className="py-3">Up to 1 year</td>
@@ -483,7 +483,7 @@ export default function PrivacyPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     In accordance with the Information Technology Act, 2000, and the DPDP Act, 2023, the details of our Grievance Officer are as follows:
                 </p>
-                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 border border-gray-200 p-6">
                     <p className="text-heading font-semibold mb-1">Grievance Officer</p>
                     <p className="text-paragraph text-sm mb-1">Deeplink Creators (A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture Pvt. Ltd.</a>)</p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>
@@ -502,7 +502,7 @@ export default function PrivacyPage() {
                 <p className="text-paragraph leading-relaxed mb-4">
                     For any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
                 </p>
-                <div className="rounded-lg bg-gray-50 dark:bg-dark-50 border border-gray-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-lg bg-gray-50 border border-gray-200 p-6">
                     <p className="text-heading font-semibold mb-1">Deeplink Creators</p>
                     <p className="text-paragraph text-sm mb-1">A Unit of <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Mayalok Venture (Private Limited)</a></p>
                     <p className="text-paragraph text-sm mb-1">Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India</p>

@@ -207,6 +207,9 @@ export default function HeroSection() {
   const canvasContainerRef = useRef(null); // ← container div, NOT canvas
   const scrollProgressRef = useRef(0);
 
+  /* ── Canvas ready state (text shows immediately, canvas fades in) ── */
+  const [canvasReady, setCanvasReady] = useState(false);
+
   /* ── Rotating text state ── */
   const [wordIdx, setWordIdx] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -227,17 +230,25 @@ export default function HeroSection() {
     const container = canvasContainerRef.current;
     if (!container) return;
 
-    /* ── FIX: Let Three.js own its canvas — don't ref the canvas element ──
-       This prevents the React "removeChild" error. We append renderer.domElement
-       ourselves and remove it in cleanup. React never touches this canvas. */
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    /* ── Defer Three.js init by 1 frame so hero text paints first ── */
+    let rafCleanup = null;
+    const timerId = setTimeout(() => {
+
+    /* ── Renderer — lower quality on mobile for speed ── */
+    const isMobile = window.innerWidth < 768;
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: !isMobile, // skip antialias on mobile = big perf win
+      powerPreference: "high-performance",
+    });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // capped at 1.5
-    renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.0 : 1.2));
+    renderer.shadowMap.enabled = !isMobile; // shadows off on mobile
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.6;
     container.appendChild(renderer.domElement);
+    setCanvasReady(true); // ← fade in canvas once it's mounted
 
     /* ── Scene & Camera ── */
     const scene = new THREE.Scene();
@@ -260,8 +271,8 @@ export default function HeroSection() {
 
     const key = new THREE.DirectionalLight(0xffedb0, 9.0); // boosted from 7.5
     key.position.set(9, 15, 8);
-    key.castShadow = true;
-    key.shadow.mapSize.setScalar(2048);
+    key.castShadow = !isMobile;
+    key.shadow.mapSize.setScalar(1024); // 2048→1024 = 4× less shadow memory
     key.shadow.bias = -0.0005;
     scene.add(key);
 
@@ -287,8 +298,8 @@ export default function HeroSection() {
     spot.target.position.set(0, 0, 0);
     scene.add(spot, spot.target);
 
-    /* ── Coin geometry — thicker with 3 height segments for better shadow banding ── */
-    const coinGeo = new THREE.CylinderGeometry(0.78, 0.74, 0.22, 128, 3, false);
+    /* ── Coin geometry — 64 segments (was 128) = 2× faster on GPU ── */
+    const coinGeo = new THREE.CylinderGeometry(0.78, 0.74, 0.22, 64, 3, false);
 
     /* ── Materials ── */
     const edgeMat = new THREE.MeshStandardMaterial({
@@ -342,8 +353,8 @@ export default function HeroSection() {
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
 
-    /* ── Particles ── */
-    const pCount = 500;
+    /* ── Particles — 180 (was 500) for 3× less GPU fill ── */
+    const pCount = 180;
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(pCount * 3);
     for (let i = 0; i < pCount; i++) {
@@ -477,9 +488,13 @@ export default function HeroSection() {
       pGeo.attributes.position.needsUpdate = true;
 
       renderer.render(scene, camera);
-    }
+    } // <-- closing brace for animate()
 
-    animate();
+    // Start render loop
+    function startLoop() {
+      animId = requestAnimationFrame(animate);
+    }
+    startLoop();
 
     /* ── Resize ── */
     function onResize() {
@@ -491,8 +506,8 @@ export default function HeroSection() {
     }
     window.addEventListener("resize", onResize);
 
-    /* ── Cleanup: remove the Three.js canvas from DOM manually ── */
-    return () => {
+    /* ── Cleanup ── */
+    rafCleanup = () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", onResize);
       st.kill();
@@ -505,6 +520,12 @@ export default function HeroSection() {
       coinGeo.dispose();
       pGeo.dispose();
     };
+    }, 0); // end setTimeout
+
+    return () => {
+      clearTimeout(timerId);
+      rafCleanup?.();
+    };
   }, []);
 
   return (
@@ -516,7 +537,11 @@ export default function HeroSection() {
       <div className={styles.noiseOverlay} aria-hidden="true" />
 
       {/* Three.js canvas container — React NEVER touches the actual canvas */}
-      <div ref={canvasContainerRef} className={styles.canvasWrap} />
+      <div
+        ref={canvasContainerRef}
+        className={styles.canvasWrap}
+        style={{ opacity: canvasReady ? 1 : 0 }}
+      />
 
       {/* Center text */}
       <div className={styles.centerText}>

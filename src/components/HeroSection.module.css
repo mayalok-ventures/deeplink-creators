@@ -21,24 +21,37 @@
   background: var(--dlc-black);
 }
 
-/* ── Background image layer ── */
+/* ── Background layer (video / fallback image) ── */
 .bgLayer {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/images/hero-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  /* removed background-attachment:fixed — causes full repaint on every scroll */
-  filter: brightness(0.25) saturate(1.2);
-  will-change: transform;
-  transform: translateZ(0); /* force GPU layer */
+  overflow: hidden;
+}
+
+.bgVideo,
+.bgImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bgVideo {
+  filter: brightness(0.45) saturate(1.2);
+}
+
+.bgImage {
+  filter: brightness(0.35) saturate(1.2);
 }
 
 .bgLayer::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: radial-gradient(
     ellipse 60% 60% at 50% 50%,
     transparent 15%,
@@ -58,27 +71,11 @@
   pointer-events: none;
 }
 
-/* ── Three.js canvas container ── */
-.canvasWrap {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  transition: opacity 0.6s ease; /* smooth fade-in once mounted */
-  will-change: transform;
-}
-
-/* Three.js appends canvas as child — make it fill */
-.canvasWrap canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* ── Center text overlay ── */
+/* ── Center text overlay — above the video overlay (z-index 10) ── */
 .centerText {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,7 +214,7 @@
   bottom: 1.75rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 3;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -245,11 +242,8 @@
   50%       { opacity: 1;   transform: scaleY(1); }
 }
 
-/* ── Mobile: disable background-attachment fixed ── */
+/* ── Mobile adjustments ── */
 @media (max-width: 768px) {
-  .bgLayer {
-    background-attachment: scroll;
-  }
   .headline {
     font-size: clamp(2.2rem, 10vw, 3.5rem);
   }

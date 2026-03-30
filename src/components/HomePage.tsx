@@ -246,7 +246,7 @@ export default function HomePage() {
       <section data-anim="img" className="py-4 bg-white overflow-hidden">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <MaskRevealImage
-            src="images/data-drive-maarketing-strategy.jpg"
+            src="/images/data-drive-maarketing-strategy.jpg"
             alt="Data-Driven Marketing Strategy"
             className="w-full h-[40vh] md:h-[60vh]"
             direction="right"

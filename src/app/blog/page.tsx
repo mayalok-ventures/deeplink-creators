@@ -10,6 +10,13 @@ function formatDate(timestamp: any): string {
     return new Date(timestamp).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
+function estimateReadTime(excerpt: string): string {
+    const wordsPerMinute = 200
+    const words = excerpt ? excerpt.split(/\s+/).length * 5 : 0
+    const minutes = Math.max(1, Math.ceil(words / wordsPerMinute))
+    return `${minutes} min read`
+}
+
 export default async function BlogPage() {
     const allBlogs = await getAllPublishedBlogs()
 
@@ -27,8 +34,12 @@ export default async function BlogPage() {
             coverImage: blog.coverImage,
             author: blog.author,
             tags: blog.tags || [],
+            category: (blog as any).category || '',
+            readTime: (blog as any).readTime || estimateReadTime(blog.excerpt || ''),
             publishedAt: formatDate(blog.publishedAt),
         }))
+
+    const allTags = Array.from(new Set(blogs.flatMap(b => b.tags).filter(Boolean)))
 
     return (
         <>
@@ -38,11 +49,31 @@ export default async function BlogPage() {
                     <img src="/images/hero/hero-blog.webp" alt="" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
                 </div>
+
+                {/* Decorative floating dots */}
+                <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+                    <span className="absolute top-20 left-[10%] w-2 h-2 rounded-full bg-[#C39A2B]/30 animate-[float_6s_ease-in-out_infinite]" />
+                    <span className="absolute top-32 right-[15%] w-1.5 h-1.5 rounded-full bg-[#C39A2B]/20 animate-[float_8s_ease-in-out_1s_infinite]" />
+                    <span className="absolute top-16 left-[60%] w-1 h-1 rounded-full bg-[#C39A2B]/25 animate-[float_7s_ease-in-out_2s_infinite]" />
+                    <span className="absolute bottom-24 left-[25%] w-2.5 h-2.5 rounded-full bg-[#C39A2B]/15 animate-[float_9s_ease-in-out_0.5s_infinite]" />
+                    <span className="absolute bottom-16 right-[30%] w-1.5 h-1.5 rounded-full bg-[#C39A2B]/20 animate-[float_7s_ease-in-out_3s_infinite]" />
+                </div>
+
                 <div className="container-custom relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-3xl md:text-4xl font-heading font-extrabold text-heading mb-6">
+                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-heading mb-4">
                             <span className="text-[#C39A2B]">Insights & Strategies</span>
                         </h1>
+
+                        {/* Animated gold divider */}
+                        <div className="flex items-center justify-center gap-3 mb-6">
+                            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#C39A2B]/60" />
+                            <span className="w-2 h-2 rounded-full bg-[#C39A2B] animate-pulse" />
+                            <span className="h-px w-24 bg-[#C39A2B]/40" />
+                            <span className="w-2 h-2 rounded-full bg-[#C39A2B] animate-pulse" />
+                            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#C39A2B]/60" />
+                        </div>
+
                         <p className="text-lg text-paragraph mb-8">
                             Digital marketing insights, SEO strategies, and actionable growth frameworks for businesses across India.
                         </p>
@@ -66,7 +97,7 @@ export default async function BlogPage() {
                             </p>
                         </div>
                     ) : (
-                        <BlogListClient initialBlogs={blogs} />
+                        <BlogListClient initialBlogs={blogs} allTags={allTags} />
                     )}
                 </div>
             </section>

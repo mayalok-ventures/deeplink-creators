@@ -15,6 +15,18 @@
     background-clip: text;
 }
 
+/* Floating dot animation for blog hero */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* Shimmer overlay for blog card images */
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

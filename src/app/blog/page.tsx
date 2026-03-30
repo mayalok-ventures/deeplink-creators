@@ -59,7 +59,7 @@ export default async function BlogPage() {
                     <span className="absolute bottom-16 right-[30%] w-1.5 h-1.5 rounded-full bg-[#C39A2B]/20 animate-[float_7s_ease-in-out_3s_infinite]" />
                 </div>
 
-                <div className="container-custom relative z-10">
+                <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-heading mb-4">
                             <span className="text-[#C39A2B]">Insights & Strategies</span>

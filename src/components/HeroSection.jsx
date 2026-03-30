@@ -57,6 +57,7 @@ export default function HeroSection() {
             muted
             playsInline
             preload="auto"
+            poster="/images/hero.png"
             onEnded={handleVideoEnd}
           >
             <source src="/images/hero-video.mp4" type="video/mp4" />

@@ -100,7 +100,7 @@ export default function BlogListClient({ initialBlogs, allTags }: BlogListClient
         <>
             {/* Tag Filter Pills */}
             {tags.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+                <div className="-mx-4 px-4 overflow-x-auto flex flex-wrap items-center justify-center gap-2 mb-8">
                     <button
                         onClick={() => setActiveTag('All')}
                         className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 border ${
@@ -202,7 +202,7 @@ export default function BlogListClient({ initialBlogs, allTags }: BlogListClient
                                     href={`/blog/${blog.slug}`}
                                     className={`
                                         flex flex-col h-full bg-white rounded-2xl border border-[#E8E6E1] overflow-hidden
-                                        shadow-sm hover:shadow-xl hover:shadow-black/[0.06] hover:-translate-y-1 hover:scale-[1.01]
+                                        shadow-sm hover:shadow-xl hover:shadow-black/[0.06] md:hover:-translate-y-1 md:hover:scale-[1.01]
                                         transition-all duration-500 ease-out
                                         ${isFeatured ? 'md:flex-row' : ''}
                                     `}

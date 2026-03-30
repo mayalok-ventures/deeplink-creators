@@ -179,6 +179,7 @@ export default function RootLayout({
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
                 <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
                 <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
+                <link rel="preload" as="video" href="/images/hero-video.mp4" />
 
                 {/* Additional SEO meta */}
                 <meta name="geo.region" content="IN-UP" />

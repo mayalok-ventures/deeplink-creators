@@ -1,12 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import dynamic from "next/dynamic";
 import MaskRevealImage from "@/components/MaskRevealImage";
-
-const HeroSection = dynamic(() => import("@/components/HeroSection"), {
-  ssr: false,
-});
+import HeroSection from "@/components/HeroSection";
 import TextRevealOnScroll from "@/components/TextRevealOnScroll";
 import ServiceStack from "@/components/ServiceStack";
 import TechStack from "@/components/TechStack";
@@ -123,8 +119,8 @@ export default function HomePage() {
             {/* Card 1 - slides from left */}
             <motion.div
               data-anim="card"
-              initial={{ opacity: 0, x: -60, rotateY: 8 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, ease }}
               className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 transform-gpu"
@@ -216,8 +212,8 @@ export default function HomePage() {
             {/* Card 3 - slides from right */}
             <motion.div
               data-anim="card"
-              initial={{ opacity: 0, x: 60, rotateY: -8 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, delay: 0.3, ease }}
               className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 transform-gpu"
@@ -332,7 +328,7 @@ export default function HomePage() {
                 >
                   {/* Content card */}
                   <motion.div
-                    initial={{ opacity: 0, x: step.side === "left" ? -60 : 60 }}
+                    initial={{ opacity: 0, x: step.side === "left" ? -40 : 40 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.8, ease }}
@@ -433,7 +429,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: i * 0.12, ease }}
                 className="text-center transform-gpu"
               >
-                <p className="text-4xl md:text-5xl font-extrabold font-heading text-white mb-2">
+                <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white mb-2">
                   <CounterAnimation
                     target={stat.value}
                     suffix={stat.suffix}
@@ -472,7 +468,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* WHO THIS IS FOR - slides in from left */}
             <motion.div
-              initial={{ opacity: 0, x: -80 }}
+              initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, ease }}
@@ -525,7 +521,7 @@ export default function HomePage() {
 
             {/* WHO THIS IS NOT FOR - slides in from right */}
             <motion.div
-              initial={{ opacity: 0, x: 80 }}
+              initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, delay: 0.15, ease }}
@@ -687,7 +683,7 @@ export default function HomePage() {
               ].map((item, index) => (
                 <motion.div
                   key={item.step}
-                  initial={{ opacity: 0, x: -40, y: 20 }}
+                  initial={{ opacity: 0, x: -30, y: 20 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: index * 0.15, ease }}

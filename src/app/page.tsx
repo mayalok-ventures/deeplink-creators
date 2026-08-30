@@ -24,6 +24,7 @@ import {
     ExternalLink,
     HelpCircle
 } from 'lucide-react'
+import TestimonialSection from '@/components/TestimonialSection'
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
@@ -722,7 +723,13 @@ export default function HomePage() {
 
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 6 — DIRECT ANSWER & FAQ ACCORDION (GEO / AI Discovery)
+                SECTION 6 — INSTITUTIONAL ENDORSEMENTS & VERIFIED REVIEWS
+            ══════════════════════════════════════════════════════════════ */}
+            <TestimonialSection />
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 7 — DIRECT ANSWER & FAQ ACCORDION (GEO / AI Discovery)
             ══════════════════════════════════════════════════════════════ */}
             <section className="py-14 sm:py-20 md:py-28 px-5 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 border-t border-[#181A16]/10">
                 <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">

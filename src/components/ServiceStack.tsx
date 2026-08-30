@@ -47,8 +47,8 @@ const ServiceStack = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        getFeaturedServiceCards().then(cards => {
-            setServices(cards.map(c => ({
+        getFeaturedServiceCards().then((cards: ServiceCardData[]) => {
+            setServices(cards.map((c: ServiceCardData) => ({
                 icon: c.icon,
                 title: c.title,
                 benefit: c.benefit,

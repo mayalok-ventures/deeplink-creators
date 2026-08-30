@@ -1,20 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, ChevronUp, ChevronDown, Loader2, X, Layers, Home, MapPin, Image } from 'lucide-react'
+import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, Loader2, X, Layers, Code, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart, Rocket, Star, Heart, MessageCircle, Palette, Megaphone, Mail } from 'lucide-react'
 import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData, uploadImage } from '@/lib/firestore'
-import {
-    Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users,
-    BarChart, Rocket, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail
-} from 'lucide-react'
 
 const ICON_OPTIONS = [
-    'Search', 'TrendingUp', 'Target', 'Globe', 'Zap', 'Shield', 'Award', 'Users',
-    'BarChart', 'Layers', 'Rocket', 'Star', 'Heart', 'MessageCircle', 'Code', 'Palette', 'Megaphone', 'Mail',
+    'Code', 'Layers', 'TrendingUp', 'Target', 'Globe', 'Zap', 'Shield', 'Award', 'Users',
+    'BarChart', 'Rocket', 'Star', 'Heart', 'MessageCircle', 'Palette', 'Megaphone', 'Mail',
 ] as const
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-    Search: <Search size={16} />,
+    Code: <Code size={16} />,
+    Layers: <Layers size={16} />,
     TrendingUp: <TrendingUp size={16} />,
     Target: <Target size={16} />,
     Globe: <Globe size={16} />,
@@ -23,41 +20,16 @@ const ICON_MAP: Record<string, React.ReactNode> = {
     Award: <Award size={16} />,
     Users: <Users size={16} />,
     BarChart: <BarChart size={16} />,
-    Layers: <Layers size={16} />,
     Rocket: <Rocket size={16} />,
     Star: <Star size={16} />,
     Heart: <Heart size={16} />,
     MessageCircle: <MessageCircle size={16} />,
-    Code: <Code size={16} />,
     Palette: <Palette size={16} />,
     Megaphone: <Megaphone size={16} />,
     Mail: <Mail size={16} />,
 }
 
-const GRADIENT_OPTIONS = [
-    { value: 'from-primary-400 to-cyan-400', label: 'Blue → Cyan' },
-    { value: 'from-accent to-emerald-400', label: 'Green → Emerald' },
-    { value: 'from-orange-400 to-red-400', label: 'Orange → Red' },
-    { value: 'from-purple-400 to-pink-400', label: 'Purple → Pink' },
-    { value: 'from-blue-500 to-primary-600', label: 'Blue → Indigo' },
-    { value: 'from-green-500 to-emerald-600', label: 'Green → Dark Green' },
-    { value: 'from-yellow-400 to-orange-400', label: 'Yellow → Orange' },
-    { value: 'from-rose-400 to-red-500', label: 'Rose → Red' },
-    { value: 'from-indigo-400 to-violet-500', label: 'Indigo → Violet' },
-    { value: 'from-teal-400 to-cyan-500', label: 'Teal → Cyan' },
-]
-
-const PAGE_OPTIONS = [
-    { value: 'homepage', label: 'Homepage' },
-    { value: 'greater-noida', label: 'Greater Noida' },
-    { value: 'noida', label: 'Noida' },
-    { value: 'delhi', label: 'Delhi' },
-    { value: 'lucknow', label: 'Lucknow' },
-] as const
-
 type EditorMode = 'list' | 'create' | 'edit'
-
-const inputClass = 'w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors'
 
 export default function ServicesManager() {
     const [cards, setCards] = useState<ServiceCardData[]>([])
@@ -65,23 +37,19 @@ export default function ServicesManager() {
     const [mode, setMode] = useState<EditorMode>('list')
     const [editingCard, setEditingCard] = useState<ServiceCardData | null>(null)
     const [saving, setSaving] = useState(false)
-    const [deleteConfirm, setDeleteConfirm] = useState('')
     const [seeding, setSeeding] = useState(false)
 
     const [title, setTitle] = useState('')
     const [benefit, setBenefit] = useState('')
     const [description, setDescription] = useState('')
-    const [iconName, setIconName] = useState<string>('Search')
-    const [gradient, setGradient] = useState(GRADIENT_OPTIONS[0].value)
+    const [iconName, setIconName] = useState<string>('Code')
+    const [gradient, setGradient] = useState('from-[#9B7545] to-[#86643B]')
     const [cta, setCta] = useState('')
     const [href, setHref] = useState('')
     const [features, setFeatures] = useState<string[]>([''])
     const [visible, setVisible] = useState(true)
     const [featured, setFeatured] = useState(false)
-    const [pages, setPages] = useState<string[]>([])
     const [imageUrl, setImageUrl] = useState('')
-    const [imageUploading, setImageUploading] = useState(false)
-    const [imageProgress, setImageProgress] = useState(0)
 
     const loadCards = async () => {
         setLoading(true)
@@ -97,9 +65,17 @@ export default function ServicesManager() {
     useEffect(() => { loadCards() }, [])
 
     const resetForm = () => {
-        setTitle(''); setBenefit(''); setDescription('')
-        setIconName('Search'); setGradient(GRADIENT_OPTIONS[0].value)
-        setCta(''); setHref(''); setFeatures(['']); setVisible(true); setFeatured(false); setPages([]); setImageUrl('')
+        setTitle('')
+        setBenefit('')
+        setDescription('')
+        setIconName('Code')
+        setGradient('from-[#9B7545] to-[#86643B]')
+        setCta('Request Architecture Briefing')
+        setHref('/contact')
+        setFeatures([''])
+        setVisible(true)
+        setFeatured(false)
+        setImageUrl('')
         setEditingCard(null)
     }
 
@@ -113,21 +89,35 @@ export default function ServicesManager() {
         setTitle(card.title)
         setBenefit(card.benefit)
         setDescription(card.description)
-        setIconName(card.icon)
-        setGradient(card.gradient)
-        setCta(card.cta)
-        setHref(card.href)
-        setFeatures(card.features.length > 0 ? card.features : [''])
+        setIconName(card.icon || 'Code')
+        setGradient(card.gradient || 'from-[#9B7545] to-[#86643B]')
+        setCta(card.cta || 'Explore Offering')
+        setHref(card.href || '/contact')
+        setFeatures(card.features && card.features.length > 0 ? card.features : [''])
         setVisible(card.visible)
         setFeatured(card.featured ?? false)
-        setPages(card.pages ?? [])
         setImageUrl(card.imageUrl ?? '')
         setMode('edit')
     }
 
+    const handleFeatureChange = (index: number, val: string) => {
+        const next = [...features]
+        next[index] = val
+        setFeatures(next)
+    }
+
+    const addFeature = () => setFeatures([...features, ''])
+    const removeFeature = (idx: number) => {
+        if (features.length <= 1) return
+        setFeatures(features.filter((_, i) => i !== idx))
+    }
+
     const handleSave = async () => {
         const trimmedFeatures = features.map(f => f.trim()).filter(Boolean)
-        if (!title.trim() || !benefit.trim() || !description.trim() || !cta.trim() || !href.trim() || trimmedFeatures.length === 0) return
+        if (!title.trim() || !benefit.trim()) {
+            alert('Title and Key Value Proposition are required.')
+            return
+        }
 
         setSaving(true)
         try {
@@ -137,13 +127,12 @@ export default function ServicesManager() {
                 description: description.trim(),
                 icon: iconName,
                 gradient,
-                cta: cta.trim(),
-                href: href.trim(),
-                features: trimmedFeatures,
+                cta: cta.trim() || 'Request Architecture Briefing',
+                href: href.trim() || '/contact',
+                features: trimmedFeatures.length > 0 ? trimmedFeatures : ['Enterprise Grade Security', 'High-Availability Architecture'],
                 visible,
                 featured,
-                pages,
-                order: mode === 'edit' && editingCard ? editingCard.order : cards.length,
+                order: mode === 'edit' && editingCard ? editingCard.order : cards.length + 1,
                 imageUrl: imageUrl || undefined,
             }
 
@@ -158,16 +147,16 @@ export default function ServicesManager() {
             resetForm()
         } catch (err) {
             console.error('Save failed:', err)
-            alert('Failed to save. Check console for errors.')
+            alert('Failed to save service card.')
         }
         setSaving(false)
     }
 
     const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this service offering?')) return
         try {
             await deleteServiceCard(id)
             await loadCards()
-            setDeleteConfirm('')
         } catch (err) {
             console.error('Delete failed:', err)
         }
@@ -179,303 +168,177 @@ export default function ServicesManager() {
         await loadCards()
     }
 
-    const toggleFeatured = async (card: ServiceCardData) => {
-        if (!card.id) return
-        await updateServiceCard(card.id, { featured: !(card.featured ?? false) })
-        await loadCards()
-    }
-
-    const handleSeed = async () => {
+    const handleSeedDefaults = async () => {
         setSeeding(true)
         try {
             await seedDefaultServiceCards()
             await loadCards()
+            alert('Default enterprise service offerings loaded!')
         } catch (err) {
             console.error('Seed failed:', err)
         }
         setSeeding(false)
     }
 
-    const moveCard = async (index: number, direction: 'up' | 'down') => {
-        const swapIndex = direction === 'up' ? index - 1 : index + 1
-        if (swapIndex < 0 || swapIndex >= cards.length) return
-
-        const cardA = cards[index]
-        const cardB = cards[swapIndex]
-        if (!cardA.id || !cardB.id) return
-
-        await updateServiceCard(cardA.id, { order: cardB.order })
-        await updateServiceCard(cardB.id, { order: cardA.order })
-        await loadCards()
-    }
-
-    const addFeature = () => setFeatures([...features, ''])
-
-    const updateFeature = (index: number, value: string) => {
-        const updated = [...features]
-        updated[index] = value
-        setFeatures(updated)
-    }
-
-    const removeFeature = (index: number) => {
-        if (features.length <= 1) return
-        setFeatures(features.filter((_, i) => i !== index))
-    }
-
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (!file) return
-        setImageUploading(true)
-        setImageProgress(0)
-        try {
-            const url = await uploadImage(file, `services/${Date.now()}-${file.name}`, (p) => setImageProgress(p))
-            setImageUrl(url)
-        } catch (err) {
-            console.error('Image upload failed:', err)
-            alert('Image upload failed.')
-        }
-        setImageUploading(false)
-    }
-
     if (mode === 'create' || mode === 'edit') {
-        const trimmedFeatures = features.map(f => f.trim()).filter(Boolean)
-        const canSave = title.trim() && benefit.trim() && description.trim() && cta.trim() && href.trim() && trimmedFeatures.length > 0
-
         return (
-            <div>
+            <div className="space-y-6 max-w-4xl">
                 <button
                     onClick={() => { setMode('list'); resetForm() }}
-                    className="flex items-center gap-2 text-paragraph hover:text-heading mb-6 transition-colors"
+                    className="inline-flex items-center gap-2 text-xs font-medium text-[#6B685F] hover:text-[#181A16] transition-colors"
                 >
-                    <ArrowLeft size={18} />
-                    Back to Cards
+                    <ArrowLeft size={16} />
+                    <span>Back to Services Catalog</span>
                 </button>
 
-                <h2 className="text-2xl font-bold font-heading text-heading mb-6">
-                    {mode === 'create' ? 'Create New Card' : 'Edit Card'}
+                <h2 className="text-2xl font-bold font-heading text-[#181A16]">
+                    {mode === 'create' ? 'Add Service Offering' : 'Edit Service Offering'}
                 </h2>
 
-                <div className="space-y-6 max-w-3xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Title *</label>
+                <div className="bg-white border border-[#E5E0D8] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Service Title *</label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className={inputClass}
-                                placeholder="Service title"
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="e.g. Custom SaaS & Platform Engineering"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Benefit Tagline *</label>
-                            <input
-                                type="text"
-                                value={benefit}
-                                onChange={(e) => setBenefit(e.target.value)}
-                                className={inputClass}
-                                placeholder="Short benefit statement"
-                            />
-                        </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Description *</label>
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            rows={3}
-                            className={inputClass}
-                            placeholder="Service description"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Card Image</label>
-                        {imageUrl ? (
-                            <div className="relative group/img w-full max-w-sm">
-                                <img src={imageUrl} alt="Card preview" className="w-full h-48 object-cover rounded-lg border border-gray-200 dark:border-white/[0.08]" />
-                                <button
-                                    type="button"
-                                    onClick={() => setImageUrl('')}
-                                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity"
-                                >
-                                    <X size={14} />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="relative">
-                                <label className="flex flex-col items-center justify-center w-full max-w-sm h-40 border-2 border-dashed border-gray-300 dark:border-white/[0.15] rounded-lg cursor-pointer hover:border-primary-500/50 transition-colors bg-gray-50 dark:bg-white/[0.02]">
-                                    {imageUploading ? (
-                                        <div className="text-center">
-                                            <Loader2 size={24} className="animate-spin text-primary-500 mx-auto mb-2" />
-                                            <span className="text-sm text-paragraph">{imageProgress}%</span>
-                                        </div>
-                                    ) : (
-                                        <div className="text-center">
-                                            <Image size={32} className="text-paragraph/50 mx-auto mb-2" />
-                                            <span className="text-sm text-paragraph">Click to upload image</span>
-                                            <span className="text-xs text-paragraph/50 mt-1">PNG, JPG up to 5MB</span>
-                                        </div>
-                                    )}
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageUpload}
-                                        disabled={imageUploading}
-                                        className="sr-only"
-                                    />
-                                </label>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Icon Name</label>
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Icon Symbol</label>
                             <select
                                 value={iconName}
                                 onChange={(e) => setIconName(e.target.value)}
-                                className={inputClass}
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
                             >
-                                {ICON_OPTIONS.map(name => (
+                                {ICON_OPTIONS.map((name) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
                             </select>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Gradient</label>
-                            <select
-                                value={gradient}
-                                onChange={(e) => setGradient(e.target.value)}
-                                className={inputClass}
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Key Value Proposition / Benefit *</label>
+                        <input
+                            type="text"
+                            value={benefit}
+                            onChange={(e) => setBenefit(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="Institutional grade web applications engineered for horizontal scale."
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Full Description</label>
+                        <textarea
+                            rows={3}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="w-full px-3.5 py-2 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="Architectural deep dive into what this service covers..."
+                        />
+                    </div>
+
+                    {/* Features List */}
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <label className="text-xs font-mono font-medium text-[#6B685F] uppercase">Key Capabilities &amp; Features</label>
+                            <button
+                                type="button"
+                                onClick={addFeature}
+                                className="text-xs font-semibold text-[#9B7545] hover:underline flex items-center gap-1"
                             >
-                                {GRADIENT_OPTIONS.map(opt => (
-                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                ))}
-                            </select>
-                            <div className={`mt-2 h-3 rounded-full w-full bg-gradient-to-r ${gradient}`} />
+                                <Plus size={13} /> Add Feature
+                            </button>
+                        </div>
+
+                        <div className="space-y-2">
+                            {features.map((feat, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={feat}
+                                        onChange={(e) => handleFeatureChange(i, e.target.value)}
+                                        placeholder={`Feature bullet #${i + 1}`}
+                                        className="w-full px-3.5 py-2 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                    />
+                                    {features.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => removeFeature(i)}
+                                            className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">CTA Button Text *</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">CTA Button Text</label>
                             <input
                                 type="text"
                                 value={cta}
                                 onChange={(e) => setCta(e.target.value)}
-                                className={inputClass}
-                                placeholder="Get Started"
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="Request Architecture Briefing"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Link / href *</label>
+
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Destination URL / Link</label>
                             <input
                                 type="text"
                                 value={href}
                                 onChange={(e) => setHref(e.target.value)}
-                                className={inputClass}
-                                placeholder="/services/my-service"
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="/contact or https://sahyak.com"
                             />
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Features *</label>
-                        <div className="space-y-3">
-                            {features.map((feature, i) => (
-                                <div key={i} className="flex items-center gap-2">
-                                    <input
-                                        type="text"
-                                        value={feature}
-                                        onChange={(e) => updateFeature(i, e.target.value)}
-                                        className={inputClass}
-                                        placeholder={`Feature ${i + 1}`}
-                                    />
-                                    <button
-                                        onClick={() => removeFeature(i)}
-                                        disabled={features.length <= 1}
-                                        className="p-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                                    >
-                                        <X size={18} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                        <button
-                            onClick={addFeature}
-                            className="mt-3 text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1 transition-colors"
-                        >
-                            <Plus size={16} />
-                            Add Feature
-                        </button>
-                    </div>
-
-                    <div className="space-y-4">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <div className="relative">
-                                <input
-                                    type="checkbox"
-                                    checked={visible}
-                                    onChange={(e) => setVisible(e.target.checked)}
-                                    className="sr-only"
-                                />
-                                <div className={`w-11 h-6 rounded-full transition-colors ${visible ? 'bg-accent' : 'bg-gray-300 dark:bg-white/[0.1]'}`}>
-                                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${visible ? 'translate-x-5' : ''}`} />
-                                </div>
-                            </div>
-                            <span className="text-heading font-medium">{visible ? 'Visible on Services Page' : 'Hidden'}</span>
+                    <div className="flex items-center gap-6 pt-2">
+                        <label className="flex items-center gap-2.5 cursor-pointer text-xs font-medium text-[#181A16]">
+                            <input
+                                type="checkbox"
+                                checked={visible}
+                                onChange={(e) => setVisible(e.target.checked)}
+                                className="w-4 h-4 rounded border-[#E5E0D8] text-[#9B7545] focus:ring-[#9B7545]"
+                            />
+                            <span>Visible on Website</span>
                         </label>
 
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-3">Show on Pages</label>
-                            <div className="flex flex-wrap gap-3">
-                                {PAGE_OPTIONS.map(opt => {
-                                    const isSelected = pages.includes(opt.value)
-                                    return (
-                                        <button
-                                            key={opt.value}
-                                            type="button"
-                                            onClick={() => {
-                                                if (isSelected) {
-                                                    setPages(pages.filter(p => p !== opt.value))
-                                                    if (opt.value === 'homepage') setFeatured(false)
-                                                } else {
-                                                    setPages([...pages, opt.value])
-                                                    if (opt.value === 'homepage') setFeatured(true)
-                                                }
-                                            }}
-                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                                                isSelected
-                                                    ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
-                                                    : 'bg-gray-100 dark:bg-white/[0.05] border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08]'
-                                            }`}
-                                        >
-                                            {opt.value === 'homepage' ? <Home size={14} /> : <MapPin size={14} />}
-                                            {opt.label}
-                                        </button>
-                                    )
-                                })}
-                            </div>
-                        </div>
+                        <label className="flex items-center gap-2.5 cursor-pointer text-xs font-medium text-[#181A16]">
+                            <input
+                                type="checkbox"
+                                checked={featured}
+                                onChange={(e) => setFeatured(e.target.checked)}
+                                className="w-4 h-4 rounded border-[#E5E0D8] text-[#9B7545] focus:ring-[#9B7545]"
+                            />
+                            <span>Featured Card (Highlighted)</span>
+                        </label>
                     </div>
 
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex gap-3 pt-4 border-t border-[#E5E0D8]">
                         <button
                             onClick={handleSave}
-                            disabled={saving || !canSave}
-                            className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={saving}
+                            className="px-6 py-2.5 bg-[#9B7545] text-white text-xs font-semibold rounded-xl hover:bg-[#86643B] transition-colors shadow-xs flex items-center gap-2"
                         >
-                            {saving ? (
-                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            ) : (
-                                mode === 'create' ? 'Create Card' : 'Update Card'
-                            )}
+                            {saving ? <Loader2 size={14} className="animate-spin" /> : null}
+                            <span>{mode === 'create' ? 'Create Offering' : 'Save Changes'}</span>
                         </button>
                         <button
                             onClick={() => { setMode('list'); resetForm() }}
-                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-3 px-6 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
+                            className="px-4 py-2.5 border border-[#E5E0D8] text-xs font-medium text-[#6B685F] hover:bg-[#F3F0E8] rounded-xl transition-colors"
                         >
                             Cancel
                         </button>
@@ -486,148 +349,116 @@ export default function ServicesManager() {
     }
 
     return (
-        <div>
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold font-heading text-heading">Service Cards</h2>
-                <div className="flex items-center gap-3">
-                    {cards.length === 0 && !loading && (
-                        <button
-                            onClick={handleSeed}
-                            disabled={seeding}
-                            className="bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-heading py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors text-sm flex items-center gap-2 disabled:opacity-50"
-                        >
-                            {seeding ? (
-                                <Loader2 size={16} className="animate-spin" />
-                            ) : (
-                                <Layers size={16} />
-                            )}
-                            Seed Defaults
-                        </button>
-                    )}
-                    <button onClick={openCreate} className="btn-primary flex items-center gap-2 text-sm">
-                        <Plus size={18} />
-                        New Card
+        <div className="space-y-6 max-w-6xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl font-bold font-heading text-[#181A16] flex items-center gap-2.5">
+                        <Layers className="text-[#9B7545]" size={24} />
+                        <span>Services Catalog</span>
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#6B685F] mt-1">
+                        Manage institutional services, software offerings, and Sahyak CRM integrations.
+                    </p>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                    <button
+                        onClick={handleSeedDefaults}
+                        disabled={seeding}
+                        className="px-3.5 py-2 bg-white border border-[#E5E0D8] text-xs font-medium text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8] rounded-xl transition-colors"
+                    >
+                        {seeding ? 'Restoring...' : 'Reset Default Offerings'}
+                    </button>
+                    <button
+                        onClick={openCreate}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#9B7545] text-white text-xs font-semibold rounded-xl hover:bg-[#86643B] transition-colors shadow-xs"
+                    >
+                        <Plus size={15} />
+                        <span>Add Offering</span>
                     </button>
                 </div>
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center py-12">
-                    <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                <div className="p-12 text-center bg-white rounded-2xl border border-[#E5E0D8]">
+                    <Loader2 size={24} className="animate-spin text-[#9B7545] mx-auto mb-3" />
+                    <p className="text-xs text-[#6B685F]">Loading services catalog...</p>
                 </div>
             ) : cards.length === 0 ? (
-                <div className="glass-card rounded-xl p-12 text-center">
-                    <Layers size={48} className="text-paragraph mx-auto mb-4" />
-                    <h3 className="text-lg font-bold text-heading mb-2">No service cards yet</h3>
-                    <p className="text-paragraph mb-6">Seed defaults or create your first service card.</p>
-                    <button onClick={openCreate} className="btn-primary text-sm">Create First Card</button>
+                <div className="p-12 text-center bg-white rounded-2xl border border-[#E5E0D8]">
+                    <Layers size={32} className="text-[#8C887B] mx-auto mb-3 opacity-40" />
+                    <h3 className="text-sm font-bold text-[#181A16] mb-1">No Services Configured</h3>
+                    <p className="text-xs text-[#6B685F] max-w-sm mx-auto mb-4">
+                        Add service offerings or restore the default enterprise software catalog.
+                    </p>
+                    <button
+                        onClick={handleSeedDefaults}
+                        className="px-4 py-2 bg-[#9B7545] text-white text-xs font-semibold rounded-xl hover:bg-[#86643B]"
+                    >
+                        Load Default Catalog
+                    </button>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {cards.map((card, index) => (
-                        <div key={card.id} className="glass-card rounded-xl p-5">
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                {card.imageUrl && (
-                                    <img src={card.imageUrl} alt={card.title} className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-white/[0.08] flex-shrink-0" />
-                                )}
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <h3 className="font-bold text-heading">{card.title}</h3>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                                            card.visible
-                                                ? 'bg-accent/10 text-accent'
-                                                : 'bg-yellow-500/10 text-yellow-400'
-                                        }`}>
-                                            {card.visible ? 'Visible' : 'Hidden'}
-                                        </span>
-                                        {(card.pages ?? []).length > 0 ? (
-                                            (card.pages ?? []).map(p => (
-                                                <span key={p} className="text-xs px-2 py-0.5 rounded-full font-medium bg-primary-500/10 text-primary-400">
-                                                    {PAGE_OPTIONS.find(o => o.value === p)?.label ?? p}
-                                                </span>
-                                            ))
-                                        ) : card.featured ? (
-                                            <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-primary-500/10 text-primary-400">
-                                                Homepage
-                                            </span>
-                                        ) : null}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {cards.map((card) => (
+                        <div
+                            key={card.id}
+                            className="bg-white border border-[#E5E0D8] rounded-2xl p-5 shadow-xs hover:border-[#9B7545]/40 transition-all flex flex-col justify-between"
+                        >
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="w-8 h-8 rounded-lg bg-[#9B7545]/10 text-[#9B7545] flex items-center justify-center border border-[#9B7545]/20">
+                                        {ICON_MAP[card.icon] || <Code size={16} />}
                                     </div>
-                                    <p className="text-sm text-paragraph mb-2">{card.benefit}</p>
-                                    <div className="flex items-center gap-3 text-xs text-paragraph">
-                                        <span className="flex items-center gap-1">
-                                            {ICON_MAP[card.icon] || card.icon}
-                                            <span>{card.icon}</span>
-                                        </span>
-                                        <span>·</span>
-                                        <div className={`h-3 w-16 rounded-full bg-gradient-to-r ${card.gradient}`} />
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => moveCard(index, 'up')}
-                                        disabled={index === 0}
-                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                                        title="Move Up"
-                                    >
-                                        <ChevronUp size={16} />
-                                    </button>
-                                    <button
-                                        onClick={() => moveCard(index, 'down')}
-                                        disabled={index === cards.length - 1}
-                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                                        title="Move Down"
-                                    >
-                                        <ChevronDown size={16} />
-                                    </button>
-                                    <button
-                                        onClick={() => toggleFeatured(card)}
-                                        className={`p-2 rounded-lg border transition-colors ${
-                                            card.featured
-                                                ? 'bg-primary-500/20 border-primary-500/30 text-primary-400'
-                                                : 'bg-gray-100 dark:bg-white/[0.05] border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08]'
-                                        }`}
-                                        title={card.featured ? 'Remove from Homepage' : 'Show on Homepage'}
-                                    >
-                                        <Home size={16} />
-                                    </button>
                                     <button
                                         onClick={() => toggleVisibility(card)}
-                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
-                                        title={card.visible ? 'Hide' : 'Show'}
+                                        className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${
+                                            card.visible
+                                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                : 'bg-gray-100 text-gray-600 border-gray-200'
+                                        }`}
                                     >
-                                        {card.visible ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        {card.visible ? 'Visible' : 'Hidden'}
                                     </button>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-heading font-bold text-base text-[#181A16]">
+                                        {card.title}
+                                    </h3>
+                                    <p className="text-xs text-[#6B685F] line-clamp-2 mt-1">
+                                        {card.benefit}
+                                    </p>
+                                </div>
+
+                                <div className="space-y-1 pt-1">
+                                    {(card.features || []).slice(0, 3).map((f, i) => (
+                                        <div key={i} className="text-[11px] text-[#8C887B] flex items-center gap-1.5">
+                                            <span className="text-[#9B7545]">✓</span>
+                                            <span className="truncate">{f}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="pt-4 mt-4 border-t border-[#E5E0D8] flex items-center justify-between">
+                                <span className="text-[11px] font-mono text-[#8C887B] truncate max-w-[140px]">
+                                    {card.href}
+                                </span>
+
+                                <div className="flex items-center gap-1.5">
                                     <button
                                         onClick={() => openEdit(card)}
-                                        className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-paragraph hover:text-heading hover:bg-gray-200 dark:hover:bg-white/[0.08] transition-colors"
-                                        title="Edit"
+                                        className="p-1.5 text-[#9B7545] hover:bg-[#9B7545]/10 rounded-lg transition-colors"
                                     >
-                                        <Edit2 size={16} />
+                                        <Edit2 size={14} />
                                     </button>
-                                    {deleteConfirm === card.id ? (
-                                        <div className="flex items-center gap-2">
-                                            <button
-                                                onClick={() => handleDelete(card.id!)}
-                                                className="text-xs bg-red-500 text-white px-3 py-2 rounded-lg"
-                                            >
-                                                Confirm
-                                            </button>
-                                            <button
-                                                onClick={() => setDeleteConfirm('')}
-                                                className="text-xs bg-gray-100 dark:bg-white/[0.05] text-heading px-3 py-2 rounded-lg"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <button
-                                            onClick={() => setDeleteConfirm(card.id!)}
-                                            className="p-2 rounded-lg bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-red-400 hover:bg-red-500/10 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
-                                    )}
+                                    <button
+                                        onClick={() => handleDelete(card.id!)}
+                                        className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+                                    >
+                                        <Trash2 size={14} />
+                                    </button>
                                 </div>
                             </div>
                         </div>

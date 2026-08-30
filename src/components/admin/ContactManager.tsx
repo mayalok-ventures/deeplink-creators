@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Save, Loader2 } from 'lucide-react'
+import { Save, Loader2, Phone, Check } from 'lucide-react'
 import { getSiteSettings, saveSiteSettings, SiteSettings } from '@/lib/firestore'
 
 export default function ContactManager() {
@@ -9,9 +9,15 @@ export default function ContactManager() {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [form, setForm] = useState<SiteSettings>({
-        phone: '', email: '', address: '', city: '',
-        state: 'Uttar Pradesh', pincode: '', workingHoursWeekdays: '9:00 AM - 6:00 PM',
-        workingHoursSaturday: '10:00 AM - 2:00 PM', workingHoursSunday: 'Closed',
+        phone: '+91 99999 88888',
+        email: 'kunal@deeplinkcreators.com',
+        address: 'Mayalok Venture Studio, Knowledge Park III',
+        city: 'Greater Noida',
+        state: 'Uttar Pradesh',
+        pincode: '201306',
+        workingHoursWeekdays: '09:00 - 19:00 IST',
+        workingHoursSaturday: '10:00 - 17:00 IST',
+        workingHoursSunday: 'Closed',
     })
 
     useEffect(() => {
@@ -29,7 +35,7 @@ export default function ContactManager() {
             setTimeout(() => setSaved(false), 3000)
         } catch (err) {
             console.error('Save failed:', err)
-            alert('Failed to save. Check console.')
+            alert('Failed to save contact settings.')
         }
         setSaving(false)
     }
@@ -41,84 +47,149 @@ export default function ContactManager() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                <Loader2 size={24} className="animate-spin text-[#9B7545]" />
             </div>
         )
     }
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold font-heading text-heading mb-6">Contact Settings</h2>
-            <div className="max-w-2xl space-y-6">
-                <div className="glass-card rounded-xl p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-heading">Contact Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Phone</label>
-                            <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                placeholder="+91 XXXXX XXXXX" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Email</label>
-                            <input type="email" value={form.email} onChange={e => update('email', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                placeholder="growth@deeplinkcreators.com" />
-                        </div>
+        <div className="space-y-6 max-w-3xl">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-bold font-heading text-[#181A16] flex items-center gap-2.5">
+                        <Phone className="text-[#9B7545]" size={24} />
+                        <span>Contact Coordinates</span>
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#6B685F] mt-1">
+                        Global headquarters address, support email, and operational timings.
+                    </p>
+                </div>
+
+                <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#9B7545] text-white text-xs font-semibold rounded-xl hover:bg-[#86643B] transition-colors shadow-xs"
+                >
+                    {saving ? <Loader2 size={14} className="animate-spin" /> : saved ? <Check size={14} /> : <Save size={14} />}
+                    <span>{saved ? 'Saved Successfully' : 'Save Coordinates'}</span>
+                </button>
+            </div>
+
+            <div className="bg-white border border-[#E5E0D8] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+                <h3 className="text-sm font-bold font-heading text-[#181A16] uppercase tracking-wider border-b border-[#E5E0D8] pb-3">
+                    Corporate Direct Lines
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Phone Number</label>
+                        <input
+                            type="tel"
+                            value={form.phone}
+                            onChange={e => update('phone', e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="+91 99999 88888"
+                        />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Address</label>
-                        <input type="text" value={form.address} onChange={e => update('address', e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="Street address" />
+
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Executive Email</label>
+                        <input
+                            type="email"
+                            value={form.email}
+                            onChange={e => update('email', e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="kunal@deeplinkcreators.com"
+                        />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">City</label>
-                            <input type="text" value={form.city} onChange={e => update('city', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+                </div>
+
+                <h3 className="text-sm font-bold font-heading text-[#181A16] uppercase tracking-wider border-b border-[#E5E0D8] pb-3 pt-2">
+                    Physical Office Coordinates
+                </h3>
+
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Studio Address</label>
+                        <input
+                            type="text"
+                            value={form.address}
+                            onChange={e => update('address', e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="Mayalok Venture Studio, Knowledge Park III"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="space-y-1">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">City</label>
+                            <input
+                                type="text"
+                                value={form.city}
+                                onChange={e => update('city', e.target.value)}
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="Greater Noida"
+                            />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">State</label>
-                            <input type="text" value={form.state} onChange={e => update('state', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
+
+                        <div className="space-y-1">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">State</label>
+                            <input
+                                type="text"
+                                value={form.state}
+                                onChange={e => update('state', e.target.value)}
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="Uttar Pradesh"
+                            />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Pincode</label>
-                            <input type="text" value={form.pincode} onChange={e => update('pincode', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                                placeholder="201310" />
+
+                        <div className="space-y-1">
+                            <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Pincode</label>
+                            <input
+                                type="text"
+                                value={form.pincode}
+                                onChange={e => update('pincode', e.target.value)}
+                                className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                                placeholder="201306"
+                            />
                         </div>
                     </div>
                 </div>
 
-                <div className="glass-card rounded-xl p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-heading">Working Hours</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Weekdays</label>
-                            <input type="text" value={form.workingHoursWeekdays} onChange={e => update('workingHoursWeekdays', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Saturday</label>
-                            <input type="text" value={form.workingHoursSaturday} onChange={e => update('workingHoursSaturday', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-heading mb-2">Sunday</label>
-                            <input type="text" value={form.workingHoursSunday} onChange={e => update('workingHoursSunday', e.target.value)}
-                                className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors" />
-                        </div>
-                    </div>
-                </div>
+                <h3 className="text-sm font-bold font-heading text-[#181A16] uppercase tracking-wider border-b border-[#E5E0D8] pb-3 pt-2">
+                    Operating Hours
+                </h3>
 
-                <div className="flex items-center gap-4">
-                    <button onClick={handleSave} disabled={saving} className="btn-primary flex items-center gap-2 disabled:opacity-50">
-                        {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-                        {saving ? 'Saving...' : 'Save Settings'}
-                    </button>
-                    {saved && <span className="text-accent text-sm font-medium">Settings saved!</span>}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Mon - Fri</label>
+                        <input
+                            type="text"
+                            value={form.workingHoursWeekdays}
+                            onChange={e => update('workingHoursWeekdays', e.target.value)}
+                            className="w-full px-3.5 py-2 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Saturday</label>
+                        <input
+                            type="text"
+                            value={form.workingHoursSaturday}
+                            onChange={e => update('workingHoursSaturday', e.target.value)}
+                            className="w-full px-3.5 py-2 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Sunday</label>
+                        <input
+                            type="text"
+                            value={form.workingHoursSunday}
+                            onChange={e => update('workingHoursSunday', e.target.value)}
+                            className="w-full px-3.5 py-2 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-xs text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Save, Loader2 } from 'lucide-react'
+import { Save, Loader2, Search, Check } from 'lucide-react'
 import { getSEOSettings, saveSEOSettings, SEOSettings } from '@/lib/firestore'
 
 export default function SEOManager() {
@@ -9,10 +9,10 @@ export default function SEOManager() {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [form, setForm] = useState<SEOSettings>({
-        siteTitle: 'Deeplink Creators | Revenue-Focused Digital Marketing Agency',
-        siteDescription: 'Deeplink Creators is a revenue-focused digital marketing agency specializing in Enterprise SEO, Performance Marketing, and Lead Generation.',
-        siteKeywords: 'digital marketing agency india, enterprise seo services, performance marketing agency, lead generation company india, revenue focused marketing',
-        ogImage: '',
+        siteTitle: 'Deeplink Creators | Enterprise Software Holding & Creator Ecosystem',
+        siteDescription: 'Deeplink Creators builds, operates, and scales proprietary software products and hyper-scaled creator networks under Mayalok Venture.',
+        siteKeywords: 'Deeplink Creators, Mayalok Venture, Sahyak CRM, Enterprise Software, Creator Economy, Venture Studio',
+        ogImage: '/images/hero-enterprise-architecture.jpg',
         googleAnalyticsId: '',
         metaPixelId: '',
     })
@@ -32,7 +32,7 @@ export default function SEOManager() {
             setTimeout(() => setSaved(false), 3000)
         } catch (err) {
             console.error('Save failed:', err)
-            alert('Failed to save. Check console.')
+            alert('Failed to save SEO settings.')
         }
         setSaving(false)
     }
@@ -44,70 +44,119 @@ export default function SEOManager() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                <Loader2 size={24} className="animate-spin text-[#9B7545]" />
             </div>
         )
     }
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold font-heading text-heading mb-6">Homepage SEO Settings</h2>
-            <div className="max-w-2xl space-y-6">
-                <div className="glass-card rounded-xl p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-heading">Homepage Meta Tags</h3>
-                    <p className="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-2 mb-4">These settings control only the main homepage meta title and description. City pages and service pages have their own permanent meta tags.</p>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Site Title</label>
-                        <input type="text" value={form.siteTitle} onChange={e => update('siteTitle', e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="Site title for search engines" />
-                        <p className="text-xs text-paragraph mt-1">{form.siteTitle.length}/60 characters</p>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Site Description</label>
-                        <textarea value={form.siteDescription} onChange={e => update('siteDescription', e.target.value)}
-                            rows={3}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="Meta description" />
-                        <p className="text-xs text-paragraph mt-1">{form.siteDescription.length}/160 characters</p>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Keywords (comma separated)</label>
-                        <textarea value={form.siteKeywords} onChange={e => update('siteKeywords', e.target.value)}
-                            rows={2}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="keyword1, keyword2, keyword3" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">OG Image URL</label>
-                        <input type="url" value={form.ogImage} onChange={e => update('ogImage', e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="https://deeplinkcreators.com/og-image.jpg" />
-                    </div>
+        <div className="space-y-6 max-w-3xl">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-bold font-heading text-[#181A16] flex items-center gap-2.5">
+                        <Search className="text-[#9B7545]" size={24} />
+                        <span>SEO &amp; Semantic Graph Metadata</span>
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#6B685F] mt-1">
+                        Global entity markup, search graph indexation, and tracking IDs.
+                    </p>
                 </div>
 
-                <div className="glass-card rounded-xl p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-heading">Analytics & Tracking</h3>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Google Analytics Measurement ID</label>
-                        <input type="text" value={form.googleAnalyticsId} onChange={e => update('googleAnalyticsId', e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="G-XXXXXXXXXX" />
+                <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#9B7545] text-white text-xs font-semibold rounded-xl hover:bg-[#86643B] transition-colors shadow-xs"
+                >
+                    {saving ? <Loader2 size={14} className="animate-spin" /> : saved ? <Check size={14} /> : <Save size={14} />}
+                    <span>{saved ? 'Saved' : 'Save SEO Graph'}</span>
+                </button>
+            </div>
+
+            <div className="bg-white border border-[#E5E0D8] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+                <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">
+                            Global Site Title
+                        </label>
+                        <span className="text-[11px] font-mono text-[#8C887B]">{form.siteTitle.length}/70 chars</span>
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-heading mb-2">Meta Pixel ID</label>
-                        <input type="text" value={form.metaPixelId} onChange={e => update('metaPixelId', e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-dark/80 border border-gray-200 dark:border-white/[0.08] rounded-lg text-heading placeholder-paragraph/50 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-colors"
-                            placeholder="XXXXXXXXXXXXXXX" />
-                    </div>
+                    <input
+                        type="text"
+                        value={form.siteTitle}
+                        onChange={e => update('siteTitle', e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        placeholder="Deeplink Creators | Enterprise Software Holding"
+                    />
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <button onClick={handleSave} disabled={saving} className="btn-primary flex items-center gap-2 disabled:opacity-50">
-                        {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-                        {saving ? 'Saving...' : 'Save SEO Settings'}
-                    </button>
-                    {saved && <span className="text-accent text-sm font-medium">SEO settings saved!</span>}
+                <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">
+                            Global Meta Description
+                        </label>
+                        <span className="text-[11px] font-mono text-[#8C887B]">{form.siteDescription.length}/160 chars</span>
+                    </div>
+                    <textarea
+                        rows={3}
+                        value={form.siteDescription}
+                        onChange={e => update('siteDescription', e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        placeholder="Primary summary displayed in search and AI citations..."
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">
+                        Keywords (Comma-separated)
+                    </label>
+                    <input
+                        type="text"
+                        value={form.siteKeywords}
+                        onChange={e => update('siteKeywords', e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        placeholder="Deeplink Creators, Mayalok Venture, Sahyak CRM, Enterprise Software"
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">
+                        OpenGraph Share Image URL
+                    </label>
+                    <input
+                        type="text"
+                        value={form.ogImage}
+                        onChange={e => update('ogImage', e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                        placeholder="/images/hero-enterprise-architecture.jpg"
+                    />
+                </div>
+
+                <h3 className="text-sm font-bold font-heading text-[#181A16] uppercase tracking-wider border-b border-[#E5E0D8] pb-3 pt-2">
+                    Telemetry &amp; Tracking Identifiers
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Google Analytics ID (G-XXXXX)</label>
+                        <input
+                            type="text"
+                            value={form.googleAnalyticsId}
+                            onChange={e => update('googleAnalyticsId', e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="G-XXXXXXXXXX"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="block text-xs font-mono font-medium text-[#6B685F] uppercase">Meta Pixel ID</label>
+                        <input
+                            type="text"
+                            value={form.metaPixelId}
+                            onChange={e => update('metaPixelId', e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#FDFBF7] border border-[#E5E0D8] rounded-xl text-sm text-[#181A16] focus:outline-none focus:border-[#9B7545]"
+                            placeholder="XXXXXXXXXXXXXXXX"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { Users, UserPlus, UserCheck, Activity, Loader2, BarChart3 } from 'lucide-react'
+import { Users, UserPlus, UserCheck, Activity, Loader2, BarChart3, TrendingUp, Globe, Smartphone, Monitor } from 'lucide-react'
 import { getAnalyticsData, AnalyticsData } from '@/lib/analytics'
 
 const PERIODS = [
@@ -12,20 +12,18 @@ const PERIODS = [
 ]
 
 const SOURCE_COLORS: Record<string, string> = {
-    google: '#EF4444',
-    facebook: '#1877F2',
-    instagram: '#E4405F',
-    linkedin: '#0A66C2',
-    whatsapp: '#25D366',
-    twitter: '#F1F5F9',
-    x: '#F1F5F9',
-    youtube: '#FF0000',
-    direct: '#94A3B8',
+    direct: '#9B7545',
+    'organic search': '#2563EB',
+    'social media': '#7C3AED',
+    'linkedin / social': '#0A66C2',
+    'messaging / chat': '#16A34A',
+    email: '#DC2626',
+    referral: '#4B5563',
 }
 
 function getSourceColor(source: string): string {
-    const key = source.toLowerCase().replace(/\s+/g, '')
-    return SOURCE_COLORS[key] || '#60a5fa'
+    const key = source.toLowerCase().trim()
+    return SOURCE_COLORS[key] || '#9B7545'
 }
 
 function formatDate(dateStr: string): string {
@@ -42,356 +40,246 @@ function formatNumber(n: number): string {
 export default function AnalyticsDashboard() {
     const [data, setData] = useState<AnalyticsData | null>(null)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
     const [selectedPeriod, setSelectedPeriod] = useState(30)
     const [chartTab, setChartTab] = useState<'visitors' | 'pageViews'>('visitors')
 
     const loadData = async (days: number) => {
         setLoading(true)
-        setError(null)
         try {
             const result = await getAnalyticsData(days)
             setData(result)
         } catch (err: any) {
             console.error('Analytics load error:', err)
-            setError(err?.message || 'Failed to load analytics data')
-            setData(null)
         }
         setLoading(false)
     }
 
     useEffect(() => { loadData(selectedPeriod) }, [selectedPeriod])
 
+    const maxChartValue = useMemo(() => {
+        if (!data?.dailyData?.length) return 10
+        const key = chartTab === 'visitors' ? 'visitors' : 'pageViews'
+        const max = Math.max(...data.dailyData.map((d) => d[key]))
+        return max > 0 ? max : 10
+    }, [data, chartTab])
+
+    const summaryCards = useMemo(() => {
+        if (!data) return []
+        return [
+            {
+                title: 'Total Audience',
+                value: formatNumber(data.totalVisitors),
+                icon: Users,
+                color: 'text-[#9B7545]',
+                bgColor: 'bg-[#9B7545]/10',
+                borderColor: 'border-[#9B7545]/20',
+            },
+            {
+                title: 'New Visitors',
+                value: formatNumber(data.newVisitors),
+                icon: UserPlus,
+                color: 'text-blue-700',
+                bgColor: 'bg-blue-50',
+                borderColor: 'border-blue-200',
+            },
+            {
+                title: 'Returning Cadence',
+                value: formatNumber(data.returningVisitors),
+                icon: UserCheck,
+                color: 'text-amber-700',
+                bgColor: 'bg-amber-50',
+                borderColor: 'border-amber-200',
+            },
+            {
+                title: 'Live Today',
+                value: formatNumber(data.todayVisitors),
+                icon: Activity,
+                color: 'text-emerald-700',
+                bgColor: 'bg-emerald-50',
+                borderColor: 'border-emerald-200',
+            },
+        ]
+    }, [data])
+
     if (loading) {
         return (
-            <div className="flex items-center justify-center py-32">
-                <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+            <div className="flex items-center justify-center py-32 bg-white rounded-2xl border border-[#E5E0D8]">
+                <Loader2 className="w-8 h-8 text-[#9B7545] animate-spin" />
             </div>
         )
     }
 
-    if (error) {
-        return (
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-                <BarChart3 className="w-16 h-16 text-red-400/30 mb-4" />
-                <p className="text-heading text-lg font-medium mb-2">Analytics Error</p>
-                <p className="text-paragraph text-sm max-w-md mb-6">{error}</p>
-                <button
-                    onClick={() => loadData(selectedPeriod)}
-                    className="btn-primary text-sm py-2 px-4"
-                >
-                    Retry
-                </button>
-            </div>
-        )
-    }
-
-    if (!data) {
-        return (
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-                <BarChart3 className="w-16 h-16 text-paragraph/30 mb-4" />
-                <p className="text-heading text-lg font-medium mb-2">No visitor data yet</p>
-                <p className="text-paragraph text-sm max-w-md">
-                    Analytics will appear once visitors start arriving.
-                </p>
-            </div>
-        )
-    }
-
-    const sortedSources = [...data.sources].sort((a, b) => b.count - a.count)
+    if (!data) return null
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-                <div className="flex items-center gap-3">
-                    <h2 className="text-2xl font-bold text-heading font-heading">Analytics</h2>
-                    <button
-                        onClick={() => loadData(selectedPeriod)}
-                        disabled={loading}
-                        className="p-2 rounded-lg text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-colors disabled:opacity-50"
-                        title="Refresh"
-                    >
-                        <Activity size={16} className={loading ? 'animate-spin' : ''} />
-                    </button>
+        <div className="space-y-6 max-w-6xl">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl font-bold font-heading text-[#181A16] flex items-center gap-2.5">
+                        <BarChart3 className="text-[#9B7545]" size={24} />
+                        <span>Platform Telemetry &amp; Analytics</span>
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#6B685F] mt-1">
+                        Anonymous visitor volume, syndication channel attribution, and device breakdown.
+                    </p>
                 </div>
-                <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] rounded-xl p-1">
-                    {PERIODS.map(p => (
+
+                <div className="flex items-center gap-1.5 bg-white border border-[#E5E0D8] p-1 rounded-xl shadow-xs">
+                    {PERIODS.map((period) => (
                         <button
-                            key={p.days}
-                            onClick={() => setSelectedPeriod(p.days)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                                selectedPeriod === p.days
-                                    ? 'bg-primary-500/20 text-primary-400 border border-primary-500/20'
-                                    : 'text-paragraph hover:text-heading hover:bg-gray-100 dark:hover:bg-white/[0.03] border border-transparent'
+                            key={period.days}
+                            onClick={() => setSelectedPeriod(period.days)}
+                            className={`px-3 py-1.5 text-xs font-mono font-medium rounded-lg transition-colors ${
+                                selectedPeriod === period.days
+                                    ? 'bg-[#9B7545] text-white'
+                                    : 'text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8]'
                             }`}
                         >
-                            {p.label}
+                            {period.label}
                         </button>
                     ))}
                 </div>
             </div>
 
-            <StatCards data={data} />
-            <TrafficChart dailyData={data.dailyData} chartTab={chartTab} setChartTab={setChartTab} />
-
-            <div className="glass-card rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-heading mb-4">Traffic Sources</h3>
-                <div className="space-y-3">
-                    {sortedSources.map(s => (
-                        <div key={s.source} className="flex items-center gap-3">
-                            <span
-                                className="w-3 h-3 rounded-full flex-shrink-0"
-                                style={{ backgroundColor: getSourceColor(s.source) }}
-                            />
-                            <span className="text-sm text-heading w-28 flex-shrink-0 truncate">{s.source}</span>
-                            <div className="flex-1 relative h-2 bg-gray-100 dark:bg-white/[0.04] rounded-full overflow-hidden">
-                                <div
-                                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-500"
-                                    style={{
-                                        width: `${s.percentage}%`,
-                                        backgroundColor: getSourceColor(s.source),
-                                        opacity: 0.7,
-                                    }}
-                                />
+            {/* Summary Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {summaryCards.map((card, i) => (
+                    <div key={i} className="bg-white border border-[#E5E0D8] rounded-2xl p-5 shadow-xs">
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="text-[11px] font-mono text-[#8C887B] uppercase tracking-wider">{card.title}</span>
+                            <div className={`w-8 h-8 rounded-lg ${card.bgColor} ${card.color} flex items-center justify-center border ${card.borderColor}`}>
+                                <card.icon size={16} />
                             </div>
-                            <span className="text-sm text-paragraph w-16 text-right flex-shrink-0">
-                                {formatNumber(s.count)}
-                            </span>
-                            <span className="text-sm text-paragraph w-12 text-right flex-shrink-0">
-                                {s.percentage}%
-                            </span>
                         </div>
-                    ))}
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <DevicesCard devices={data.devices} />
-                <TopPagesCard topPages={data.topPages} />
-            </div>
-        </div>
-    )
-}
-
-function StatCards({ data }: { data: AnalyticsData }) {
-    const cards = [
-        { label: 'Total Visitors', value: data.totalVisitors, subtitle: 'All time unique visitors', icon: Users, color: '#60a5fa' },
-        { label: 'New Visitors', value: data.newVisitors, subtitle: 'First time visitors', icon: UserPlus, color: '#00E599' },
-        { label: 'Returning Visitors', value: data.returningVisitors, subtitle: 'Came back again', icon: UserCheck, color: '#8B5CF6' },
-        { label: 'Today\'s Visitors', value: data.todayVisitors, subtitle: 'Active today', icon: Activity, color: '#F59E0B' },
-    ]
-
-    return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {cards.map(c => (
-                <div key={c.label} className="glass-card rounded-xl p-6 relative">
-                    <div
-                        className="absolute top-4 right-4 p-2 rounded-lg"
-                        style={{ backgroundColor: c.color + '1A' }}
-                    >
-                        <c.icon className="w-5 h-5" style={{ color: c.color }} />
+                        <p className="text-2xl font-extrabold font-heading text-[#181A16]">{card.value}</p>
                     </div>
-                    <p className="text-sm text-paragraph mb-1">{c.label}</p>
-                    <p className="text-3xl font-bold text-heading">{formatNumber(c.value)}</p>
-                    <p className="text-sm text-paragraph mt-1">{c.subtitle}</p>
-                </div>
-            ))}
-        </div>
-    )
-}
-
-function TrafficChart({
-    dailyData,
-    chartTab,
-    setChartTab,
-}: {
-    dailyData: AnalyticsData['dailyData']
-    chartTab: 'visitors' | 'pageViews'
-    setChartTab: (tab: 'visitors' | 'pageViews') => void
-}) {
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => { setMounted(true) }, [])
-
-    if (dailyData.length === 0) {
-        return (
-            <div className="glass-card rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-heading mb-4">Visitor Analytics</h3>
-                <div className="flex items-center justify-center py-12 text-paragraph text-sm">
-                    No visitor data for this period
-                </div>
+                ))}
             </div>
-        )
-    }
 
-    const values = dailyData.map(d => (chartTab === 'visitors' ? d.visitors : d.pageViews))
-    const maxValue = Math.max(...values, 1)
-    const dataCount = dailyData.length
-    const skipLabels = dataCount > 15
+            {/* Chart Area */}
+            <div className="bg-white border border-[#E5E0D8] rounded-2xl p-6 shadow-xs space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E0D8] pb-4">
+                    <div>
+                        <h3 className="font-heading font-bold text-base text-[#181A16]">Traffic Trajectory</h3>
+                        <p className="text-xs text-[#6B685F]">Daily volume over the selected observation window</p>
+                    </div>
 
-    const yTicks = useMemo(() => {
-        const step = Math.ceil(maxValue / 4)
-        return [0, step, step * 2, step * 3, step * 4].filter(v => v <= maxValue * 1.1)
-    }, [maxValue])
-
-    const topTick = yTicks[yTicks.length - 1] || maxValue
-
-    return (
-        <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-heading">Visitor Analytics</h3>
-                <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] rounded-lg p-1">
-                    {(['visitors', 'pageViews'] as const).map(tab => (
+                    <div className="flex items-center gap-2">
                         <button
-                            key={tab}
-                            onClick={() => setChartTab(tab)}
-                            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
-                                chartTab === tab
-                                    ? 'bg-primary-500/20 text-primary-400'
-                                    : 'text-paragraph hover:text-heading'
+                            onClick={() => setChartTab('visitors')}
+                            className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
+                                chartTab === 'visitors'
+                                    ? 'bg-[#9B7545]/10 text-[#9B7545] border border-[#9B7545]/30'
+                                    : 'text-[#6B685F] hover:bg-[#F3F0E8]'
                             }`}
                         >
-                            {tab === 'visitors' ? 'Visitors' : 'Page Views'}
+                            Unique Visitors
                         </button>
-                    ))}
-                </div>
-            </div>
-
-            <div className="relative" style={{ height: 300 }}>
-                <div className="absolute left-0 top-0 bottom-6 w-10 flex flex-col justify-between text-xs text-paragraph">
-                    {[...yTicks].reverse().map(tick => (
-                        <span key={tick}>{formatNumber(tick)}</span>
-                    ))}
-                </div>
-
-                <div className="absolute inset-0 left-12 bottom-6">
-                    {yTicks.map(tick => (
-                        <div
-                            key={tick}
-                            className="absolute left-0 right-0 border-t border-gray-200 dark:border-white/[0.04]"
-                            style={{ bottom: `${(tick / topTick) * 100}%` }}
-                        />
-                    ))}
+                        <button
+                            onClick={() => setChartTab('pageViews')}
+                            className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
+                                chartTab === 'pageViews'
+                                    ? 'bg-[#9B7545]/10 text-[#9B7545] border border-[#9B7545]/30'
+                                    : 'text-[#6B685F] hover:bg-[#F3F0E8]'
+                            }`}
+                        >
+                            Page Impressions
+                        </button>
+                    </div>
                 </div>
 
-                <div className="absolute left-12 right-0 top-0 bottom-6 flex items-end gap-[2px]">
-                    {dailyData.map((d, i) => {
+                <div className="h-56 flex items-end gap-1.5 pt-6 pb-2 px-2 overflow-x-auto">
+                    {data.dailyData.map((d, i) => {
                         const val = chartTab === 'visitors' ? d.visitors : d.pageViews
-                        const pct = (val / topTick) * 100
-
+                        const heightPct = Math.max(8, Math.round((val / maxChartValue) * 100))
                         return (
-                            <div
-                                key={d.date}
-                                className="flex-1 group relative h-full flex items-end justify-center"
-                                style={{ minWidth: 0 }}
-                            >
-                                <div className="absolute bottom-full mb-2 hidden group-hover:block z-10">
-                                    <div className="bg-white dark:bg-dark-300 border border-gray-200 dark:border-white/[0.1] rounded-lg px-3 py-1.5 text-xs text-heading whitespace-nowrap shadow-lg">
-                                        <p className="font-medium">{formatDate(d.date)}</p>
-                                        <p className="text-paragraph">
-                                            {chartTab === 'visitors' ? 'Visitors' : 'Views'}: {val.toLocaleString()}
-                                        </p>
+                            <div key={i} className="flex-1 min-w-[20px] flex flex-col items-center gap-1 group relative">
+                                <div
+                                    style={{ height: `${heightPct}%` }}
+                                    className="w-full bg-[#9B7545]/80 hover:bg-[#9B7545] rounded-t transition-all cursor-pointer relative"
+                                >
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#181A16] text-white text-[10px] font-mono px-2 py-1 rounded shadow-lg whitespace-nowrap z-20 pointer-events-none">
+                                        {formatDate(d.date)}: {val} {chartTab}
                                     </div>
                                 </div>
-
-                                <div
-                                    className="rounded-t-sm transition-all duration-700 ease-out"
-                                    style={{
-                                        height: mounted ? `${pct}%` : '0%',
-                                        width: '100%',
-                                        maxWidth: dataCount > 30 ? 12 : dataCount > 15 ? 18 : 28,
-                                        background:
-                                            chartTab === 'visitors'
-                                                ? 'linear-gradient(to top, #3b82f6, #60a5fa)'
-                                                : 'linear-gradient(to top, #00E599, #4dffb8)',
-                                        minHeight: val > 0 ? 2 : 0,
-                                    }}
-                                />
+                                <span className="text-[9px] font-mono text-[#8C887B] truncate w-full text-center">
+                                    {i % Math.ceil(data.dailyData.length / 10) === 0 ? formatDate(d.date) : ''}
+                                </span>
                             </div>
                         )
                     })}
                 </div>
-
-                <div className="absolute left-12 right-0 bottom-0 flex">
-                    {dailyData.map((d, i) => (
-                        <div
-                            key={d.date}
-                            className="flex-1 text-center"
-                            style={{ minWidth: 0 }}
-                        >
-                            {(!skipLabels || i % 2 === 0) && (
-                                <span className="text-[10px] text-paragraph truncate block">
-                                    {formatDate(d.date)}
-                                </span>
-                            )}
-                        </div>
-                    ))}
-                </div>
             </div>
-        </div>
-    )
-}
 
-function DevicesCard({ devices }: { devices: AnalyticsData['devices'] }) {
-    const colorMap: Record<string, string> = {
-        mobile: '#3b82f6',
-        desktop: '#00E599',
-        tablet: '#8B5CF6',
-    }
-
-    return (
-        <div className="glass-card rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-heading mb-4">Devices</h3>
-            <div className="space-y-4">
-                {devices.map(d => {
-                    const color = colorMap[d.device.toLowerCase()] || '#60a5fa'
-                    return (
-                        <div key={d.device}>
-                            <div className="flex items-center justify-between mb-1.5">
-                                <span className="text-sm text-heading">{d.device}</span>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm text-paragraph">{formatNumber(d.count)}</span>
-                                    <span className="text-sm font-medium" style={{ color }}>{d.percentage}%</span>
+            {/* Bottom Breakdown Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* Traffic Channels */}
+                <div className="bg-white border border-[#E5E0D8] rounded-2xl p-5 shadow-xs space-y-3">
+                    <h4 className="font-heading font-bold text-sm text-[#181A16] flex items-center gap-2">
+                        <Globe size={15} className="text-[#9B7545]" />
+                        <span>Channel Attribution</span>
+                    </h4>
+                    <div className="space-y-2.5 pt-2">
+                        {data.sources.map((s, idx) => (
+                            <div key={idx} className="space-y-1">
+                                <div className="flex justify-between text-xs font-medium">
+                                    <span className="text-[#181A16]">{s.source}</span>
+                                    <span className="font-mono text-[#6B685F]">{s.percentage}%</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-[#F3F0E8] rounded-full overflow-hidden">
+                                    <div
+                                        style={{ width: `${s.percentage}%`, backgroundColor: getSourceColor(s.source) }}
+                                        className="h-full rounded-full"
+                                    />
                                 </div>
                             </div>
-                            <div className="h-2 bg-gray-100 dark:bg-white/[0.04] rounded-full overflow-hidden">
-                                <div
-                                    className="h-full rounded-full transition-all duration-500"
-                                    style={{ width: `${d.percentage}%`, backgroundColor: color }}
-                                />
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-        </div>
-    )
-}
-
-function TopPagesCard({ topPages }: { topPages: AnalyticsData['topPages'] }) {
-    const pages = topPages.slice(0, 10)
-
-    return (
-        <div className="glass-card rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-heading mb-4">Top Pages</h3>
-            <div className="space-y-0">
-                {pages.map((p, i) => (
-                    <div
-                        key={p.page}
-                        className={`flex items-center justify-between py-2.5 px-3 rounded-lg ${
-                            i % 2 === 0 ? 'bg-gray-50 dark:bg-white/[0.02]' : ''
-                        }`}
-                    >
-                        <span className="text-sm text-heading truncate flex-1 mr-4" title={p.page}>
-                            {p.page}
-                        </span>
-                        <span className="text-sm text-paragraph flex-shrink-0">
-                            {formatNumber(p.views)} views
-                        </span>
+                        ))}
                     </div>
-                ))}
-                {pages.length === 0 && (
-                    <p className="text-sm text-paragraph text-center py-4">No page data available</p>
-                )}
+                </div>
+
+                {/* Top Routes */}
+                <div className="bg-white border border-[#E5E0D8] rounded-2xl p-5 shadow-xs space-y-3">
+                    <h4 className="font-heading font-bold text-sm text-[#181A16] flex items-center gap-2">
+                        <TrendingUp size={15} className="text-[#9B7545]" />
+                        <span>Top Landing Pages</span>
+                    </h4>
+                    <div className="space-y-2 pt-2 divide-y divide-[#E5E0D8]">
+                        {data.topPages.map((p, idx) => (
+                            <div key={idx} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
+                                <span className="font-mono text-[#181A16] truncate max-w-[170px]">{p.page}</span>
+                                <span className="font-mono text-[#8C887B]">{formatNumber(p.views)} views</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Devices */}
+                <div className="bg-white border border-[#E5E0D8] rounded-2xl p-5 shadow-xs space-y-3">
+                    <h4 className="font-heading font-bold text-sm text-[#181A16] flex items-center gap-2">
+                        <Monitor size={15} className="text-[#9B7545]" />
+                        <span>Client Hardware</span>
+                    </h4>
+                    <div className="space-y-2.5 pt-2">
+                        {data.devices.map((d, idx) => (
+                            <div key={idx} className="space-y-1">
+                                <div className="flex justify-between text-xs font-medium">
+                                    <span className="text-[#181A16] flex items-center gap-1.5">
+                                        {d.device === 'Desktop' ? <Monitor size={12} /> : <Smartphone size={12} />}
+                                        <span>{d.device}</span>
+                                    </span>
+                                    <span className="font-mono text-[#6B685F]">{d.percentage}%</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-[#F3F0E8] rounded-full overflow-hidden">
+                                    <div
+                                        style={{ width: `${d.percentage}%` }}
+                                        className="h-full bg-[#9B7545] rounded-full"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )

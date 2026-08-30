@@ -281,7 +281,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
             const url = await uploadImage(
                 file,
                 `blog-images/${Date.now()}-${file.name}`,
-                (percent) => setUploadProgress(percent)
+                (percent: number) => setUploadProgress(percent)
             )
             addImage(url)
         } catch (err: any) {
@@ -379,50 +379,51 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
     if (!editor) return null
 
     const containerClass = isFullscreen
-        ? 'fixed inset-0 z-[9999] bg-dark flex flex-col'
-        : 'border border-gray-200 dark:border-white/[0.08] rounded-xl overflow-hidden'
+        ? 'fixed inset-0 z-[9999] bg-white flex flex-col'
+        : 'border border-[#E5E0D8] rounded-2xl overflow-hidden bg-white shadow-xs'
 
     return (
         <div className={containerClass}>
             <style jsx global>{`
-                .prose-editor h1 { font-size: 2em; font-weight: 800; color: #F1F5F9; margin: 1em 0 0.5em; line-height: 1.2; }
-                .prose-editor h2 { font-size: 1.5em; font-weight: 700; color: #F1F5F9; margin: 0.8em 0 0.4em; line-height: 1.3; }
-                .prose-editor h3 { font-size: 1.25em; font-weight: 600; color: #F1F5F9; margin: 0.6em 0 0.3em; line-height: 1.4; }
-                .prose-editor p { color: #94A3B8; line-height: 1.75; margin-bottom: 0.75em; }
-                .prose-editor strong { color: #F1F5F9; font-weight: 600; }
+                .prose-editor { min-height: 240px; padding: 1.25rem; font-family: sans-serif; color: #181A16; }
+                .prose-editor h1 { font-size: 2em; font-weight: 800; color: #181A16; margin: 1em 0 0.5em; line-height: 1.2; }
+                .prose-editor h2 { font-size: 1.5em; font-weight: 700; color: #181A16; margin: 0.8em 0 0.4em; line-height: 1.3; }
+                .prose-editor h3 { font-size: 1.25em; font-weight: 600; color: #181A16; margin: 0.6em 0 0.3em; line-height: 1.4; }
+                .prose-editor p { color: #2D312A; line-height: 1.75; margin-bottom: 0.75em; font-size: 14px; }
+                .prose-editor strong { color: #181A16; font-weight: 600; }
                 .prose-editor em { font-style: italic; }
                 .prose-editor u { text-decoration: underline; }
                 .prose-editor s { text-decoration: line-through; }
-                .prose-editor .editor-link { color: #3B82F6; text-decoration: underline; cursor: pointer; }
-                .prose-editor .editor-link:hover { color: #60A5FA; }
-                .prose-editor .editor-image { max-width: 100%; height: auto; border-radius: 0.75rem; margin: 1em 0; border: 1px solid rgba(255,255,255,0.08); }
-                .prose-editor .editor-image.ProseMirror-selectednode { outline: 2px solid #3B82F6; outline-offset: 2px; }
-                .prose-editor ul { list-style: disc; padding-left: 1.5em; margin: 0.5em 0; color: #94A3B8; }
-                .prose-editor ol { list-style: decimal; padding-left: 1.5em; margin: 0.5em 0; color: #94A3B8; }
+                .prose-editor .editor-link { color: #9B7545; text-decoration: underline; cursor: pointer; font-weight: 500; }
+                .prose-editor .editor-link:hover { color: #86643B; }
+                .prose-editor .editor-image { max-width: 100%; height: auto; border-radius: 0.75rem; margin: 1em 0; border: 1px solid #E5E0D8; }
+                .prose-editor .editor-image.ProseMirror-selectednode { outline: 2px solid #9B7545; outline-offset: 2px; }
+                .prose-editor ul { list-style: disc; padding-left: 1.5em; margin: 0.5em 0; color: #2D312A; }
+                .prose-editor ol { list-style: decimal; padding-left: 1.5em; margin: 0.5em 0; color: #2D312A; }
                 .prose-editor li { margin-bottom: 0.25em; }
                 .prose-editor li p { margin-bottom: 0.25em; }
-                .prose-editor blockquote { border-left: 3px solid #3B82F6; padding-left: 1em; margin: 1em 0; color: #94A3B8; font-style: italic; }
-                .prose-editor pre { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 0.5rem; padding: 1em; overflow-x: auto; margin: 1em 0; }
-                .prose-editor code { font-family: ui-monospace, monospace; font-size: 0.9em; color: #F1F5F9; }
-                .prose-editor p code { background: #1E293B; padding: 0.15em 0.4em; border-radius: 0.25rem; font-size: 0.85em; }
-                .prose-editor hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5em 0; }
+                .prose-editor blockquote { border-left: 3px solid #9B7545; background: #FDFBF7; padding: 0.75rem 1rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1em 0; color: #6B685F; font-style: italic; }
+                .prose-editor pre { background: #181A16; border: 1px solid #E5E0D8; border-radius: 0.5rem; padding: 1em; overflow-x: auto; margin: 1em 0; }
+                .prose-editor code { font-family: ui-monospace, monospace; font-size: 0.9em; color: #F3F0E8; }
+                .prose-editor p code { background: #F3F0E8; color: #181A16; padding: 0.15em 0.4em; border-radius: 0.25rem; font-size: 0.85em; border: 1px solid #E5E0D8; }
+                .prose-editor hr { border: none; border-top: 1px solid #E5E0D8; margin: 1.5em 0; }
                 .prose-editor table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-                .prose-editor th, .prose-editor td { border: 1px solid rgba(255,255,255,0.1); padding: 0.5em 0.75em; text-align: left; color: #94A3B8; }
-                .prose-editor th { background: #1E293B; color: #F1F5F9; font-weight: 600; }
-                .prose-editor .ProseMirror-gapcursor:after { border-top-color: #F1F5F9; }
-                .prose-editor p.is-editor-empty:first-child::before { color: #475569; content: attr(data-placeholder); float: left; height: 0; pointer-events: none; }
+                .prose-editor th, .prose-editor td { border: 1px solid #E5E0D8; padding: 0.5em 0.75em; text-align: left; color: #2D312A; font-size: 13px; }
+                .prose-editor th { background: #F3F0E8; color: #181A16; font-weight: 600; }
+                .prose-editor .ProseMirror-gapcursor:after { border-top-color: #181A16; }
+                .prose-editor p.is-editor-empty:first-child::before { color: #8C887B; content: attr(data-placeholder); float: left; height: 0; pointer-events: none; }
                 .prose-editor iframe { border-radius: 0.75rem; margin: 1em 0; max-width: 100%; }
                 .prose-editor sup { vertical-align: super; font-size: 0.75em; }
                 .prose-editor sub { vertical-align: sub; font-size: 0.75em; }
                 .prose-editor mark { border-radius: 0.15em; padding: 0.05em 0.15em; }
-                .prose-editor .cta-button { display: inline-block; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; margin: 1em 0; cursor: pointer; }
-                .prose-editor .cta-primary { background: #00E599; color: #0a0a0a; }
-                .prose-editor .cta-secondary { background: #3B82F6; color: #ffffff; }
-                .prose-editor .cta-outline { background: transparent; color: #F1F5F9; border: 2px solid #3B82F6; }
+                .prose-editor .cta-button { display: inline-block; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; margin: 1em 0; cursor: pointer; font-size: 13px; }
+                .prose-editor .cta-primary { background: #9B7545; color: #ffffff; }
+                .prose-editor .cta-secondary { background: #181A16; color: #ffffff; }
+                .prose-editor .cta-outline { background: transparent; color: #181A16; border: 2px solid #9B7545; }
             `}</style>
 
             {/* Toolbar */}
-            <div className={`bg-gray-50 dark:bg-[#141C2F] border-b border-gray-200 dark:border-white/[0.08] px-2 py-1.5 flex flex-wrap items-center gap-0.5 ${isFullscreen ? 'sticky top-0 z-10' : ''}`}>
+            <div className={`bg-[#FDFBF7] border-b border-[#E5E0D8] px-2 py-1.5 flex flex-wrap items-center gap-0.5 ${isFullscreen ? 'sticky top-0 z-10' : ''}`}>
                 {/* Undo/Redo */}
                 <ToolbarButton onClick={() => editor.chain().focus().undo().run()} title="Undo" disabled={!editor.can().undo()}>
                     <Undo2 size={16} />
@@ -437,7 +438,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                 <DropdownMenu
                     open={showBlockType}
                     onToggle={() => { closeAllDropdowns(); setShowBlockType(!showBlockType) }}
-                    trigger={<span className="text-sm min-w-[80px] text-left">{getActiveBlockLabel()}</span>}
+                    trigger={<span className="text-sm min-w-[80px] text-left text-[#181A16] font-medium">{getActiveBlockLabel()}</span>}
                 >
                     <button type="button" onClick={() => { editor.chain().focus().setParagraph().run(); setShowBlockType(false) }}
                         className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/[0.05] flex items-center gap-2 ${editor.isActive('paragraph') ? 'text-primary-400' : 'text-paragraph hover:text-heading'}`}>

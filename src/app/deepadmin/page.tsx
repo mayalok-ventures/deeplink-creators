@@ -13,19 +13,19 @@ import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import { clearAdminSession } from '@/lib/admin-auth'
 import { getAllBlogs, getLeadSubmissions, LeadSubmission } from '@/lib/firestore'
 import {
-    LayoutDashboard, Inbox, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3, Layers, MessageSquare, Sun, Moon, ArrowRight, Clock, Mail
+    LayoutDashboard, Inbox, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3, Layers, MessageSquare, ArrowRight, ExternalLink, ShieldCheck
 } from 'lucide-react'
 
 const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
     { id: 'leads', label: 'Inquiries & Leads', icon: Inbox, isLeadTab: true },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'blogs', label: 'Blog Posts', icon: FileText },
-    { id: 'services', label: 'Services', icon: Layers },
-    { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
-    { id: 'contact', label: 'Contact Settings', icon: Phone },
-    { id: 'social', label: 'Social Links', icon: Share2 },
-    { id: 'seo', label: 'SEO Settings', icon: Search },
+    { id: 'analytics', label: 'Telemetry & Traffic', icon: BarChart3 },
+    { id: 'blogs', label: 'Technical Briefings', icon: FileText },
+    { id: 'services', label: 'Services Catalog', icon: Layers },
+    { id: 'testimonials', label: 'Client Proof', icon: MessageSquare },
+    { id: 'contact', label: 'Contact Coordinates', icon: Phone },
+    { id: 'social', label: 'Social Ecosystem', icon: Share2 },
+    { id: 'seo', label: 'SEO & Graph', icon: Search },
 ]
 
 export default function AdminPage() {
@@ -33,35 +33,6 @@ export default function AdminPage() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [stats, setStats] = useState({ totalBlogs: 0, publishedBlogs: 0, drafts: 0, totalLeads: 0, newLeads: 0 })
     const [recentLeads, setRecentLeads] = useState<LeadSubmission[]>([])
-    const [adminDark, setAdminDark] = useState(true)
-
-    useEffect(() => {
-        const stored = localStorage.getItem('admin-theme')
-        if (stored === 'light') setAdminDark(false)
-    }, [])
-
-    useEffect(() => {
-        const root = document.documentElement
-        if (adminDark) {
-            root.classList.add('dark')
-        } else {
-            root.classList.remove('dark')
-        }
-        return () => {
-            const siteTheme = localStorage.getItem('theme')
-            if (siteTheme === 'dark') {
-                root.classList.add('dark')
-            } else if (siteTheme === 'light') {
-                root.classList.remove('dark')
-            } else {
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    root.classList.add('dark')
-                } else {
-                    root.classList.remove('dark')
-                }
-            }
-        }
-    }, [adminDark])
 
     const loadStats = async () => {
         try {
@@ -87,12 +58,6 @@ export default function AdminPage() {
         loadStats()
     }, [activeTab])
 
-    const toggleAdminTheme = () => {
-        const next = !adminDark
-        setAdminDark(next)
-        localStorage.setItem('admin-theme', next ? 'dark' : 'light')
-    }
-
     const handleLogout = () => {
         clearAdminSession()
         window.location.reload()
@@ -100,91 +65,110 @@ export default function AdminPage() {
 
     return (
         <AdminAuth>
-            <div className="min-h-screen bg-gray-50 dark:bg-[#0F1112] text-gray-600 dark:text-white/60 font-sans">
-                {/* Mobile header */}
-                <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/[0.06] bg-white dark:bg-[#131415]">
-                    <h1 className="text-lg font-bold font-heading text-gray-900 dark:text-white">Admin Panel</h1>
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={toggleAdminTheme}
-                            className="flex items-center justify-center w-9 h-9 rounded-lg border transition-colors border-gray-200 dark:border-white/[0.1] bg-white dark:bg-white/[0.05] hover:bg-gray-100 dark:hover:bg-white/[0.1] text-gray-700 dark:text-white"
-                            aria-label="Toggle admin theme"
-                        >
-                            {adminDark ? <Sun size={16} /> : <Moon size={16} />}
-                        </button>
-                        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-900 dark:text-white">
-                            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
+            <div className="min-h-screen bg-[#FDFBF7] text-[#181A16] font-sans antialiased">
+                {/* Mobile Top Header */}
+                <div className="lg:hidden flex items-center justify-between p-4 border-b border-[#E5E0D8] bg-white sticky top-0 z-50">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-[#F3F0E8] border border-[#E5E0D8] flex items-center justify-center text-[#9B7545] font-serif font-bold text-base">
+                            D
+                        </div>
+                        <span className="font-heading font-bold text-base text-[#181A16]">Deeplink Admin</span>
                     </div>
+                    <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="p-2 text-[#181A16] hover:bg-[#F3F0E8] rounded-lg transition-colors"
+                        aria-label="Toggle navigation menu"
+                    >
+                        {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
+                    </button>
                 </div>
 
-                <div className="flex">
-                    {/* Sidebar */}
-                    <aside className={`${sidebarOpen ? 'block' : 'hidden'} lg:block fixed lg:sticky top-0 left-0 z-40 w-64 h-screen flex-shrink-0 bg-white dark:bg-[#131415] border-r border-gray-200 dark:border-white/[0.06]`}>
-                        <div className="p-6 border-b border-gray-200 dark:border-white/[0.06] flex items-center justify-between">
-                            <div>
-                                <h1 className="text-xl font-bold font-heading">
-                                    <span className="text-[#D4B270]">Deeplink</span>{' '}
-                                    <span className="text-gray-900 dark:text-white">Admin</span>
-                                </h1>
-                                <p className="text-xs mt-0.5 text-gray-400 dark:text-white/50 font-mono">deeplinkcreators.com</p>
+                <div className="flex min-h-screen">
+                    {/* Desktop & Mobile Sidebar */}
+                    <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-200 ease-in-out fixed lg:sticky top-0 left-0 z-40 w-64 h-screen flex-shrink-0 bg-white border-r border-[#E5E0D8] flex flex-col justify-between`}>
+                        <div>
+                            {/* Brand Header */}
+                            <div className="p-6 border-b border-[#E5E0D8] flex items-center justify-between">
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-7 h-7 rounded-md bg-[#9B7545] text-white flex items-center justify-center font-serif font-bold text-sm shadow-sm">
+                                            D
+                                        </div>
+                                        <h1 className="text-lg font-bold font-heading text-[#181A16] tracking-tight">
+                                            Deeplink <span className="text-[#9B7545]">Admin</span>
+                                        </h1>
+                                    </div>
+                                    <p className="text-[11px] mt-1 text-[#8C887B] font-mono">deeplinkcreators.com</p>
+                                </div>
+                                <div className="hidden lg:flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#9B7545]/10 text-[#9B7545] text-[10px] font-mono font-medium">
+                                    <ShieldCheck size={11} />
+                                    <span>Auth</span>
+                                </div>
                             </div>
-                            <button
-                                onClick={toggleAdminTheme}
-                                className="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg border transition-colors border-gray-200 dark:border-white/[0.1] bg-gray-50 dark:bg-white/[0.05] hover:bg-gray-100 dark:hover:bg-white/[0.1] text-gray-700 dark:text-white"
-                                aria-label="Toggle admin theme"
-                            >
-                                {adminDark ? <Sun size={16} /> : <Moon size={16} />}
-                            </button>
+
+                            {/* Nav Tabs */}
+                            <nav className="p-3.5 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)]">
+                                {tabs.map(tab => {
+                                    const isActive = activeTab === tab.id
+                                    return (
+                                        <button
+                                            key={tab.id}
+                                            onClick={() => { setActiveTab(tab.id); setSidebarOpen(false) }}
+                                            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                                                isActive
+                                                    ? 'bg-[#9B7545]/10 text-[#9B7545] font-semibold border border-[#9B7545]/20 shadow-xs'
+                                                    : 'text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8]/70'
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <tab.icon size={16} className={isActive ? 'text-[#9B7545]' : 'text-[#8C887B]'} />
+                                                <span>{tab.label}</span>
+                                            </div>
+                                            {tab.isLeadTab && stats.newLeads > 0 && (
+                                                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-600 text-white">
+                                                    {stats.newLeads}
+                                                </span>
+                                            )}
+                                        </button>
+                                    )
+                                })}
+                            </nav>
                         </div>
 
-                        <nav className="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)]">
-                            {tabs.map(tab => {
-                                const isActive = activeTab === tab.id
-                                return (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => { setActiveTab(tab.id); setSidebarOpen(false) }}
-                                        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
-                                            isActive
-                                                ? 'bg-[#B99152]/15 text-[#D4B270] font-semibold border border-[#B99152]/30 shadow-sm'
-                                                : 'text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/[0.04]'
-                                        }`}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <tab.icon size={17} className={isActive ? 'text-[#D4B270]' : ''} />
-                                            <span>{tab.label}</span>
-                                        </div>
-                                        {tab.isLeadTab && stats.newLeads > 0 && (
-                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500 text-white">
-                                                {stats.newLeads}
-                                            </span>
-                                        )}
-                                    </button>
-                                )
-                            })}
-                        </nav>
+                        {/* Bottom Actions */}
+                        <div className="p-4 border-t border-[#E5E0D8] bg-[#FDFBF7]/50 space-y-2">
+                            <a
+                                href="/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-medium text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8] transition-colors"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <ExternalLink size={14} className="text-[#8C887B]" />
+                                    <span>View Live Website</span>
+                                </span>
+                                <span className="text-[10px] font-mono text-[#8C887B]">↗</span>
+                            </a>
 
-                        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-white/[0.06] bg-white dark:bg-[#131415]">
                             <button
                                 onClick={handleLogout}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors"
+                                className="w-full flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-medium text-rose-600 hover:bg-rose-50 transition-colors"
                             >
-                                <LogOut size={16} />
+                                <LogOut size={14} />
                                 <span>Sign Out</span>
                             </button>
                         </div>
                     </aside>
 
-                    {/* Main content */}
-                    <main className="flex-1 min-h-screen p-6 lg:p-8 overflow-x-hidden">
+                    {/* Main Workspace Area */}
+                    <main className="flex-1 min-h-screen p-6 lg:p-10 overflow-x-hidden">
                         {activeTab === 'dashboard' && (
                             <div className="space-y-8 max-w-6xl">
                                 <div>
-                                    <h2 className="text-2xl font-bold font-heading text-gray-900 dark:text-white">
+                                    <h2 className="text-2xl font-bold font-heading text-[#181A16] tracking-tight">
                                         Executive Command Center
                                     </h2>
-                                    <p className="text-xs sm:text-sm text-gray-500 dark:text-white/50 mt-1">
+                                    <p className="text-xs sm:text-sm text-[#6B685F] mt-1">
                                         Operational summary of incoming briefs, content pipeline, and platform telemetry.
                                     </p>
                                 </div>
@@ -193,22 +177,22 @@ export default function AdminPage() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                                     <div
                                         onClick={() => setActiveTab('leads')}
-                                        className="rounded-2xl p-5 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm hover:border-[#B99152]/40 transition-all cursor-pointer group"
+                                        className="rounded-2xl p-5 bg-white border border-[#E5E0D8] shadow-xs hover:border-[#9B7545]/50 transition-all cursor-pointer group"
                                     >
                                         <div className="flex items-center justify-between mb-3">
-                                            <span className="text-xs font-mono text-gray-500 dark:text-white/50 uppercase tracking-wider">
+                                            <span className="text-xs font-mono text-[#8C887B] uppercase tracking-wider">
                                                 TOTAL INQUIRIES
                                             </span>
-                                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                                            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-100">
                                                 <Inbox size={16} />
                                             </div>
                                         </div>
                                         <div className="flex items-baseline justify-between">
-                                            <p className="text-3xl font-extrabold text-gray-900 dark:text-white font-heading">
+                                            <p className="text-3xl font-extrabold text-[#181A16] font-heading">
                                                 {stats.totalLeads}
                                             </p>
                                             {stats.newLeads > 0 && (
-                                                <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+                                                <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold border border-emerald-200">
                                                     +{stats.newLeads} new
                                                 </span>
                                             )}
@@ -217,51 +201,51 @@ export default function AdminPage() {
 
                                     <div
                                         onClick={() => setActiveTab('blogs')}
-                                        className="rounded-2xl p-5 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm hover:border-[#B99152]/40 transition-all cursor-pointer group"
+                                        className="rounded-2xl p-5 bg-white border border-[#E5E0D8] shadow-xs hover:border-[#9B7545]/50 transition-all cursor-pointer group"
                                     >
                                         <div className="flex items-center justify-between mb-3">
-                                            <span className="text-xs font-mono text-gray-500 dark:text-white/50 uppercase tracking-wider">
-                                                PUBLISHED POSTS
+                                            <span className="text-xs font-mono text-[#8C887B] uppercase tracking-wider">
+                                                PUBLISHED BRIEFS
                                             </span>
-                                            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                                            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-100">
                                                 <FileText size={16} />
                                             </div>
                                         </div>
-                                        <p className="text-3xl font-extrabold text-gray-900 dark:text-white font-heading">
+                                        <p className="text-3xl font-extrabold text-[#181A16] font-heading">
                                             {stats.publishedBlogs}
                                         </p>
                                     </div>
 
                                     <div
                                         onClick={() => setActiveTab('blogs')}
-                                        className="rounded-2xl p-5 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm hover:border-[#B99152]/40 transition-all cursor-pointer group"
+                                        className="rounded-2xl p-5 bg-white border border-[#E5E0D8] shadow-xs hover:border-[#9B7545]/50 transition-all cursor-pointer group"
                                     >
                                         <div className="flex items-center justify-between mb-3">
-                                            <span className="text-xs font-mono text-gray-500 dark:text-white/50 uppercase tracking-wider">
-                                                DRAFT POSTS
+                                            <span className="text-xs font-mono text-[#8C887B] uppercase tracking-wider">
+                                                DRAFTS PIPELINE
                                             </span>
-                                            <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500">
+                                            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-100">
                                                 <Layers size={16} />
                                             </div>
                                         </div>
-                                        <p className="text-3xl font-extrabold text-gray-900 dark:text-white font-heading">
+                                        <p className="text-3xl font-extrabold text-[#181A16] font-heading">
                                             {stats.drafts}
                                         </p>
                                     </div>
 
                                     <div
                                         onClick={() => setActiveTab('analytics')}
-                                        className="rounded-2xl p-5 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm hover:border-[#B99152]/40 transition-all cursor-pointer group"
+                                        className="rounded-2xl p-5 bg-white border border-[#E5E0D8] shadow-xs hover:border-[#9B7545]/50 transition-all cursor-pointer group"
                                     >
                                         <div className="flex items-center justify-between mb-3">
-                                            <span className="text-xs font-mono text-gray-500 dark:text-white/50 uppercase tracking-wider">
+                                            <span className="text-xs font-mono text-[#8C887B] uppercase tracking-wider">
                                                 TELEMETRY
                                             </span>
-                                            <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-500">
+                                            <div className="w-8 h-8 rounded-lg bg-[#9B7545]/10 text-[#9B7545] flex items-center justify-center border border-[#9B7545]/20">
                                                 <BarChart3 size={16} />
                                             </div>
                                         </div>
-                                        <span className="text-xs font-mono font-bold text-[#D4B270] flex items-center gap-1">
+                                        <span className="text-xs font-mono font-semibold text-[#9B7545] flex items-center gap-1 mt-2">
                                             <span>Active Engine</span>
                                             <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                                         </span>
@@ -269,19 +253,19 @@ export default function AdminPage() {
                                 </div>
 
                                 {/* Recent Inquiries Snapshot */}
-                                <div className="rounded-2xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm space-y-4">
+                                <div className="rounded-2xl p-6 bg-white border border-[#E5E0D8] shadow-xs space-y-4">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <h3 className="text-base font-bold font-heading text-gray-900 dark:text-white">
+                                            <h3 className="text-base font-bold font-heading text-[#181A16]">
                                                 Recent Inquiries &amp; Briefings
                                             </h3>
-                                            <p className="text-xs text-gray-500 dark:text-white/50">
+                                            <p className="text-xs text-[#6B685F]">
                                                 Latest enterprise form submissions from the website
                                             </p>
                                         </div>
                                         <button
                                             onClick={() => setActiveTab('leads')}
-                                            className="text-xs font-mono font-semibold text-[#D4B270] hover:underline flex items-center gap-1"
+                                            className="text-xs font-mono font-semibold text-[#9B7545] hover:underline flex items-center gap-1"
                                         >
                                             <span>View All ({stats.totalLeads})</span>
                                             <ArrowRight size={13} />
@@ -289,43 +273,43 @@ export default function AdminPage() {
                                     </div>
 
                                     {recentLeads.length === 0 ? (
-                                        <div className="p-8 text-center bg-gray-50 dark:bg-white/[0.02] rounded-xl border border-gray-100 dark:border-white/[0.04]">
-                                            <p className="text-xs text-gray-500 dark:text-white/50">
-                                                No incoming briefings recorded yet. Test the contact form at <a href="/contact" target="_blank" className="text-[#D4B270] underline">/contact</a>.
+                                        <div className="p-8 text-center bg-[#FDFBF7] rounded-xl border border-[#E5E0D8]/60">
+                                            <p className="text-xs text-[#6B685F]">
+                                                No incoming briefings recorded yet. Test the contact form at <a href="/contact" target="_blank" className="text-[#9B7545] font-semibold underline">/contact</a>.
                                             </p>
                                         </div>
                                     ) : (
-                                        <div className="divide-y divide-gray-100 dark:divide-white/[0.06]">
+                                        <div className="divide-y divide-[#E5E0D8]">
                                             {recentLeads.map((lead) => (
                                                 <div
                                                     key={lead.id}
                                                     onClick={() => setActiveTab('leads')}
-                                                    className="py-3 flex items-center justify-between gap-4 hover:bg-gray-50 dark:hover:bg-white/[0.02] px-2 rounded-lg transition-colors cursor-pointer"
+                                                    className="py-3.5 flex items-center justify-between gap-4 hover:bg-[#FDFBF7] px-3 rounded-lg transition-colors cursor-pointer"
                                                 >
                                                     <div className="space-y-0.5">
                                                         <div className="flex items-center gap-2">
-                                                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                            <span className="text-sm font-semibold text-[#181A16]">
                                                                 {lead.name}
                                                             </span>
                                                             {lead.organization && (
-                                                                <span className="text-xs text-gray-500 dark:text-white/60">
+                                                                <span className="text-xs text-[#6B685F]">
                                                                     • {lead.organization}
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-white/50">
+                                                        <div className="flex items-center gap-3 text-xs text-[#8C887B]">
                                                             <span>{lead.email}</span>
                                                             <span>•</span>
                                                             <span>{lead.service || 'Enterprise Briefing'}</span>
                                                         </div>
                                                     </div>
 
-                                                    <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded-full ${
+                                                    <span className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded-full font-semibold border ${
                                                         lead.status === 'contacted'
-                                                            ? 'bg-blue-500/10 text-blue-500'
+                                                            ? 'bg-blue-50 text-blue-700 border-blue-200'
                                                             : lead.status === 'qualified'
-                                                            ? 'bg-amber-500/10 text-amber-500'
-                                                            : 'bg-emerald-500/10 text-emerald-500 font-bold'
+                                                            ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                                            : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                                     }`}>
                                                         {lead.status || 'New'}
                                                     </span>
@@ -336,38 +320,38 @@ export default function AdminPage() {
                                 </div>
 
                                 {/* Quick Shortcuts */}
-                                <div className="rounded-2xl p-6 bg-white dark:bg-[#1A1B1C] border border-gray-200 dark:border-white/[0.08] shadow-sm">
-                                    <h3 className="text-base font-bold font-heading text-gray-900 dark:text-white mb-4">
+                                <div className="rounded-2xl p-6 bg-white border border-[#E5E0D8] shadow-xs">
+                                    <h3 className="text-base font-bold font-heading text-[#181A16] mb-4">
                                         Quick Navigation
                                     </h3>
                                     <div className="flex flex-wrap gap-2.5">
                                         <button
                                             onClick={() => setActiveTab('leads')}
-                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#B99152]/15 text-[#D4B270] border border-[#B99152]/30 hover:bg-[#B99152]/25 transition-colors"
+                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#9B7545]/10 text-[#9B7545] border border-[#9B7545]/20 hover:bg-[#9B7545]/20 transition-colors"
                                         >
                                             Inquiries &amp; Briefings
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('blogs')}
-                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors"
+                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#F3F0E8] border border-[#E5E0D8] text-[#181A16] hover:bg-[#EAE5DA] transition-colors"
                                         >
                                             Write Technical Briefing
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('analytics')}
-                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors"
+                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#F3F0E8] border border-[#E5E0D8] text-[#181A16] hover:bg-[#EAE5DA] transition-colors"
                                         >
                                             View Traffic Analytics
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('contact')}
-                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors"
+                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#F3F0E8] border border-[#E5E0D8] text-[#181A16] hover:bg-[#EAE5DA] transition-colors"
                                         >
                                             Update Contact Coordinates
                                         </button>
                                         <button
                                             onClick={() => setActiveTab('seo')}
-                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/[0.1] transition-colors"
+                                            className="text-xs font-medium py-2 px-3.5 rounded-xl bg-[#F3F0E8] border border-[#E5E0D8] text-[#181A16] hover:bg-[#EAE5DA] transition-colors"
                                         >
                                             SEO &amp; Meta Settings
                                         </button>
@@ -389,7 +373,7 @@ export default function AdminPage() {
                 {/* Overlay for mobile sidebar */}
                 {sidebarOpen && (
                     <div
-                        className="lg:hidden fixed inset-0 bg-black/50 z-30"
+                        className="lg:hidden fixed inset-0 bg-black/30 z-30"
                         onClick={() => setSidebarOpen(false)}
                     />
                 )}

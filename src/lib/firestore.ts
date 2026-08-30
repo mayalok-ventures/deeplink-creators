@@ -144,7 +144,7 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
 
 export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
     try {
-        const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`, { cache: 'no-store' })
+        const res = await fetch(`/api/blogs?slug=${encodeURIComponent(slug)}`, { cache: 'no-store' })
         if (!res.ok) return null
         const data = await res.json()
         return data.blog || null
@@ -173,7 +173,7 @@ export async function createBlog(data: Omit<BlogPost, 'id' | 'shortId' | 'update
 }
 
 export async function updateBlog(id: string, data: Partial<BlogPost>): Promise<void> {
-    const res = await fetch(`/api/blogs/${encodeURIComponent(id)}`, {
+    const res = await fetch(`/api/blogs?id=${encodeURIComponent(id)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -183,7 +183,7 @@ export async function updateBlog(id: string, data: Partial<BlogPost>): Promise<v
 }
 
 export async function deleteBlog(id: string): Promise<void> {
-    const res = await fetch(`/api/blogs/${encodeURIComponent(id)}`, {
+    const res = await fetch(`/api/blogs?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
     })
     const json = await res.json()
@@ -368,7 +368,7 @@ export async function updateLeadStatus(
     status: 'new' | 'contacted' | 'qualified' | 'closed',
     notes?: string
 ): Promise<void> {
-    const res = await fetch(`/api/leads/${encodeURIComponent(id)}`, {
+    const res = await fetch(`/api/leads?id=${encodeURIComponent(id)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, notes }),
@@ -378,7 +378,7 @@ export async function updateLeadStatus(
 }
 
 export async function deleteLeadSubmission(id: string): Promise<void> {
-    const res = await fetch(`/api/leads/${encodeURIComponent(id)}`, {
+    const res = await fetch(`/api/leads?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
     })
     const json = await res.json()

@@ -10,7 +10,7 @@ try {
 
 const uri =
     process.env.MONGODB_URI ||
-    'mongodb+srv://secretboy1959_db_user:Mflica2026deeplink%40@crm-deeplink.bnjkhcn.mongodb.net/?retryWrites=true&w=majority&appName=crm-deeplink'
+    'mongodb+srv://secretboy1959_db_user:Mflica2026deeplink@crm-deeplink.bnjkhcn.mongodb.net/?retryWrites=true&w=majority&appName=crm-deeplink'
 
 const dbName = process.env.MONGODB_DB || 'deeplink-data'
 

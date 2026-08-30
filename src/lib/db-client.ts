@@ -1,59 +1,103 @@
 /**
- * MongoDB Data Layer & Resilient Client Storage for Deeplink Creators
- * Synchronizes with MongoDB Atlas (deeplink-data) and provides instant local persistence fallback.
+ * Unified MongoDB Database Client for Deeplink Creators
+ * Interacts with MongoDB-backed REST endpoints with resilient client-side caching.
  */
 
+// ─── Interfaces ───────────────────────────────────────────────────
+
 export interface BlogPost {
-    id?: string
+    id: string
     title: string
     slug: string
     shortId: string
     content: string
     excerpt: string
-    coverImage: string
+    coverImage?: string
     author: string
     category?: string
-    tags: string[]
+    tags?: string[]
     published: boolean
     publishedAt: any
     updatedAt: any
-    seoTitle: string
-    seoDescription: string
-    keywords: string
+    seoTitle?: string
+    seoDescription?: string
+    keywords?: string
     readTime?: string
 }
 
-export interface SiteSettings {
-    phone: string
+export interface LeadSubmission {
+    id: string
+    name: string
     email: string
-    address: string
-    city: string
-    state: string
-    pincode: string
-    workingHoursWeekdays: string
-    workingHoursSaturday: string
-    workingHoursSunday: string
+    phone?: string
+    company?: string
+    organization?: string
+    service?: string
+    scope?: string
+    budget?: string
+    timeline?: string
+    message?: string
+    status?: 'new' | 'contacted' | 'qualified' | 'closed'
+    source?: string
+    notes?: string
+    createdAt: any
+}
+
+export interface SiteSettings {
+    phone?: string
+    contactPhone?: string
+    email?: string
+    contactEmail?: string
+    whatsappNumber?: string
+    address?: string
+    officeAddress?: string
+    city?: string
+    officeCity?: string
+    state?: string
+    officeState?: string
+    pincode?: string
+    officeZip?: string
+    officeCountry?: string
+    workingHoursWeekdays?: string
+    workingHoursSaturday?: string
+    workingHoursSunday?: string
+    businessHours?: string
+    supportEmail?: string
+    salesEmail?: string
+    consultationNotice?: string
+    updatedAt?: any
 }
 
 export interface SocialLinks {
-    facebook: string
-    instagram: string
-    linkedin: string
-    twitter: string
-    youtube: string
+    facebook?: string
+    instagram?: string
+    linkedin?: string
+    twitter?: string
+    youtube?: string
+    github?: string
+    telegram?: string
+    discord?: string
+    updatedAt?: any
 }
 
 export interface SEOSettings {
     siteTitle: string
     siteDescription: string
-    siteKeywords: string
-    ogImage: string
-    googleAnalyticsId: string
-    metaPixelId: string
+    siteKeywords?: string
+    keywords?: string
+    googleAnalyticsId?: string
+    metaPixelId?: string
+    ogImage?: string
+    twitterCard?: string
+    googleVerification?: string
+    bingVerification?: string
+    robotsIndex?: boolean
+    canonicalUrl?: string
+    updatedAt?: any
 }
 
 export interface ServiceCardData {
-    id?: string
+    id: string
     title: string
     benefit: string
     description: string
@@ -70,32 +114,21 @@ export interface ServiceCardData {
 }
 
 export interface TestimonialData {
-    id?: string
+    id: string
     name: string
     role: string
     company: string
     content: string
+    avatar?: string
     rating: number
+    order?: number
     featured: boolean
-    order: number
-    createdAt: any
+    project?: string
+    metrics?: string
+    createdAt?: any
 }
 
-export interface LeadSubmission {
-    id?: string
-    name: string
-    organization?: string
-    email: string
-    phone: string
-    service?: string
-    timeline?: string
-    scope?: string
-    budget?: string
-    source?: string
-    status?: 'new' | 'contacted' | 'qualified' | 'closed'
-    notes?: string
-    createdAt: any
-}
+// ─── Helper Functions ─────────────────────────────────────────────
 
 export function generateShortId(): string {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
@@ -118,46 +151,7 @@ export function createSlug(title: string): string {
 
 // ─── Default Seed Data ─────────────────────────────────────────────
 
-const DEFAULT_BLOGS: BlogPost[] = [
-    {
-        id: 'seed-blog-1',
-        title: 'Building Scalable Enterprise Architecture with Next.js 14 & MongoDB',
-        slug: 'building-scalable-enterprise-architecture-nextjs-mongodb',
-        shortId: 'arc7491',
-        content: '<p>Modern enterprise platforms require resilient multi-tenant data architecture, rapid edge delivery, and clear separation of concerns. In this technical briefing, we dissect the design decisions behind our venture studio systems.</p><h2>The Core Tenets</h2><p>1. Fast edge compute<br>2. Resilient data pipelines<br>3. Continuous telemetry monitoring</p>',
-        excerpt: 'An architectural deep-dive into multi-tenant distributed systems, stateful backend pipelines, and modern edge frontend strategies.',
-        coverImage: '/images/hero-enterprise-architecture.jpg',
-        author: 'Deeplink Engineering',
-        category: 'Architecture',
-        tags: ['Engineering', 'Architecture', 'Next.js', 'MongoDB'],
-        published: true,
-        publishedAt: new Date('2026-03-20T10:00:00Z').toISOString(),
-        updatedAt: new Date('2026-03-20T10:00:00Z').toISOString(),
-        seoTitle: 'Enterprise Architecture with Next.js & MongoDB | Deeplink Creators',
-        seoDescription: 'Learn how Deeplink Creators builds resilient multi-tenant enterprise software and high-velocity creator pipelines.',
-        keywords: 'Next.js, MongoDB, Enterprise Software, Architecture',
-        readTime: '6 min read',
-    },
-    {
-        id: 'seed-blog-2',
-        title: 'Sahyak CRM: Multi-Tenant Architectural Kernel for High-Velocity Teams',
-        slug: 'sahyak-crm-multi-tenant-architecture-kernel',
-        shortId: 'sah8832',
-        content: '<p>Sahyak CRM represents a paradigm shift in relationship management for high-velocity enterprise operations. By combining automated pipeline choreography with instant telemetry, teams unlock unprecedented velocity.</p>',
-        excerpt: 'How our proprietary CRM product solves fragmentation, lead leakage, and coordination overhead for modern teams.',
-        coverImage: '/images/sahyak-crm-mockup.jpg',
-        author: 'Product Directorate',
-        category: 'Product',
-        tags: ['Sahyak CRM', 'SaaS', 'Product', 'Automation'],
-        published: true,
-        publishedAt: new Date('2026-03-24T14:30:00Z').toISOString(),
-        updatedAt: new Date('2026-03-24T14:30:00Z').toISOString(),
-        seoTitle: 'Sahyak CRM Architecture & Product Overview | Deeplink Creators',
-        seoDescription: 'Comprehensive overview of Sahyak CRM proprietary multi-tenant software system built by Deeplink Creators.',
-        keywords: 'Sahyak CRM, CRM Software, Multi-Tenant SaaS, Lead Management',
-        readTime: '5 min read',
-    }
-]
+const DEFAULT_BLOGS: BlogPost[] = []
 
 const DEFAULT_SERVICES: ServiceCardData[] = [
     {
@@ -218,53 +212,76 @@ const DEFAULT_TESTIMONIALS: TestimonialData[] = [
         company: 'NexGen Logistics',
         content: 'Deeplink Creators transformed our digital operations. Their architectural rigor and Sahyak CRM implementation eliminated lead leakage within weeks.',
         rating: 5,
-        featured: true,
         order: 1,
-        createdAt: new Date('2026-02-15').toISOString(),
+        featured: true,
+        project: 'Sahyak CRM Multi-Tenant Deployment',
+        metrics: '99.98% Uptime | 3.4x Pipeline Velocity',
     },
     {
         id: 'test-2',
-        name: 'Pooja Verma',
-        role: 'Head of Growth',
-        company: 'Horizon Enterprise',
-        content: 'The team at Deeplink Creators brings institutional caliber engineering. Their bespoke platform gave us a major competitive advantage.',
+        name: 'Priya Verma',
+        role: 'Managing Director',
+        company: 'Apex Media Holdings',
+        content: 'The custom enterprise platform engineered by Deeplink handles millions of monthly engagements without latency degradation. Truly exceptional work.',
         rating: 5,
-        featured: true,
         order: 2,
-        createdAt: new Date('2026-03-01').toISOString(),
+        featured: true,
+        project: 'Creator Distribution Engine',
+        metrics: '2.1M Audience Reached',
     }
 ]
 
 const DEFAULT_SETTINGS: SiteSettings = {
-    phone: '+91 99999 88888',
-    email: 'kunal@deeplinkcreators.com',
-    address: 'Mayalok Venture Studio, Knowledge Park III',
-    city: 'Greater Noida',
+    phone: '+91 99999 99999',
+    contactPhone: '+91 99999 99999',
+    email: 'contact@deeplinkcreators.com',
+    contactEmail: 'contact@deeplinkcreators.com',
+    whatsappNumber: '+91 99999 99999',
+    address: 'Mayalok Venture Headquarters, Tech District',
+    officeAddress: 'Mayalok Venture Headquarters, Tech District',
+    city: 'Noida',
+    officeCity: 'Noida',
     state: 'Uttar Pradesh',
-    pincode: '201306',
-    workingHoursWeekdays: '09:00 - 19:00 IST',
-    workingHoursSaturday: '10:00 - 17:00 IST',
+    officeState: 'Uttar Pradesh',
+    pincode: '201301',
+    officeZip: '201301',
+    officeCountry: 'India',
+    workingHoursWeekdays: '9:00 AM - 6:00 PM IST',
+    workingHoursSaturday: '10:00 AM - 4:00 PM IST',
     workingHoursSunday: 'Closed',
+    businessHours: 'Mon - Fri: 9:00 AM - 6:00 PM IST',
+    supportEmail: 'support@deeplinkcreators.com',
+    salesEmail: 'sales@deeplinkcreators.com',
+    consultationNotice: 'Direct advisory & enterprise onboarding strictly by appointment or qualified inquiry.',
 }
 
 const DEFAULT_SOCIAL: SocialLinks = {
-    facebook: 'https://facebook.com/deeplinkcreators',
+    linkedin: 'https://linkedin.com/company/deeplinkcreators',
+    twitter: 'https://twitter.com/deeplinkcreator',
     instagram: 'https://instagram.com/deeplinkcreators',
-    linkedin: 'https://linkedin.com/company/deeplink-creators',
-    twitter: 'https://twitter.com/deeplinkcreators',
     youtube: 'https://youtube.com/@deeplinkcreators',
+    github: 'https://github.com/mayalok-ventures',
+    facebook: '',
+    telegram: 'https://t.me/deeplinkcreators',
+    discord: '',
 }
 
 const DEFAULT_SEO: SEOSettings = {
     siteTitle: 'Deeplink Creators | Enterprise Software Holding & Creator Ecosystem',
     siteDescription: 'Deeplink Creators builds, operates, and scales proprietary software products and hyper-scaled creator networks under Mayalok Venture.',
-    siteKeywords: 'Deeplink Creators, Mayalok Venture, Sahyak CRM, Enterprise Software, Creator Economy, Venture Studio',
-    ogImage: '/images/hero-enterprise-architecture.jpg',
+    siteKeywords: 'Enterprise Software, SaaS Development, Sahyak CRM, Creator Network, Next.js, MongoDB',
+    keywords: 'Enterprise Software, SaaS Development, Sahyak CRM, Creator Network, Next.js, MongoDB',
     googleAnalyticsId: '',
     metaPixelId: '',
+    ogImage: '/og-image.jpg',
+    twitterCard: 'summary_large_image',
+    googleVerification: '',
+    bingVerification: '',
+    robotsIndex: true,
+    canonicalUrl: 'https://deeplinkcreators.com',
 }
 
-// ─── LocalStorage Helper ──────────────────────────────────────────
+// ─── Local Storage Cache Helpers ──────────────────────────────────
 
 function getLocal<T>(key: string, fallback: T): T {
     if (typeof window === 'undefined') return fallback
@@ -311,7 +328,7 @@ export async function getPublishedBlogs(): Promise<BlogPost[]> {
         const res = await fetch('/api/blogs', { cache: 'no-store' })
         if (res.ok) {
             const data = await res.json()
-            if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+            if (Array.isArray(data.blogs)) {
                 setLocal('blogs', data.blogs)
                 return data.blogs.filter((b: BlogPost) => b.published)
             }
@@ -319,7 +336,7 @@ export async function getPublishedBlogs(): Promise<BlogPost[]> {
     } catch {
         // fallback to local
     }
-    const cached = getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    const cached = getLocal<BlogPost[]>('blogs', [])
     return cached.filter(b => b.published)
 }
 
@@ -328,7 +345,7 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
         const res = await fetch('/api/blogs?all=true', { cache: 'no-store' })
         if (res.ok) {
             const data = await res.json()
-            if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+            if (Array.isArray(data.blogs)) {
                 setLocal('blogs', data.blogs)
                 return data.blogs
             }
@@ -336,7 +353,7 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
     } catch {
         // fallback to local
     }
-    return getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    return getLocal<BlogPost[]>('blogs', [])
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
@@ -349,7 +366,7 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
     } catch {
         // fallback
     }
-    const blogs = getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    const blogs = getLocal<BlogPost[]>('blogs', [])
     return blogs.find(b => b.slug === slug || b.shortId === slug || b.id === slug) || null
 }
 
@@ -370,7 +387,7 @@ export async function createBlog(data: Omit<BlogPost, 'id' | 'shortId' | 'update
     }
 
     // Save locally first
-    const current = getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    const current = getLocal<BlogPost[]>('blogs', [])
     const updated = [newBlog, ...current]
     setLocal('blogs', updated)
 
@@ -387,7 +404,7 @@ export async function createBlog(data: Omit<BlogPost, 'id' | 'shortId' | 'update
 }
 
 export async function updateBlog(id: string, data: Partial<BlogPost>): Promise<void> {
-    const current = getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    const current = getLocal<BlogPost[]>('blogs', [])
     const updated = current.map(b => (b.id === id || b.slug === id || b.shortId === id) ? { ...b, ...data, updatedAt: new Date().toISOString() } : b)
     setLocal('blogs', updated)
 
@@ -401,7 +418,7 @@ export async function updateBlog(id: string, data: Partial<BlogPost>): Promise<v
 }
 
 export async function deleteBlog(id: string): Promise<void> {
-    const current = getLocal<BlogPost[]>('blogs', DEFAULT_BLOGS)
+    const current = getLocal<BlogPost[]>('blogs', [])
     const updated = current.filter(b => b.id !== id && b.slug !== id && b.shortId !== id)
     setLocal('blogs', updated)
 
@@ -661,7 +678,7 @@ export async function getLeadSubmissions(): Promise<LeadSubmission[]> {
         const res = await fetch('/api/leads', { cache: 'no-store' })
         if (res.ok) {
             const json = await res.json()
-            if (Array.isArray(json.leads) && json.leads.length > 0) {
+            if (Array.isArray(json.leads)) {
                 setLocal('leads', json.leads)
                 return json.leads
             }

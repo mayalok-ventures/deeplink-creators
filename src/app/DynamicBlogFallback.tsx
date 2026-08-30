@@ -113,7 +113,7 @@ export default function DynamicBlogFallback() {
                     </Link>
 
                     <div className="max-w-3xl">
-                        {blog.tags.length > 0 && (
+                        {Array.isArray(blog.tags) && blog.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {blog.tags.map((tag: string) => (
                                     <span key={tag} className="text-xs bg-[#C39A2B]/10 text-[#C39A2B] px-3 py-1 rounded-full border border-[#C39A2B]/20">

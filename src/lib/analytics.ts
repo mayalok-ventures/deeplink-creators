@@ -123,67 +123,29 @@ export async function recordVisit(pagePath?: string): Promise<void> {
     }
 }
 
-function generateBaselineAnalytics(days: number): AnalyticsData {
-    const dailyData = []
-    const now = new Date()
-    for (let i = days - 1; i >= 0; i--) {
-        const d = new Date(now)
-        d.setDate(d.getDate() - i)
-        const dateStr = d.toISOString().slice(0, 10)
-        const base = Math.floor(45 + Math.sin(i * 0.5) * 20 + (days - i) * 1.5)
-        dailyData.push({
-            date: dateStr,
-            visitors: base,
-            pageViews: Math.floor(base * 2.8),
-        })
-    }
-
-    const totalVisitors = dailyData.reduce((acc, curr) => acc + curr.visitors, 0)
-    const newVisitors = Math.floor(totalVisitors * 0.68)
-    const returningVisitors = totalVisitors - newVisitors
-    const todayVisitors = dailyData[dailyData.length - 1]?.visitors || 52
-
-    return {
-        totalVisitors,
-        newVisitors,
-        returningVisitors,
-        todayVisitors,
-        sources: [
-            { source: 'Direct', count: Math.floor(totalVisitors * 0.42), percentage: 42 },
-            { source: 'Organic Search', count: Math.floor(totalVisitors * 0.31), percentage: 31 },
-            { source: 'LinkedIn / Social', count: Math.floor(totalVisitors * 0.18), percentage: 18 },
-            { source: 'Referral', count: Math.floor(totalVisitors * 0.09), percentage: 9 },
-        ],
-        dailyData,
-        topPages: [
-            { page: '/', views: Math.floor(totalVisitors * 1.8) },
-            { page: '/services/', views: Math.floor(totalVisitors * 0.9) },
-            { page: '/contact/', views: Math.floor(totalVisitors * 0.6) },
-            { page: '/blog/', views: Math.floor(totalVisitors * 0.5) },
-            { page: '/about/', views: Math.floor(totalVisitors * 0.4) },
-        ],
-        devices: [
-            { device: 'Desktop', count: Math.floor(totalVisitors * 0.62), percentage: 62 },
-            { device: 'Mobile', count: Math.floor(totalVisitors * 0.33), percentage: 33 },
-            { device: 'Tablet', count: Math.floor(totalVisitors * 0.05), percentage: 5 },
-        ],
-    }
-}
-
 export async function getAnalytics(days: number = 30): Promise<AnalyticsData> {
     try {
         const res = await fetch(`/api/analytics?days=${days}`, { cache: 'no-store' })
         if (res.ok) {
             const data = await res.json()
-            if (data.success && data.analytics && data.analytics.totalVisitors > 0) {
+            if (data.success && data.analytics) {
                 return data.analytics
             }
         }
     } catch (err) {
-        // fallback
+        console.error('Failed to load real-time analytics:', err)
     }
 
-    return generateBaselineAnalytics(days)
+    return {
+        totalVisitors: 0,
+        newVisitors: 0,
+        returningVisitors: 0,
+        todayVisitors: 0,
+        sources: [],
+        dailyData: [],
+        topPages: [],
+        devices: [],
+    }
 }
 
 export const trackVisit = recordVisit

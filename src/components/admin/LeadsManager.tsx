@@ -498,7 +498,7 @@ export default function LeadsManager() {
                                     <span className="text-xs font-mono text-[#181A16]">{selectedLead.phone || 'N/A'}</span>
                                     {selectedLead.phone && (
                                         <button
-                                            onClick={() => copyToClipboard(selectedLead.phone, 'phone')}
+                                            onClick={() => selectedLead.phone && copyToClipboard(selectedLead.phone, 'phone')}
                                             className="text-[#8C887B] hover:text-[#181A16]"
                                         >
                                             {copiedField === 'phone' ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}

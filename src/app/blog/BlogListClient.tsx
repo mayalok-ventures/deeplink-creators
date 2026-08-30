@@ -11,7 +11,7 @@ export interface BlogItem {
     slug: string
     title: string
     excerpt: string
-    coverImage: string
+    coverImage?: string
     author: string
     tags: string[]
     category?: string

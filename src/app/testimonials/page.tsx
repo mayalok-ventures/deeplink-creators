@@ -136,7 +136,7 @@ export default function TestimonialsPage() {
                                                     key={i}
                                                     size={16}
                                                     className={
-                                                        i < testimonial.rating
+                                                        i < (testimonial.rating || 5)
                                                             ? 'text-yellow-400 fill-yellow-400'
                                                             : 'text-[#4A4A4A]/30'
                                                     }

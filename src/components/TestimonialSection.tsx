@@ -57,7 +57,7 @@ const TestimonialSection = () => {
                             </p>
 
                             <div className="flex gap-1 mb-4">
-                                {Array.from({ length: testimonial.rating }).map((_, i) => (
+                                {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
                                     <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
                                 ))}
                             </div>

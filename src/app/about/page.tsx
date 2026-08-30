@@ -1,523 +1,436 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Brain, Target, Zap, Shield, TrendingUp, Award, Heart, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import { motion, useReducedMotion } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ArrowRight, CheckCircle2, Building2, ShieldCheck, MapPin } from 'lucide-react'
 
-const values = [
-    {
-        icon: <Target size={24} />,
-        title: 'Revenue Over Vanity',
-        description: "We only track metrics that hit your bottom line. Likes don't pay bills — leads and sales do.",
-    },
-    {
-        icon: <Heart size={24} />,
-        title: 'Client-First Always',
-        description: 'We treat your budget like our own. Every campaign is designed for maximum return.',
-    },
-    {
-        icon: <Award size={24} />,
-        title: 'Radical Transparency',
-        description: 'No hidden fees, no jargon-filled reports. You see exactly what we do and what it delivers.',
-    },
-]
-
-const founders = [
-    {
-        name: 'Kunal Pratap Singh',
-        role: 'Founder & Strategy Lead',
-        initials: 'KS',
-        image: '/images/founders/kunal.webp',
-        bio: "I didn\u2019t build Deeplink Creators to win design awards or sell \u2018creative ideas.\u2019 I built it because I saw traditional businesses in NCR bleeding capital to agencies that sold them illusions instead of revenue. My singular directive is to transition our clients into scalable, high-margin market leaders. I look at your business through one lens only: the P&L statement. If our strategy isn\u2019t aggressively multiplying your company\u2019s enterprise value and capturing market share, we aren\u2019t doing our job. We don\u2019t take on \u2018projects\u2019; we engineer financial assets.",
-    },
-    {
-        name: 'Dileep Yadav',
-        role: 'Co-Founder & Operations Head',
-        initials: 'DY',
-        image: '/images/founders/dileep.webp',
-        bio: "Marketing without rigorous data science is just gambling with the client\u2019s money. My role is to strip the emotion out of the process and build the mathematical infrastructure behind every campaign we launch. I focus on ruthless execution\u2014tracking every rupee spent, plugging the leaks in your sales funnel, and optimizing the conversion architecture. While Kunal focuses on market dominance, my job is to ensure our internal systems make that growth predictable, trackable, and financially bulletproof.",
-    },
-]
-
-const containerVariants = {
-    hidden: {},
-    visible: {
-        transition: { staggerChildren: 0.15 },
-    },
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger)
 }
 
-const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-}
+const ease = [0.22, 1, 0.36, 1] as const
 
-const fadeScale = {
-    hidden: { opacity: 0, scale: 0.92 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   CHAPTER FRACTURE → REASSEMBLE TRANSITION DIVIDER
+═══════════════════════════════════════════════════════════════════════ */
+function ChapterFractureDivider() {
+    const shouldReduceMotion = useReducedMotion()
+    const barRef = useRef<HTMLDivElement>(null)
+    const [inView, setInView] = useState(false)
 
-const slideFromLeft = {
-    hidden: { opacity: 0, x: -60, rotateY: 6 },
-    visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-}
+    useEffect(() => {
+        if (shouldReduceMotion) {
+            setInView(true)
+            return
+        }
 
-const slideFromRight = {
-    hidden: { opacity: 0, x: 60, rotateY: -6 },
-    visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-}
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true)
+                }
+            },
+            { threshold: 0.2 }
+        )
 
-const processSteps = [
-    {
-        step: '01',
-        title: 'Psychology Audit',
-        description: "We analyze your customer's buying psychology, fears, desires, and decision-making patterns.",
-        icon: <Brain size={24} />,
-    },
-    {
-        step: '02',
-        title: 'Data Deep Dive',
-        description: 'We examine your current marketing data to identify leaks in your revenue funnel.',
-        icon: <TrendingUp size={24} />,
-    },
-    {
-        step: '03',
-        title: 'System Design',
-        description: "We build a complete marketing system tailored to your customer's psychology.",
-        icon: <Zap size={24} />,
-    },
-    {
-        step: '04',
-        title: 'Optimization Loop',
-        description: 'Continuous testing and optimization based on real-time performance data.',
-        icon: <Target size={24} />,
-    },
-]
+        if (barRef.current) {
+            observer.observe(barRef.current)
+        }
+
+        return () => observer.disconnect()
+    }, [shouldReduceMotion])
+
+    // 7 geometric segments with initial slight offsets that reassemble on entry
+    const offsets = [-5, 4, -3, 6, -4, 5, -2]
+
+    return (
+        <div
+            ref={barRef}
+            className={`chapter-fracture-bar py-3 ${inView ? 'in-view' : ''}`}
+            aria-hidden="true"
+        >
+            {offsets.map((offset, i) => (
+                <span
+                    key={i}
+                    className="chapter-fracture-segment"
+                    style={{
+                        transform: inView ? 'translateY(0) scaleX(1)' : `translateY(${offset}px) scaleX(0.75)`,
+                        transitionDelay: `${i * 45}ms`,
+                    }}
+                />
+            ))}
+        </div>
+    )
+}
 
 export default function AboutPage() {
+    const shouldReduceMotion = useReducedMotion()
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    // GSAP ScrollTrigger Integration for quiet editorial reveals
+    useEffect(() => {
+        if (shouldReduceMotion || typeof window === 'undefined') return
+
+        const ctx = gsap.context(() => {
+            gsap.utils.toArray<HTMLElement>('.prospectus-section').forEach((section) => {
+                gsap.fromTo(
+                    section,
+                    { opacity: 0, y: 16 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 88%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                )
+            })
+        }, containerRef)
+
+        return () => ctx.revert()
+    }, [shouldReduceMotion])
+
     return (
-        <>
-            {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-white text-heading overflow-hidden">
-                <div className="absolute inset-0 z-[1] pointer-events-none">
-                    <img src="/images/hero/hero-about.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
+        <div
+            ref={containerRef}
+            className="bg-[#F3F0E8] text-[#181A16] min-h-screen selection:bg-[#9B7545]/20 selection:text-[#181A16] relative overflow-x-hidden font-sans"
+        >
+            {/* Subtle Architectural Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 1 — EDITORIAL INTRODUCTION
+            ══════════════════════════════════════════════════════════════ */}
+            <header className="relative pt-16 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6E2D7] border border-[#181A16]/10 mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#9B7545] flex-shrink-0" />
+                    <span className="marginal-label text-[#181A16] font-bold">
+                        COMPANY MANIFESTO &amp; PROSPECTUS
+                    </span>
                 </div>
-                <div className="container-custom relative z-10">
-                    <div className="max-w-4xl">
-                        <motion.div
-                            initial={{ opacity: 0, y: 15, scale: 0.97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6"
-                        >
-                            <Brain size={18} />
-                            <span className="text-sm font-medium">Premier Revenue Engineering Firm in NCR</span>
-                        </motion.div>
 
-                        <motion.h1
-                            initial={{ opacity: 0, y: 25, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                            className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight"
-                        >
-                            We Don&apos;t Guess. We{' '}
-                            <span className="text-[#C39A2B]">Engineer Revenue.</span>
-                        </motion.h1>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-[#181A16] leading-[1.14] mb-6 break-words">
+                    Building the systems behind{' '}
+                    <span className="text-brass-gradient">
+                        durable enterprise growth.
+                    </span>
+                </h1>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                            className="text-lg text-paragraph mb-8 max-w-3xl"
-                        >
-                            Deeplink Creators is an elite revenue-engineering unit of{' '}
-                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>.
-                            We combine <span className="font-semibold text-[#C39A2B]">Data Science</span> and{' '}
-                            <span className="font-semibold text-[#C39A2B]">Neuro-Marketing</span> to build predictable growth systems for Enterprise &amp; High-Ticket Businesses.
-                        </motion.p>
+                <p className="text-base sm:text-lg md:text-xl text-[#65675F] leading-relaxed mb-8 font-normal">
+                    Deeplink Creators is an AI-first enterprise software holding and venture studio backed by Mayalok Venture. We build proprietary B2B software infrastructure and creator-led distribution systems for organizations seeking stronger operational control and more durable routes to market.
+                </p>
 
-                        {/* Animated gold line */}
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: '6rem' }}
-                            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            className="h-[2px] bg-gradient-to-r from-[#C39A2B] to-[#C39A2B]/30"
-                        />
+                {/* Manifesto Pull Quote */}
+                <div className="p-5 sm:p-6 rounded-xl border-l-2 border-[#9B7545] bg-white border border-[#181A16]/10 mb-8 max-w-2xl shadow-sm">
+                    <p className="text-sm sm:text-base italic text-[#181A16] leading-relaxed">
+                        &ldquo;We believe enterprise advantage is not won through ephemeral marketing spikes, but by owning the software assets and distribution channels that make commercial execution repeatable.&rdquo;
+                    </p>
+                </div>
+
+                {/* Overview Coordinates Box */}
+                <div className="p-6 sm:p-7 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-4">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#181A16]/08">
+                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#9B7545]">
+                            HOLDING PROFILE
+                        </span>
+                        <span className="text-xs font-mono text-[#65675F]">EST. 2024 • NCR</span>
                     </div>
-                </div>
-            </section>
 
-            {/* Our Genesis */}
-            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
-                <div className="container-custom">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="max-w-3xl mx-auto text-center mb-16"
-                    >
-                        <motion.h2
-                            variants={fadeScale}
-                            data-anim="heading"
-                            className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-6"
-                        >
-                            Our <span className="text-[#C39A2B]">Genesis</span>
-                        </motion.h2>
-                        <motion.p variants={fadeUp} className="text-base text-paragraph mb-4">
-                            The digital marketing industry is broken. It is obsessed with vanity metrics — likes, shares, and meaningless traffic that never convert into actual capital.
-                        </motion.p>
-                        <motion.p variants={fadeUp} className="text-base text-paragraph mb-4">
-                            Deeplink Creators was launched with a singular, ruthless directive: <span className="font-semibold text-heading">To align marketing strictly with P&amp;L (Profit &amp; Loss).</span>
-                        </motion.p>
-                        <motion.p variants={fadeUp} className="text-base text-paragraph">
-                            Backed by the enterprise infrastructure of{' '}
-                            <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#C39A2B] transition-colors">Mayalok Venture</a>,
-                            we stripped away the &ldquo;fluff&rdquo; of traditional agencies. We replaced guesswork with <span className="font-semibold text-[#C39A2B]">Predictive Data Science</span>,
-                            and basic copywriting with <span className="font-semibold text-[#C39A2B]">Consumer Psychology</span>. We don&apos;t build campaigns; we build scalable digital assets that capture market share.
-                        </motion.p>
-                    </motion.div>
-
-                    {/* The Paradigm Shift */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-12"
-                    >
-                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                            The <span className="text-[#C39A2B]">Paradigm Shift</span>
-                        </h2>
-                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            Why the old model is dead — and what we replaced it with.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
-                        style={{ perspective: 1000 }}
-                    >
-                        <motion.div
-                            variants={slideFromLeft}
-                            data-anim="card"
-                            className="rounded-2xl p-8 bg-red-500/[0.04] border border-red-500/20 transform-gpu"
-                        >
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
-                                    <Shield size={24} className="text-red-400" />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-semibold uppercase tracking-widest text-red-400">The Old Way</p>
-                                    <h3 className="text-xl font-heading font-bold text-heading">The Traditional Agency</h3>
-                                </div>
-                            </div>
-                            <p className="text-paragraph leading-relaxed">
-                                Sells you &ldquo;Brand Awareness&rdquo; and monthly retainers with <span className="font-semibold text-red-400">zero accountability</span>.
-                                You pay every month regardless of results. They hand you reports filled with impressions, reach, and follower counts — metrics that never touch your bank account. No skin in the game. No revenue alignment. Just invoices.
-                            </p>
-                        </motion.div>
-
-                        <motion.div
-                            variants={slideFromRight}
-                            data-anim="card"
-                            className="rounded-2xl p-8 bg-[#C39A2B]/[0.04] border border-[#C39A2B]/30 relative transform-gpu"
-                        >
-                            <motion.div
-                                initial={{ opacity: 0, y: -15, scale: 0.7 }}
-                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.5, type: 'spring', stiffness: 200, damping: 15 }}
-                                className="absolute -top-3 right-6 bg-gradient-to-r from-[#B87A14] to-[#E0C27A] text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg tracking-wider"
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                        <div className="space-y-1">
+                            <span className="text-[#65675F] font-mono block">Entity Model:</span>
+                            <span className="text-[#181A16] font-medium block">
+                                AI-First Software Holding &amp; Venture Studio
+                            </span>
+                        </div>
+                        <div className="space-y-1">
+                            <span className="text-[#65675F] font-mono block">Institutional Parent:</span>
+                            <a
+                                href="https://mayalokventures.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#9B7545] font-semibold hover:underline flex items-center gap-1"
                             >
-                                THE DEEPLINK STANDARD
-                            </motion.div>
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-xl flex items-center justify-center">
-                                    <Target size={24} className="text-[#C39A2B]" />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-semibold uppercase tracking-widest text-[#C39A2B]">Our Standard</p>
-                                    <h3 className="text-xl font-heading font-bold text-heading">Market Dominance</h3>
-                                </div>
-                            </div>
-                            <p className="text-paragraph leading-relaxed">
-                                We sell <span className="font-semibold text-[#C39A2B]">Market Dominance</span>. We operate as your outsourced Growth Partner.
-                                If a metric doesn&apos;t directly impact your <span className="font-semibold text-heading">Net Profit</span>, we don&apos;t track it.
-                                Every rupee we spend is reverse-engineered from your revenue target. We align our success with yours — because that&apos;s the only model that builds long-term partnerships.
-                            </p>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Values Section */}
-            <section data-anim="section-glow" className="section-padding bg-white">
-                <div className="container-custom">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                            Our <span className="text-[#C39A2B]">Core Values</span>
-                        </h2>
-                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            The principles that guide everything we do for our clients.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
-                        {values.map((value, index) => (
-                            <motion.div
-                                key={index}
-                                variants={fadeScale}
-                                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(195,154,43,0.12), 0 8px 16px rgba(0,0,0,0.06)' }}
-                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                data-anim="card"
-                                className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 text-center transform-gpu cursor-default"
+                                <span>Mayalok Venture ↗</span>
+                            </a>
+                        </div>
+                        <div className="space-y-1">
+                            <span className="text-[#65675F] font-mono block">Flagship Software:</span>
+                            <a
+                                href="https://sahyak.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#9B7545] font-semibold hover:underline flex items-center gap-1"
                             >
-                                <motion.div
-                                    whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.1 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-6"
-                                >
-                                    <div className="text-[#C39A2B]">{value.icon}</div>
-                                </motion.div>
-                                <h3 className="text-xl font-heading font-bold text-heading mb-3">{value.title}</h3>
-                                <p className="text-paragraph">{value.description}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Process Section */}
-            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
-                <div className="container-custom">
-                    <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 md:p-12">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="text-center mb-12"
-                        >
-                            <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                                Our <span className="text-[#C39A2B]">4-Step</span> Neuro-Marketing Process
-                            </h2>
-                            <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                                How we turn your marketing into a predictable revenue machine
-                            </p>
-                        </motion.div>
-
-                        {/* Connecting line */}
-                        <div className="relative">
-                            <div className="hidden lg:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-[#E8E6E1] z-0">
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                                    className="h-full bg-gradient-to-r from-[#C39A2B] via-[#C39A2B]/60 to-[#C39A2B] origin-left"
-                                />
-                            </div>
-
-                            <motion.div
-                                variants={containerVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, amount: 0.2 }}
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
-                            >
-                                {processSteps.map((process, index) => (
-                                    <motion.div
-                                        key={index}
-                                        variants={{
-                                            hidden: { opacity: 0, x: index % 2 === 0 ? -40 : 40, y: 20 },
-                                            visible: {
-                                                opacity: 1, x: 0, y: 0,
-                                                transition: { duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }
-                                            },
-                                        }}
-                                        whileHover={{ y: -4 }}
-                                        className="bg-[#F4F5F6] rounded-xl p-6 transform-gpu transition-shadow duration-300 hover:shadow-lg"
-                                    >
-                                        <motion.div
-                                            initial={{ opacity: 0, scale: 0.5 }}
-                                            whileInView={{ opacity: 1, scale: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.2 + index * 0.15 }}
-                                            className="text-3xl font-bold text-[#C39A2B] mb-4"
-                                        >
-                                            {process.step}
-                                        </motion.div>
-                                        <div className="w-12 h-12 bg-[#C39A2B]/10 rounded-lg flex items-center justify-center mb-4">
-                                            <div className="text-[#C39A2B]">{process.icon}</div>
-                                        </div>
-                                        <h3 className="font-heading font-bold text-heading text-lg mb-3">{process.title}</h3>
-                                        <p className="text-paragraph">{process.description}</p>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
+                                <span>Sahyak CRM (sahyak.com) ↗</span>
+                            </a>
+                        </div>
+                        <div className="space-y-1">
+                            <span className="text-[#65675F] font-mono block">Headquarters:</span>
+                            <span className="text-[#181A16] font-medium block">
+                                Greater Noida, Uttar Pradesh (Delhi NCR)
+                            </span>
                         </div>
                     </div>
                 </div>
-            </section>
+            </header>
 
-            {/* The Operators */}
-            <section className="section-padding bg-[#0A0B0C] text-white relative overflow-hidden">
-                {/* Animated background glow */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5 }}
-                    className="absolute inset-0 pointer-events-none"
-                >
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(195,154,43,0.06)_0%,transparent_70%)] animate-pulse" />
-                </motion.div>
-
-                <div className="container-custom relative z-10">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="text-center mb-16"
-                    >
-                        <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: '8rem' }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                            className="h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#C39A2B]/50 to-transparent mb-8"
+            {/* Editorial Lead Imagery Frame */}
+            <section className="px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto mb-14 sm:mb-20">
+                <div className="relative rounded-2xl overflow-hidden border border-[#181A16]/12 shadow-lg bg-[#E6E2D7] image-editorial-frame">
+                    <div className="relative h-[240px] sm:h-[340px] md:h-[400px] w-full">
+                        <Image
+                            src="/images/Revenue Architecture Office.jpeg"
+                            alt="Deeplink Creators Executive Engineering Lab"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 800px"
+                            className="object-cover object-center"
                         />
-                        <motion.h2 variants={fadeScale} className="text-2xl md:text-3xl font-heading font-extrabold mb-4">
-                            The <span className="text-[#C39A2B]">Operators</span>
-                        </motion.h2>
-                        <motion.p variants={fadeUp} className="text-lg text-white/50 max-w-2xl mx-auto">
-                            Driven by Enterprise Vision
-                        </motion.p>
-                        <motion.p variants={fadeUp} className="text-base text-white/40 max-w-3xl mx-auto mt-4">
-                            Deeplink Creators operates under the leadership of founders who understand that business is a numbers game.
-                            We don&apos;t hire &ldquo;creative artists&rdquo;; we deploy data analysts and behavioral psychologists.
-                            Our mandate is to transition traditional businesses in NCR into scalable, high-margin market leaders.
-                        </motion.p>
-                    </motion.div>
-
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-                    >
-                        {founders.map((founder, index) => (
-                            <motion.div
-                                key={index}
-                                variants={index === 0 ? slideFromLeft : slideFromRight}
-                                whileHover={{ borderColor: 'rgba(195,154,43,0.3)', backgroundColor: 'rgba(255,255,255,0.05)' }}
-                                className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 transform-gpu"
-                            >
-                                <div className="flex items-center gap-5 mb-6">
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        className="w-20 h-20 rounded-xl bg-gradient-to-br from-[#B87A14] to-[#E0C27A] flex items-center justify-center flex-shrink-0 overflow-hidden"
-                                    >
-                                        <img
-                                            src={founder.image}
-                                            alt={founder.name}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {
-                                                const target = e.target as HTMLImageElement
-                                                target.style.display = 'none'
-                                                target.parentElement!.innerHTML = `<span class="text-2xl font-extrabold text-white/90">${founder.initials}</span>`
-                                            }}
-                                        />
-                                    </motion.div>
-                                    <div>
-                                        <h3 className="text-xl font-heading font-bold text-white">{founder.name}</h3>
-                                        <p className="text-sm font-semibold text-[#C39A2B] tracking-wide uppercase">{founder.role}</p>
-                                    </div>
-                                </div>
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.8, delay: 0.3 + index * 0.2, ease: [0.22, 1, 0.36, 1] }}
-                                    className="h-[1px] w-full bg-gradient-to-r from-[#C39A2B]/20 via-white/[0.06] to-transparent mb-6 origin-left"
-                                />
-                                <p className="text-white/50 leading-relaxed text-[15px]">{founder.bio}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#181A16]/60 via-transparent to-transparent" />
+                    </div>
+                    <div className="p-4 bg-white/95 border-t border-[#181A16]/10 flex items-center justify-between text-xs font-mono text-[#65675F]">
+                        <span>HEADQUARTERS LAB</span>
+                        <span className="text-[#9B7545] font-semibold">GREATER NOIDA • NCR</span>
+                    </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="relative section-padding bg-[#0F1112] text-white overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(195,154,43,0.06)_0%,transparent_60%)]" />
-                <div className="container-custom text-center relative z-10">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.3 }}
-                        variants={containerVariants}
-                    >
-                        <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: '8rem' }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                            className="h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#C39A2B] to-transparent mb-12"
-                        />
-                        <motion.h2
-                            variants={fadeScale}
-                            data-anim="heading"
-                            className="text-2xl md:text-3xl font-heading font-extrabold mb-6"
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 2 — CHAPTER I: THE THESIS (With Chapter Fracture Rule)
+            ══════════════════════════════════════════════════════════════ */}
+            <article className="prospectus-section py-10 sm:py-14 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-6">
+                <ChapterFractureDivider />
+
+                <div className="flex items-center gap-3 pt-2">
+                    <span className="chapter-numeral text-3xl sm:text-4xl font-extrabold text-[#9B7545]">
+                        01
+                    </span>
+                    <span className="marginal-label text-[#65675F]">
+                        CHAPTER I — THE OPERATIONAL THESIS
+                    </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#181A16] tracking-tight">
+                    Why Traditional Agency &amp; Software Models Break Down.
+                </h2>
+
+                <div className="space-y-4 text-sm sm:text-base text-[#65675F] leading-relaxed">
+                    <p>
+                        Most modern enterprises face a structural dilemma: software agencies deliver code without an understanding of customer acquisition, while marketing agencies execute campaigns without building durable assets.
+                    </p>
+                    <p>
+                        When ad costs fluctuate or service contracts conclude, marketing gains evaporate because the organization never developed proprietary distribution or owned operating software.
+                    </p>
+                    <p>
+                        Deeplink Creators was architected to bridge this division. By pairing dedicated software engineering with creator-led audience networks, we help businesses build permanent capabilities that compound in value over time.
+                    </p>
+                </div>
+            </article>
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 3 — CHAPTER II: THE HYBRID MODEL
+            ══════════════════════════════════════════════════════════════ */}
+            <article className="prospectus-section py-10 sm:py-14 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-[#181A16]/10 space-y-6">
+                <div className="flex items-center gap-3">
+                    <span className="chapter-numeral text-3xl sm:text-4xl font-extrabold text-[#9B7545]">
+                        02
+                    </span>
+                    <span className="marginal-label text-[#65675F]">
+                        CHAPTER II — THE HYBRID ARCHITECTURE
+                    </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#181A16] tracking-tight">
+                    Software Assets and Creator Syndication as One Machine.
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="p-5 rounded-xl border border-[#181A16]/10 bg-white shadow-sm space-y-2">
+                        <span className="marginal-label text-[#9B7545] font-bold block">
+                            THE SOFTWARE ENGINE
+                        </span>
+                        <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                            B2B SaaS applications, sales pipeline automation, and multi-tenant platforms that enforce operational discipline and institutional memory.
+                        </p>
+                    </div>
+
+                    <div className="p-5 rounded-xl border border-[#181A16]/10 bg-white shadow-sm space-y-2">
+                        <span className="marginal-label text-[#9B7545] font-bold block">
+                            THE DISTRIBUTION ENGINE
+                        </span>
+                        <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                            Vetted creator networks and micro-influencer ecosystems that bypass saturated advertising algorithms to connect directly with decision-makers.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 4 — CHAPTER III: MAYALOK VENTURE GOVERNANCE (With Fracture Rule)
+            ══════════════════════════════════════════════════════════════ */}
+            <article className="prospectus-section py-10 sm:py-14 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-6">
+                <ChapterFractureDivider />
+
+                <div className="flex items-center gap-3 pt-2">
+                    <span className="chapter-numeral text-3xl sm:text-4xl font-extrabold text-[#9B7545]">
+                        03
+                    </span>
+                    <span className="marginal-label text-[#65675F]">
+                        CHAPTER III — INSTITUTIONAL GOVERNANCE
+                    </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#181A16] tracking-tight">
+                    Backed by Mayalok Venture.
+                </h2>
+
+                <div className="space-y-4 text-sm sm:text-base text-[#65675F] leading-relaxed">
+                    <p>
+                        Deeplink Creators operates as a strategic unit of Mayalok Venture (<a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-[#9B7545] font-semibold underline">mayalokventures.com</a>), a forward-looking venture firm dedicated to building enduring digital and technological capabilities.
+                    </p>
+                    <p>
+                        This affiliation provides our engineering teams and client partners with long-term capital stability, rigorous corporate governance, and a venture-scale perspective that prioritizes durable enterprise equity over transient gains.
+                    </p>
+                </div>
+            </article>
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 5 — CHAPTER IV: PRINCIPLES
+            ══════════════════════════════════════════════════════════════ */}
+            <article className="prospectus-section py-10 sm:py-14 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-[#181A16]/10 space-y-6">
+                <div className="flex items-center gap-3">
+                    <span className="chapter-numeral text-3xl sm:text-4xl font-extrabold text-[#9B7545]">
+                        04
+                    </span>
+                    <span className="marginal-label text-[#65675F]">
+                        CHAPTER IV — OPERATING PRINCIPLES
+                    </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#181A16] tracking-tight">
+                    How We Engineer &amp; Deliver.
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {[
+                        { title: 'Asset Ownership First', desc: 'Every line of code and pipeline system is architected for long-term client control.' },
+                        { title: 'Zero Operational Leakage', desc: 'Workflows and CRM protocols ensure no qualified inquiry is lost to poor execution.' },
+                        { title: 'Curated Distribution Integrity', desc: 'We only activate creator channels with verified, non-incentivized audience relevance.' },
+                        { title: 'Venture-Scale Reliability', desc: 'Multi-tenant architecture and secure infrastructure built for enterprise longevity.' },
+                    ].map((principle) => (
+                        <div key={principle.title} className="p-5 rounded-xl border border-[#181A16]/10 bg-white shadow-sm space-y-1.5">
+                            <h3 className="text-sm sm:text-base font-bold font-heading text-[#181A16]">
+                                {principle.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                                {principle.desc}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </article>
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 6 — CHAPTER V: LEADERSHIP & GOVERNANCE
+            ══════════════════════════════════════════════════════════════ */}
+            <article className="prospectus-section py-10 sm:py-14 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-[#181A16]/10 space-y-6">
+                <div className="flex items-center gap-3">
+                    <span className="chapter-numeral text-3xl sm:text-4xl font-extrabold text-[#9B7545]">
+                        05
+                    </span>
+                    <span className="marginal-label text-[#65675F]">
+                        CHAPTER V — EXECUTIVE LEADERSHIP
+                    </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#181A16] tracking-tight">
+                    Leadership &amp; Corporate Governance.
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                    {/* Kunal Pratap Singh - Founder */}
+                    <div className="p-6 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-3">
+                        <div className="flex items-center justify-between">
+                            <span className="marginal-label text-[#9B7545] font-bold">
+                                FOUNDER
+                            </span>
+                            <span className="text-[10px] font-mono text-[#65675F]">EXECUTIVE</span>
+                        </div>
+                        <h3 className="text-lg sm:text-xl font-bold font-heading text-[#181A16]">
+                            Kunal Pratap Singh
+                        </h3>
+                        <p className="text-xs text-[#65675F] leading-relaxed">
+                            Leading enterprise strategy, venture partnerships, and commercial architecture across Deeplink Creators and portfolio platforms.
+                        </p>
+                        <div className="pt-2 border-t border-[#181A16]/08">
+                            <a href="mailto:kunal@deeplinkcreators.com" className="text-xs font-mono text-[#9B7545] hover:underline">
+                                kunal@deeplinkcreators.com
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Dileep Yadav - Co-founder */}
+                    <div className="p-6 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-3">
+                        <div className="flex items-center justify-between">
+                            <span className="marginal-label text-[#9B7545] font-bold">
+                                CO-FOUNDER
+                            </span>
+                            <span className="text-[10px] font-mono text-[#65675F]">OPERATIONS</span>
+                        </div>
+                        <h3 className="text-lg sm:text-xl font-bold font-heading text-[#181A16]">
+                            Dileep Yadav
+                        </h3>
+                        <p className="text-xs text-[#65675F] leading-relaxed">
+                            Overseeing operational execution, creator network governance, and multi-channel distribution infrastructure across priority regions.
+                        </p>
+                        <div className="pt-2 border-t border-[#181A16]/08">
+                            <span className="text-xs font-mono text-[#65675F]">
+                                Greater Noida Headquarters
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECTION 7 — ENTERPRISE ENGAGEMENT CTA
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="py-12 sm:py-16 md:py-20 px-5 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-[#181A16]/10">
+                <div className="p-8 sm:p-12 rounded-3xl border border-[#181A16]/15 bg-[#181A16] text-[#F3F0E8] text-center space-y-5 shadow-xl">
+                    <span className="marginal-label text-[#D4B270] tracking-widest font-bold">
+                        EXECUTIVE INTAKE
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white tracking-tight">
+                        Initiate an Institutional Dialogue.
+                    </h2>
+                    <p className="text-xs sm:text-sm md:text-base text-[#AAA99F] leading-relaxed max-w-xl mx-auto">
+                        Explore custom software architecture, creator syndication, or strategic venture collaboration with Deeplink Creators.
+                    </p>
+                    <div className="pt-2">
+                        <Link
+                            href="/contact"
+                            className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-bold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
                         >
-                            Ready to Engineer{' '}
-                            <span className="text-[#C39A2B]">Predictable Revenue?</span>
-                        </motion.h2>
-                        <motion.p variants={fadeUp} className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
-                            We don&apos;t take on every client. If you&apos;re serious about dominating your market and want a growth partner who operates on data, psychology, and ruthless execution — let&apos;s talk.
-                        </motion.p>
-                        <motion.div
-                            variants={fadeUp}
-                            className="flex flex-col sm:flex-row gap-4 justify-center"
-                        >
-                            <Link
-                                href="/contact"
-                                data-anim="cta-pulse"
-                                className="group relative bg-gradient-to-r from-[#B87A14] to-[#D4AC55] text-white font-bold py-4 px-9 rounded-full hover:shadow-2xl hover:shadow-[#C39A2B]/20 transition-all duration-300 inline-flex items-center justify-center gap-2 overflow-hidden"
-                            >
-                                <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <span className="relative z-10">Book a Strategy Call</span>
-                                <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                            <Link
-                                href="/services"
-                                className="bg-white/[0.08] hover:bg-white/[0.15] text-white font-semibold py-4 px-8 rounded-full border border-white/[0.15] transition-all duration-300"
-                            >
-                                View Our Services
-                            </Link>
-                        </motion.div>
-                    </motion.div>
+                            <span>Schedule Enterprise Briefing</span>
+                            <ArrowRight size={16} />
+                        </Link>
+                    </div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }

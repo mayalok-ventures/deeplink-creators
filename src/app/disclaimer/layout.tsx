@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Disclaimer | Deeplink Creators',
-    description: 'Disclaimer for Deeplink Creators, a unit of Mayalok Venture. Earnings disclaimer, liability waiver, and third-party platform disclaimers for our digital marketing services.',
+    description: 'Disclaimer and enterprise engagement policies for Deeplink Creators (A Unit of Mayalok Venture).',
     robots: {
-        index: false,
+        index: true,
         follow: true,
     },
     openGraph: {
         title: 'Disclaimer | Deeplink Creators',
-        description: 'Earnings disclaimer and liability waiver for Deeplink Creators digital marketing services.',
+        description: 'Enterprise engagement disclaimer for Deeplink Creators.',
         url: 'https://deeplinkcreators.com/disclaimer/',
         type: 'website',
     },

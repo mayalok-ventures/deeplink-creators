@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Terms & Conditions | Deeplink Creators',
-    description: 'Terms and Conditions governing services provided by Deeplink Creators, a unit of Mayalok Venture. Read our service agreement, payment terms, and legal policies.',
+    description: 'Terms and Conditions governing services and software platforms provided by Deeplink Creators (A Unit of Mayalok Venture).',
     robots: {
-        index: false,
+        index: true,
         follow: true,
     },
     openGraph: {
         title: 'Terms & Conditions | Deeplink Creators',
-        description: 'Service agreement and terms governing Deeplink Creators digital marketing services.',
+        description: 'Service agreement and terms governing Deeplink Creators enterprise engagements.',
         url: 'https://deeplinkcreators.com/terms/',
         type: 'website',
     },

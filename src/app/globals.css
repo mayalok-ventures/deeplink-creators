@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply bg-[#FAFAF8] text-[#4A4A4A] antialiased;
+        @apply bg-[#F3F0E8] text-[#181A16] antialiased;
     }
 
     h1,
@@ -13,17 +13,21 @@
     h4,
     h5,
     h6 {
-        @apply font-heading text-[#0F1112];
+        @apply font-heading text-[#181A16];
     }
 }
 
 @layer components {
     .btn-primary {
-        @apply bg-[#0F1112] text-white font-semibold py-3.5 px-7 rounded-lg transition-all duration-300 hover:bg-[#1A1B1C] hover:shadow-lg;
+        @apply bg-[#181A16] text-[#F3F0E8] font-semibold py-3.5 px-7 rounded-xl transition-all duration-300 hover:bg-[#252720] hover:shadow-md active:scale-[0.98];
     }
 
     .btn-secondary {
-        @apply bg-gradient-to-r from-[#B87A14] to-[#D4AC55] text-white font-semibold py-3.5 px-7 rounded-lg transition-all duration-300 hover:shadow-lg;
+        @apply bg-white border border-[#181A16]/15 text-[#181A16] font-semibold py-3.5 px-7 rounded-xl transition-all duration-300 hover:bg-[#E6E2D7] hover:border-[#181A16]/30 active:scale-[0.98];
+    }
+
+    .btn-brass {
+        @apply bg-gradient-to-r from-[#9B7545] to-[#B88E56] text-[#FAF8F5] font-semibold py-3.5 px-7 rounded-xl transition-all duration-300 hover:opacity-90 shadow-sm active:scale-[0.98];
     }
 
     .section-padding {
@@ -35,23 +39,23 @@
     }
 
     .surface-card {
-        @apply bg-white rounded-2xl border border-[#E8E6E1] shadow-sm;
+        @apply bg-white rounded-2xl border border-[#181A16]/10 shadow-sm;
     }
 
     .surface-card-hover {
-        @apply surface-card hover:shadow-md hover:border-[#C39A2B]/25 transition-all duration-500;
+        @apply surface-card hover:shadow-md hover:border-[#9B7545]/40 transition-all duration-500;
     }
 
     .glass-card {
-        @apply bg-white rounded-2xl border border-[#E8E6E1] shadow-sm;
+        @apply bg-white/80 backdrop-blur-md rounded-2xl border border-[#181A16]/10 shadow-sm;
     }
 
     .glass-card-hover {
-        @apply glass-card hover:shadow-md hover:border-[#C39A2B]/25 transition-all duration-500;
+        @apply glass-card hover:shadow-md hover:border-[#9B7545]/40 transition-all duration-500;
     }
 
     .gold-border {
-        @apply border border-gold/20;
+        @apply border border-[#9B7545]/30;
     }
 }
 
@@ -75,8 +79,8 @@
     }
 
     ::selection {
-        background-color: rgba(195, 154, 43, 0.2);
-        color: #0F1112;
+        background-color: rgba(185, 145, 82, 0.3);
+        color: #FFFFFF;
     }
 
     ::-webkit-scrollbar {
@@ -84,16 +88,16 @@
     }
 
     ::-webkit-scrollbar-track {
-        background: #FAFAF8;
+        background: #171816;
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #C39A2B;
+        background: #B99152;
         border-radius: 3px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #A9791B;
+        background: #D4B270;
     }
 }
 
@@ -378,5 +382,3 @@
     transparent 100%
   );
 }
-
-@import '../styles/animations.css';

@@ -1,44 +1,53 @@
-# Robots.txt for deeplinkcreators.com
+# Robots.txt for https://deeplinkcreators.com
+# Enterprise Software Holding & Venture Studio
 
 User-agent: *
 Allow: /
 Disallow: /_next/
-Disallow: /api/
 Disallow: /deepadmin/
+Disallow: /api/
 Disallow: /b/
 
-# Google
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
-# Bing & Yahoo
 User-agent: Bingbot
 Allow: /
 
 User-agent: Slurp
 Allow: /
 
-# Yandex
-User-agent: YandexBot
-Allow: /
-
-# DuckDuckGo
 User-agent: DuckDuckBot
 Allow: /
 
-# Facebook / Meta crawler
+User-agent: Applebot
+Allow: /
+
+# AI Answer Engine & Knowledge Retrieval Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: Facebot
-Allow: /
-
-# LinkedIn
-User-agent: LinkedInBot
-Allow: /
-
-# Twitter
 User-agent: Twitterbot
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+# Sitemap Location
 Sitemap: https://deeplinkcreators.com/sitemap.xml

@@ -1,388 +1,537 @@
 'use client'
 
-import { useState, useEffect, ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { useReducedMotion } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
-    Search, TrendingUp, Target, Globe, ArrowRight, Award, Zap, Shield,
-    Users, Star, Heart, MessageCircle, Code, Palette, Megaphone, Mail,
-    BarChart, Layers, Rocket, CheckCircle2
+    ArrowRight,
+    ChevronRight,
+    ShieldCheck,
+    Cpu,
+    Network,
+    BarChart3,
+    CheckCircle2,
+    Sparkles,
+    Gift,
+    Workflow,
+    Lock,
+    Users,
+    Layers,
+    Boxes,
+    ExternalLink
 } from 'lucide-react'
-import { getVisibleServiceCards } from '@/lib/firestore'
-import ScrollReveal from '@/components/ScrollReveal'
 
-/* ─────────────────────────────── Icon map ─────────────────────────────── */
-const ICON_MAP: Record<string, ReactNode> = {
-    Search: <Search size={26} />,
-    TrendingUp: <TrendingUp size={26} />,
-    Target: <Target size={26} />,
-    Globe: <Globe size={26} />,
-    Zap: <Zap size={26} />,
-    Shield: <Shield size={26} />,
-    Award: <Award size={26} />,
-    Users: <Users size={26} />,
-    BarChart: <BarChart size={26} />,
-    Layers: <Layers size={26} />,
-    Rocket: <Rocket size={26} />,
-    Star: <Star size={26} />,
-    Heart: <Heart size={26} />,
-    MessageCircle: <MessageCircle size={26} />,
-    Code: <Code size={26} />,
-    Palette: <Palette size={26} />,
-    Megaphone: <Megaphone size={26} />,
-    Mail: <Mail size={26} />,
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger)
 }
 
-/* ──────────────────────────── Types ──────────────────────────────────── */
-interface ServiceItem {
-    icon: string
+/* ═══════════════════════════════════════════════════════════════════════
+   DOSSIER CARD WITH IDENTITY SWAP & DELAYED REALITY
+═══════════════════════════════════════════════════════════════════════ */
+interface DossierCardProps {
+    index: string
     title: string
-    benefit: string
-    description: string
-    features: string[]
-    href: string
-    gradient: string
-    imageUrl?: string
+    summary: string
+    category: string
+    capabilities: string[]
+    useCase: string
+    techStack: Array<{ name: string; icon: string }>
 }
 
-/* ─────────────────── Static fallback (shown when Firestore is empty) ─── */
-const FALLBACK_SERVICES: ServiceItem[] = [
-    {
-        icon: 'Search',
-        title: 'Enterprise SEO',
-        benefit: 'Rank #1, sustainably',
-        description: 'Full-funnel technical and content SEO that compounds month-over-month — topical authority, schema, Core Web Vitals, and entity-based link acquisition.',
-        features: ['Technical audit & remediation', 'Topical authority clusters', 'Core Web Vitals optimisation', 'Entity-based link building'],
-        href: '/services/enterprise-seo/',
-        gradient: 'from-amber-500 to-yellow-600',
-    },
-    {
-        icon: 'TrendingUp',
-        title: 'Performance Marketing',
-        benefit: '3-5× ROAS, guaranteed',
-        description: 'Meta Ads, Google PPC, and programmatic buying engineered for cost-per-sale, not just clicks. Every rupee tracked back to revenue.',
-        features: ['Google Search & Performance Max', 'Meta & Instagram Ads', 'Programmatic display', 'Full attribution modelling'],
-        href: '/services/performance-marketing/',
-        gradient: 'from-orange-500 to-red-600',
-    },
-    {
-        icon: 'Target',
-        title: 'B2B Industrial Marketing',
-        benefit: 'Pipeline, not just leads',
-        description: 'Decision-maker targeting, LinkedIn ABM, and long-cycle nurture sequences built for complex B2B sales in manufacturing, SaaS, and infrastructure sectors.',
-        features: ['LinkedIn ABM campaigns', 'Buyer-journey content', 'CRM integration & scoring', 'Intent-data prospecting'],
-        href: '/services/b2b-industrial-marketing/',
-        gradient: 'from-blue-500 to-indigo-600',
-    },
-    {
-        icon: 'Palette',
-        title: 'Brand Psychology',
-        benefit: 'Neuro-driven brand equity',
-        description: 'Identity systems built on cognitive science — colour psychology, typography hierarchy, and narrative frameworks that make your brand the default choice.',
-        features: ['Neuro-marketing brand audit', 'Visual identity system', 'Brand voice & messaging', 'Omni-channel consistency'],
-        href: '/services/brand-psychology/',
-        gradient: 'from-purple-500 to-pink-600',
-    },
-    {
-        icon: 'Code',
-        title: 'Conversion Web Design',
-        benefit: 'Design that sells',
-        description: 'Landing pages and websites built around heat-mapping data, F-pattern reading flows, and psychographic CTAs — every pixel earns its place.',
-        features: ['CRO-led UX design', 'A/B testing framework', 'Heatmap & session analysis', 'Speed & Core Web Vitals'],
-        href: '/services/conversion-web-design/',
-        gradient: 'from-teal-500 to-green-600',
-    },
-    {
-        icon: 'BarChart',
-        title: 'Analytics & Revenue Attribution',
-        benefit: 'Know what drives profit',
-        description: 'GA4, Looker Studio, and custom dashboards that connect ad spend to closed deals — surfacing the exact campaigns, pages, and keywords generating revenue.',
-        features: ['GA4 & GTM implementation', 'Custom Looker Studio dashboards', 'Multi-touch attribution', 'Monthly revenue reports'],
-        href: '/services/analytics/',
-        gradient: 'from-cyan-500 to-blue-600',
-    },
-    {
-        icon: 'Megaphone',
-        title: 'Education Marketing',
-        benefit: 'Fill seats, grow enrolments',
-        description: 'Enrolment funnels, YouTube pre-roll, and counsellor CRM integrations for coaching institutes, ed-tech platforms, and universities in the NCR corridor.',
-        features: ['Lead-gen landing pages', 'Enrolment funnel automation', 'YouTube & Google Ads', 'Counsellor CRM dashboards'],
-        href: '/services/education-marketing/',
-        gradient: 'from-rose-500 to-pink-600',
-    },
-    {
-        icon: 'Globe',
-        title: 'Real Estate Marketing',
-        benefit: 'Qualified site-visit leads',
-        description: 'RERA-compliant digital campaigns for builders, developers, and brokers — precision geo-targeting around your projects with CPL well below industry average.',
-        features: ['Hyper-local geo targeting', 'RERA-compliant creatives', 'IVR + CRM integration', 'Virtual tour campaigns'],
-        href: '/services/real-estate-marketing/',
-        gradient: 'from-emerald-500 to-teal-600',
-    },
-    {
-        icon: 'Zap',
-        title: 'AI Marketing Automation',
-        benefit: 'Scale without headcount',
-        description: 'AI-powered lead scoring, chatbot funnels, and automated nurture sequences that keep your pipeline warm 24/7 without adding to your team size.',
-        features: ['AI lead scoring', 'WhatsApp & email automation', 'Chatbot funnel design', 'Predictive campaign bidding'],
-        href: '/services/ai-marketing-automation/',
-        gradient: 'from-violet-500 to-purple-600',
-    },
-    {
-        icon: 'Shield',
-        title: 'Reputation & Review Management',
-        benefit: 'Own your SERP narrative',
-        description: 'Google Business Profile dominance, structured review acquisition, and negative-mention suppression so your brand is always trustworthy at the zero moment of truth.',
-        features: ['Google Business optimisation', 'Review acquisition system', 'ORM monitoring & alerts', 'Competitor mention tracking'],
-        href: '/services/',
-        gradient: 'from-slate-500 to-gray-600',
-    },
-]
+function DossierOfferingCard({
+    index,
+    title,
+    summary,
+    category,
+    capabilities,
+    useCase,
+    techStack,
+}: DossierCardProps) {
+    return (
+        <div className="dossier-card gsap-card rounded-2xl border border-[#181A16]/12 bg-white p-6 sm:p-8 shadow-sm relative min-h-[380px] flex flex-col justify-between overflow-hidden">
+            {/* 1. PRIMARY VIEW (Default Surface) */}
+            <div className="dossier-primary-view space-y-4">
+                <div className="flex items-center justify-between">
+                    <span className="chapter-numeral text-3xl font-extrabold text-[#9B7545]">
+                        {index}
+                    </span>
+                    <span className="marginal-label text-[#65675F] px-2.5 py-1 rounded bg-[#E6E2D7] border border-[#181A16]/08">
+                        {category}
+                    </span>
+                </div>
 
-const whyChooseUs = [
-    {
-        icon: <Award size={28} />,
-        title: 'ROI-First Methodology',
-        stat: '4.2×',
-        statLabel: 'average ROAS',
-        description: 'We only measure what impacts your bank account. No vanity metrics — just revenue and profit growth.',
-    },
-    {
-        icon: <Zap size={28} />,
-        title: 'Neuro-Marketing Science',
-        stat: '63%',
-        statLabel: 'higher CVR vs. intuition-led',
-        description: 'Data science + human psychology to create campaigns that trigger buying decisions, not just clicks.',
-    },
-    {
-        icon: <Shield size={28} />,
-        title: 'Transparent Reporting',
-        stat: '100%',
-        statLabel: 'dashboard access',
-        description: 'Full real-time data. You always know exactly where your money goes and what it generates.',
-    },
-]
+                <h2 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16] tracking-tight">
+                    {title}
+                </h2>
 
-export default function ServicesPage() {
-    const [services, setServices] = useState<ServiceItem[]>([])
-    const [loading, setLoading] = useState(true)
+                <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                    {summary}
+                </p>
 
-    useEffect(() => {
-        getVisibleServiceCards()
-            .then(cards => {
-                if (cards.length > 0) {
-                    setServices(cards.map(c => ({
-                        icon: c.icon,
-                        title: c.title,
-                        benefit: c.benefit,
-                        description: c.description,
-                        features: c.features,
-                        href: c.href,
-                        gradient: c.gradient,
-                        imageUrl: c.imageUrl,
-                    })))
-                } else {
-                    setServices(FALLBACK_SERVICES)
-                }
-            })
-            .catch(() => setServices(FALLBACK_SERVICES))
-            .finally(() => setLoading(false))
+                {/* Tech Stack Badges */}
+                <div className="pt-3 border-t border-[#181A16]/08">
+                    <span className="text-[10px] font-mono text-[#65675F] uppercase block mb-2">
+                        ENGINEERING STACK
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                        {techStack.map((tech) => (
+                            <span
+                                key={tech.name}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#181A16]/08 text-[11px] font-mono text-[#181A16]"
+                            >
+                                <img
+                                    src={tech.icon}
+                                    alt={tech.name}
+                                    className="w-3.5 h-3.5 object-contain"
+                                />
+                                <span>{tech.name}</span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* 2. SECONDARY VIEW (Dossier Identity Swap Reveal - Visible on Desktop Hover) */}
+            <div className="dossier-secondary-view absolute inset-0 bg-[#FAF8F5] p-6 sm:p-8 flex flex-col justify-between border-t-2 border-[#9B7545]">
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-[#181A16]/08">
+                        <span className="text-xs font-mono font-bold text-[#9B7545] uppercase tracking-wider">
+                            DOSSIER // CAPABILITIES
+                        </span>
+                        <span className="text-xs font-mono text-[#65675F]">{index}</span>
+                    </div>
+
+                    <div className="space-y-2 text-xs sm:text-sm text-[#181A16]">
+                        {capabilities.map((cap, i) => (
+                            <div key={i} className="flex items-start gap-2">
+                                <CheckCircle2 size={14} className="text-[#3F5544] flex-shrink-0 mt-0.5" />
+                                <span className="leading-snug">{cap}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="pt-2">
+                        <p className="text-[11px] font-mono text-[#65675F] leading-relaxed bg-white p-2.5 rounded-lg border border-[#181A16]/08">
+                            <strong className="text-[#181A16]">Impact:</strong> {useCase}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="pt-3 border-t border-[#181A16]/08">
+                    <Link
+                        href="/contact"
+                        className="tactile-btn w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#181A16] hover:bg-[#252720] text-[#F3F0E8] font-heading font-semibold text-xs tracking-wide shadow-sm"
+                    >
+                        <span>Initiate Briefing on this Offering</span>
+                        <ArrowRight size={13} className="text-[#D4B270]" />
+                    </Link>
+                </div>
+            </div>
+
+            {/* Bottom Card Footer */}
+            <div className="pt-4 border-t border-[#181A16]/08 flex items-center justify-between text-xs font-mono text-[#65675F]">
+                <span>Enterprise Offering</span>
+                <span className="text-[#9B7545] font-medium hidden sm:inline">Hover for Dossier →</span>
+            </div>
+        </div>
+    )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SAHYAK CRM INSIDE-OUT SPOTLIGHT COMPONENT
+═══════════════════════════════════════════════════════════════════════ */
+function SahyakInsideOutSpotlight() {
+    const shouldReduceMotion = useReducedMotion()
+    const cardRef = useRef<HTMLDivElement>(null)
+    const [tilt, setTilt] = useState({ rx: 0, ry: 0, mx: 50, my: 50 })
+
+    const handleMouseMove = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            if (shouldReduceMotion || typeof window === 'undefined') return
+            if (!cardRef.current) return
+
+            const rect = cardRef.current.getBoundingClientRect()
+            const x = (e.clientX - rect.left) / rect.width
+            const y = (e.clientY - rect.top) / rect.height
+            const rx = (0.5 - y) * 8
+            const ry = (x - 0.5) * 8
+
+            setTilt({ rx, ry, mx: x * 100, my: y * 100 })
+        },
+        [shouldReduceMotion]
+    )
+
+    const handleMouseLeave = useCallback(() => {
+        setTilt({ rx: 0, ry: 0, mx: 50, my: 50 })
     }, [])
 
     return (
-        <>
-            {/* ── Hero ── */}
-            <section className="relative pt-32 pb-24 bg-white text-heading overflow-hidden">
-                <div className="absolute inset-0 z-[1] pointer-events-none">
-                    <img src="/images/hero/hero-services.webp" alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white" />
+        <div className="inside-out-stage">
+            <div
+                ref={cardRef}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                className="inside-out-card relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-[#181A16] living-border-frame living-border-glow"
+                style={{
+                    transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+                    '--mouse-x': `${tilt.mx}%`,
+                    '--mouse-y': `${tilt.my}%`,
+                } as React.CSSProperties}
+            >
+                <div className="relative h-[260px] sm:h-[320px] md:h-[380px] w-full">
+                    <Image
+                        src="/images/sahyak-crm-mockup.jpg"
+                        alt="Sahyak CRM Platform Dashboard Interface"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                        className="object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#181A16]/70 via-transparent to-transparent" />
                 </div>
 
-                {/* floating orb */}<div className="container-custom relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="max-w-4xl mx-auto text-center"
-                    >
-                        <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-4 py-2 mb-6">
-                            <span className="w-2 h-2 bg-[#C39A2B] rounded-full animate-pulse" />
-                            <span className="text-sm font-medium">Revenue-Focused Digital Marketing</span>
+                <div className="impossible-reflection" />
+
+                <div className="p-4 bg-[#181A16]/95 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#AAA99F] relative z-10">
+                    <span className="text-[#D4B270] font-semibold">sahyak.com</span>
+                    <span>30-DAY COMPLIMENTARY DEPLOYMENT</span>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default function ServicesPage() {
+    const shouldReduceMotion = useReducedMotion()
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    // GSAP ScrollTrigger Integration for subtle card reveals
+    useEffect(() => {
+        if (shouldReduceMotion || typeof window === 'undefined') return
+
+        const ctx = gsap.context(() => {
+            gsap.utils.toArray<HTMLElement>('.gsap-card').forEach((card, i) => {
+                gsap.fromTo(
+                    card,
+                    { opacity: 0, y: 16 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        delay: (i % 2) * 0.08,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 90%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                )
+            })
+        }, containerRef)
+
+        return () => ctx.revert()
+    }, [shouldReduceMotion])
+
+    return (
+        <div
+            ref={containerRef}
+            className="bg-[#F3F0E8] text-[#181A16] min-h-screen selection:bg-[#9B7545]/20 selection:text-[#181A16] relative overflow-x-hidden font-sans"
+        >
+            {/* Subtle Architectural Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+
+            {/* ══════════════════════════════════════════════════════════════
+                1. COMPACT SERVICES HEADER (Editorial Catalog Intro)
+            ══════════════════════════════════════════════════════════════ */}
+            <header className="relative pt-12 sm:pt-16 md:pt-20 pb-10 sm:pb-12 md:pb-14 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    {/* Left Column: Core Value & Call to Actions */}
+                    <div className="lg:col-span-7 space-y-5">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6E2D7] border border-[#181A16]/10">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#9B7545] animate-pulse flex-shrink-0" />
+                            <span className="marginal-label text-[#181A16] font-bold">
+                                ENTERPRISE OFFERINGS CATALOG
+                            </span>
                         </div>
 
-                        <h1 className="text-3xl md:text-5xl font-heading font-extrabold mb-6 leading-tight">
-                            Digital Marketing Services That Build{' '}
-                            <span className="text-[#C39A2B]">Revenue Machines</span>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-[#181A16] leading-[1.14]">
+                            Software, Distribution &amp;{' '}
+                            <span className="text-brass-gradient">
+                                Enterprise Systems.
+                            </span>
                         </h1>
-                        <p className="text-lg text-paragraph mb-10 max-w-2xl mx-auto">
-                            Enterprise SEO, performance marketing, and AI-powered lead generation — engineered to deliver customers, revenue, and measurable ROI.
+
+                        <p className="text-sm sm:text-base md:text-lg text-[#65675F] max-w-2xl leading-relaxed font-normal">
+                            Deeplink Creators builds proprietary software infrastructure and creator-led distribution systems for organizations seeking durable operational and market advantage.
                         </p>
 
-                        {/* Trust bar */}
-                        <div className="flex flex-wrap justify-center gap-6 text-sm text-paragraph">
-                            {['200+ Brands Grown', '₹50 Cr+ Ad Spend Managed', '4.2× Avg ROAS', 'Greater Noida · NCR'].map((t) => (
-                                <div key={t} className="flex items-center gap-2">
-                                    <CheckCircle2 size={15} className="text-[#C39A2B]" />
-                                    <span>{t}</span>
-                                </div>
-                            ))}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto pt-1">
+                            <Link
+                                href="/contact"
+                                className="tactile-btn inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-sm tracking-wide shadow-sm hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[46px]"
+                            >
+                                <span>Schedule Enterprise Briefing</span>
+                                <ArrowRight size={16} className="text-[#D4B270]" />
+                            </Link>
+
+                            <a
+                                href="https://sahyak.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="tactile-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[46px]"
+                            >
+                                <span>Sahyak CRM Platform</span>
+                                <ExternalLink size={14} className="text-[#9B7545]" />
+                            </a>
                         </div>
-                    </motion.div>
+                    </div>
+
+                    {/* Right Column: Key Operating Signals */}
+                    <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                ARCHITECTURE
+                            </span>
+                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
+                                Multi-Tenant
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                Secure database isolation and custom workflow rules
+                            </p>
+                        </div>
+
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                DISTRIBUTION
+                            </span>
+                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
+                                Creator-Led
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                Niche audience access and verified syndication
+                            </p>
+                        </div>
+
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                CRM PLATFORM
+                            </span>
+                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
+                                Sahyak CRM
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                30-day deployment benefit included with engagements
+                            </p>
+                        </div>
+
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                GOVERNANCE
+                            </span>
+                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
+                                Mayalok Unit
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                Institutional venture capital backing and stability
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </header>
 
-            {/* ── Services — Asymmetric Bespoke Grid ── */}
-            <section data-anim="section-glow" className="section-padding bg-[#FAFAF8]">
-                <div className="container-custom">
-                    <ScrollReveal className="text-center mb-16">
-                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                            Our <span className="text-[#C39A2B]">Core Services</span>
-                        </h2>
-                        <p className="text-lg text-paragraph max-w-3xl mx-auto">
-                            Each service works independently or as part of a complete revenue system tailored to your business.
-                        </p>
-                    </ScrollReveal>
 
-                    {loading ? (
-                        <div className="flex items-center justify-center py-16">
-                            <div className="w-8 h-8 border-2 border-[#C39A2B] border-t-transparent rounded-full animate-spin" />
-                        </div>
-                    ) : (
-                        /* Asymmetric masonry-style grid: 2-col with varying spans */
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                            {services.map((service, index) => {
-                                /* Featured cards: first one is tall/wide, every 7th card is wide */
-                                const isFeatured = index === 0
-                                const isWide = index === 6
-                                const spanClass = isFeatured
-                                    ? 'lg:col-span-2 lg:row-span-2'
-                                    : isWide
-                                    ? 'lg:col-span-2'
-                                    : ''
+            {/* ══════════════════════════════════════════════════════════════
+                2. FOUR CORE OFFERINGS (Dossier Identity Swap Grid)
+            ══════════════════════════════════════════════════════════════ */}
+            <main className="relative pb-16 sm:pb-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    {/* Offering 01 */}
+                    <DossierOfferingCard
+                        index="01"
+                        category="PROPRIETARY SOFTWARE"
+                        title="B2B SaaS &amp; Custom Software Engineering"
+                        summary="End-to-end architecture and engineering of proprietary B2B software, multi-tenant SaaS platforms, internal operating systems, and client portals."
+                        capabilities={[
+                            'Multi-tenant database schema & secure auth architecture',
+                            'Role-based access control (RBAC) & tenant isolation',
+                            'Scalable API design, webhooks & microservices integration',
+                            'High-performance fullstack development with Next.js & Python',
+                        ]}
+                        useCase="Transitioning internal spreadsheets or fragmented tools into a proprietary, scalable B2B SaaS asset owned permanently by your enterprise."
+                        techStack={[
+                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+                            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+                        ]}
+                    />
 
-                                return (
-                                    <ScrollReveal
-                                        key={index}
-                                        delay={Math.min(index % 3, 2) * 80}
-                                        direction="up"
-                                        className={`group relative rounded-2xl overflow-hidden bg-white border border-[#E5E7EB] hover:border-[#C39A2B]/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${spanClass}`}
-                                    >
-                                        {/* Gradient top bar */}
-                                        <div className={`h-1.5 w-full bg-gradient-to-r ${service.gradient}`} />
+                    {/* Offering 02 */}
+                    <DossierOfferingCard
+                        index="02"
+                        category="AUDIENCE DISTRIBUTION"
+                        title="Creator-Led Audience &amp; Distribution Networks"
+                        summary="Strategic curation, onboarding, and orchestration of dedicated creator and micro-influencer ecosystems that syndicate your enterprise message."
+                        capabilities={[
+                            'Curated creator network vetting & audience integrity audit',
+                            'Syndicated content distribution across niche industry verticals',
+                            'Zero dependency on volatile paid advertising algorithms',
+                            'Conversion attribution tracking & performance telemetry',
+                        ]}
+                        useCase="Establishing direct commercial distribution channels into high-value B2B decision-maker communities without burning budget on PPC bidding."
+                        techStack={[
+                            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+                            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
+                        ]}
+                    />
 
-                                        {/* Featured card has a large image strip */}
-                                        {isFeatured && service.imageUrl && (
-                                            <div className="relative h-48 overflow-hidden">
-                                                <img
-                                                    src={service.imageUrl}
-                                                    alt={service.title}
-                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                                            </div>
-                                        )}
+                    {/* Offering 03 */}
+                    <DossierOfferingCard
+                        index="03"
+                        category="PIPELINE AUTOMATION"
+                        title="Revenue Operations &amp; Pipeline Automation"
+                        summary="Engineering high-conversion sales funnels, CRM workflow architecture, automated lead routing, and revenue telemetry systems."
+                        capabilities={[
+                            'Automated multi-channel lead routing & SLA tracking',
+                            'Stage-gated pipeline workflows & automated follow-ups',
+                            'Live revenue analytics & conversion bottleneck detection',
+                            'Deep CRM telemetry integration powered by Sahyak CRM',
+                        ]}
+                        useCase="Eliminating pipeline leakage and enforcing operational accountability across distributed enterprise sales representatives."
+                        techStack={[
+                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+                        ]}
+                    />
 
-                                        <div className={`p-7 ${isFeatured ? 'md:p-10' : ''}`}>
-                                            {/* Icon */}
-                                            <div className={`w-12 h-12 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-5 text-white transition-transform duration-300 group-hover:scale-105 ${isFeatured && service.imageUrl ? '-mt-8 relative z-10 shadow-lg ring-2 ring-white/20' : ''}`}>
-                                                {ICON_MAP[service.icon] ?? <Search size={26} />}
-                                            </div>
-
-                                            {/* Benefit badge */}
-                                            <p className="text-xs font-semibold uppercase tracking-widest text-[#C39A2B] mb-2">{service.benefit}</p>
-
-                                            <h3 className={`font-heading font-bold text-heading mb-3 ${isFeatured ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
-                                                {service.title}
-                                            </h3>
-                                            <p className={`text-paragraph mb-5 leading-relaxed ${isFeatured ? 'text-base' : 'text-sm'}`}>
-                                                {service.description}
-                                            </p>
-
-                                            {/* Features list */}
-                                            <ul className="space-y-1.5 mb-6">
-                                                {service.features.slice(0, isFeatured ? 4 : 3).map((feat, i) => (
-                                                    <li key={i} className="flex items-center gap-2 text-sm text-paragraph">
-                                                        <CheckCircle2 size={14} className="text-[#C39A2B] flex-shrink-0" />
-                                                        {feat}
-                                                    </li>
-                                                ))}
-                                            </ul>
-
-                                            <Link
-                                                href={service.href}
-                                                className="inline-flex items-center gap-2 text-sm font-semibold text-[#C39A2B] hover:gap-3 transition-all duration-200"
-                                            >
-                                                Learn More <ArrowRight size={15} />
-                                            </Link>
-                                        </div>
-                                    </ScrollReveal>
-                                )
-                            })}
-                        </div>
-                    )}
+                    {/* Offering 04 */}
+                    <DossierOfferingCard
+                        index="04"
+                        category="STRATEGIC ADVISORY"
+                        title="Enterprise Systems Advisory &amp; Architecture"
+                        summary="Fractional CTO, software holding advisory, and technical due diligence for organizations modernizing legacy workflows or scaling digital assets."
+                        capabilities={[
+                            'Legacy system refactoring & cloud migration blueprints',
+                            'Data security, regulatory compliance & DPDP readiness',
+                            'Venture studio scaling frameworks & technical due diligence',
+                            'Engineering team mentorship & architectural governance',
+                        ]}
+                        useCase="Empowering executive leadership with senior architectural guidance to avoid costly infrastructure missteps."
+                        techStack={[
+                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+                        ]}
+                    />
                 </div>
-            </section>
+            </main>
 
-            {/* ── Why Choose Us — Stat-forward cards ── */}
-            <section data-anim="section-glow" className="section-padding bg-white">
-                <div className="container-custom">
-                    <ScrollReveal className="text-center mb-14">
-                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold text-heading mb-4">
-                            Why Choose <span className="text-[#C39A2B]">Deeplink Creators</span>?
-                        </h2>
-                        <p className="text-lg text-paragraph max-w-2xl mx-auto">
-                            Here&apos;s what makes us different from every other agency.
-                        </p>
-                    </ScrollReveal>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {whyChooseUs.map((item, index) => (
-                            <ScrollReveal key={index} delay={index * 100} direction="up">
-                                <div className="bg-white rounded-2xl border border-[#E8E6E1] shadow-sm p-8 text-center hover:border-[#C39A2B]/40 transition-colors duration-300">
-                                    <div className="w-16 h-16 bg-[#C39A2B]/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                                        <div className="text-[#C39A2B]">{item.icon}</div>
+            {/* ══════════════════════════════════════════════════════════════
+                3. SAHYAK CRM COMPLIMENTARY INCLUSION CHAPTER
+                Inside-Out Product Spotlight & 30-Day Deployment Benefit
+            ══════════════════════════════════════════════════════════════ */}
+            <section
+                id="sahyak-crm"
+                className="py-14 sm:py-20 md:py-28 px-5 sm:px-6 lg:px-8 bg-[#252720] text-[#F3F0E8] relative z-10 border-t border-[#181A16]"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                        {/* Left Narrative Column (lg:col-span-6) */}
+                        <div className="lg:col-span-6 space-y-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9B7545]/20 border border-[#9B7545]/35 text-[#D4B270] text-[11px] font-mono font-bold tracking-widest uppercase">
+                                <Sparkles size={13} />
+                                FLAGSHIP SOFTWARE BENEFIT
+                            </div>
+
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
+                                30-Day Sahyak CRM Access{' '}
+                                <span className="text-[#D4B270]">
+                                    Included with Every Client Engagement.
+                                </span>
+                            </h2>
+
+                            <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed">
+                                We believe execution without software is incomplete. When you partner with Deeplink Creators for software development or distribution architecture, we deploy Sahyak CRM into your organization with 30 days of complimentary access.
+                            </p>
+
+                            <div className="space-y-3 pt-2">
+                                {[
+                                    'Pre-configured pipeline stages tailored to your commercial model',
+                                    'Multi-agent lead assignment, status tracking & SLA monitoring',
+                                    'Automated multi-channel follow-up workflows and notifications',
+                                    'Seamless integration with custom web apps and landing pages',
+                                ].map((benefit) => (
+                                    <div key={benefit} className="flex items-center gap-2.5 text-xs sm:text-sm text-white">
+                                        <CheckCircle2 size={15} className="text-[#9B7545] flex-shrink-0" />
+                                        <span>{benefit}</span>
                                     </div>
-                                    <div className="text-4xl font-extrabold text-[#C39A2B] mb-1">{item.stat}</div>
-                                    <div className="text-xs uppercase tracking-widest text-paragraph mb-4">{item.statLabel}</div>
-                                    <h3 className="text-lg font-heading font-bold text-heading mb-2">{item.title}</h3>
-                                    <p className="text-sm text-paragraph leading-relaxed">{item.description}</p>
-                                </div>
-                            </ScrollReveal>
-                        ))}
+                                ))}
+                            </div>
+
+                            <div className="pt-2 flex flex-wrap items-center gap-4">
+                                <a
+                                    href="https://sahyak.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="tactile-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-md"
+                                >
+                                    <span>Explore Sahyak CRM (sahyak.com)</span>
+                                    <ExternalLink size={14} />
+                                </a>
+
+                                <Link
+                                    href="/contact"
+                                    className="tactile-btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all border border-white/10"
+                                >
+                                    <span>Claim 30-Day Deployment</span>
+                                    <ArrowRight size={14} className="text-[#D4B270]" />
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Right Software Mockup (Inside-Out 3D Spotlight) */}
+                        <div className="lg:col-span-6">
+                            <SahyakInsideOutSpotlight />
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* ── CTA Section ── */}
-            <section className="relative section-padding bg-[#0F1112] text-white">
-                <div className="container-custom text-center relative z-10">
-                    <ScrollReveal direction="up">
-                        <h2 data-anim="heading" className="text-2xl md:text-3xl font-heading font-extrabold mb-6">
-                            Not Sure Which Service You Need?{' '}
-                            <span className="text-[#C39A2B]">Let&apos;s Talk.</span>
-                        </h2>
-                        <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
-                            Book a FREE strategy call with India&apos;s leading digital marketing experts. We&apos;ll build a custom plan based on your business goals and budget.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                href="/contact"
-                                data-anim="cta-pulse"
-                                className="btn-secondary inline-flex items-center justify-center gap-2 text-base py-3.5 px-8"
-                            >
-                                Get FREE Strategy Call
-                                <ArrowRight size={20} />
-                            </Link>
-                            <Link
-                                href="/contact"
-                                className="bg-white/[0.05] hover:bg-white/[0.1] text-white font-semibold py-4 px-8 rounded-lg border border-white/[0.1] transition-colors"
-                            >
-                                Schedule a Call
-                            </Link>
-                        </div>
-                    </ScrollReveal>
+
+            {/* ══════════════════════════════════════════════════════════════
+                4. ENTERPRISE ENGAGEMENT CTA
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="py-14 sm:py-20 md:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
+                <div className="p-8 sm:p-12 md:p-16 rounded-3xl border border-[#181A16]/15 bg-[#181A16] text-[#F3F0E8] text-center space-y-6 shadow-2xl">
+                    <span className="marginal-label text-[#D4B270] tracking-widest font-bold">
+                        ENGAGEMENT PROCESS
+                    </span>
+
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold font-heading text-white tracking-tight max-w-3xl mx-auto leading-tight">
+                        Engineer your software and distribution systems.
+                    </h2>
+
+                    <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed max-w-2xl mx-auto font-normal">
+                        Submit your project scope or schedule a consultation with our technical principals in Greater Noida.
+                    </p>
+
+                    <div className="pt-2">
+                        <Link
+                            href="/contact"
+                            className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-bold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
+                        >
+                            <span>Schedule Enterprise Briefing</span>
+                            <ArrowRight size={16} />
+                        </Link>
+                    </div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }

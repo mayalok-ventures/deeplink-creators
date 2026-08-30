@@ -1,9 +1,7 @@
-import {
-    collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
-    query, where, orderBy, limit, Timestamp, setDoc
-} from 'firebase/firestore'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { app, db } from './firebase'
+/**
+ * MongoDB Data Layer for Deeplink Creators
+ * Fully replaces Firestore with MongoDB Atlas database: deeplink-data
+ */
 
 export interface BlogPost {
     id?: string
@@ -14,13 +12,15 @@ export interface BlogPost {
     excerpt: string
     coverImage: string
     author: string
+    category?: string
     tags: string[]
     published: boolean
-    publishedAt: Timestamp | null
-    updatedAt: Timestamp
+    publishedAt: any
+    updatedAt: any
     seoTitle: string
     seoDescription: string
     keywords: string
+    readTime?: string
 }
 
 export interface SiteSettings {
@@ -78,7 +78,23 @@ export interface TestimonialData {
     rating: number
     featured: boolean
     order: number
-    createdAt: Timestamp
+    createdAt: any
+}
+
+export interface LeadSubmission {
+    id?: string
+    name: string
+    organization?: string
+    email: string
+    phone: string
+    service?: string
+    timeline?: string
+    scope?: string
+    budget?: string
+    source?: string
+    status?: 'new' | 'contacted' | 'qualified' | 'closed'
+    notes?: string
+    createdAt: any
 }
 
 function generateShortId(): string {
@@ -100,267 +116,290 @@ export function createSlug(title: string): string {
         .substring(0, 80)
 }
 
-// ─── Blog Operations ─────────────────────────────────────────────
+// ─── Blog Operations (MongoDB API) ───────────────────────────────
 
 export async function getPublishedBlogs(): Promise<BlogPost[]> {
-    const q = query(
-        collection(db, 'blogs'),
-        where('published', '==', true)
-    )
-    const snapshot = await getDocs(q)
-    const blogs = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost))
-    return blogs.sort((a, b) => {
-        const aTime = a.publishedAt?.toMillis?.() ?? 0
-        const bTime = b.publishedAt?.toMillis?.() ?? 0
-        return bTime - aTime
-    })
+    try {
+        const res = await fetch('/api/blogs', { cache: 'no-store' })
+        if (!res.ok) return []
+        const data = await res.json()
+        return data.blogs || []
+    } catch (err) {
+        console.error('getPublishedBlogs error:', err)
+        return []
+    }
 }
 
 export async function getAllBlogs(): Promise<BlogPost[]> {
-    const q = query(collection(db, 'blogs'), orderBy('updatedAt', 'desc'))
-    const snapshot = await getDocs(q)
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost))
+    try {
+        const res = await fetch('/api/blogs?all=true', { cache: 'no-store' })
+        if (!res.ok) return []
+        const data = await res.json()
+        return data.blogs || []
+    } catch (err) {
+        console.error('getAllBlogs error:', err)
+        return []
+    }
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
-    const q = query(collection(db, 'blogs'), where('slug', '==', slug), limit(1))
-    const snapshot = await getDocs(q)
-    if (snapshot.empty) return null
-    const d = snapshot.docs[0]
-    return { id: d.id, ...d.data() } as BlogPost
+    try {
+        const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`, { cache: 'no-store' })
+        if (!res.ok) return null
+        const data = await res.json()
+        return data.blog || null
+    } catch (err) {
+        console.error('getBlogBySlug error:', err)
+        return null
+    }
 }
 
 export async function getBlogByShortId(shortId: string): Promise<BlogPost | null> {
-    const q = query(collection(db, 'blogs'), where('shortId', '==', shortId), limit(1))
-    const snapshot = await getDocs(q)
-    if (snapshot.empty) return null
-    const d = snapshot.docs[0]
-    return { id: d.id, ...d.data() } as BlogPost
+    return getBlogBySlug(shortId)
 }
 
 export async function createBlog(data: Omit<BlogPost, 'id' | 'shortId' | 'updatedAt'>): Promise<string> {
-    const docRef = await addDoc(collection(db, 'blogs'), {
-        ...data,
-        shortId: generateShortId(),
-        updatedAt: Timestamp.now(),
-        publishedAt: data.published ? Timestamp.now() : null,
+    const res = await fetch('/api/blogs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            ...data,
+            shortId: generateShortId(),
+        }),
     })
-    return docRef.id
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to create blog in MongoDB')
+    return json.id
 }
 
 export async function updateBlog(id: string, data: Partial<BlogPost>): Promise<void> {
-    const ref = doc(db, 'blogs', id)
-    const updateData: Record<string, any> = { ...data, updatedAt: Timestamp.now() }
-    if (data.published && !data.publishedAt) {
-        updateData.publishedAt = Timestamp.now()
-    }
-    await updateDoc(ref, updateData)
+    const res = await fetch(`/api/blogs/${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to update blog in MongoDB')
 }
 
 export async function deleteBlog(id: string): Promise<void> {
-    await deleteDoc(doc(db, 'blogs', id))
+    const res = await fetch(`/api/blogs/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to delete blog in MongoDB')
 }
 
 // ─── Settings Operations ─────────────────────────────────────────
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
-    const snap = await getDoc(doc(db, 'settings', 'contact'))
-    if (!snap.exists()) return null
-    return snap.data() as SiteSettings
+    try {
+        const res = await fetch('/api/settings?type=contact', { cache: 'no-store' })
+        const json = await res.json()
+        return json.data || null
+    } catch {
+        return null
+    }
 }
 
 export async function saveSiteSettings(data: SiteSettings): Promise<void> {
-    await setDoc(doc(db, 'settings', 'contact'), data)
+    await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'contact', data }),
+    })
 }
 
 export async function getSocialLinks(): Promise<SocialLinks | null> {
-    const snap = await getDoc(doc(db, 'settings', 'social'))
-    if (!snap.exists()) return null
-    return snap.data() as SocialLinks
+    try {
+        const res = await fetch('/api/settings?type=social', { cache: 'no-store' })
+        const json = await res.json()
+        return json.data || null
+    } catch {
+        return null
+    }
 }
 
 export async function saveSocialLinks(data: SocialLinks): Promise<void> {
-    await setDoc(doc(db, 'settings', 'social'), data)
+    await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'social', data }),
+    })
 }
 
 export async function getSEOSettings(): Promise<SEOSettings | null> {
-    const snap = await getDoc(doc(db, 'settings', 'seo'))
-    if (!snap.exists()) return null
-    return snap.data() as SEOSettings
+    try {
+        const res = await fetch('/api/settings?type=seo', { cache: 'no-store' })
+        const json = await res.json()
+        return json.data || null
+    } catch {
+        return null
+    }
 }
 
 export async function saveSEOSettings(data: SEOSettings): Promise<void> {
-    await setDoc(doc(db, 'settings', 'seo'), data)
+    await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'seo', data }),
+    })
 }
 
-// ─── Service Card Operations ─────────────────────────────────────────
+// ─── Service Card Operations ─────────────────────────────────────
 
 export async function getServiceCards(): Promise<ServiceCardData[]> {
-    const snapshot = await getDocs(collection(db, 'services'))
-    const cards = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ServiceCardData))
-    return cards.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    try {
+        const res = await fetch('/api/services', { cache: 'no-store' })
+        const json = await res.json()
+        return json.services || []
+    } catch {
+        return []
+    }
 }
 
 export async function getVisibleServiceCards(): Promise<ServiceCardData[]> {
     const all = await getServiceCards()
-    return all.filter(c => c.visible === true)
+    return all.filter((c) => c.visible === true)
 }
 
 export async function getFeaturedServiceCards(): Promise<ServiceCardData[]> {
     const all = await getServiceCards()
-    return all.filter(c => c.visible === true && (c.featured === true || (c.pages ?? []).includes('homepage')))
+    return all.filter((c) => c.visible === true && (c.featured === true || (c.pages ?? []).includes('homepage')))
 }
 
 export async function getServiceCardsByPage(page: string): Promise<ServiceCardData[]> {
     const all = await getServiceCards()
-    return all.filter(c => c.visible === true && (c.pages ?? []).includes(page))
+    return all.filter((c) => c.visible === true && (c.pages ?? []).includes(page))
 }
 
 export async function createServiceCard(data: Omit<ServiceCardData, 'id'>): Promise<string> {
-    const docRef = await addDoc(collection(db, 'services'), data)
-    return docRef.id
+    const res = await fetch('/api/services', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+    const json = await res.json()
+    return json.id
 }
 
 export async function updateServiceCard(id: string, data: Partial<ServiceCardData>): Promise<void> {
-    await updateDoc(doc(db, 'services', id), data)
+    await fetch('/api/services', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...data }),
+    })
 }
 
 export async function deleteServiceCard(id: string): Promise<void> {
-    await deleteDoc(doc(db, 'services', id))
+    await fetch(`/api/services?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
 export async function seedDefaultServiceCards(): Promise<void> {
-    const snapshot = await getDocs(collection(db, 'services'))
-    if (!snapshot.empty) return
-
-    const defaults: Omit<ServiceCardData, 'id'>[] = [
-        {
-            icon: 'Search',
-            title: 'Neuro-SEO',
-            benefit: 'Free Traffic from Google That Actually Converts',
-            description: "Our proprietary Neuro-SEO method doesn't just rank pages - it ranks pages that actually convert visitors into customers.",
-            features: ['Enterprise SEO for India', 'Conversion-Optimized Pages', 'Competitor Analysis', 'Monthly Performance Reports'],
-            cta: 'Get SEO Audit',
-            href: '/services/industrial-seo',
-            gradient: 'from-primary-400 to-cyan-400',
-            order: 0,
-            visible: true,
-            featured: true,
-        },
-        {
-            icon: 'TrendingUp',
-            title: 'Performance Marketing',
-            benefit: 'Paid Ads That Make More Than They Cost',
-            description: 'Stop wasting money on clicks. We build complete funnel systems that guarantee positive ROI on every rupee spent.',
-            features: ['Facebook/Google Ads', 'ROI-Focused Campaigns', 'Conversion Tracking', 'Weekly Optimization'],
-            cta: 'Optimize My Ads',
-            href: '/services/performance-marketing',
-            gradient: 'from-accent to-emerald-400',
-            order: 1,
-            visible: true,
-            featured: true,
-        },
-        {
-            icon: 'Target',
-            title: 'Conversion Rate Optimization',
-            benefit: 'Turn Visitors into Paying Customers',
-            description: 'Why pay for more traffic when you can convert more of your existing visitors? We specialize in fixing leaky funnels.',
-            features: ['Funnel Analysis', 'A/B Testing', 'Landing Page Design', 'Checkout Optimization'],
-            cta: 'Fix My Funnel',
-            href: '/services/conversion-web-design',
-            gradient: 'from-orange-400 to-red-400',
-            order: 2,
-            visible: true,
-            featured: false,
-        },
-        {
-            icon: 'Globe',
-            title: 'Brand Authority',
-            benefit: 'Become The Industry Leader in India',
-            description: 'Build a brand that commands premium prices. We position you as the expert that customers trust automatically.',
-            features: ['Content Strategy', 'PR & Outreach', 'Social Proof Systems', 'Industry Authority'],
-            cta: 'Build My Brand',
-            href: '/services/brand-psychology',
-            gradient: 'from-purple-400 to-pink-400',
-            order: 3,
-            visible: true,
-            featured: true,
-        },
-    ]
-
-    for (const card of defaults) {
-        await addDoc(collection(db, 'services'), card)
-    }
+    // Handled dynamically if empty
 }
 
-// ─── Testimonial Operations ─────────────────────────────────────────
+// ─── Testimonial Operations ──────────────────────────────────────
 
 export async function getTestimonials(): Promise<TestimonialData[]> {
-    const snapshot = await getDocs(collection(db, 'testimonials'))
-    const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as TestimonialData))
-    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    try {
+        const res = await fetch('/api/testimonials', { cache: 'no-store' })
+        const json = await res.json()
+        return json.testimonials || []
+    } catch {
+        return []
+    }
 }
 
 export async function getFeaturedTestimonials(): Promise<TestimonialData[]> {
     const all = await getTestimonials()
-    return all.filter(t => t.featured === true).slice(0, 3)
+    return all.filter((t) => t.featured === true).slice(0, 3)
 }
 
 export async function createTestimonial(data: Omit<TestimonialData, 'id' | 'createdAt'>): Promise<string> {
-    const docRef = await addDoc(collection(db, 'testimonials'), {
-        ...data,
-        createdAt: Timestamp.now(),
+    const res = await fetch('/api/testimonials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
     })
-    return docRef.id
+    const json = await res.json()
+    return json.id
 }
 
 export async function updateTestimonial(id: string, data: Partial<TestimonialData>): Promise<void> {
-    await updateDoc(doc(db, 'testimonials', id), data)
+    await fetch('/api/testimonials', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...data }),
+    })
 }
 
 export async function deleteTestimonial(id: string): Promise<void> {
-    await deleteDoc(doc(db, 'testimonials', id))
+    await fetch(`/api/testimonials?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
-// ─── Storage Operations ─────────────────────────────────────────
+// ─── Lead & Inquiry Operations (MongoDB) ─────────────────────────
 
-let _storage: ReturnType<typeof getStorage> | null = null
-function getStorageInstance() {
-    if (!_storage) {
-        _storage = getStorage(app, 'gs://mayalok-ventures.firebasestorage.app')
+export async function saveLeadSubmission(data: Omit<LeadSubmission, 'id' | 'createdAt'>): Promise<string> {
+    const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to save lead in MongoDB')
+    return json.id
+}
+
+export async function getLeadSubmissions(): Promise<LeadSubmission[]> {
+    try {
+        const res = await fetch('/api/leads', { cache: 'no-store' })
+        if (!res.ok) return []
+        const json = await res.json()
+        return json.leads || []
+    } catch (err) {
+        console.error('getLeadSubmissions error:', err)
+        return []
     }
-    return _storage
 }
+
+export async function updateLeadStatus(
+    id: string,
+    status: 'new' | 'contacted' | 'qualified' | 'closed',
+    notes?: string
+): Promise<void> {
+    const res = await fetch(`/api/leads/${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, notes }),
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to update lead status in MongoDB')
+}
+
+export async function deleteLeadSubmission(id: string): Promise<void> {
+    const res = await fetch(`/api/leads/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error || 'Failed to delete lead from MongoDB')
+}
+
+// ─── Image Upload (Direct Base64 Data URL) ───────────────────────
 
 export function uploadImage(
     file: File,
     path: string,
     onProgress?: (percent: number) => void
 ): Promise<string> {
-    const storage = getStorageInstance()
-    const storageRef = ref(storage, path)
-
     return new Promise((resolve, reject) => {
-        const task = uploadBytesResumable(storageRef, file)
-
-        task.on('state_changed',
-            (snapshot) => {
-                const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-                onProgress?.(percent)
-            },
-            (error) => {
-                console.error('Firebase Storage upload error:', error.code, error.message)
-                reject(error)
-            },
-            async () => {
-                try {
-                    const url = await getDownloadURL(task.snapshot.ref)
-                    resolve(url)
-                } catch (err) {
-                    console.error('getDownloadURL error:', err)
-                    reject(err)
-                }
-            }
-        )
+        onProgress?.(20)
+        const reader = new FileReader()
+        reader.onload = () => {
+            onProgress?.(100)
+            resolve(reader.result as string)
+        }
+        reader.onerror = (error) => reject(error)
+        reader.readAsDataURL(file)
     })
 }

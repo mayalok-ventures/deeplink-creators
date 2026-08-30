@@ -1,37 +1,404 @@
-/* Hover Effects */
-.hover-lift {
-    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(15, 17, 18, 0.08);
+/* ═══════════════════════════════════════════════════════════════════
+   DEEPLINK CREATORS — ADVANCED INTERACTION & MOTION SYSTEM
+   Covers Reality Tear, Dossier Identity Swap, Inside-Out Spotlight,
+   Time Echo, Chapter Fracture, Living Border, and Chain Reaction.
+   Strictly performance-optimized (60fps, transforms, opacity, clip-path).
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. EDITORIAL TYPOGRAPHY & MASKS ── */
+
+@keyframes maskRevealUp {
+    0% {
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+        transform: translateY(24px);
+        opacity: 0;
+    }
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-/* Gradient Text */
-.text-gradient {
-    background: linear-gradient(135deg, #B87A14 0%, #D4AC55 100%);
+.editorial-mask-reveal {
+    animation: maskRevealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Warm Brass Gradient Text */
+.text-brass-gradient {
+    background: linear-gradient(135deg, #7A5B32 0%, #9B7545 50%, #C49E65 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-/* Floating dot animation for blog hero */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+/* Text Hover Lift */
+.text-hover-lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+.text-hover-lift:hover {
+    transform: translateY(-2px);
 }
 
-/* Shimmer overlay for blog card images */
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+/* Editorial Underline Draw */
+.underline-draw {
+    position: relative;
+    display: inline-block;
+}
+.underline-draw::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: #9B7545;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.underline-draw:hover::after,
+.group:hover .underline-draw::after {
+    width: 100%;
 }
 
-/* Reduced motion support */
+/* Text Blur to Sharp Reveal */
+@keyframes textBlurIn {
+    0% {
+        opacity: 0;
+        filter: blur(6px);
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+
+.animate-text-blur-in {
+    animation: textBlurIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
+/* ── 2. LIVING BORDER & ILLUMINATION ── */
+
+@keyframes livingBorderRotate {
+    0% {
+        --border-angle: 0deg;
+    }
+    100% {
+        --border-angle: 360deg;
+    }
+}
+
+.living-border-frame {
+    position: relative;
+    border-radius: 1rem;
+}
+
+@property --border-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .living-border-glow::before {
+        content: '';
+        position: absolute;
+        inset: -1.5px;
+        border-radius: inherit;
+        padding: 1.5px;
+        background: conic-gradient(
+            from var(--border-angle),
+            transparent 70%,
+            rgba(212, 178, 112, 0.6) 88%,
+            rgba(255, 255, 255, 0.8) 93%,
+            rgba(212, 178, 112, 0.6) 98%,
+            transparent 100%
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: livingBorderRotate 8s linear infinite;
+        pointer-events: none;
+        opacity: 0.8;
+    }
+}
+
+
+/* ── 3. REALITY TEAR SEAM & CURTAIN (HERO) ── */
+
+.reality-tear-container {
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+}
+
+.reality-tear-underlayer {
+    position: absolute;
+    inset: 0;
+    background-color: #181A16;
+    z-index: 1;
+}
+
+.reality-tear-upper {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    transition: clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: clip-path;
+}
+
+.reality-tear-seam {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #D4B270, #FAF8F5, #D4B270, transparent);
+    box-shadow: 0 0 12px rgba(212, 178, 112, 0.7);
+    z-index: 3;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.1s linear;
+}
+
+
+/* ── 4. DOSSIER IDENTITY SWAP (SERVICES) ── */
+
+.dossier-card {
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .dossier-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -15px rgba(24, 26, 22, 0.1);
+        border-color: rgba(155, 117, 69, 0.4);
+    }
+
+    .dossier-primary-view {
+        transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .dossier-secondary-view {
+        opacity: 0;
+        transform: translateY(12px);
+        pointer-events: none;
+        transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.28s,
+                    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.28s;
+    }
+
+    .dossier-card:hover .dossier-primary-view {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+
+    .dossier-card:hover .dossier-secondary-view {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
+
+
+/* ── 5. SAHYAK INSIDE-OUT & IMPOSSIBLE REFLECTION ── */
+
+.inside-out-stage {
+    perspective: 1200px;
+}
+
+.inside-out-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.impossible-reflection {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(212, 178, 112, 0.15),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: screen;
+}
+
+.inside-out-card:hover .impossible-reflection {
+    opacity: 1;
+}
+
+
+/* ── 6. TIME ECHO (BLOG INDEX) ── */
+
+.time-echo-container {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .time-echo-layer-base {
+        transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 3;
+    }
+    .time-echo-layer-echo1 {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        opacity: 0;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
+                    opacity 0.4s ease 0.06s;
+        filter: sepia(0.3) hue-rotate(15deg);
+    }
+    .time-echo-layer-echo2 {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0;
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
+                    opacity 0.4s ease 0.12s;
+        filter: grayscale(0.6);
+    }
+
+    .time-echo-container:hover .time-echo-layer-base {
+        transform: translate3d(3px, -3px, 0) scale(1.02);
+    }
+    .time-echo-container:hover .time-echo-layer-echo1 {
+        opacity: 0.35;
+        transform: translate3d(-3px, 3px, 0) scale(1.01);
+    }
+    .time-echo-container:hover .time-echo-layer-echo2 {
+        opacity: 0.18;
+        transform: translate3d(-6px, 6px, 0) scale(1.0);
+    }
+}
+
+
+/* ── 7. CHAPTER FRACTURE (ABOUT) ── */
+
+.chapter-fracture-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.chapter-fracture-segment {
+    height: 1px;
+    background-color: rgba(24, 26, 22, 0.15);
+    flex: 1;
+    transform-origin: center;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.8s ease;
+}
+
+.chapter-fracture-bar.in-view .chapter-fracture-segment {
+    transform: translateY(0) scaleX(1) !important;
+    background-color: rgba(155, 117, 69, 0.4);
+}
+
+
+/* ── 8. CHAIN REACTION (DUAL ENGINE) ── */
+
+@keyframes chainPulseRight {
+    0% {
+        transform: translateX(-100%) scaleX(0.2);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%) scaleX(0.2);
+        opacity: 0;
+    }
+}
+
+.chain-pulse-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #D4B270, transparent);
+    width: 100%;
+    animation: chainPulseRight 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    pointer-events: none;
+}
+
+
+/* ── 9. TACTILE BUTTONS & CARDS ── */
+
+.tactile-btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
+}
+.tactile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(24, 26, 22, 0.15);
+}
+.tactile-btn:active {
+    transform: translateY(0);
+}
+
+.editorial-surface-lift {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
+}
+.editorial-surface-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -12px rgba(24, 26, 22, 0.08);
+    border-color: rgba(155, 117, 69, 0.35);
+}
+
+.image-editorial-frame {
+    position: relative;
+    overflow: hidden;
+}
+.image-editorial-frame img {
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), filter 0.75s ease;
+}
+.image-editorial-frame:hover img {
+    transform: scale(1.03);
+}
+
+.chapter-numeral {
+    font-family: var(--font-heading), monospace, sans-serif;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.04em;
+}
+
+.marginal-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: ui-monospace, monospace;
+}
+
+
+.cursor-hover {
+    transform: scale(2.2) !important;
+    border-color: #D4B270 !important;
+    background-color: rgba(212, 178, 112, 0.2) !important;
+}
+
+/* ── 10. ACCESSIBILITY / REDUCED MOTION SAFEGUARD ── */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

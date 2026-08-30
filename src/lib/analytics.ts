@@ -1,8 +1,3 @@
-import {
-    collection, addDoc, getDocs, query, where, Timestamp, doc, setDoc, increment
-} from 'firebase/firestore'
-import { db } from './firebase'
-
 export interface VisitRecord {
     visitorId: string
     page: string
@@ -12,7 +7,7 @@ export interface VisitRecord {
     browser: string
     country: string
     isNew: boolean
-    timestamp: Timestamp
+    timestamp: any
     date: string
 }
 
@@ -38,6 +33,7 @@ function simpleHash(str: string): string {
 }
 
 export function generateVisitorId(): string {
+    if (typeof window === 'undefined') return 'server'
     const ua = navigator.userAgent || ''
     const screen = `${window.screen.width}x${window.screen.height}`
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''
@@ -55,197 +51,100 @@ export function parseTrafficSource(referrer: string): string {
         return 'Other'
     }
 
-    if (hostname === window.location.hostname) return 'Direct'
+    if (typeof window !== 'undefined' && hostname === window.location.hostname) return 'Direct'
 
     const sourceMap: [string[], string][] = [
-        [['google.com', 'google.co.in'], 'Google'],
-        [['facebook.com', 'fb.com', 'm.facebook.com', 'l.facebook.com'], 'Facebook'],
-        [['instagram.com', 'l.instagram.com'], 'Instagram'],
-        [['linkedin.com', 'lnkd.in'], 'LinkedIn'],
-        [['wa.me', 'api.whatsapp.com', 'web.whatsapp.com', 'whatsapp.com'], 'WhatsApp'],
-        [['twitter.com', 't.co', 'x.com'], 'Twitter / X'],
-        [['youtube.com', 'youtu.be'], 'YouTube'],
-        [['pinterest.com'], 'Pinterest'],
-        [['reddit.com'], 'Reddit'],
-        [['t.me', 'telegram.org'], 'Telegram'],
-        [['snapchat.com'], 'Snapchat'],
-        [['tiktok.com'], 'TikTok'],
-        [['bing.com'], 'Bing'],
-        [['yahoo.com'], 'Yahoo'],
+        [['google.', 'bing.', 'yahoo.', 'duckduckgo.', 'baidu.', 'ecosia.'], 'Organic Search'],
+        [['facebook.', 'fb.com', 'instagram.', 'twitter.', 't.co', 'x.com', 'linkedin.', 'youtube.', 'pinterest.', 'reddit.', 'tiktok.'], 'Social Media'],
+        [['wa.me', 'whatsapp.', 'telegram.', 't.me', 'signal.'], 'Messaging / Chat'],
+        [['mail.google.', 'outlook.', 'mail.yahoo.'], 'Email'],
     ]
 
-    for (const [domains, source] of sourceMap) {
-        for (const domain of domains) {
-            if (hostname === domain || hostname.endsWith('.' + domain)) {
-                return source
-            }
+    for (const [patterns, sourceName] of sourceMap) {
+        if (patterns.some(p => hostname.includes(p))) {
+            return sourceName
         }
     }
 
-    if (hostname.includes('mail') || hostname.includes('outlook') || hostname.includes('gmail')) {
-        return 'Email'
-    }
-
-    return 'Other'
+    return 'Referral'
 }
 
 export function detectDevice(): string {
+    if (typeof window === 'undefined') return 'Desktop'
     const ua = navigator.userAgent
-    if (/tablet|ipad|playbook|silk/i.test(ua)) return 'Tablet'
-    if (/mobile|iphone|ipod|android.*mobile|windows phone|blackberry/i.test(ua)) return 'Mobile'
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet'
+    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated/i.test(ua)) return 'Mobile'
     return 'Desktop'
 }
 
 export function detectBrowser(): string {
+    if (typeof window === 'undefined') return 'Unknown'
     const ua = navigator.userAgent
-    if (/SamsungBrowser/i.test(ua)) return 'Samsung'
-    if (/OPR|Opera/i.test(ua)) return 'Opera'
-    if (/Edg/i.test(ua)) return 'Edge'
-    if (/Firefox/i.test(ua)) return 'Firefox'
-    if (/Chrome/i.test(ua)) return 'Chrome'
-    if (/Safari/i.test(ua)) return 'Safari'
+    if (ua.includes('Firefox/')) return 'Firefox'
+    if (ua.includes('Edg/')) return 'Edge'
+    if (ua.includes('Chrome/')) return 'Chrome'
+    if (ua.includes('Safari/') && !ua.includes('Chrome/')) return 'Safari'
+    if (ua.includes('OPR/') || ua.includes('Opera/')) return 'Opera'
     return 'Other'
 }
 
-function getTodayDate(): string {
-    const now = new Date()
-    return now.toISOString().split('T')[0]
-}
-
-export async function trackVisit(page: string): Promise<void> {
-    const visitorId = generateVisitorId()
-    const stored = localStorage.getItem('dlc_visitor')
-    const isNew = !stored || stored !== visitorId
-
-    if (isNew) {
-        localStorage.setItem('dlc_visitor', visitorId)
-    }
-
-    const referrer = document.referrer || ''
-    const source = parseTrafficSource(referrer)
-    const date = getTodayDate()
-
-    const record: VisitRecord = {
-        visitorId,
-        page,
-        referrer,
-        source,
-        device: detectDevice(),
-        browser: detectBrowser(),
-        country: '',
-        isNew,
-        timestamp: Timestamp.now(),
-        date,
-    }
+export async function recordVisit(pagePath?: string): Promise<void> {
+    if (typeof window === 'undefined') return
 
     try {
-        await addDoc(collection(db, 'visits'), record)
+        const path = pagePath || window.location.pathname
+        if (path.startsWith('/deepadmin') || path.startsWith('/api')) return
 
-        const dailyRef = doc(db, 'analytics', date)
-        await setDoc(dailyRef, {
-            totalVisits: increment(1),
-            [`sources.${source}`]: increment(1),
-        }, { merge: true })
-    } catch (err) {
-        console.error('Failed to track visit:', err)
+        const visitorId = generateVisitorId()
+        const isNew = !localStorage.getItem('dlc_visited')
+        localStorage.setItem('dlc_visited', '1')
+
+        const referrer = document.referrer || ''
+        const source = parseTrafficSource(referrer)
+        const device = detectDevice()
+        const browser = detectBrowser()
+
+        await fetch('/api/analytics', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                visitorId,
+                page: path,
+                referrer,
+                source,
+                device,
+                browser,
+                country: 'IN',
+                isNew,
+            }),
+        })
+    } catch {
+        // Analytics non-blocking
     }
 }
 
-export async function getAnalyticsData(days: number): Promise<AnalyticsData> {
-    const startDate = new Date()
-    startDate.setDate(startDate.getDate() - days)
-    const startDateStr = startDate.toISOString().split('T')[0]
-    const todayStr = getTodayDate()
-
-    const visitsQuery = query(
-        collection(db, 'visits'),
-        where('date', '>=', startDateStr)
-    )
-
-    const snapshot = await getDocs(visitsQuery)
-    const visits: VisitRecord[] = []
-    snapshot.forEach((d) => {
-        visits.push(d.data() as VisitRecord)
-    })
-
-    const allVisitorIds = new Set<string>()
-    const newVisitorIds = new Set<string>()
-    const todayVisitorIds = new Set<string>()
-    const sourceCounts: Record<string, number> = {}
-    const deviceCounts: Record<string, number> = {}
-    const pageCounts: Record<string, number> = {}
-    const dailyMap: Record<string, { visitors: Set<string>; pageViews: number }> = {}
-
-    for (const visit of visits) {
-        allVisitorIds.add(visit.visitorId)
-
-        if (visit.isNew) {
-            newVisitorIds.add(visit.visitorId)
+export async function getAnalytics(days: number = 30): Promise<AnalyticsData> {
+    try {
+        const res = await fetch(`/api/analytics?days=${days}`, { cache: 'no-store' })
+        if (res.ok) {
+            const data = await res.json()
+            if (data.success && data.analytics) return data.analytics
         }
-
-        if (visit.date === todayStr) {
-            todayVisitorIds.add(visit.visitorId)
-        }
-
-        sourceCounts[visit.source] = (sourceCounts[visit.source] || 0) + 1
-        deviceCounts[visit.device] = (deviceCounts[visit.device] || 0) + 1
-        pageCounts[visit.page] = (pageCounts[visit.page] || 0) + 1
-
-        if (!dailyMap[visit.date]) {
-            dailyMap[visit.date] = { visitors: new Set(), pageViews: 0 }
-        }
-        dailyMap[visit.date].visitors.add(visit.visitorId)
-        dailyMap[visit.date].pageViews += 1
+    } catch (err) {
+        console.error('getAnalytics error:', err)
     }
-
-    const totalVisitors = allVisitorIds.size
-    const totalPageViews = visits.length
-
-    const sources = Object.entries(sourceCounts)
-        .map(([source, count]) => ({
-            source,
-            count,
-            percentage: totalPageViews > 0 ? Math.round((count / totalPageViews) * 100) : 0,
-        }))
-        .sort((a, b) => b.count - a.count)
-
-    const devices = Object.entries(deviceCounts)
-        .map(([device, count]) => ({
-            device,
-            count,
-            percentage: totalPageViews > 0 ? Math.round((count / totalPageViews) * 100) : 0,
-        }))
-        .sort((a, b) => b.count - a.count)
-
-    const topPages = Object.entries(pageCounts)
-        .map(([page, views]) => ({ page, views }))
-        .sort((a, b) => b.views - a.views)
-        .slice(0, 10)
-
-    const dailyData: { date: string; visitors: number; pageViews: number }[] = []
-    const cursor = new Date(startDate)
-    const endDate = new Date()
-    while (cursor <= endDate) {
-        const dateStr = cursor.toISOString().split('T')[0]
-        const entry = dailyMap[dateStr]
-        dailyData.push({
-            date: dateStr,
-            visitors: entry ? entry.visitors.size : 0,
-            pageViews: entry ? entry.pageViews : 0,
-        })
-        cursor.setDate(cursor.getDate() + 1)
-    }
-
-    const returningVisitors = totalVisitors - newVisitorIds.size
 
     return {
-        totalVisitors,
-        newVisitors: newVisitorIds.size,
-        returningVisitors,
-        todayVisitors: todayVisitorIds.size,
-        sources,
-        dailyData,
-        topPages,
-        devices,
+        totalVisitors: 0,
+        newVisitors: 0,
+        returningVisitors: 0,
+        todayVisitors: 0,
+        sources: [],
+        dailyData: [],
+        topPages: [],
+        devices: [],
     }
 }
+
+export const trackVisit = recordVisit
+export const getAnalyticsData = getAnalytics

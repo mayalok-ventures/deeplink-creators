@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Plus, Edit2, Trash2, Eye, EyeOff, Copy, Check, ArrowLeft, ExternalLink, FileText, Upload, Loader2, X } from 'lucide-react'
 import { getAllBlogs, createBlog, updateBlog, deleteBlog, createSlug, BlogPost, uploadImage } from '@/lib/firestore'
-import { Timestamp } from 'firebase/firestore'
 import dynamic from 'next/dynamic'
 
 const RichTextEditor = dynamic(() => import('./RichTextEditor'), { ssr: false, loading: () => (
@@ -126,7 +125,7 @@ export default function BlogManager() {
                 tags: tags.split(',').map(t => t.trim()).filter(Boolean),
                 keywords: keywords.trim(),
                 published,
-                publishedAt: published ? Timestamp.now() : null,
+                publishedAt: published ? new Date() : null,
                 seoTitle: seoTitle.trim() || title.trim(),
                 seoDescription: seoDescription.trim() || excerpt.trim() || plainText.substring(0, 160).trim(),
             }
@@ -161,7 +160,7 @@ export default function BlogManager() {
         if (!blog.id) return
         await updateBlog(blog.id, {
             published: !blog.published,
-            publishedAt: !blog.published ? Timestamp.now() : blog.publishedAt,
+            publishedAt: !blog.published ? new Date() : blog.publishedAt,
         })
         await loadBlogs()
     }

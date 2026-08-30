@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Privacy Policy | Deeplink Creators',
-    description: 'Privacy Policy of Deeplink Creators, a unit of Mayalok Venture. Learn how we collect, use, and protect your personal data in compliance with Indian data protection laws.',
+    description: 'Privacy Policy of Deeplink Creators (A Unit of Mayalok Venture). Learn how we collect, use, and protect your personal data in compliance with the Digital Personal Data Protection (DPDP) Act.',
     robots: {
-        index: false,
+        index: true,
         follow: true,
     },
     openGraph: {

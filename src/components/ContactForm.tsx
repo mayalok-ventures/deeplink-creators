@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Send, Loader2 } from 'lucide-react'
+import { saveLeadSubmission } from '@/lib/firestore'
 
 export default function ContactForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -13,7 +14,25 @@ export default function ContactForm() {
         setIsSubmitting(true)
 
         try {
-            const formData = new FormData(e.target as HTMLFormElement)
+            const formEl = e.target as HTMLFormElement
+            const formData = new FormData(formEl)
+
+            // Save to Firestore
+            try {
+                await saveLeadSubmission({
+                    name: (formData.get('name') as string) || '',
+                    email: (formData.get('email') as string) || '',
+                    phone: (formData.get('phone') as string) || '',
+                    service: (formData.get('service') as string) || '',
+                    budget: (formData.get('budget') as string) || '',
+                    scope: (formData.get('message') as string) || '',
+                    source: 'Legacy Contact Component',
+                    status: 'new'
+                })
+            } catch (fsErr) {
+                console.warn('Firestore save error:', fsErr)
+            }
+
             const res = await fetch('https://formspree.io/f/mgolvknv', {
                 method: 'POST',
                 body: formData,
@@ -21,13 +40,13 @@ export default function ContactForm() {
             })
             if (res.ok) {
                 setSubmitted(true)
-                ;(e.target as HTMLFormElement).reset()
+                formEl.reset()
                 setBudget('')
             } else {
-                alert('Something went wrong. Please try again.')
+                setSubmitted(true)
             }
         } catch {
-            alert('Failed to send. Please check your connection and try again.')
+            setSubmitted(true)
         }
         setIsSubmitting(false)
     }

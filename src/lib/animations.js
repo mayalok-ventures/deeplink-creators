@@ -4,6 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 export function initScrollAnimations() {
+  if (typeof window === 'undefined') return
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
   // Kill existing instances created by this function to avoid duplicates
   ScrollTrigger.getAll().forEach(st => {
     if (st.vars && st.vars._animLib) st.kill()

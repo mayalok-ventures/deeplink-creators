@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, ExternalLink, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const Header = () => {
@@ -17,259 +18,146 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const [servicesOpen, setServicesOpen] = useState(false)
-
-    const serviceSubItems = [
-        { label: 'Industrial SEO', href: '/services/industrial-seo' },
-        { label: 'Performance Marketing', href: '/services/performance-marketing' },
-        { label: 'Brand Psychology', href: '/services/brand-psychology' },
-        { label: 'AI Marketing Automation', href: '/services/ai-marketing-automation' },
-        { label: 'Social Commerce', href: '/services/social-commerce' },
-        { label: 'Conversion Web Design', href: '/services/conversion-web-design' },
-        { label: 'Custom SaaS Development', href: '/services/custom-saas-development' },
-    ]
-
     const navItems = [
         { label: 'Home', href: '/' },
+        { label: 'Offerings', href: '/services' },
+        { label: 'Sahyak CRM ↗', href: 'https://sahyak.com', isExternal: true },
         { label: 'Insights', href: '/blog' },
         { label: 'About', href: '/about' },
-        { label: 'Contact', href: '/contact' },
     ]
 
     return (
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${
                 scrolled
-                    ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-[#E8E6E1]'
-                    : 'bg-white/80 backdrop-blur-sm'
+                    ? 'bg-[#F3F0E8]/95 backdrop-blur-xl shadow-sm border-b border-[#181A16]/10'
+                    : 'bg-[#F3F0E8]/85 backdrop-blur-md border-b border-[#181A16]/05'
             }`}
         >
-            <div className="h-px bg-[#E8E6E1]" />
-
-            <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                        <Link href="/" className="flex items-center gap-3">
-                            <img
-                                src="/images/logo.svg"
-                                alt="Deeplink Creators Logo"
-                                className="h-10 w-10"
-                            />
+                    {/* Brand Logo & Mayalok Holding Tag */}
+                    <div className="flex items-center gap-3.5">
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0">
+                                <Image
+                                    src="/images/logo.svg"
+                                    alt="Deeplink Creators Logo"
+                                    fill
+                                    priority
+                                    sizes="40px"
+                                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </div>
                             <span className="flex flex-col">
-                                <span className="text-2xl font-bold font-heading">
-                                    <span className="bg-gradient-to-r from-[#B87A14] to-[#E0C27A] bg-clip-text text-transparent">
-                                        Deeplink
-                                    </span>{' '}
-                                    <span className="text-heading">Creators</span>
+                                <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] tracking-tight leading-tight">
+                                    Deeplink <span className="text-[#9B7545]">Creators</span>
                                 </span>
                             </span>
                         </Link>
-                        <a href="https://mayalokventures.com" target="_blank" rel="noopener noreferrer" className="text-xs text-gold tracking-wide hover:text-gold-light transition-colors self-end -ml-2 mb-0.5">
-                            A Unit of Mayalok Venture
+                        <a
+                            href="https://mayalokventures.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hidden sm:inline-block text-[11px] font-mono font-medium tracking-wider uppercase text-[#65675F] hover:text-[#9B7545] transition-colors border-l border-[#181A16]/15 pl-3.5 ml-1"
+                        >
+                            Mayalok Venture ↗
                         </a>
                     </div>
 
-                    <nav className="hidden md:flex items-center space-x-8">
-                        <Link
-                            href="/"
-                            className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group"
-                        >
-                            Home
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
-                        </Link>
-
-                        {/* Services Dropdown */}
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setServicesOpen(true)}
-                            onMouseLeave={() => setServicesOpen(false)}
-                        >
-                            <Link
-                                href="/services"
-                                className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group flex items-center gap-1"
-                            >
-                                Services
-                                <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
-                            </Link>
-
-                            <AnimatePresence>
-                                {servicesOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 8 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 8 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="absolute top-full left-0 mt-2 w-64 bg-white backdrop-blur-xl border border-[#E8E6E1] rounded-xl shadow-xl overflow-hidden z-50"
-                                    >
-                                        <div className="py-2">
-                                            {serviceSubItems.map((sub) => (
-                                                <Link
-                                                    key={sub.href}
-                                                    href={sub.href}
-                                                    className="block px-5 py-2.5 text-sm text-paragraph hover:text-primary-500 hover:bg-[#F4F5F6] transition-colors"
-                                                >
-                                                    {sub.label}
-                                                </Link>
-                                            ))}
-                                            <div className="border-t border-[#E8E6E1] mt-1 pt-1">
-                                                <Link
-                                                    href="/services"
-                                                    className="block px-5 py-2.5 text-sm font-semibold text-primary-400 hover:bg-[#F4F5F6] transition-colors"
-                                                >
-                                                    View All Services →
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {[
-                            { label: 'Insights', href: '/blog' },
-                            { label: 'About', href: '/about' },
-                            { label: 'Career', href: 'https://mayalokventures.com/careers/' },
-                            { label: 'Contact', href: '/contact' },
-                        ].map((item) => (
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex items-center space-x-8 text-xs sm:text-sm font-heading font-medium">
+                        {navItems.map((item) => (
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                className="text-paragraph hover:text-primary-500 font-medium transition-colors relative group"
+                                {...(item.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                className={`transition-colors py-1 relative ${
+                                    item.isExternal
+                                        ? 'text-[#9B7545] hover:text-[#181A16] flex items-center gap-1 font-semibold'
+                                        : 'text-[#65675F] hover:text-[#181A16] underline-draw'
+                                }`}
                             >
-                                {item.label}
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300 group-hover:w-full" />
+                                <span>{item.label}</span>
                             </Link>
                         ))}
-
-                        <Link
-                            href="/contact"
-                            className="bg-[#0F1112] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[#1A1B1C] transition-all duration-300 flex items-center gap-2"
-                        >
-                            <Phone size={18} />
-                            Get Your ROI Audit
-                        </Link>
                     </nav>
 
-                    <button
-                        className="md:hidden text-heading"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                </div>
-
-                <AnimatePresence>
-                    {isMenuOpen && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: 'easeInOut' }}
-                            className="md:hidden overflow-hidden"
+                    {/* Right Action Button */}
+                    <div className="hidden md:flex items-center space-x-4">
+                        <Link
+                            href="/contact"
+                            className="tactile-btn inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-xs tracking-wider uppercase hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[40px] shadow-sm"
                         >
-                            <div className="flex flex-col space-y-4 pt-4 pb-4 border-t border-[#E8E6E1] mt-4">
-                                <motion.div
-                                    initial={{ x: -20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0 }}
-                                >
-                                    <Link
-                                        href="/"
-                                        className="text-paragraph hover:text-primary-500 font-medium py-2 block"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Home
-                                    </Link>
-                                </motion.div>
+                            <span>Schedule Briefing</span>
+                            <ArrowRight size={14} className="text-[#D4B270]" />
+                        </Link>
+                    </div>
 
-                                {/* Mobile Services Accordion */}
-                                <motion.div
-                                    initial={{ x: -20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.05 }}
-                                >
-                                    <button
-                                        onClick={() => setServicesOpen(!servicesOpen)}
-                                        className="text-paragraph hover:text-primary-500 font-medium py-2 w-full text-left flex items-center justify-between"
-                                    >
-                                        Services
-                                        <svg className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                    </button>
-                                    <AnimatePresence>
-                                        {servicesOpen && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="overflow-hidden pl-4 border-l border-[#E8E6E1]"
-                                            >
-                                                {serviceSubItems.map((sub) => (
-                                                    <Link
-                                                        key={sub.href}
-                                                        href={sub.href}
-                                                        className="block py-2 text-sm text-paragraph hover:text-primary-500 transition-colors"
-                                                        onClick={() => setIsMenuOpen(false)}
-                                                    >
-                                                        {sub.label}
-                                                    </Link>
-                                                ))}
-                                                <Link
-                                                    href="/services"
-                                                    className="block py-2 text-sm font-semibold text-primary-400"
-                                                    onClick={() => setIsMenuOpen(false)}
-                                                >
-                                                    View All Services →
-                                                </Link>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-
-                                {[
-                                    { label: 'Insights', href: '/blog' },
-                                    { label: 'About', href: '/about' },
-                                    { label: 'Career', href: 'https://mayalokventures.com/careers/' },
-                                    { label: 'Contact', href: '/contact' },
-                                ].map((item, i) => (
-                                    <motion.div
-                                        key={item.label}
-                                        initial={{ x: -20, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        transition={{ delay: (i + 2) * 0.05 }}
-                                    >
-                                        <Link
-                                            href={item.href}
-                                            {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                            className="text-paragraph hover:text-primary-500 font-medium py-2 block"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    </motion.div>
-                                ))}
-                                <motion.div
-                                    initial={{ x: -20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: navItems.length * 0.05 }}
-                                    className="mt-2"
-                                >
-                                    <Link
-                                        href="/contact"
-                                        className="bg-[#0F1112] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[#1A1B1C] transition-all duration-300 inline-flex items-center justify-center gap-2 w-full"
-                                    >
-                                        <Phone size={18} />
-                                        Get Your ROI Audit
-                                    </Link>
-                                </motion.div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    {/* Mobile menu button */}
+                    <div className="flex md:hidden items-center gap-2">
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="p-2.5 rounded-xl bg-white border border-[#181A16]/10 text-[#181A16] hover:text-[#9B7545] focus:outline-none transition-colors"
+                            aria-label="Toggle Menu"
+                        >
+                            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+                    </div>
+                </div>
             </div>
+
+            {/* Mobile Navigation Drawer */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="md:hidden border-t border-[#181A16]/10 bg-[#F3F0E8]/98 backdrop-blur-2xl px-5 py-6 space-y-4 shadow-xl"
+                    >
+                        <div className="flex flex-col space-y-3 font-heading">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    {...(item.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={`text-base font-semibold py-2 px-3 rounded-lg transition-colors ${
+                                        item.isExternal
+                                            ? 'text-[#9B7545] bg-[#9B7545]/10 border border-[#9B7545]/20 flex items-center justify-between'
+                                            : 'text-[#181A16] hover:text-[#9B7545] hover:bg-[#E6E2D7]/50'
+                                    }`}
+                                >
+                                    <span>{item.label}</span>
+                                    {item.isExternal && <ExternalLink size={14} />}
+                                </Link>
+                            ))}
+                        </div>
+
+                        <div className="pt-4 border-t border-[#181A16]/10 space-y-3">
+                            <Link
+                                href="/contact"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-bold text-sm tracking-wide shadow-md"
+                            >
+                                <span>Schedule Enterprise Briefing</span>
+                                <ArrowRight size={16} className="text-[#D4B270]" />
+                            </Link>
+
+                            <a
+                                href="https://mayalokventures.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block text-center text-xs font-mono text-[#65675F] hover:text-[#9B7545] py-2"
+                            >
+                                Holding Parent: Mayalok Venture ↗
+                            </a>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     )
 }

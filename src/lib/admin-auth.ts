@@ -1,6 +1,7 @@
-const ADMIN_HASH = 'ee9a5c2516c45df10ca699c67ff7987d3f95000ece979c2b7f1b42417f7efcb4'
+// Official Admin Password SHA-256 Hash for "Mflica2026deeplink@"
+const ADMIN_HASH = 'fc61bcffaee1dd2f53bb895a39d2d864a24fae9e6aa20992d3cf613735279966'
 const SESSION_KEY = '__dlc_admin_session'
-const SESSION_DURATION = 4 * 60 * 60 * 1000
+const SESSION_DURATION = 8 * 60 * 60 * 1000 // 8 hours
 
 async function sha256(message: string): Promise<string> {
     const encoder = new TextEncoder()
@@ -12,14 +13,7 @@ async function sha256(message: string): Promise<string> {
 
 export async function verifyPassword(password: string): Promise<boolean> {
     const hash = await sha256(password)
-    let match = true
-    const h1 = hash
-    const h2 = ADMIN_HASH
-    if (h1.length !== h2.length) return false
-    for (let i = 0; i < h1.length; i++) {
-        if (h1[i] !== h2[i]) match = false
-    }
-    return match
+    return hash === ADMIN_HASH
 }
 
 export function setAdminSession(): void {
@@ -27,21 +21,24 @@ export function setAdminSession(): void {
     const expires = Date.now() + SESSION_DURATION
     const token = btoa(JSON.stringify({ v: 1, exp: expires }))
     sessionStorage.setItem(SESSION_KEY, token)
+    localStorage.setItem(SESSION_KEY, token)
 }
 
 export function isAdminAuthenticated(): boolean {
     if (typeof window === 'undefined') return false
-    const token = sessionStorage.getItem(SESSION_KEY)
+    const token = sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY)
     if (!token) return false
     try {
         const data = JSON.parse(atob(token))
         if (Date.now() > data.exp) {
             sessionStorage.removeItem(SESSION_KEY)
+            localStorage.removeItem(SESSION_KEY)
             return false
         }
         return true
     } catch {
         sessionStorage.removeItem(SESSION_KEY)
+        localStorage.removeItem(SESSION_KEY)
         return false
     }
 }
@@ -49,4 +46,5 @@ export function isAdminAuthenticated(): boolean {
 export function clearAdminSession(): void {
     if (typeof window === 'undefined') return
     sessionStorage.removeItem(SESSION_KEY)
+    localStorage.removeItem(SESSION_KEY)
 }

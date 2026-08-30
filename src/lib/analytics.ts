@@ -102,7 +102,7 @@ function saveLocalVisit(visit: VisitRecord) {
     if (typeof window === 'undefined') return
     try {
         const current = getLocalVisits()
-        const updated = [visit, ...current].slice(0, 500) // retain last 500
+        const updated = [visit, ...current].slice(0, 1000) // retain last 1000
         localStorage.setItem('dlc_local_visits', JSON.stringify(updated))
     } catch {}
 }
@@ -151,14 +151,58 @@ export async function recordVisit(pagePath?: string): Promise<void> {
     }
 }
 
-function computeAnalyticsFromVisits(visits: VisitRecord[]): AnalyticsData {
+function computeAnalyticsFromVisits(allVisits: VisitRecord[], days: number = 30): AnalyticsData {
+    const now = Date.now()
+    const sinceTimestamp = now - days * 24 * 60 * 60 * 1000
+    const sinceDateStr = new Date(sinceTimestamp).toISOString().split('T')[0]
+
+    // Filter visits within the timeframe
+    const visits = allVisits.filter((v) => {
+        if (v.timestamp) {
+            return new Date(v.timestamp).getTime() >= sinceTimestamp
+        }
+        if (v.date) {
+            return v.date >= sinceDateStr
+        }
+        return true
+    })
+
+    // Find first-ever visit date per visitor across ALL stored visits in history
+    const firstSeenMap: Record<string, number> = {}
+    allVisits.forEach((v) => {
+        const time = v.timestamp ? new Date(v.timestamp).getTime() : 0
+        if (!firstSeenMap[v.visitorId] || (time > 0 && time < firstSeenMap[v.visitorId])) {
+            firstSeenMap[v.visitorId] = time
+        }
+    })
+
+    // METRIC 1: Total Audience (All visits in the selected period)
     const totalVisitors = visits.length
-    const newVisitors = visits.filter((v) => v.isNew).length
+
+    // METRIC 2: New Visitors (Unique visitors whose very first visit occurred in this timeframe)
+    const newVisitorIds = new Set<string>()
+    visits.forEach((v) => {
+        const firstTime = firstSeenMap[v.visitorId]
+        if (firstTime && firstTime >= sinceTimestamp) {
+            newVisitorIds.add(v.visitorId)
+        } else if (v.isNew) {
+            newVisitorIds.add(v.visitorId)
+        }
+    })
+    const newVisitors = newVisitorIds.size
+
+    // METRIC 3: Returning Cadence (Visits from repeat/returning users in this timeframe)
     const returningVisitors = Math.max(0, totalVisitors - newVisitors)
 
-    const now = new Date()
-    const todayStr = now.toISOString().split('T')[0]
-    const todayVisitors = visits.filter((v) => v.date === todayStr || (v.timestamp && v.timestamp.startsWith(todayStr))).length
+    // METRIC 4: Live Today / Live Active (Active within last 5 minutes)
+    const fiveMinutesAgo = now - 5 * 60 * 1000
+    const liveVisitorIds = new Set<string>()
+    allVisits.forEach((v) => {
+        if (v.timestamp && new Date(v.timestamp).getTime() >= fiveMinutesAgo) {
+            liveVisitorIds.add(v.visitorId)
+        }
+    })
+    const todayVisitors = liveVisitorIds.size
 
     // Source breakdown
     const sourceMap: Record<string, number> = {}
@@ -200,16 +244,22 @@ function computeAnalyticsFromVisits(visits: VisitRecord[]): AnalyticsData {
         .slice(0, 10)
 
     // Daily trend
-    const dailyMap: Record<string, number> = {}
+    const dailyMap: Record<string, { visitors: Set<string>; views: number }> = {}
     visits.forEach((v) => {
-        const dt = v.date || todayStr
-        dailyMap[dt] = (dailyMap[dt] || 0) + 1
+        const dt = v.date || (v.timestamp ? new Date(v.timestamp).toISOString().split('T')[0] : 'today')
+        if (!dailyMap[dt]) {
+            dailyMap[dt] = { visitors: new Set(), views: 0 }
+        }
+        dailyMap[dt].views += 1
+        if (v.visitorId) {
+            dailyMap[dt].visitors.add(v.visitorId)
+        }
     })
     const dailyData = Object.entries(dailyMap)
-        .map(([date, visitors]) => ({
+        .map(([date, item]) => ({
             date,
-            visitors,
-            pageViews: visitors,
+            visitors: item.visitors.size,
+            pageViews: item.views,
         }))
         .sort((a, b) => a.date.localeCompare(b.date))
 
@@ -230,7 +280,7 @@ export async function getAnalytics(days: number = 30): Promise<AnalyticsData> {
         const res = await fetch(`/api/analytics?days=${days}`, { cache: 'no-store' })
         if (res.ok) {
             const data = await res.json()
-            if (data.success && data.analytics && data.analytics.totalVisitors > 0) {
+            if (data.success && data.analytics) {
                 return data.analytics
             }
         }
@@ -238,10 +288,10 @@ export async function getAnalytics(days: number = 30): Promise<AnalyticsData> {
         console.warn('Backend analytics fetch warning (falling back to client cache):', err)
     }
 
-    // Resilient fallback to local browser visits if serverless endpoint is 0 or static export
+    // Resilient fallback to local browser visits
     const localVisits = getLocalVisits()
     if (localVisits.length > 0) {
-        return computeAnalyticsFromVisits(localVisits)
+        return computeAnalyticsFromVisits(localVisits, days)
     }
 
     return {

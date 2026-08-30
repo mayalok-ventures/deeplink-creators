@@ -15,13 +15,20 @@ import {
     BarChart3,
     CheckCircle2,
     Sparkles,
-    Gift,
     Workflow,
     Lock,
     Users,
     Layers,
     Boxes,
-    ExternalLink
+    ExternalLink,
+    Search,
+    TrendingUp,
+    Building2,
+    GraduationCap,
+    Store,
+    Layout,
+    Brain,
+    Bot
 } from 'lucide-react'
 
 if (typeof window !== 'undefined') {
@@ -29,114 +36,356 @@ if (typeof window !== 'undefined') {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   DOSSIER CARD WITH IDENTITY SWAP & DELAYED REALITY
+   SERVICE DOSSIER INTERFACE & COMPREHENSIVE 10-PILLAR DATASET
 ═══════════════════════════════════════════════════════════════════════ */
-interface DossierCardProps {
+interface ServiceDossier {
     index: string
+    slug: string
+    category: string
     title: string
     summary: string
-    category: string
+    metric: string
+    metricLabel: string
     capabilities: string[]
     useCase: string
     techStack: Array<{ name: string; icon: string }>
+    accent: string
 }
 
-function DossierOfferingCard({
-    index,
-    title,
-    summary,
-    category,
-    capabilities,
-    useCase,
-    techStack,
-}: DossierCardProps) {
+const SERVICE_DOSSIERS: ServiceDossier[] = [
+    {
+        index: '01',
+        slug: '/services/custom-saas-development',
+        category: 'B2B ENTERPRISE SAAS',
+        title: 'Custom SaaS & Platform Engineering',
+        summary: 'Architecting proprietary multi-tenant cloud software, high-concurrency database backends, internal operational portals, and mission-critical API platforms.',
+        metric: '100%',
+        metricLabel: 'Proprietary IP Ownership',
+        capabilities: [
+            'Multi-tenant database schema with cryptographic tenant isolation',
+            'Role-based access control (RBAC), SSO, and DPDP-ready compliance',
+            'Distributed microservices, webhooks & high-throughput REST/GraphQL APIs',
+            'Fullstack Next.js, Node.js, Python & PostgreSQL architecture',
+        ],
+        useCase: 'Eliminating recurring vendor software lock-in by engineering proprietary enterprise SaaS assets that your holding owns permanently.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+        ],
+        accent: '#9B7545',
+    },
+    {
+        index: '02',
+        slug: '/services/ai-marketing-automation',
+        category: 'AUTONOMOUS AI SYSTEMS',
+        title: 'AI Marketing & Pipeline Automation',
+        summary: 'Deploying autonomous LLM agents, intelligent lead qualification workflows, automated outbound telemetry, and real-time CRM routing logic.',
+        metric: '< 60s',
+        metricLabel: 'Lead Routing Latency',
+        capabilities: [
+            'Self-orchestrating AI agents for multi-channel intake & qualification',
+            'Stage-gated CRM pipeline automation integrated with Sahyak CRM',
+            'Predictive lead scoring based on ICP behavioral signals',
+            'Automated multi-step follow-up sequences across Email & WhatsApp',
+        ],
+        useCase: 'Eliminating pipeline leakage and accelerating lead response time from hours to under 60 seconds across distributed enterprise teams.',
+        techStack: [
+            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+        ],
+        accent: '#3F5544',
+    },
+    {
+        index: '03',
+        slug: '/services/industrial-seo',
+        category: 'SEARCH INFRASTRUCTURE',
+        title: 'Industrial & Enterprise SEO Infrastructure',
+        summary: 'Engineering semantic search authority, entity-based knowledge graph architectures, and programmatic content systems for high-ticket commercial keywords.',
+        metric: 'Top 1%',
+        metricLabel: 'High-Intent SERP Placement',
+        capabilities: [
+            'Programmatic schema graphs, JSON-LD entity mapping & Knowledge Graph nodes',
+            'High-intent B2B commercial keyword domination and competitive displacement',
+            'Technical Core Web Vitals optimization (100/100 LCP/INP performance)',
+            'Generative Engine Optimization (GEO) for ChatGPT, Perplexity & Claude retrieval',
+        ],
+        useCase: 'Capturing continuous organic search traffic from C-suite decision-makers seeking enterprise machinery, SaaS, and specialized corporate services.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
+            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+        ],
+        accent: '#9B7545',
+    },
+    {
+        index: '04',
+        slug: '/services/social-commerce',
+        category: 'CREATOR SYNDICATION',
+        title: 'Creator-Led Commerce & Network Distribution',
+        summary: 'Building verified micro-creator syndication networks and social commerce pipelines that bypass traditional ad exchanges to acquire loyal customers.',
+        metric: '0%',
+        metricLabel: 'Ad Exchange Dependency',
+        capabilities: [
+            'Curated network of vetted B2B & vertical niche micro-influencers',
+            'Direct social checkout funnels and creator attribution tracking',
+            'Syndicated short-form content pipelines with measurable commercial ROI',
+            'Creator relationship management and automated payout telemetry',
+        ],
+        useCase: 'Establishing direct-to-consumer and B2B community distribution without suffering from escalating Meta/Google PPC ad bidding auctions.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
+            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+        ],
+        accent: '#3F5544',
+    },
+    {
+        index: '05',
+        slug: '/services/conversion-web-design',
+        category: 'CONVERSION ARCHITECTURE',
+        title: 'High-Velocity Conversion Web Architecture',
+        summary: 'Engineering sub-second web platforms, dynamic landing frameworks, and cognitive psychology funnels designed for institutional credibility and maximum lead capture.',
+        metric: '< 500ms',
+        metricLabel: 'Global Page Render',
+        capabilities: [
+            'Sub-second TTFB and zero-layout-shift editorial web experiences',
+            'Frictionless lead capture forms with instant WhatsApp & CRM handoff',
+            'A/B testing architecture and real-time behavioral heatmap telemetry',
+            'Responsive multi-breakpoint design engineered for executive review',
+        ],
+        useCase: 'Modernizing outdated corporate websites into institutional sales machines that convert high-ticket enterprise visitors into qualified briefings.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
+            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
+            { name: 'CSS3', icon: '/images/strategy/css.png' },
+        ],
+        accent: '#9B7545',
+    },
+    {
+        index: '06',
+        slug: '/services/b2b-industrial-marketing',
+        category: 'INDUSTRIAL GROWTH',
+        title: 'B2B Industrial & Manufacturing Marketing',
+        summary: 'Tailored lead generation and demand capture systems for manufacturing plants, heavy machinery suppliers, chemical exporters, and industrial OEMs.',
+        metric: '4.2x',
+        metricLabel: 'Qualified RFQ Velocity',
+        capabilities: [
+            'High-ticket Request For Quotation (RFQ) funnels and spec-sheet download gates',
+            'Account-Based Marketing (ABM) targeting industrial procurement directors',
+            'Technical product catalog indexing with deep industrial search filters',
+            'Supply-chain & distributor pipeline telemetry integrated with CRM',
+        ],
+        useCase: 'Connecting industrial manufacturing plants across NCR, Gujarat, and Maharashtra directly with domestic and international procurement heads.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+        ],
+        accent: '#3F5544',
+    },
+    {
+        index: '07',
+        slug: '/services/performance-marketing',
+        category: 'PERFORMANCE ACQUISITION',
+        title: 'Precision Performance Marketing & CAC Control',
+        summary: 'Data-driven paid media execution across Google Ads, LinkedIn Campaign Manager, and programmatic networks focused strictly on customer acquisition cost efficiency.',
+        metric: '3.8x',
+        metricLabel: 'Average ROAS Multiplier',
+        capabilities: [
+            'High-intent Google Search Ads & LinkedIn InMail account-based targeting',
+            'Advanced conversion API (CAPI) and server-side tracking infrastructure',
+            'Continuous creative multivariate testing & CAC compression frameworks',
+            'Unified attribution dashboard mapping ad spend directly to closed revenue',
+        ],
+        useCase: 'Scaling paid acquisition profitably while maintaining strict visibility over cost-per-qualified-lead and pipeline velocity.',
+        techStack: [
+            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+        ],
+        accent: '#9B7545',
+    },
+    {
+        index: '08',
+        slug: '/services/brand-psychology',
+        category: 'AUTHORITY SYSTEMS',
+        title: 'Brand Psychology & Institutional Authority',
+        summary: 'Positioning corporate brands as undisputed category leaders through cognitive authority frameworks, executive PR narrative architecture, and institutional design.',
+        metric: 'Tier-1',
+        metricLabel: 'Market Standing & Trust',
+        capabilities: [
+            'Executive thought leadership, whitepaper authoring & industry briefings',
+            'Visual identity systems tailored for institutional investor confidence',
+            'Cognitive framing and premium pricing positioning blueprints',
+            'Crisis mitigation, brand sentiment monitoring & corporate reputation guardrails',
+        ],
+        useCase: 'Enabling growing enterprises to break out of commodity price wars and command premium retainers and contracts in competitive markets.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
+            { name: 'CSS3', icon: '/images/strategy/css.png' },
+        ],
+        accent: '#3F5544',
+    },
+    {
+        index: '09',
+        slug: '/services/real-estate-marketing',
+        category: 'PROPTECH ACQUISITION',
+        title: 'High-Ticket Real Estate & PropTech Marketing',
+        summary: 'Commercial and luxury residential buyer acquisition engines for real estate developers, REITs, and PropTech platforms across metropolitan corridors.',
+        metric: '₹50Cr+',
+        metricLabel: 'Pipeline Value Generated',
+        capabilities: [
+            'Verified NRI and high-net-worth investor acquisition funnels',
+            'Interactive 3D virtual walkthroughs and project microsite architecture',
+            'Automated site-visit scheduling with instant WhatsApp agent dispatch',
+            'Lead qualification filtering out unverified inquiries before sales calls',
+        ],
+        useCase: 'Accelerating luxury inventory absorption and commercial property leasing through hyper-targeted high-net-worth buyer acquisition.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+        ],
+        accent: '#9B7545',
+    },
+    {
+        index: '10',
+        slug: '/services/education-marketing',
+        category: 'EDTECH ENGINES',
+        title: 'Higher Education & EdTech Student Enrollment',
+        summary: 'End-to-end student recruitment pipelines, application portal architectures, and enrollment optimization systems for universities, colleges, and EdTech firms.',
+        metric: '65%',
+        metricLabel: 'Application Completion Rate',
+        capabilities: [
+            'Multi-channel student acquisition across NEET, JEE, MBA & global degree programs',
+            'Dynamic application portals with document verification and fee payment integration',
+            'Automated counselor assignment and multi-touchpoint nurturing journeys',
+            'Counselor call tracking and conversion attribution telemetry',
+        ],
+        useCase: 'Maximizing admissions yield and reducing cost-per-enrolled-student for educational institutions and online learning platforms.',
+        techStack: [
+            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
+            { name: 'Python', icon: '/images/strategy/python-logo.png' },
+            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
+        ],
+        accent: '#3F5544',
+    },
+]
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BENTO DOSSIER CARD COMPONENT
+═══════════════════════════════════════════════════════════════════════ */
+function ServiceBentoCard({ dossier }: { dossier: ServiceDossier }) {
     return (
-        <div className="dossier-card gsap-card rounded-2xl border border-[#181A16]/12 bg-white p-6 sm:p-8 shadow-sm relative min-h-[380px] flex flex-col justify-between overflow-hidden">
-            {/* 1. PRIMARY VIEW (Default Surface) */}
-            <div className="dossier-primary-view space-y-4">
-                <div className="flex items-center justify-between">
-                    <span className="chapter-numeral text-3xl font-extrabold text-[#9B7545]">
-                        {index}
-                    </span>
-                    <span className="marginal-label text-[#65675F] px-2.5 py-1 rounded bg-[#E6E2D7] border border-[#181A16]/08">
-                        {category}
-                    </span>
+        <article className="gsap-card group relative rounded-2xl border border-[#181A16]/12 bg-white p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden">
+            {/* Top Bar: Chapter Numeral, Category Badge, Metric Badge */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <span className="text-3xl font-extrabold font-mono text-[#9B7545]">
+                            {dossier.index}
+                        </span>
+                        <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded bg-[#E6E2D7] text-[#181A16] border border-[#181A16]/08">
+                            {dossier.category}
+                        </span>
+                    </div>
+
+                    <div className="text-right hidden sm:block">
+                        <span className="text-sm font-extrabold font-mono text-[#181A16] block">
+                            {dossier.metric}
+                        </span>
+                        <span className="text-[10px] font-mono text-[#65675F] block">
+                            {dossier.metricLabel}
+                        </span>
+                    </div>
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16] tracking-tight">
-                    {title}
+                {/* Title */}
+                <h2 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16] tracking-tight group-hover:text-[#9B7545] transition-colors leading-snug">
+                    <Link href={dossier.slug} className="focus:outline-none">
+                        {dossier.title}
+                    </Link>
                 </h2>
 
+                {/* Summary */}
                 <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
-                    {summary}
+                    {dossier.summary}
                 </p>
 
-                {/* Tech Stack Badges */}
-                <div className="pt-3 border-t border-[#181A16]/08">
-                    <span className="text-[10px] font-mono text-[#65675F] uppercase block mb-2">
-                        ENGINEERING STACK
+                {/* Core Capabilities Checklist */}
+                <div className="pt-3 border-t border-[#181A16]/08 space-y-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#9B7545] block">
+                        CORE ARCHITECTURAL CAPABILITIES
                     </span>
-                    <div className="flex flex-wrap items-center gap-2">
-                        {techStack.map((tech) => (
+                    <ul className="space-y-1.5 text-xs text-[#181A16]">
+                        {dossier.capabilities.map((cap, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                                <CheckCircle2 size={13} className="text-[#3F5544] flex-shrink-0 mt-0.5" />
+                                <span className="leading-snug text-[#454740]">{cap}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Impact Statement */}
+                <div className="pt-2">
+                    <p className="text-[11px] font-mono text-[#65675F] leading-relaxed bg-[#FAF8F5] p-3 rounded-xl border border-[#181A16]/08">
+                        <strong className="text-[#181A16]">Strategic Impact:</strong> {dossier.useCase}
+                    </p>
+                </div>
+            </div>
+
+            {/* Bottom Actions & Tech Badges */}
+            <div className="pt-5 mt-4 border-t border-[#181A16]/08 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                        {dossier.techStack.map((tech) => (
                             <span
                                 key={tech.name}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#181A16]/08 text-[11px] font-mono text-[#181A16]"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#181A16]/08 text-[10px] font-mono text-[#181A16]"
                             >
                                 <img
                                     src={tech.icon}
                                     alt={tech.name}
-                                    className="w-3.5 h-3.5 object-contain"
+                                    className="w-3 h-3 object-contain"
                                 />
                                 <span>{tech.name}</span>
                             </span>
                         ))}
                     </div>
-                </div>
-            </div>
 
-            {/* 2. SECONDARY VIEW (Dossier Identity Swap Reveal - Visible on Desktop Hover) */}
-            <div className="dossier-secondary-view absolute inset-0 bg-[#FAF8F5] p-6 sm:p-8 flex flex-col justify-between border-t-2 border-[#9B7545]">
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-[#181A16]/08">
-                        <span className="text-xs font-mono font-bold text-[#9B7545] uppercase tracking-wider">
-                            DOSSIER // CAPABILITIES
-                        </span>
-                        <span className="text-xs font-mono text-[#65675F]">{index}</span>
-                    </div>
-
-                    <div className="space-y-2 text-xs sm:text-sm text-[#181A16]">
-                        {capabilities.map((cap, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                                <CheckCircle2 size={14} className="text-[#3F5544] flex-shrink-0 mt-0.5" />
-                                <span className="leading-snug">{cap}</span>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="pt-2">
-                        <p className="text-[11px] font-mono text-[#65675F] leading-relaxed bg-white p-2.5 rounded-lg border border-[#181A16]/08">
-                            <strong className="text-[#181A16]">Impact:</strong> {useCase}
-                        </p>
-                    </div>
+                    <span className="text-[11px] font-mono font-bold text-[#9B7545] sm:hidden">
+                        {dossier.metric} {dossier.metricLabel}
+                    </span>
                 </div>
 
-                <div className="pt-3 border-t border-[#181A16]/08">
+                {/* Explicit Navigation Links to Sub-page and Briefing */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <Link
+                        href={dossier.slug}
+                        className="tactile-btn inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-[#181A16]/15 hover:bg-[#E6E2D7] text-[#181A16] font-heading font-semibold text-xs tracking-wide transition-all shadow-xs"
+                    >
+                        <span>Examine Blueprint</span>
+                        <ChevronRight size={13} className="text-[#9B7545]" />
+                    </Link>
+
                     <Link
                         href="/contact"
-                        className="tactile-btn w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#181A16] hover:bg-[#252720] text-[#F3F0E8] font-heading font-semibold text-xs tracking-wide shadow-sm"
+                        className="tactile-btn inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#181A16] hover:bg-[#252720] text-[#F3F0E8] font-heading font-semibold text-xs tracking-wide transition-all shadow-xs"
                     >
-                        <span>Initiate Briefing on this Offering</span>
+                        <span>Schedule Briefing</span>
                         <ArrowRight size={13} className="text-[#D4B270]" />
                     </Link>
                 </div>
             </div>
-
-            {/* Bottom Card Footer */}
-            <div className="pt-4 border-t border-[#181A16]/08 flex items-center justify-between text-xs font-mono text-[#65675F]">
-                <span>Enterprise Offering</span>
-                <span className="text-[#9B7545] font-medium hidden sm:inline">Hover for Dossier →</span>
-            </div>
-        </div>
+        </article>
     )
 }
 
@@ -220,11 +469,11 @@ export default function ServicesPage() {
                         opacity: 1,
                         y: 0,
                         duration: 0.5,
-                        delay: (i % 2) * 0.08,
+                        delay: (i % 2) * 0.06,
                         ease: 'power2.out',
                         scrollTrigger: {
                             trigger: card,
-                            start: 'top 90%',
+                            start: 'top 92%',
                             toggleActions: 'play none none reverse',
                         },
                     }
@@ -253,7 +502,7 @@ export default function ServicesPage() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6E2D7] border border-[#181A16]/10">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#9B7545] animate-pulse flex-shrink-0" />
                             <span className="marginal-label text-[#181A16] font-bold">
-                                ENTERPRISE OFFERINGS CATALOG
+                                ENTERPRISE OFFERINGS CATALOG // 10 ACTIVE PILLARS
                             </span>
                         </div>
 
@@ -265,7 +514,7 @@ export default function ServicesPage() {
                         </h1>
 
                         <p className="text-sm sm:text-base md:text-lg text-[#65675F] max-w-2xl leading-relaxed font-normal">
-                            Deeplink Creators builds proprietary software infrastructure and creator-led distribution systems for organizations seeking durable operational and market advantage.
+                            Deeplink Creators, backed by Mayalok Venture, engineers proprietary B2B software infrastructure, autonomous AI revenue pipelines, and creator-led syndication networks for organizations seeking durable commercial advantage.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto pt-1">
@@ -283,7 +532,7 @@ export default function ServicesPage() {
                                 rel="noopener noreferrer"
                                 className="tactile-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[46px]"
                             >
-                                <span>Sahyak CRM Platform</span>
+                                <span>Sahyak CRM Platform ↗</span>
                                 <ExternalLink size={14} className="text-[#9B7545]" />
                             </a>
                         </div>
@@ -299,7 +548,7 @@ export default function ServicesPage() {
                                 Multi-Tenant
                             </span>
                             <p className="text-xs text-[#65675F] leading-snug">
-                                Secure database isolation and custom workflow rules
+                                Cryptographic tenant isolation &amp; custom workflow logic
                             </p>
                         </div>
 
@@ -311,7 +560,7 @@ export default function ServicesPage() {
                                 Creator-Led
                             </span>
                             <p className="text-xs text-[#65675F] leading-snug">
-                                Niche audience access and verified syndication
+                                Vetted audience access &amp; direct attribution tracking
                             </p>
                         </div>
 
@@ -342,99 +591,33 @@ export default function ServicesPage() {
                 </div>
             </header>
 
-
             {/* ══════════════════════════════════════════════════════════════
-                2. FOUR CORE OFFERINGS (Dossier Identity Swap Grid)
+                2. TEN SPECIALIZED SERVICE DOSSIERS (Bento Grid Reintegration)
             ══════════════════════════════════════════════════════════════ */}
             <main className="relative pb-16 sm:pb-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+                <div className="mb-8 flex items-center justify-between pb-4 border-b border-[#181A16]/10">
+                    <div>
+                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#9B7545] block">
+                            ACTIVE SERVICE PILLARS
+                        </span>
+                        <h2 className="text-xl sm:text-2xl font-extrabold font-heading text-[#181A16]">
+                            Explore Specialized Engineering &amp; Growth Architectures
+                        </h2>
+                    </div>
+                    <span className="text-xs font-mono text-[#65675F] hidden sm:inline">
+                        10 Dedicated Pillars
+                    </span>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                    {/* Offering 01 */}
-                    <DossierOfferingCard
-                        index="01"
-                        category="PROPRIETARY SOFTWARE"
-                        title="B2B SaaS &amp; Custom Software Engineering"
-                        summary="End-to-end architecture and engineering of proprietary B2B software, multi-tenant SaaS platforms, internal operating systems, and client portals."
-                        capabilities={[
-                            'Multi-tenant database schema & secure auth architecture',
-                            'Role-based access control (RBAC) & tenant isolation',
-                            'Scalable API design, webhooks & microservices integration',
-                            'High-performance fullstack development with Next.js & Python',
-                        ]}
-                        useCase="Transitioning internal spreadsheets or fragmented tools into a proprietary, scalable B2B SaaS asset owned permanently by your enterprise."
-                        techStack={[
-                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-                            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-                        ]}
-                    />
-
-                    {/* Offering 02 */}
-                    <DossierOfferingCard
-                        index="02"
-                        category="AUDIENCE DISTRIBUTION"
-                        title="Creator-Led Audience &amp; Distribution Networks"
-                        summary="Strategic curation, onboarding, and orchestration of dedicated creator and micro-influencer ecosystems that syndicate your enterprise message."
-                        capabilities={[
-                            'Curated creator network vetting & audience integrity audit',
-                            'Syndicated content distribution across niche industry verticals',
-                            'Zero dependency on volatile paid advertising algorithms',
-                            'Conversion attribution tracking & performance telemetry',
-                        ]}
-                        useCase="Establishing direct commercial distribution channels into high-value B2B decision-maker communities without burning budget on PPC bidding."
-                        techStack={[
-                            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-                            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
-                        ]}
-                    />
-
-                    {/* Offering 03 */}
-                    <DossierOfferingCard
-                        index="03"
-                        category="PIPELINE AUTOMATION"
-                        title="Revenue Operations &amp; Pipeline Automation"
-                        summary="Engineering high-conversion sales funnels, CRM workflow architecture, automated lead routing, and revenue telemetry systems."
-                        capabilities={[
-                            'Automated multi-channel lead routing & SLA tracking',
-                            'Stage-gated pipeline workflows & automated follow-ups',
-                            'Live revenue analytics & conversion bottleneck detection',
-                            'Deep CRM telemetry integration powered by Sahyak CRM',
-                        ]}
-                        useCase="Eliminating pipeline leakage and enforcing operational accountability across distributed enterprise sales representatives."
-                        techStack={[
-                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-                        ]}
-                    />
-
-                    {/* Offering 04 */}
-                    <DossierOfferingCard
-                        index="04"
-                        category="STRATEGIC ADVISORY"
-                        title="Enterprise Systems Advisory &amp; Architecture"
-                        summary="Fractional CTO, software holding advisory, and technical due diligence for organizations modernizing legacy workflows or scaling digital assets."
-                        capabilities={[
-                            'Legacy system refactoring & cloud migration blueprints',
-                            'Data security, regulatory compliance & DPDP readiness',
-                            'Venture studio scaling frameworks & technical due diligence',
-                            'Engineering team mentorship & architectural governance',
-                        ]}
-                        useCase="Empowering executive leadership with senior architectural guidance to avoid costly infrastructure missteps."
-                        techStack={[
-                            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-                            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-                            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-                        ]}
-                    />
+                    {SERVICE_DOSSIERS.map((dossier) => (
+                        <ServiceBentoCard key={dossier.slug} dossier={dossier} />
+                    ))}
                 </div>
             </main>
 
-
             {/* ══════════════════════════════════════════════════════════════
                 3. SAHYAK CRM COMPLIMENTARY INCLUSION CHAPTER
-                Inside-Out Product Spotlight & 30-Day Deployment Benefit
             ══════════════════════════════════════════════════════════════ */}
             <section
                 id="sahyak-crm"
@@ -503,7 +686,6 @@ export default function ServicesPage() {
                 </div>
             </section>
 
-
             {/* ══════════════════════════════════════════════════════════════
                 4. ENTERPRISE ENGAGEMENT CTA
             ══════════════════════════════════════════════════════════════ */}
@@ -518,7 +700,7 @@ export default function ServicesPage() {
                     </h2>
 
                     <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed max-w-2xl mx-auto font-normal">
-                        Submit your project scope or schedule a consultation with our technical principals in Greater Noida.
+                        Submit your project scope or schedule a technical briefing with our principals in Greater Noida.
                     </p>
 
                     <div className="pt-2">

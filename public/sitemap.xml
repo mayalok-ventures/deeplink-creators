@@ -8,7 +8,62 @@
   <url>
     <loc>https://deeplinkcreators.com/services/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/custom-saas-development/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/ai-marketing-automation/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/industrial-seo/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/social-commerce/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/conversion-web-design/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/b2b-industrial-marketing/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/performance-marketing/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/brand-psychology/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/real-estate-marketing/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/services/education-marketing/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/testimonials/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://deeplinkcreators.com/about/</loc>
@@ -18,26 +73,46 @@
   <url>
     <loc>https://deeplinkcreators.com/blog/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://deeplinkcreators.com/contact/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/locations/greater-noida/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/locations/noida/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/locations/delhi/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://deeplinkcreators.com/locations/lucknow/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
   </url>
   <url>
     <loc>https://deeplinkcreators.com/privacy/</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://deeplinkcreators.com/terms/</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://deeplinkcreators.com/disclaimer/</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 </urlset>

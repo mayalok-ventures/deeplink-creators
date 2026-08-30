@@ -65,7 +65,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <p className="text-xs sm:text-sm text-[#AAA99F] leading-relaxed max-w-sm">
-                            An AI-first enterprise software holding and venture studio operating under Mayalok Venture. Based in Greater Noida and serving the Delhi NCR corridor.
+                            An AI-first enterprise software holding and venture studio operating under Mayalok Venture. Based in Greater Noida and serving the Delhi NCR capital corridor.
                         </p>
                         <div className="space-y-2 pt-2 text-xs text-[#AAA99F]">
                             <div className="flex items-start gap-2.5">
@@ -81,58 +81,111 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Column 2: Software Portfolio (lg:col-span-3) */}
+                    {/* Column 2: Software & Offerings (lg:col-span-3) */}
                     <div className="lg:col-span-3 space-y-4">
                         <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[#D4B270]">
-                            SOFTWARE PORTFOLIO
+                            SOFTWARE ARCHITECTURE
                         </h3>
-                        <ul className="space-y-2.5 text-xs sm:text-sm">
+                        <ul className="space-y-2 text-xs sm:text-sm">
                             <li>
                                 <a
                                     href="https://sahyak.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-[#F3F0E8] hover:text-[#D4B270] transition-colors inline-flex items-center gap-1.5 font-medium group"
+                                    className="text-[#F3F0E8] hover:text-[#D4B270] transition-colors inline-flex items-center gap-1.5 font-semibold group"
                                 >
-                                    <span>Sahyak CRM</span>
+                                    <span>Sahyak CRM Platform</span>
                                     <ExternalLink size={12} className="text-[#9B7545] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                 </a>
                             </li>
                             <li>
                                 <Link
-                                    href="/services"
+                                    href="/services/custom-saas-development"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
-                                    Enterprise Software Systems
+                                    Custom SaaS Engineering
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/services/ai-marketing-automation"
+                                    className="text-[#AAA99F] hover:text-white transition-colors"
+                                >
+                                    AI Marketing Automation
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/services/industrial-seo"
+                                    className="text-[#AAA99F] hover:text-white transition-colors"
+                                >
+                                    Industrial &amp; Enterprise SEO
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/services/social-commerce"
+                                    className="text-[#AAA99F] hover:text-white transition-colors"
+                                >
+                                    Creator-Led Syndication
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/services"
-                                    className="text-[#AAA99F] hover:text-white transition-colors"
+                                    className="text-[#D4B270] hover:underline font-mono text-[11px] block pt-1"
                                 >
-                                    Creator Distribution Network
+                                    View All 10 Pillars →
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Column 3: Institutional Navigation (lg:col-span-3) */}
+                    {/* Column 3: Regional Hubs & Case Studies (lg:col-span-3) */}
                     <div className="lg:col-span-3 space-y-4">
                         <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[#D4B270]">
-                            COMPANY
+                            REGIONAL HUBS &amp; PROOF
                         </h3>
-                        <ul className="space-y-2.5 text-xs sm:text-sm">
+                        <ul className="space-y-2 text-xs sm:text-sm">
+                            <li>
+                                <Link href="/testimonials" className="text-[#AAA99F] hover:text-white transition-colors font-medium">
+                                    Case Studies &amp; Endorsements
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/locations/greater-noida" className="text-[#AAA99F] hover:text-white transition-colors">
+                                    Greater Noida Tech District
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/locations/noida" className="text-[#AAA99F] hover:text-white transition-colors">
+                                    Noida Enterprise Corridor
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/locations/delhi" className="text-[#AAA99F] hover:text-white transition-colors">
+                                    Delhi NCR Capital Hub
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/locations/lucknow" className="text-[#AAA99F] hover:text-white transition-colors">
+                                    Lucknow Regional Center
+                                </Link>
+                            </li>
                             <li>
                                 <Link href="/about" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    About Us
+                                    About Mayalok Holding
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/services" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    Enterprise Offerings
-                                </Link>
-                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Column 4: Institutional & Governance (lg:col-span-2) */}
+                    <div className="lg:col-span-2 space-y-4">
+                        <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[#D4B270]">
+                            GOVERNANCE
+                        </h3>
+                        <ul className="space-y-2 text-xs sm:text-sm">
                             <li>
                                 <Link href="/blog" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Insights &amp; Briefings
@@ -143,15 +196,6 @@ const Footer = () => {
                                     Contact &amp; Briefings
                                 </Link>
                             </li>
-                        </ul>
-                    </div>
-
-                    {/* Column 4: Governance & Legal (lg:col-span-2) */}
-                    <div className="lg:col-span-2 space-y-4">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[#D4B270]">
-                            GOVERNANCE
-                        </h3>
-                        <ul className="space-y-2.5 text-xs sm:text-sm">
                             <li>
                                 <Link href="/privacy" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Privacy Policy
@@ -179,7 +223,7 @@ const Footer = () => {
                         &copy; 2026 Mayalok Venture &amp; Deeplink Creators. All rights reserved.
                     </p>
                     <p className="text-[11px] font-mono text-[#D4B270]/80">
-                        Built for durable enterprise capability.
+                        Institutional Software &amp; Creator Distribution.
                     </p>
                 </div>
             </div>

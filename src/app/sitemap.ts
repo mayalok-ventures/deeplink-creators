@@ -1,56 +1,161 @@
 import type { MetadataRoute } from 'next'
+import { getPublishedBlogSlugs } from '@/lib/mongodb-server'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://deeplinkcreators.com'
+    const now = new Date()
 
-    return [
+    const staticRoutes: MetadataRoute.Sitemap = [
         {
             url: `${baseUrl}/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 1.0,
         },
         {
             url: `${baseUrl}/services/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/services/custom-saas-development/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/services/ai-marketing-automation/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/services/industrial-seo/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/services/social-commerce/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/services/conversion-web-design/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/services/b2b-industrial-marketing/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/services/performance-marketing/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/services/brand-psychology/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/services/real-estate-marketing/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/services/education-marketing/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/testimonials/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
         },
         {
             url: `${baseUrl}/about/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
             url: `${baseUrl}/blog/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
-            priority: 0.8,
+            priority: 0.85,
         },
         {
             url: `${baseUrl}/contact/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'monthly',
-            priority: 0.8,
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/locations/greater-noida/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/locations/noida/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/locations/delhi/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/locations/lucknow/`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.75,
         },
         {
             url: `${baseUrl}/privacy/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'yearly',
-            priority: 0.4,
+            priority: 0.3,
         },
         {
             url: `${baseUrl}/terms/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'yearly',
-            priority: 0.4,
+            priority: 0.3,
         },
         {
             url: `${baseUrl}/disclaimer/`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'yearly',
-            priority: 0.4,
+            priority: 0.3,
         },
     ]
+
+    try {
+        const dynamicBlogs = await getPublishedBlogSlugs()
+        const blogRoutes: MetadataRoute.Sitemap = dynamicBlogs.map((b) => ({
+            url: `${baseUrl}/blog/${b.slug}/`,
+            lastModified: b.updatedAt ? new Date(b.updatedAt) : now,
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        }))
+        return [...staticRoutes, ...blogRoutes]
+    } catch {
+        return staticRoutes
+    }
 }

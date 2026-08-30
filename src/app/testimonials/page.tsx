@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Star, Quote, ArrowRight, TrendingUp, Users, Target, Activity } from 'lucide-react'
 import Link from 'next/link'
-import { getTestimonials, TestimonialData } from '@/lib/firestore'
+import { getTestimonials, TestimonialData } from '@/lib/db-client'
 import ScrollReveal from '@/components/ScrollReveal'
 
 /* ─────────────────── Static Case Studies (Fallback when 0 Testimonials) ─── */

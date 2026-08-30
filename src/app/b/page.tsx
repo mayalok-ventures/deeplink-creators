@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { getBlogByShortId } from '@/lib/firestore'
+import { getBlogByShortId } from '@/lib/db-client'
 
 function ShortLinkResolver() {
     const searchParams = useSearchParams()

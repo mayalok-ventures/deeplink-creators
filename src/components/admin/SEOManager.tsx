@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Save, Loader2, Search, Check } from 'lucide-react'
-import { getSEOSettings, saveSEOSettings, SEOSettings } from '@/lib/firestore'
+import { getSEOSettings, saveSEOSettings, SEOSettings } from '@/lib/db-client'
 
 export default function SEOManager() {
     const [loading, setLoading] = useState(true)

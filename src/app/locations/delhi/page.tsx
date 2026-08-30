@@ -14,7 +14,7 @@ import ServiceCard from '@/components/ServiceCard'
 import TechStack from '@/components/TechStack'
 import SpotSection from '@/components/SpotSection'
 import FAQSection from '@/components/FAQSection'
-import { getServiceCardsByPage, ServiceCardData } from '@/lib/firestore'
+import { getServiceCardsByPage, ServiceCardData } from '@/lib/db-client'
 
 const ICON_MAP: Record<string, ReactNode> = {
     Search: <Search size={32} />,

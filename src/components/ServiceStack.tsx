@@ -5,7 +5,7 @@ import { Search, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart,
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ServiceCard from './ServiceCard'
-import { getFeaturedServiceCards, ServiceCardData } from '@/lib/firestore'
+import { getFeaturedServiceCards, ServiceCardData } from '@/lib/db-client'
 
 const ICON_MAP: Record<string, ReactNode> = {
     Search: <Search size={32} />,

@@ -30,7 +30,7 @@ import {
     Maximize2, Minimize2, Pilcrow, RemoveFormatting, ChevronDown, X,
     Upload, Link2, Check, MousePointerClick, Grid3X3, GripVertical
 } from 'lucide-react'
-import { uploadImage } from '@/lib/firestore'
+import { uploadImage } from '@/lib/db-client'
 
 const TEXT_COLORS = [
     { label: 'Default', value: '#F1F5F9' },
@@ -286,14 +286,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
             addImage(url)
         } catch (err: any) {
             console.error('Upload failed:', err)
-            const code = err?.code || ''
-            if (code === 'storage/unauthorized' || code === 'storage/unauthenticated') {
-                alert('Upload blocked by Firebase Storage rules. Please update your Storage Security Rules in Firebase Console to allow writes.')
-            } else if (code === 'storage/canceled') {
-                alert('Upload was canceled.')
-            } else {
-                alert(`Image upload failed: ${err?.message || 'Unknown error'}. Check browser console (F12).`)
-            }
+            alert(`Image upload failed: ${err?.message || 'Unknown error'}. Check browser console (F12).`)
         }
         setUploading(false)
         setUploadProgress(0)

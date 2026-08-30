@@ -11,7 +11,7 @@ import ServicesManager from '@/components/admin/ServicesManager'
 import TestimonialsManager from '@/components/admin/TestimonialsManager'
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import { clearAdminSession } from '@/lib/admin-auth'
-import { getAllBlogs, getLeadSubmissions, LeadSubmission } from '@/lib/firestore'
+import { getAllBlogs, getLeadSubmissions, LeadSubmission } from '@/lib/db-client'
 import {
     LayoutDashboard, Inbox, FileText, Phone, Share2, Search, LogOut, Menu, X, BarChart3, Layers, MessageSquare, ArrowRight, ExternalLink, ShieldCheck
 } from 'lucide-react'

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Clock, User, ArrowRight, Search, X, Tag } from 'lucide-react'
-import { getPublishedBlogs } from '@/lib/firestore'
+import { getPublishedBlogs, BlogPost } from '@/lib/db-client'
 
 export interface BlogItem {
     id: string

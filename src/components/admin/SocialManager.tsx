@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Save, Loader2, ExternalLink, Share2, Check } from 'lucide-react'
-import { getSocialLinks, saveSocialLinks, SocialLinks } from '@/lib/firestore'
+import { getSocialLinks, saveSocialLinks, SocialLinks } from '@/lib/db-client'
 
 export default function SocialManager() {
     const [loading, setLoading] = useState(true)

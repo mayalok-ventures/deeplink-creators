@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { getBlogBySlug, type BlogPost } from '@/lib/firestore'
+import { getBlogBySlug, type BlogPost } from '@/lib/db-client'
 import BlogPostContent from './blog/[slug]/BlogPostContent'
 
 function formatDate(timestamp: any): string {

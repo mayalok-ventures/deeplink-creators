@@ -16,7 +16,7 @@ import {
     Send,
     Loader2
 } from 'lucide-react'
-import { saveLeadSubmission } from '@/lib/firestore'
+import { saveLeadSubmission } from '@/lib/db-client'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -50,7 +50,7 @@ export default function ContactPage() {
         setErrorMessage('')
 
         try {
-            // 1. Save lead directly to Firestore for the Admin Dashboard
+            // 1. Save lead directly to MongoDB / Leads Data Layer
             try {
                 await saveLeadSubmission({
                     name: formData.name,
@@ -63,8 +63,8 @@ export default function ContactPage() {
                     source: 'Enterprise Briefing (/contact)',
                     status: 'new'
                 })
-            } catch (firestoreErr) {
-                console.warn('Firestore lead save warning:', firestoreErr)
+            } catch (dbErr) {
+                console.warn('DB lead save warning:', dbErr)
             }
 
             // 2. Transmit to Formspree endpoint

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Save, Loader2, Phone, Check } from 'lucide-react'
-import { getSiteSettings, saveSiteSettings, SiteSettings } from '@/lib/firestore'
+import { getSiteSettings, saveSiteSettings, SiteSettings } from '@/lib/db-client'
 
 export default function ContactManager() {
     const [loading, setLoading] = useState(true)

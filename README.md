@@ -43,8 +43,8 @@ A unit of **Mayalok Venture**, we serve businesses across **Greater Noida, Noida
 - **Framework**: Next.js 14 (App Router, Static Export)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Backend**: Firebase Firestore
+- **Animations**: GSAP, Framer Motion, Lenis
+- **Database**: MongoDB Atlas (`deeplink-data`)
 - **Icons**: Lucide React
 
 ## Features
@@ -55,8 +55,8 @@ A unit of **Mayalok Venture**, we serve businesses across **Greater Noida, Noida
 - Geo-targeted meta tags for local SEO
 - Multi-search-engine robots.txt with per-crawler directives
 - XML Sitemap
-- Admin panel for managing services, blogs, SEO settings, and social links
-- Firebase Firestore CMS for dynamic content
+- Admin panel for managing services, blogs, leads, SEO settings, and social links
+- MongoDB Atlas database for dynamic inquiries, blogs, and content
 - Mobile-first responsive design
 - Performance optimized for Core Web Vitals
 
@@ -65,19 +65,17 @@ A unit of **Mayalok Venture**, we serve businesses across **Greater Noida, Noida
 | Page | URL | Purpose |
 |------|-----|---------|
 | Home | `/` | Main landing page with featured services |
-| Services | `/services/` | All digital marketing services |
-| SEO Greater Noida | `/services/seo-greater-noida/` | Local SEO service page |
-| Performance Marketing | `/services/performance-marketing/` | PPC & ads service page |
-| Branding | `/services/branding/` | Brand strategy service page |
+| Services | `/services/` | All software & creator network services |
 | About | `/about/` | Company story & methodology |
-| Results & Blog | `/blog/` | Case studies & blog posts |
-| Contact | `/contact/` | Lead generation form |
+| Results & Blog | `/blog/` | Technical briefings & case studies |
+| Contact | `/contact/` | Lead generation and architecture inquiries |
+| Admin Portal | `/deepadmin/` | White theme administrative dashboard |
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js 18+
-- Firebase project with Firestore
+- MongoDB Atlas database connection string (`MONGODB_URI`)
 
 ### Installation
 

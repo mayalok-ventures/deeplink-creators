@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { MapPin, Mail, ArrowUp, ExternalLink } from 'lucide-react'
-import { getSiteSettings, getSocialLinks, SiteSettings, SocialLinks } from '@/lib/firestore'
+import { getSiteSettings, getSocialLinks, SiteSettings, SocialLinks } from '@/lib/db-client'
 
 const Footer = () => {
     const [contact, setContact] = useState<SiteSettings | null>(null)

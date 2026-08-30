@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getServiceCards } from '@/lib/firestore'
+import { getServiceCards } from '@/lib/db-client'
 
 export default function ServiceHeroImage({ href }: { href: string }) {
     const [imageUrl, setImageUrl] = useState<string | null>(null)

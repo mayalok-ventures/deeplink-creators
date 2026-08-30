@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Plus, Edit2, Trash2, Eye, EyeOff, ArrowLeft, Loader2, X, Layers, Code, TrendingUp, Target, Globe, Zap, Shield, Award, Users, BarChart, Rocket, Star, Heart, MessageCircle, Palette, Megaphone, Mail } from 'lucide-react'
-import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData, uploadImage } from '@/lib/firestore'
+import { getServiceCards, createServiceCard, updateServiceCard, deleteServiceCard, seedDefaultServiceCards, ServiceCardData, uploadImage } from '@/lib/db-client'
 
 const ICON_OPTIONS = [
     'Code', 'Layers', 'TrendingUp', 'Target', 'Globe', 'Zap', 'Shield', 'Award', 'Users',

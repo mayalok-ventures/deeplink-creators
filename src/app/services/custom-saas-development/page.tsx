@@ -49,7 +49,7 @@ const deliverables = [
     { title: 'API & Microservices', description: 'RESTful and GraphQL APIs designed for third-party integrations and internal systems.' },
     { title: 'Admin Dashboards', description: 'Real-time data visualization panels with role-based access and export functionality.' },
     { title: 'Mobile-First PWAs', description: 'Progressive Web Apps that rival native mobile performance with offline support.' },
-    { title: 'Database Architecture', description: 'PostgreSQL, Firebase, or Supabase\u2014optimized schemas with migration strategies.' },
+    { title: 'Database Architecture', description: 'PostgreSQL, MongoDB, or Redis—optimized schemas with migration strategies.' },
     { title: 'DevOps & CI/CD', description: 'Automated testing, deployment pipelines, and infrastructure-as-code on Cloudflare or Vercel.' },
 ]
 

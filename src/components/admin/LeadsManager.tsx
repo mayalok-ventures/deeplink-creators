@@ -6,7 +6,7 @@ import {
     Clock, CheckCircle2, AlertCircle, RefreshCw, Download, ExternalLink,
     ChevronDown, UserCheck, MessageSquare, Copy, Check, X
 } from 'lucide-react'
-import { getLeadSubmissions, updateLeadStatus, deleteLeadSubmission, LeadSubmission } from '@/lib/firestore'
+import { getLeadSubmissions, updateLeadStatus, deleteLeadSubmission, LeadSubmission } from '@/lib/db-client'
 
 type StatusType = 'new' | 'contacted' | 'qualified' | 'closed'
 

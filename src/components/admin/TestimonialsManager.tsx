@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Plus, Edit2, Trash2, ArrowLeft, Loader2, Star, MessageSquare } from 'lucide-react'
-import { getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial, TestimonialData } from '@/lib/firestore'
+import { getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial, TestimonialData } from '@/lib/db-client'
 
 type EditorMode = 'list' | 'create' | 'edit'
 

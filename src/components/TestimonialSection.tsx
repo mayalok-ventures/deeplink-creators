@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Star, Quote, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { getFeaturedTestimonials, TestimonialData } from '@/lib/firestore'
+import { getFeaturedTestimonials, TestimonialData } from '@/lib/db-client'
 
 const TestimonialSection = () => {
     const [testimonials, setTestimonials] = useState<TestimonialData[]>([])

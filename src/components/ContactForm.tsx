@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Send, Loader2 } from 'lucide-react'
-import { saveLeadSubmission } from '@/lib/firestore'
+import { saveLeadSubmission } from '@/lib/db-client'
 
 export default function ContactForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -17,7 +17,7 @@ export default function ContactForm() {
             const formEl = e.target as HTMLFormElement
             const formData = new FormData(formEl)
 
-            // Save to Firestore
+            // Save to MongoDB / Leads Data Layer
             try {
                 await saveLeadSubmission({
                     name: (formData.get('name') as string) || '',
@@ -29,8 +29,8 @@ export default function ContactForm() {
                     source: 'Legacy Contact Component',
                     status: 'new'
                 })
-            } catch (fsErr) {
-                console.warn('Firestore save error:', fsErr)
+            } catch (dbErr) {
+                console.warn('DB lead save warning:', dbErr)
             }
 
             const res = await fetch('https://formspree.io/f/mgolvknv', {

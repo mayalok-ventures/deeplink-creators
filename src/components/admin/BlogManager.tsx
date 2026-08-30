@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Plus, Edit2, Trash2, Eye, EyeOff, Copy, Check, ArrowLeft, ExternalLink, FileText, Upload, Loader2, X, Search, Filter } from 'lucide-react'
-import { getAllBlogs, createBlog, updateBlog, deleteBlog, createSlug, BlogPost, uploadImage } from '@/lib/firestore'
+import { getAllBlogs, createBlog, updateBlog, deleteBlog, createSlug, BlogPost, uploadImage } from '@/lib/db-client'
 import dynamic from 'next/dynamic'
 
 const RichTextEditor = dynamic(() => import('./RichTextEditor'), {

@@ -154,7 +154,6 @@ export default function RootLayout({
                 <link rel="manifest" href="/site.webmanifest" />
                 <meta name="theme-color" content="#171816" />
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-                <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
                 <link rel="dns-prefetch" href="https://deeplinkcreators.com" />
 
                 {/* Local & Geographic Entity Metadata */}

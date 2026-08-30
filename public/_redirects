@@ -1,0 +1,45 @@
+# Cloudflare Pages 301 Permanent Redirect Rules for https://deeplinkcreators.com
+
+# Legacy Service URLs -> Modern Service Dossiers
+/services/branding/ /services/brand-psychology/ 301
+/services/branding /services/brand-psychology/ 301
+/services/seo-greater-noida/ /services/industrial-seo/ 301
+/services/seo-greater-noida /services/industrial-seo/ 301
+
+# Legacy Query Parameter Blog URLs -> Modern Canonical Blog Routes
+/blog/post/ /blog/ 301
+/blog/post /blog/ 301
+/blog/fake-seo-agency-scams-google-warning-list/ /blog/ 301
+/blog/fake-seo-agency-scams-google-warning-list /blog/ 301
+/blog/business-growth-strategies-entrepreneurs-2026/ /blog/ 301
+/blog/business-growth-strategies-entrepreneurs-2026 /blog/ 301
+/blog/digital-marketing-strategy-india-leads-revenue/ /blog/ 301
+/blog/digital-marketing-strategy-india-leads-revenue /blog/ 301
+/blog/google-seo-starter-guide-simplified-for-business/ /blog/ 301
+/blog/google-seo-starter-guide-simplified-for-business /blog/ 301
+/blog/advanced-website-seo-maintenance-guide/ /blog/ 301
+/blog/advanced-website-seo-maintenance-guide /blog/ 301
+
+# Trailing Slash Canonical Normalization
+/services/custom-saas-development /services/custom-saas-development/ 301
+/services/ai-marketing-automation /services/ai-marketing-automation/ 301
+/services/industrial-seo /services/industrial-seo/ 301
+/services/social-commerce /services/social-commerce/ 301
+/services/conversion-web-design /services/conversion-web-design/ 301
+/services/b2b-industrial-marketing /services/b2b-industrial-marketing/ 301
+/services/performance-marketing /services/performance-marketing/ 301
+/services/brand-psychology /services/brand-psychology/ 301
+/services/real-estate-marketing /services/real-estate-marketing/ 301
+/services/education-marketing /services/education-marketing/ 301
+/locations/delhi /locations/delhi/ 301
+/locations/noida /locations/noida/ 301
+/locations/greater-noida /locations/greater-noida/ 301
+/locations/lucknow /locations/lucknow/ 301
+/testimonials /testimonials/ 301
+/about /about/ 301
+/blog /blog/ 301
+/contact /contact/ 301
+/privacy /privacy/ 301
+/terms /terms/ 301
+/disclaimer /disclaimer/ 301
+/services /services/ 301

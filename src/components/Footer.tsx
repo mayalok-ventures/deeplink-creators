@@ -100,7 +100,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/services/custom-saas-development"
+                                    href="/services/custom-saas-development/"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
                                     Custom SaaS Engineering
@@ -108,7 +108,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/services/ai-marketing-automation"
+                                    href="/services/ai-marketing-automation/"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
                                     AI Marketing Automation
@@ -116,7 +116,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/services/industrial-seo"
+                                    href="/services/industrial-seo/"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
                                     Industrial &amp; Enterprise SEO
@@ -124,7 +124,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/services/social-commerce"
+                                    href="/services/social-commerce/"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
                                     Creator-Led Syndication
@@ -132,7 +132,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/services"
+                                    href="/services/"
                                     className="text-[#D4B270] hover:underline font-mono text-[11px] block pt-1"
                                 >
                                     View All 10 Pillars →
@@ -148,32 +148,32 @@ const Footer = () => {
                         </h3>
                         <ul className="space-y-2 text-xs sm:text-sm">
                             <li>
-                                <Link href="/testimonials" className="text-[#AAA99F] hover:text-white transition-colors font-medium">
+                                <Link href="/testimonials/" className="text-[#AAA99F] hover:text-white transition-colors font-medium">
                                     Case Studies &amp; Endorsements
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/locations/greater-noida" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/locations/greater-noida/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Greater Noida Tech District
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/locations/noida" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/locations/noida/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Noida Enterprise Corridor
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/locations/delhi" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/locations/delhi/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Delhi NCR Capital Hub
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/locations/lucknow" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/locations/lucknow/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Lucknow Regional Center
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/about" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/about/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     About Mayalok Holding
                                 </Link>
                             </li>
@@ -187,27 +187,27 @@ const Footer = () => {
                         </h3>
                         <ul className="space-y-2 text-xs sm:text-sm">
                             <li>
-                                <Link href="/blog" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/blog/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Insights &amp; Briefings
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/contact" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/contact/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Contact &amp; Briefings
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/privacy" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/privacy/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/terms" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/terms/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Terms of Service
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/disclaimer" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/disclaimer/" className="text-[#AAA99F] hover:text-white transition-colors">
                                     Disclaimer
                                 </Link>
                             </li>

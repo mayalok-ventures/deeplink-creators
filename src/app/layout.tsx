@@ -65,7 +65,7 @@ export const metadata: Metadata = {
         images: ['/images/hero-enterprise-architecture.jpg'],
     },
     alternates: {
-        canonical: 'https://deeplinkcreators.com',
+        canonical: 'https://deeplinkcreators.com/',
     },
     verification: {
         google: 'RQdag9sYAeymMOf0hRU0xM9u9PZchznqgnhnyt-6uEI',

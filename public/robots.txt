@@ -7,16 +7,27 @@ Disallow: /_next/
 Disallow: /deepadmin/
 Disallow: /api/
 Disallow: /b/
+Disallow: /*?*s=*
+Disallow: /*?*search=*
+Disallow: /*?*slug=*
+Disallow: /*?*utm_*
 
 # Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
+Disallow: /_next/
+Disallow: /deepadmin/
+Disallow: /api/
+Disallow: /b/
+Disallow: /*?*s=*
+Disallow: /*?*slug=*
 
 User-agent: Bingbot
 Allow: /
-
-User-agent: Slurp
-Allow: /
+Disallow: /_next/
+Disallow: /deepadmin/
+Disallow: /api/
+Disallow: /b/
 
 User-agent: DuckDuckBot
 Allow: /

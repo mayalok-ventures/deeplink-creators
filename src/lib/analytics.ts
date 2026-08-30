@@ -88,6 +88,25 @@ export function detectBrowser(): string {
     return 'Other'
 }
 
+function getLocalVisits(): VisitRecord[] {
+    if (typeof window === 'undefined') return []
+    try {
+        const raw = localStorage.getItem('dlc_local_visits')
+        return raw ? JSON.parse(raw) : []
+    } catch {
+        return []
+    }
+}
+
+function saveLocalVisit(visit: VisitRecord) {
+    if (typeof window === 'undefined') return
+    try {
+        const current = getLocalVisits()
+        const updated = [visit, ...current].slice(0, 500) // retain last 500
+        localStorage.setItem('dlc_local_visits', JSON.stringify(updated))
+    } catch {}
+}
+
 export async function recordVisit(pagePath?: string): Promise<void> {
     if (typeof window === 'undefined') return
 
@@ -103,23 +122,106 @@ export async function recordVisit(pagePath?: string): Promise<void> {
         const source = parseTrafficSource(referrer)
         const device = detectDevice()
         const browser = detectBrowser()
+        const now = new Date()
 
+        const visitRecord: VisitRecord = {
+            visitorId,
+            page: path,
+            referrer,
+            source,
+            device,
+            browser,
+            country: 'IN',
+            isNew,
+            date: now.toISOString().split('T')[0],
+            timestamp: now.toISOString(),
+        }
+
+        // 1. Save to local storage cache immediately
+        saveLocalVisit(visitRecord)
+
+        // 2. Transmit to MongoDB backend
         await fetch('/api/analytics', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                visitorId,
-                page: path,
-                referrer,
-                source,
-                device,
-                browser,
-                country: 'IN',
-                isNew,
-            }),
+            body: JSON.stringify(visitRecord),
         }).catch(() => {})
     } catch {
         // Analytics non-blocking
+    }
+}
+
+function computeAnalyticsFromVisits(visits: VisitRecord[]): AnalyticsData {
+    const totalVisitors = visits.length
+    const newVisitors = visits.filter((v) => v.isNew).length
+    const returningVisitors = Math.max(0, totalVisitors - newVisitors)
+
+    const now = new Date()
+    const todayStr = now.toISOString().split('T')[0]
+    const todayVisitors = visits.filter((v) => v.date === todayStr || (v.timestamp && v.timestamp.startsWith(todayStr))).length
+
+    // Source breakdown
+    const sourceMap: Record<string, number> = {}
+    visits.forEach((v) => {
+        const src = v.source || 'Direct'
+        sourceMap[src] = (sourceMap[src] || 0) + 1
+    })
+    const sources = Object.entries(sourceMap)
+        .map(([source, count]) => ({
+            source,
+            count,
+            percentage: totalVisitors > 0 ? Math.round((count / totalVisitors) * 100) : 0,
+        }))
+        .sort((a, b) => b.count - a.count)
+
+    // Device breakdown
+    const deviceMap: Record<string, number> = {}
+    visits.forEach((v) => {
+        const dev = v.device || 'Desktop'
+        deviceMap[dev] = (deviceMap[dev] || 0) + 1
+    })
+    const devices = Object.entries(deviceMap)
+        .map(([device, count]) => ({
+            device,
+            count,
+            percentage: totalVisitors > 0 ? Math.round((count / totalVisitors) * 100) : 0,
+        }))
+        .sort((a, b) => b.count - a.count)
+
+    // Top pages
+    const pageMap: Record<string, number> = {}
+    visits.forEach((v) => {
+        const pg = v.page || '/'
+        pageMap[pg] = (pageMap[pg] || 0) + 1
+    })
+    const topPages = Object.entries(pageMap)
+        .map(([page, views]) => ({ page, views }))
+        .sort((a, b) => b.views - a.views)
+        .slice(0, 10)
+
+    // Daily trend
+    const dailyMap: Record<string, number> = {}
+    visits.forEach((v) => {
+        const dt = v.date || todayStr
+        dailyMap[dt] = (dailyMap[dt] || 0) + 1
+    })
+    const dailyData = Object.entries(dailyMap)
+        .map(([date, visitors]) => ({
+            date,
+            visitors,
+            pageViews: visitors,
+        }))
+        .sort((a, b) => a.date.localeCompare(b.date))
+
+    return {
+        totalVisitors,
+        newVisitors,
+        returningVisitors,
+        todayVisitors,
+        sources,
+        dailyData,
+        topPages,
+        devices,
     }
 }
 
@@ -128,12 +230,18 @@ export async function getAnalytics(days: number = 30): Promise<AnalyticsData> {
         const res = await fetch(`/api/analytics?days=${days}`, { cache: 'no-store' })
         if (res.ok) {
             const data = await res.json()
-            if (data.success && data.analytics) {
+            if (data.success && data.analytics && data.analytics.totalVisitors > 0) {
                 return data.analytics
             }
         }
     } catch (err) {
-        console.error('Failed to load real-time analytics:', err)
+        console.warn('Backend analytics fetch warning (falling back to client cache):', err)
+    }
+
+    // Resilient fallback to local browser visits if serverless endpoint is 0 or static export
+    const localVisits = getLocalVisits()
+    if (localVisits.length > 0) {
+        return computeAnalyticsFromVisits(localVisits)
     }
 
     return {

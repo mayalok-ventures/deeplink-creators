@@ -674,17 +674,25 @@ export async function saveLeadSubmission(data: Omit<LeadSubmission, 'id' | 'crea
 }
 
 export async function getLeadSubmissions(): Promise<LeadSubmission[]> {
+    const localLeads = getLocal<LeadSubmission[]>('leads', [])
     try {
         const res = await fetch('/api/leads', { cache: 'no-store' })
         if (res.ok) {
             const json = await res.json()
             if (Array.isArray(json.leads)) {
-                setLocal('leads', json.leads)
-                return json.leads
+                const serverLeads: LeadSubmission[] = json.leads
+                const all = [...serverLeads]
+                localLeads.forEach((l) => {
+                    if (!all.some((s) => s.id === l.id || (s.email === l.email && s.name === l.name))) {
+                        all.push(l)
+                    }
+                })
+                setLocal('leads', all)
+                return all
             }
         }
     } catch {}
-    return getLocal<LeadSubmission[]>('leads', [])
+    return localLeads
 }
 
 export async function updateLeadStatus(

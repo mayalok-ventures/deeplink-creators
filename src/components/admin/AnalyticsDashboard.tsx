@@ -42,22 +42,30 @@ function getSourceColor(source: string): string {
 export default function AnalyticsDashboard() {
     const [data, setData] = useState<AnalyticsData | null>(null)
     const [loading, setLoading] = useState(true)
+    const [isRefreshing, setIsRefreshing] = useState(false)
     const [selectedPeriod, setSelectedPeriod] = useState(30)
     const [chartTab, setChartTab] = useState<'visitors' | 'pageViews'>('visitors')
 
-    const loadData = async () => {
-        setLoading(true)
+    const loadData = async (silent = false) => {
+        if (!silent) setLoading(true)
+        else setIsRefreshing(true)
         try {
             const result = await getAnalyticsData(selectedPeriod)
             setData(result)
         } catch (err) {
             console.error('Analytics load error:', err)
         }
-        setLoading(false)
+        if (!silent) setLoading(false)
+        else setIsRefreshing(false)
     }
 
     useEffect(() => {
         loadData()
+        // Auto-refresh telemetry every 6 seconds
+        const timer = setInterval(() => {
+            loadData(true)
+        }, 6000)
+        return () => clearInterval(timer)
     }, [selectedPeriod])
 
     const maxChartValue = useMemo(() => {
@@ -130,20 +138,32 @@ export default function AnalyticsDashboard() {
                     </p>
                 </div>
 
-                <div className="flex items-center gap-1.5 bg-white border border-[#E5E0D8] p-1 rounded-xl shadow-xs">
-                    {PERIODS.map((period) => (
-                        <button
-                            key={period.days}
-                            onClick={() => setSelectedPeriod(period.days)}
-                            className={`px-3 py-1.5 text-xs font-mono font-medium rounded-lg transition-colors ${
-                                selectedPeriod === period.days
-                                    ? 'bg-[#9B7545] text-white'
-                                    : 'text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8]'
-                            }`}
-                        >
-                            {period.label}
-                        </button>
-                    ))}
+                <div className="flex items-center gap-2.5">
+                    <button
+                        onClick={() => loadData(true)}
+                        disabled={isRefreshing}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-xl bg-white border border-[#E5E0D8] text-[#181A16] hover:bg-[#F3F0E8] shadow-xs transition-colors"
+                        title="Poll live telemetry from MongoDB"
+                    >
+                        <RefreshCw size={13} className={`text-[#9B7545] ${isRefreshing ? 'animate-spin' : ''}`} />
+                        <span>{isRefreshing ? 'Syncing...' : 'Live Sync'}</span>
+                    </button>
+
+                    <div className="flex items-center gap-1.5 bg-white border border-[#E5E0D8] p-1 rounded-xl shadow-xs">
+                        {PERIODS.map((period) => (
+                            <button
+                                key={period.days}
+                                onClick={() => setSelectedPeriod(period.days)}
+                                className={`px-3 py-1.5 text-xs font-mono font-medium rounded-lg transition-colors ${
+                                    selectedPeriod === period.days
+                                        ? 'bg-[#9B7545] text-white'
+                                        : 'text-[#6B685F] hover:text-[#181A16] hover:bg-[#F3F0E8]'
+                                }`}
+                            >
+                                {period.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 

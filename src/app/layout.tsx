@@ -67,6 +67,9 @@ export const metadata: Metadata = {
     alternates: {
         canonical: 'https://deeplinkcreators.com',
     },
+    verification: {
+        google: 'RQdag9sYAeymMOf0hRU0xM9u9PZchznqgnhnyt-6uEI',
+    },
 }
 
 // Consolidated, Verified Organization and WebSite Schema Graph
@@ -160,6 +163,7 @@ export default function RootLayout({
                 <meta name="geo.region" content="IN-UP" />
                 <meta name="geo.placename" content="Greater Noida, Uttar Pradesh" />
                 <meta name="language" content="English" />
+                <meta name="google-site-verification" content="RQdag9sYAeymMOf0hRU0xM9u9PZchznqgnhnyt-6uEI" />
 
                 {/* Consolidated Schema.org JSON-LD */}
                 <script

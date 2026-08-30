@@ -36,14 +36,27 @@ export async function GET(req: NextRequest) {
         since.setDate(since.getDate() - days)
 
         const collection = await getCollection('visits')
-        const visits = await collection.find({ timestamp: { $gte: since } }).toArray()
+        const visits = await collection.find({
+            $or: [
+                { timestamp: { $gte: since } },
+                { createdAt: { $gte: since } },
+                { date: { $gte: since.toISOString().split('T')[0] } }
+            ]
+        }).sort({ timestamp: -1 }).toArray()
 
         const totalVisitors = visits.length
         const newVisitors = visits.filter((v) => v.isNew).length
-        const returningVisitors = totalVisitors - newVisitors
+        const returningVisitors = Math.max(0, totalVisitors - newVisitors)
 
-        const todayStr = new Date().toISOString().split('T')[0]
-        const todayVisitors = visits.filter((v) => v.date === todayStr).length
+        const now = new Date()
+        const todayStr = now.toISOString().split('T')[0]
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
+        const todayVisitors = visits.filter((v) => {
+            if (v.date === todayStr) return true
+            if (v.timestamp && new Date(v.timestamp) >= startOfToday) return true
+            return false
+        }).length
 
         // Source breakdown
         const sourceMap: Record<string, number> = {}

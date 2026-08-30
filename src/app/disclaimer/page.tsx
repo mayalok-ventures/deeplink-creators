@@ -1,30 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import {
-    AlertOctagon,
-    ShieldAlert,
-    Scale,
-    TrendingDown,
-    ServerOff,
-    FileWarning,
-    Building2,
-    Lock,
-    Cpu,
-    Ban,
-    ExternalLink,
-    HelpCircle,
-    ArrowUpRight
-} from 'lucide-react'
 
 export default function DisclaimerPage() {
-    const [activeSection, setActiveSection] = useState<string>('preamble')
-
-    // Anti-scraping / Anti-theft deterrent listeners
+    // Strict Anti-copy, Anti-scraping, Anti-print keyboard and context menu interceptors
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            if (
+                (e.ctrlKey || e.metaKey) &&
+                (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'C' || e.key === 'A' || e.key === 'U' || e.key === 'S' || e.key === 'P')
+            ) {
                 e.preventDefault()
             }
         }
@@ -44,383 +30,243 @@ export default function DisclaimerPage() {
 
     return (
         <div
-            className="bg-[#0F1112] text-[#AAA99F] min-h-screen pt-28 pb-20 selection:bg-[#9B7545]/30 selection:text-[#F3F0E8] font-sans antialiased"
+            className="bg-[#EFECE6] min-h-screen py-10 sm:py-16 px-3 sm:px-6 lg:px-8 selection:bg-slate-300 selection:text-slate-900 font-sans"
             style={{
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none',
                 WebkitTouchCallout: 'none',
             } as React.CSSProperties}
             onContextMenu={(e) => e.preventDefault()}
             onCopy={(e) => e.preventDefault()}
         >
-            {/* Subtle Engineering Grid Backdrop */}
-            <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+            {/* White Paper Legal Container */}
+            <div className="max-w-5xl mx-auto bg-white shadow-2xl border border-slate-300 p-6 sm:p-12 md:p-20 relative overflow-hidden text-slate-800">
+                {/* Diagonal Confidentiality Watermark Overlay */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-[0.035] select-none rotate-[-35deg] text-center"
+                >
+                    <p className="text-4xl sm:text-6xl md:text-7xl font-mono font-black tracking-widest leading-relaxed text-black uppercase">
+                        MAYALOK VENTURE • CONFIDENTIAL LEGAL DOSSIER • STATUTORY DISCLAIMER • UNAUTHORIZED REPRODUCTION PROHIBITED
+                    </p>
+                </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* ── Document Header ── */}
-                <div className="border-b border-white/10 pb-8 mb-10">
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181A16] border border-[#9B7545]/30 text-[11px] font-mono font-bold tracking-widest uppercase text-[#D4B270]">
-                            <ShieldAlert size={13} className="text-[#9B7545]" />
-                            <span>STATUTORY PERFORMANCE &amp; RISK CHARTER</span>
-                        </div>
-
-                        <div className="flex items-center gap-3 text-[11px] font-mono text-[#65675F]">
-                            <span>STATUS: <strong className="text-amber-400">STRICTLY BINDING</strong></span>
-                            <span>•</span>
-                            <span>VERSION: 4.0 (2026 REVISION)</span>
-                        </div>
+                {/* Document Header & Registry Box */}
+                <header className="relative z-10 border-b-2 border-slate-900 pb-8 mb-10">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-3">
+                        <span>INSTRUMENT: STATUTORY RISK DISCLAIMER</span>
+                        <span>CLASSIFICATION: LIABILITY EXCLUSION CHARTER</span>
+                        <span>JURISDICTION: GREATER NOIDA (NCR), INDIA</span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-                        Legal, Financial &amp; Technical Risk Disclaimer.
+                    <h1 className="text-2xl sm:text-4xl font-extrabold font-serif text-slate-950 tracking-tight leading-tight">
+                        LEGAL, PERFORMANCE, TECHNICAL &amp; REGULATORY RISK DISCLAIMER
                     </h1>
-
-                    <p className="text-xs sm:text-sm text-[#AAA99F] max-w-4xl mt-3 leading-relaxed">
-                        Comprehensive statutory liability shield governing Mayalok Venture, Deeplink Creators, Sahyak CRM SaaS software, edge telemetry pipelines, creator distribution syndication, and third-party algorithmic infrastructure under Indian and international commercial statutes.
+                    <p className="text-xs sm:text-sm font-serif italic text-slate-600 mt-2">
+                        Comprehensive Statutory Liability Shield Absolving Mayalok Venture (Private Limited), Deeplink Creators, and Associated Software Holdings (Sahyak CRM) from Speculative Financial Guarantees, Upstream Cloud Outages, and Third-Party Algorithmic Volatility.
                     </p>
 
-                    {/* Metadata Strip */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 p-4 rounded-xl bg-[#141618] border border-white/08 text-[11px] font-mono">
+                    <div className="mt-6 pt-4 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-[10px] sm:text-[11px] font-mono">
                         <div>
-                            <span className="text-[#65675F] block">Governing Entity:</span>
-                            <span className="text-white font-semibold">Mayalok Venture (Private Limited)</span>
+                            <span className="text-slate-400 block uppercase">Governing Entity:</span>
+                            <strong className="text-slate-900">Mayalok Venture (Pvt. Ltd.)</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Commercial Scope:</span>
-                            <span className="text-white font-semibold">Enterprise SaaS &amp; Studio Distribution</span>
+                            <span className="text-slate-400 block uppercase">Commercial Brand:</span>
+                            <strong className="text-slate-900">Deeplink Creators Holding</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Statutory Basis:</span>
-                            <span className="text-white font-semibold">IT Act 2000 • Contract Act 1872</span>
+                            <span className="text-slate-400 block uppercase">Financial Scope:</span>
+                            <strong className="text-slate-900">Zero Earnings Guarantees</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Effective Date:</span>
-                            <span className="text-[#D4B270] font-semibold">February 15, 2026</span>
+                            <span className="text-slate-400 block uppercase">Revision Effective:</span>
+                            <strong className="text-slate-900">February 15, 2026</strong>
                         </div>
                     </div>
-                </div>
+                </header>
 
-                {/* ── Main Layout: Sidebar Navigation + Legal Body ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Sticky Table of Contents (lg:col-span-3) */}
-                    <aside className="lg:col-span-3 hidden lg:block">
-                        <div className="sticky top-32 p-4 rounded-2xl bg-[#141618] border border-white/08 space-y-1.5 text-[11px] font-mono">
-                            <div className="text-[10px] uppercase font-bold tracking-widest text-[#9B7545] pb-2 mb-2 border-b border-white/08">
-                                Risk Disclaimer Index
+                {/* White Paper Continuous Legal Body */}
+                <main className="relative z-10 text-[10.5px] sm:text-[11.5px] leading-[1.7] text-slate-800 space-y-8 text-justify font-sans">
+                    {/* SECTION 1 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE I — STATUTORY PREAMBLE, CORPORATE IDENTITY &amp; SCOPE OF APPLICATION
+                        </h2>
+                        <p>
+                            1.1. <strong className="text-slate-950">Binding Statutory Scope:</strong> This Legal, Financial, Technical, and Performance Risk Disclaimer (&ldquo;Disclaimer&rdquo;) applies unconditionally to the website <strong className="text-slate-950">deeplinkcreators.com</strong>, all subdomains, API endpoints, software interfaces, and all technical, advisory, and creator distribution services provided by <strong className="text-slate-950">Deeplink Creators</strong>, operating as an autonomous enterprise software holding, venture engineering studio, and commercial distribution division under <strong className="text-slate-950">Mayalok Venture (Private Limited)</strong> (hereinafter collectively referenced as &ldquo;Mayalok Venture,&rdquo; &ldquo;Deeplink Creators,&rdquo; &ldquo;the Holding,&rdquo; &ldquo;We,&rdquo; &ldquo;Us,&rdquo; or &ldquo;Our&rdquo;).
+                        </p>
+                        <p>
+                            1.2. <strong className="text-slate-950">Integration with Master Terms:</strong> This Disclaimer forms an integral, non-severable part of our corporate compliance architecture and must be read in conjunction with our <Link href="/terms" className="underline font-mono text-slate-950 font-bold">Master Services Agreement (Terms &amp; Conditions)</Link> and <Link href="/privacy" className="underline font-mono text-slate-950 font-bold">Data Privacy Charter</Link>. Accessing or browsing our digital properties constitutes irrevocable acknowledgment and acceptance of these liability exclusions in their entirety.
+                        </p>
+                    </section>
+
+                    {/* SECTION 2 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE II — ABSOLUTE DISCLAIMER OF FINANCIAL, REVENUE &amp; ROI PERFORMANCE GUARANTEES
+                        </h2>
+                        <p>
+                            2.1. <strong className="text-slate-950">Complete Absence of Commercial Promises:</strong> DEEPLINK CREATORS AND MAYALOK VENTURE DO NOT MAKE ANY GUARANTEES, PROMISES, WARRANTIES, OR REPRESENTATIONS REGARDING SPECIFIC FINANCIAL OUTCOMES, RETURN ON INVESTMENT (ROI), RETURN ON AD SPEND (ROAS), REVENUE TARGETS, SALES CONVERSIONS, OR REDUCED COST-PER-ACQUISITION (CPA) FIGURES RESULTING FROM THE DEPLOYMENT OF OUR ENTERPRISE SOFTWARE (INCLUDING SAHYAK CRM) OR PARTICIPATION IN OUR CREATOR DISTRIBUTION NETWORKS.
+                        </p>
+                        <p>
+                            2.2. <strong className="text-slate-950">Exogenous Business Variables:</strong> Commercial enterprise growth and conversion velocity are governed by a wide array of internal and exogenous variables entirely beyond our control, including but not limited to: client operational execution speed, product competitiveness, quality of client sales representatives, pricing structure, brand reputation, consumer macroeconomic liquidity, and sector adoption friction. Client acknowledges that engaging Deeplink Creators does not ensure commercial success.
+                        </p>
+                    </section>
+
+                    {/* SECTION 3 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE III — ILLUSTRATIVE &amp; NON-REPLICABLE NATURE OF HISTORICAL CASE STUDIES
+                        </h2>
+                        <p>
+                            3.1. <strong className="text-slate-950">Reference-Only Case Dossiers:</strong> All quantitative case studies, metric badges (such as &ldquo;+315% MQLs,&rdquo; &ldquo;99.98% Uptime,&rdquo; &ldquo;₹4.2 Cr ARR,&rdquo; &ldquo;5.2× ROAS&rdquo;), historical client reviews, and revenue growth narratives published across our website are shared strictly for <strong className="text-slate-950">illustrative, contextual, and reference purposes only</strong>.
+                        </p>
+                        <p>
+                            3.2. <strong className="text-slate-950">Specific Isolated Outcomes:</strong> These metrics reflect specific historical outcomes achieved by individual organizations under isolated operational conditions, unique commercial timing, and dedicated capital investment. They are not typical and provide zero guarantee or implication that any other enterprise will achieve identical, comparable, or positive outcomes.
+                        </p>
+                    </section>
+
+                    {/* SECTION 4 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE IV — DISCLAIMER OF THIRD-PARTY CLOUD INFRASTRUCTURE &amp; UPSTREAM OUTAGES
+                        </h2>
+                        <p>
+                            4.1. <strong className="text-slate-950">Cloud Sub-Processor Dependencies:</strong> Deeplink Creators utilizes tier-1 third-party cloud infrastructure and database service providers, including <strong className="text-slate-950">Cloudflare, Inc.</strong>, <strong className="text-slate-950">MongoDB, Inc. (Atlas)</strong>, <strong className="text-slate-950">Amazon Web Services (AWS)</strong>, and <strong className="text-slate-950">Google Cloud Platform (GCP)</strong>, to deliver edge caching, multi-tenant databases, and serverless compute execution.
+                        </p>
+                        <p>
+                            4.2. <strong className="text-slate-950">Total Outage Liability Exclusion:</strong> Mayalok Venture assumes zero legal, commercial, or consequential liability for service interruptions, latency degradation, global DNS propagation anomalies, distributed denial-of-service (DDoS) packet drops, or upstream data center outages originating from third-party cloud infrastructure or regional telecommunication carriers.
+                        </p>
+                    </section>
+
+                    {/* SECTION 5 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE V — ADVERTISING PLATFORM ALGORITHMIC SHIFTS &amp; ACCOUNT RESTRICTIONS
+                        </h2>
+                        <p>
+                            5.1. <strong className="text-slate-950">Third-Party Ecosystem Reliance:</strong> In performance marketing and creator syndication workflows, Deeplink Creators interacts with external software ecosystems owned by third parties, including Google LLC (Search, Ads, YouTube), Meta Platforms Inc. (Instagram, WhatsApp, Facebook), Microsoft Corporation (LinkedIn), and ByteDance (TikTok).
+                        </p>
+                        <p>
+                            5.2. <strong className="text-slate-950">Algorithmic Volatility &amp; Account Bans:</strong> Search ranking algorithms, social feed distribution weights, and ad auction costs are determined exclusively by third-party platform algorithms. Deeplink Creators disclaims all liability in the event a third-party platform: (a) executes sudden algorithmic ranking updates; (b) modifies or deprecates API interfaces (e.g. WhatsApp Business Cloud API); or (c) restricts, suspends, or bans a client ad account or social handle.
+                        </p>
+                    </section>
+
+                    {/* SECTION 6 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VI — SAHYAK CRM SOFTWARE &quot;AS IS&quot; &amp; INTERNET DATA TRANSMISSION
+                        </h2>
+                        <p>
+                            6.1. <strong className="text-slate-950">Warranty Disclaimers:</strong> Sahyak CRM and all associated software interfaces, APIs, and workflow automations are provided strictly on an <strong className="text-slate-950">&ldquo;AS IS&rdquo;</strong> and <strong className="text-slate-950">&ldquo;AS AVAILABLE&rdquo;</strong> basis. Mayalok Venture expressly disclaims all warranties of any kind, whether express, statutory, or implied, including the implied warranties of merchantability, fitness for a particular commercial purpose, uninterrupted operation, or error-free execution.
+                        </p>
+                        <p>
+                            6.2. <strong className="text-slate-950">Internet Packet Transmission Risks:</strong> Transmission of information across the public internet involves inherent vulnerabilities. Beyond our mandatory reasonable technical safeguards under Section 43A of the IT Act 2000 and the DPDP Act 2023, Mayalok Venture assumes no liability for unauthorized data interception or packet compromise occurring on external telecommunication networks.
+                        </p>
+                    </section>
+
+                    {/* SECTION 7 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VII — EXCLUSION OF FINANCIAL, LEGAL, TAX &amp; INVESTMENT ADVICE
+                        </h2>
+                        <p>
+                            7.1. <strong className="text-slate-950">Technical &amp; Operational Scope Only:</strong> None of the architectural blueprints, technical whitepapers, telemetry metrics, consultative briefings, or market modeling materials provided by Deeplink Creators constitute formal <strong className="text-slate-950">financial, investment, legal, accounting, or tax advisory</strong>.
+                        </p>
+                        <p>
+                            7.2. <strong className="text-slate-950">Mandatory Independent Due Diligence:</strong> Client organizations are solely responsible for conducting their own independent technical, commercial, tax, and legal due diligence before deploying software systems or making commercial commitments.
+                        </p>
+                    </section>
+
+                    {/* SECTION 8 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VIII — CREATOR DISTRIBUTION NETWORKS &amp; EDITORIAL AUTONOMY
+                        </h2>
+                        <p>
+                            8.1. <strong className="text-slate-950">Independent Media Entities:</strong> Independent creators participating in our syndicated distribution networks are third-party media entities. Deeplink Creators routes technical distribution tokens and performance analytics but does not exercise employment control over independent creators.
+                        </p>
+                        <p>
+                            8.2. <strong className="text-slate-950">Disclaimer of Spontaneous Statements:</strong> Deeplink Creators disclaims all liability for spontaneous opinions, unapproved modifications, or independent personal statements made by creator partners outside authorized campaign guidelines.
+                        </p>
+                    </section>
+
+                    {/* SECTION 9 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE IX — FORWARD-LOOKING INNOVATION STATEMENTS &amp; ROADMAPS
+                        </h2>
+                        <p>
+                            9.1. <strong className="text-slate-950">Non-Binding Architectural Projections:</strong> Statements published on our website regarding upcoming software features, Sahyak CRM enhancements, studio venture expansions, or technical capabilities constitute non-binding <strong className="text-slate-950">forward-looking statements</strong>. These roadmap projections represent current engineering aspirations subject to technical evolution and do not constitute binding contractual commitments.
+                        </p>
+                    </section>
+
+                    {/* SECTION 10 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE X — PROHIBITION OF AUTOMATED SCRAPING, DATA HARVESTING &amp; IP THEFT
+                        </h2>
+                        <p>
+                            10.1. <strong className="text-slate-950">Strict Prohibition of Scraping &amp; AI Training Extraction:</strong> All contents, code architectures, legal charters, brand identifiers, and proprietary data representations published on <strong className="text-slate-950">deeplinkcreators.com</strong> constitute protected intellectual property of Mayalok Venture. Any automated scraping, bot crawling, screenshot harvesting, or data extraction for training AI models or commercial mirroring without written authorization is strictly prohibited under Sections 43 &amp; 66 of the Information Technology Act, 2000 and the Copyright Act, 1957.
+                        </p>
+                    </section>
+
+                    {/* SECTION 11 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE XI — GOVERNING LAW, COMMERCIAL JURISDICTION &amp; COMPLIANCE DESK
+                        </h2>
+                        <p>
+                            11.1. <strong className="text-slate-950">Substantive Law &amp; Exclusive Jurisdiction:</strong> This Disclaimer shall be governed by, construed, and enforced in accordance with the substantive laws of the <strong className="text-slate-950">Republic of India</strong>. All legal claims or disputes arising hereunder shall be subject to the exclusive commercial jurisdiction of the competent courts of <strong className="text-slate-950">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong>.
+                        </p>
+                        <div className="p-4 bg-slate-50 border border-slate-300 font-mono text-[10px] sm:text-[11px] space-y-1.5 my-2">
+                            <div className="flex justify-between border-b border-slate-200 pb-1">
+                                <span className="text-slate-500">Compliance Authority:</span>
+                                <strong className="text-slate-950">Legal &amp; Regulatory Risk Directorate</strong>
                             </div>
-
-                            {[
-                                { id: 'preamble', label: '1. Institutional Scope & Preamble' },
-                                { id: 'no-guarantee', label: '2. No Financial / ROI Guarantees' },
-                                { id: 'illustrative-cases', label: '3. Illustrative Past Performance' },
-                                { id: 'third-party-risk', label: '4. Third-Party Cloud & API Risk' },
-                                { id: 'algorithm-shifts', label: '5. Ad Platform Algorithm Volatility' },
-                                { id: 'saas-availability', label: '6. Sahyak CRM &quot;AS IS&quot; Disclaimer' },
-                                { id: 'no-advice', label: '7. No Financial / Legal Advice' },
-                                { id: 'creator-autonomy', label: '8. Creator Syndication Autonomy' },
-                                { id: 'forward-looking', label: '9. Forward-Looking Statements' },
-                                { id: 'anti-scraping', label: '10. Anti-Scraping & IP Shield' },
-                                { id: 'jurisdiction', label: '11. Governing Law & Jurisdiction' },
-                            ].map((sec) => (
-                                <a
-                                    key={sec.id}
-                                    href={`#${sec.id}`}
-                                    onClick={() => setActiveSection(sec.id)}
-                                    className={`block px-2.5 py-1.5 rounded-lg transition-all ${
-                                        activeSection === sec.id
-                                            ? 'bg-[#9B7545]/20 text-[#D4B270] font-bold border border-[#9B7545]/30'
-                                            : 'text-[#AAA99F] hover:text-white hover:bg-white/05'
-                                    }`}
-                                >
-                                    {sec.label}
+                            <div className="flex justify-between border-b border-slate-200 pb-1">
+                                <span className="text-slate-500">Contracting Entity:</span>
+                                <strong className="text-slate-900">Mayalok Venture (Private Limited)</strong>
+                            </div>
+                            <div className="flex justify-between border-b border-slate-200 pb-1">
+                                <span className="text-slate-500">Official Compliance Email:</span>
+                                <a href="mailto:legal@deeplinkcreators.com" className="text-blue-700 font-bold underline">
+                                    legal@deeplinkcreators.com
                                 </a>
-                            ))}
-
-                            <div className="pt-3 mt-3 border-t border-white/08 text-[10px] text-[#65675F]">
-                                Legal Risk Registry • Mayalok Venture Compliance
+                            </div>
+                            <div className="pt-1">
+                                <span className="text-slate-500 block">Physical Corporate Seat:</span>
+                                <span className="text-slate-950">
+                                    Mayalok Venture Headquarters, Tech Zone 4, Greater Noida, Gautam Buddha Nagar, Uttar Pradesh 201306, India
+                                </span>
                             </div>
                         </div>
-                    </aside>
+                    </section>
+                </main>
 
-                    {/* Legal Sections Container (lg:col-span-9) */}
-                    <main className="lg:col-span-9 space-y-10 text-[11px] sm:text-xs leading-relaxed text-[#AAA99F]">
-                        {/* SECTION 1: PREAMBLE */}
-                        <section id="preamble" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Building2 size={15} />
-                                <span>1. Institutional Scope &amp; Legal Framework</span>
-                            </div>
+                {/* White Paper Footer */}
+                <footer className="relative z-10 border-t-2 border-slate-900 pt-6 mt-12 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono text-slate-500">
+                    <div className="flex items-center gap-3">
+                        <Link href="/privacy" className="text-slate-900 font-bold hover:underline">
+                            PRIVACY &amp; DPDP CHARTER
+                        </Link>
+                        <span>•</span>
+                        <Link href="/terms" className="text-slate-900 font-bold hover:underline">
+                            TERMS &amp; CONDITIONS (MSA)
+                        </Link>
+                        <span>•</span>
+                        <Link href="/contact" className="text-slate-900 font-bold hover:underline">
+                            EXECUTIVE INTAKE
+                        </Link>
+                    </div>
 
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                1.1 Scope of Enterprise Operations &amp; Disclaimers
-                            </h2>
-
-                            <p>
-                                This Legal Disclaimer (&ldquo;Disclaimer&rdquo;) applies unconditionally to the website <strong className="text-white">deeplinkcreators.com</strong>, all associated subdomains, API endpoints, software interfaces, and all technical, advisory, and creator distribution services provided by <strong className="text-white">Deeplink Creators</strong>, operating as an autonomous enterprise software holding, venture studio, and distribution division under <strong className="text-white">Mayalok Venture (Private Limited)</strong> (&ldquo;the Holding,&rdquo; &ldquo;We,&rdquo; &ldquo;Us,&rdquo; &ldquo;Our&rdquo;).
-                            </p>
-
-                            <p>
-                                By accessing, browsing, evaluating, or interacting with our digital assets, documentation, or client intake portals, you acknowledge and agree that your access is subject to this Disclaimer, our <Link href="/terms" className="text-[#D4B270] hover:underline font-semibold">Terms &amp; Conditions</Link>, and our <Link href="/privacy" className="text-[#D4B270] hover:underline font-semibold">Privacy Policy</Link>.
-                            </p>
-                        </section>
-
-                        {/* SECTION 2: NO FINANCIAL / ROI GUARANTEES */}
-                        <section id="no-guarantee" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-[#9B7545]/40 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#D4B270] font-bold uppercase tracking-wider">
-                                <AlertOctagon size={15} className="text-[#9B7545]" />
-                                <span>2. Absolute Disclaimer of Financial, Revenue &amp; ROI Guarantees</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                2.1 No Guarantee of Commercial Outcomes or Earnings
-                            </h2>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-[#9B7545]/30 text-[#D0CBBF] space-y-3 font-mono text-[11px]">
-                                <p className="font-bold text-white uppercase tracking-wider">
-                                    STATUTORY EARNINGS &amp; OUTCOME DISCLAIMER:
-                                </p>
-                                <p>
-                                    DEEPLINK CREATORS AND MAYALOK VENTURE DO NOT MAKE ANY GUARANTEES, PROMISES, WARRANTIES, OR REPRESENTATIONS REGARDING SPECIFIC FINANCIAL OUTCOMES, RETURN ON INVESTMENT (ROI), RETURN ON AD SPEND (ROAS), REVENUE GENERATION, LEAD CONVERSION VOLUMES, COST-PER-ACQUISITION (CPA) FIGURES, OR COMMERCIAL VALUATION LIFTS RESULTING FROM THE USE OF OUR SOFTWARE OR ENGAGEMENT WITH OUR VENTURE STUDIO.
-                                </p>
-                                <p>
-                                    ANY COMMERCIAL SUCCESS, ENTERPRISE GROWTH, OR REVENUE EXPANSION DEPENDS ON A WIDE VARIETY OF EXOGENOUS AND INTERNAL BUSINESS VARIABLES ENTIRELY BEYOND OUR DIRECT CONTROL, INCLUDING BUT NOT LIMITED TO: CLIENT OPERATIONAL SPEED, PRODUCT QUALITY, PRICING COMPETITIVENESS, PRODUCT-MARKET FIT, MARKET ADOPTION VELOCITY, AND MACROECONOMIC CONDITIONS.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 3: ILLUSTRATIVE CASES */}
-                        <section id="illustrative-cases" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <TrendingDown size={15} />
-                                <span>3. Illustrative Nature of Case Studies &amp; Historical Performance</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                3.1 Non-Replicable Historical References
-                            </h2>
-
-                            <p>
-                                All case studies, quantitative metric callouts (such as &ldquo;+315% MQLs,&rdquo; &ldquo;99.98% Uptime,&rdquo; &ldquo;₹4.2 Cr ARR,&rdquo; &ldquo;5.2× ROAS&rdquo;), historical client endorsements, and anonymized growth dossiers published across this website or in corporate decks are shared strictly for <strong className="text-white">illustrative, educational, and reference purposes only</strong>.
-                            </p>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">A. Non-Typical Experiences:</strong>
-                                    <p>Case study results represent specific historical outcomes achieved by individual organizations under isolated market conditions and budget allocations.</p>
-                                </div>
-
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">B. Zero Implied Performance:</strong>
-                                    <p>Past commercial achievements by any portfolio venture or client partner provide zero assurance or guarantee of future performance for other enterprise deployments.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* SECTION 4: THIRD-PARTY INFRASTRUCTURE RISK */}
-                        <section id="third-party-risk" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <ServerOff size={15} />
-                                <span>4. Third-Party Cloud Infrastructure &amp; Network Outages</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                4.1 Disclaimer of Upstream Infrastructure Disruptions
-                            </h2>
-
-                            <p>
-                                Our web applications, telemetry engines, and Sahyak CRM platforms rely on enterprise cloud infrastructure providers, including <strong className="text-white">Cloudflare Inc.</strong>, <strong className="text-white">MongoDB Inc. (Atlas)</strong>, <strong className="text-white">Amazon Web Services (AWS)</strong>, and <strong className="text-white">Google Cloud Platform (GCP)</strong>.
-                            </p>
-
-                            <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                <span className="font-mono text-[#D4B270] font-bold block">Exclusion of Cloud Outage Liability:</span>
-                                <p>
-                                    Mayalok Venture and Deeplink Creators assume zero legal or financial liability for service interruptions, latency spikes, DDoS-related packet drops, global DNS propagation delays, or cloud data center outages caused by upstream sub-processors, telecommunication backbones, or regional ISP routing failures.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 5: AD PLATFORM ALGORITHM VOLATILITY */}
-                        <section id="algorithm-shifts" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Cpu size={15} />
-                                <span>5. Search Engine &amp; Ad Platform Algorithmic Volatility</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                5.1 Third-Party Platform Shifts Beyond Commercial Control
-                            </h2>
-
-                            <p>
-                                In performance engineering and creator syndication workflows, Deeplink Creators interacts with external software ecosystems owned by third parties, including Google LLC (Search, YouTube, Ads), Meta Platforms Inc. (Instagram, WhatsApp, Facebook), Microsoft Corporation (LinkedIn), and ByteDance (TikTok):
-                            </p>
-
-                            <ul className="space-y-2 list-disc list-inside text-[#AAA99F]">
-                                <li><strong className="text-white">Algorithmic Volatility:</strong> Search engine core updates, feed ranking changes, and ad auction pricing fluctuations are entirely determined by third-party platform algorithms.</li>
-                                <li><strong className="text-white">Account Restrictions &amp; Bans:</strong> In the event a third-party platform restricts, suspends, or bans a client ad account or social handle due to policy violations, automated detection, or platform review, Deeplink Creators bears zero liability.</li>
-                                <li><strong className="text-white">API Deprecations:</strong> Sudden modifications or deprecations of third-party APIs (e.g. WhatsApp Business Cloud API, Meta Graph API) are disclaimed.</li>
-                            </ul>
-                        </section>
-
-                        {/* SECTION 6: SAHYAK CRM "AS IS" DISCLAIMER */}
-                        <section id="saas-availability" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Lock size={15} />
-                                <span>6. Sahyak CRM Software &quot;AS IS&quot; &amp; Internet Vulnerability</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                6.1 Warranty Disclaimers &amp; Data Transmission Risks
-                            </h2>
-
-                            <p>
-                                While Sahyak CRM and our technical platforms are engineered with bank-grade multi-tenant isolation, TLS 1.3 encryption, and AES-256 rest security, the software is provided strictly on an <strong className="text-white">&ldquo;AS IS&rdquo;</strong> and <strong className="text-white">&ldquo;AS AVAILABLE&rdquo;</strong> basis:
-                            </p>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-white/06 space-y-2 font-mono text-[11px]">
-                                <p className="text-white font-bold">
-                                    DISCLAIMER OF IMPLIED WARRANTIES:
-                                </p>
-                                <p>
-                                    WE EXPRESSLY DISCLAIM ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR COMMERCIAL PURPOSE, UNINTERRUPTED ERROR-FREE OPERATION, AND NON-INFRINGEMENT.
-                                </p>
-                                <p className="text-[#AAA99F]">
-                                    Transmission of data across public internet backbones carries inherent security vulnerabilities. Beyond our mandatory reasonable security practices under Section 43A of the IT Act, 2000 and DPDP Act 2023, Mayalok Venture assumes no liability for unauthorized packet interception occurring beyond our edge security perimeter.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 7: NO FINANCIAL / LEGAL ADVICE */}
-                        <section id="no-advice" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <FileWarning size={15} />
-                                <span>7. Exclusion of Financial, Legal &amp; Investment Advisory</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                7.1 Strictly Technical &amp; Operational Subject Matter
-                            </h2>
-
-                            <p>
-                                None of the information, whitepapers, architectural blueprints, telemetry metrics, market models, or consultative sessions provided by Deeplink Creators or Mayalok Venture constitutes formal <strong className="text-white">financial, investment, legal, tax, or accounting advice</strong>.
-                            </p>
-
-                            <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                <strong className="text-[#D4B270] font-mono block">Independent Counsel Mandatory:</strong>
-                                <p>
-                                    Client organizations are solely responsible for conducting their own independent technical, commercial, tax, and legal due diligence before making enterprise investments or commercial software deployments.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 8: CREATOR AUTONOMY */}
-                        <section id="creator-autonomy" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Scale size={15} />
-                                <span>8. Creator Syndication &amp; Editorial Autonomy</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                8.1 Independent Creator Network Relationship
-                            </h2>
-
-                            <p>
-                                Creator partners participating in our syndicated distribution networks are independent third-party creators and media channels. Deeplink Creators structures distribution routing and performance tracking, but does not exercise employment control over independent creators:
-                            </p>
-
-                            <ul className="space-y-1.5 list-disc list-inside text-[#AAA99F]">
-                                <li>Creators are solely responsible for ensuring sponsored content complies with the Advertising Standards Council of India (ASCI) guidelines.</li>
-                                <li>Deeplink Creators disclaims liability for spontaneous statements, personal opinions, or unauthorized claims made by creator partners outside verified campaign briefs.</li>
-                            </ul>
-                        </section>
-
-                        {/* SECTION 9: FORWARD-LOOKING STATEMENTS */}
-                        <section id="forward-looking" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Cpu size={15} />
-                                <span>9. Forward-Looking Innovation Statements</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                9.1 Non-Binding Roadmap Projections
-                            </h2>
-
-                            <p>
-                                Statements on this website regarding upcoming software releases, Sahyak CRM feature updates, studio venture expansions, or technical capabilities are <strong className="text-white">forward-looking statements</strong> reflecting current expectations. These projections are subject to technical risks and commercial evolution and do not constitute binding engineering commitments.
-                            </p>
-                        </section>
-
-                        {/* SECTION 10: ANTI-SCRAPING & IP PROHIBITION */}
-                        <section id="anti-scraping" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-[#9B7545]/40 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#D4B270] font-bold uppercase tracking-wider">
-                                <Ban size={15} className="text-[#9B7545]" />
-                                <span>10. Anti-Scraping, Anti-Screenshot &amp; Legal Remedies</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                10.1 Automated Harvest &amp; Content Mining Prohibition
-                            </h2>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-[#9B7545]/20 text-[#D0CBBF] space-y-2">
-                                <p className="font-semibold text-white">
-                                    STATUTORY COPYRIGHT &amp; CYBER LAW NOTICE:
-                                </p>
-                                <p>
-                                    All contents, structural designs, visual styling, legal charters, and proprietary data representations on <strong className="text-white">deeplinkcreators.com</strong> are protected intellectual property of Mayalok Venture.
-                                </p>
-                                <p>
-                                    Any automated scraping, programmatic crawling, data mining, screenshot extraction, or unauthorized reproduction is strictly prohibited under Sections 43 and 66 of the Information Technology Act, 2000 and the Copyright Act, 1957.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 11: JURISDICTION */}
-                        <section id="jurisdiction" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Scale size={15} />
-                                <span>11. Governing Law &amp; Exclusive Jurisdiction</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                11.1 Commercial Forum Selection
-                            </h2>
-
-                            <p>
-                                This Disclaimer shall be governed by, construed, and enforced in accordance with the substantive laws of the <strong className="text-white">Republic of India</strong>. All disputes or claims arising hereunder shall be subject to the exclusive commercial jurisdiction of the competent courts of <strong className="text-[#D4B270]">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong>.
-                            </p>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-white/06 space-y-2 font-mono text-[11px]">
-                                <span className="text-white font-bold block">Official Compliance Coordinates:</span>
-                                <p className="text-[#AAA99F]">
-                                    Mayalok Venture (Private Limited) — Legal &amp; Compliance Directorate<br />
-                                    Email: <a href="mailto:legal@deeplinkcreators.com" className="text-[#D4B270] hover:underline">legal@deeplinkcreators.com</a> • Phone: +91 97116 10928<br />
-                                    Headquarters: Tech Zone 4, Greater Noida, Uttar Pradesh 201306, India
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* ── Document Footer Links ── */}
-                        <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#65675F]">
-                            <div className="flex items-center gap-4">
-                                <Link href="/privacy" className="text-[#D4B270] hover:underline">
-                                    Privacy Policy
-                                </Link>
-                                <span>•</span>
-                                <Link href="/terms" className="text-[#D4B270] hover:underline">
-                                    Terms &amp; Conditions
-                                </Link>
-                                <span>•</span>
-                                <Link href="/contact" className="text-[#D4B270] hover:underline">
-                                    Corporate Contact
-                                </Link>
-                            </div>
-
-                            <p className="text-[10px]">
-                                © {new Date().getFullYear()} Deeplink Creators. All rights reserved. Registered under Mayalok Venture.
-                            </p>
-                        </div>
-                    </main>
-                </div>
+                    <div>
+                        © {new Date().getFullYear()} Mayalok Venture (Private Limited) • Deeplink Creators Holding. All Rights Reserved.
+                    </div>
+                </footer>
             </div>
         </div>
     )

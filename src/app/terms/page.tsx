@@ -1,30 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import {
-    Scale,
-    Shield,
-    Lock,
-    FileText,
-    Server,
-    Database,
-    AlertTriangle,
-    Building2,
-    CheckCircle2,
-    Ban,
-    Briefcase,
-    HelpCircle,
-    ArrowUpRight
-} from 'lucide-react'
 
 export default function TermsPage() {
-    const [activeSection, setActiveSection] = useState<string>('preamble')
-
-    // Anti-scraping / Anti-theft deterrent listeners
+    // Strict Anti-copy, Anti-scraping, Anti-print keyboard and context menu interceptors
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            if (
+                (e.ctrlKey || e.metaKey) &&
+                (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'C' || e.key === 'A' || e.key === 'U' || e.key === 'S' || e.key === 'P')
+            ) {
                 e.preventDefault()
             }
         }
@@ -44,412 +30,252 @@ export default function TermsPage() {
 
     return (
         <div
-            className="bg-[#0F1112] text-[#AAA99F] min-h-screen pt-28 pb-20 selection:bg-[#9B7545]/30 selection:text-[#F3F0E8] font-sans antialiased"
+            className="bg-[#EFECE6] min-h-screen py-10 sm:py-16 px-3 sm:px-6 lg:px-8 selection:bg-slate-300 selection:text-slate-900 font-sans"
             style={{
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none',
                 WebkitTouchCallout: 'none',
             } as React.CSSProperties}
             onContextMenu={(e) => e.preventDefault()}
             onCopy={(e) => e.preventDefault()}
         >
-            {/* Subtle Engineering Grid Backdrop */}
-            <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+            {/* White Paper Legal Container */}
+            <div className="max-w-5xl mx-auto bg-white shadow-2xl border border-slate-300 p-6 sm:p-12 md:p-20 relative overflow-hidden text-slate-800">
+                {/* Diagonal Confidentiality Watermark Overlay */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-[0.035] select-none rotate-[-35deg] text-center"
+                >
+                    <p className="text-4xl sm:text-6xl md:text-7xl font-mono font-black tracking-widest leading-relaxed text-black uppercase">
+                        MAYALOK VENTURE • CONFIDENTIAL LEGAL DOSSIER • MASTER SERVICES AGREEMENT • UNAUTHORIZED REPRODUCTION PROHIBITED
+                    </p>
+                </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* ── Document Header ── */}
-                <div className="border-b border-white/10 pb-8 mb-10">
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181A16] border border-[#9B7545]/30 text-[11px] font-mono font-bold tracking-widest uppercase text-[#D4B270]">
-                            <Scale size={13} className="text-[#9B7545]" />
-                            <span>MASTER SERVICES AGREEMENT &amp; PLATFORM TERMS</span>
-                        </div>
-
-                        <div className="flex items-center gap-3 text-[11px] font-mono text-[#65675F]">
-                            <span>STATUS: <strong className="text-emerald-400">LEGALLY ENFORCEABLE</strong></span>
-                            <span>•</span>
-                            <span>VERSION: 4.1 (2026 REVISION)</span>
-                        </div>
+                {/* Document Header & Registry Box */}
+                <header className="relative z-10 border-b-2 border-slate-900 pb-8 mb-10">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-3">
+                        <span>INSTRUMENT: MASTER SERVICES AGREEMENT (MSA)</span>
+                        <span>CLASSIFICATION: ENTERPRISE CONTRACT</span>
+                        <span>FORUM: GREATER NOIDA, NCR, INDIA</span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-                        Enterprise Master Terms &amp; Conditions of Service.
+                    <h1 className="text-2xl sm:text-4xl font-extrabold font-serif text-slate-950 tracking-tight leading-tight">
+                        MASTER SERVICES AGREEMENT, SAAS LICENSING &amp; PLATFORM TERMS
                     </h1>
-
-                    <p className="text-xs sm:text-sm text-[#AAA99F] max-w-4xl mt-3 leading-relaxed">
-                        Binding Master Services Agreement (MSA), Software License Terms, and Operating Covenants governing commercial engagements with Mayalok Venture, Deeplink Creators, Sahyak CRM SaaS platforms, cloud software infrastructure, and creator-led syndication networks.
+                    <p className="text-xs sm:text-sm font-serif italic text-slate-600 mt-2">
+                        Legally Binding Commercial Instrument Governing Enterprise Software Licensing (Sahyak CRM), Multi-Tenant Data Infrastructure, Venture Studio Retainers, and Creator Distribution Networks between Mayalok Venture (Private Limited) and Commercial Client Counterparties.
                     </p>
 
-                    {/* Metadata Strip */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 p-4 rounded-xl bg-[#141618] border border-white/08 text-[11px] font-mono">
+                    <div className="mt-6 pt-4 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-[10px] sm:text-[11px] font-mono">
                         <div>
-                            <span className="text-[#65675F] block">Contracting Entity:</span>
-                            <span className="text-white font-semibold">Mayalok Venture (Private Limited)</span>
+                            <span className="text-slate-400 block uppercase">Contracting Party:</span>
+                            <strong className="text-slate-900">Mayalok Venture (Pvt. Ltd.)</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Exclusive Jurisdiction:</span>
-                            <span className="text-white font-semibold">Greater Noida / Gautam Buddha Nagar, UP</span>
+                            <span className="text-slate-400 block uppercase">Commercial Brand:</span>
+                            <strong className="text-slate-900">Deeplink Creators Holding</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Governing Law:</span>
-                            <span className="text-white font-semibold">Laws of the Republic of India</span>
+                            <span className="text-slate-400 block uppercase">Liability Ceiling:</span>
+                            <strong className="text-slate-900">Preceding 3 Months Fees</strong>
                         </div>
                         <div>
-                            <span className="text-[#65675F] block">Effective Date:</span>
-                            <span className="text-[#D4B270] font-semibold">February 15, 2026</span>
+                            <span className="text-slate-400 block uppercase">Arbitration Seat:</span>
+                            <strong className="text-slate-900">Greater Noida (UP), India</strong>
                         </div>
                     </div>
-                </div>
+                </header>
 
-                {/* ── Main Layout: Sidebar Navigation + Legal Body ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Sticky Table of Contents (lg:col-span-3) */}
-                    <aside className="lg:col-span-3 hidden lg:block">
-                        <div className="sticky top-32 p-4 rounded-2xl bg-[#141618] border border-white/08 space-y-1.5 text-[11px] font-mono">
-                            <div className="text-[10px] uppercase font-bold tracking-widest text-[#9B7545] pb-2 mb-2 border-b border-white/08">
-                                Agreement Index &amp; Articles
-                            </div>
+                {/* White Paper Continuous Legal Body */}
+                <main className="relative z-10 text-[10.5px] sm:text-[11.5px] leading-[1.7] text-slate-800 space-y-8 text-justify font-sans">
+                    {/* SECTION 1 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE I — PARTIES, CORPORATE CAPACITY &amp; CONTRACTUAL MASTER FRAMEWORK
+                        </h2>
+                        <p>
+                            1.1. <strong className="text-slate-950">Contracting Corporate Entities:</strong> This Master Services Agreement, Software Licensing Covenants, and Terms of Service (&ldquo;Agreement,&rdquo; &ldquo;MSA,&rdquo; or &ldquo;Terms&rdquo;) is entered into and made legally effective by and between <strong className="text-slate-950">Mayalok Venture (Private Limited)</strong>, an enterprise technology corporation incorporated under the Companies Act, 2013, with its principal corporate seat and executive studios situated at Tech Zone 4, Greater Noida, Gautam Buddha Nagar, Uttar Pradesh 201306, India, acting through its specialized venture engineering studio, autonomous platform holding, and commercial distribution division, <strong className="text-slate-950">Deeplink Creators</strong> (hereinafter collectively referenced as &ldquo;Mayalok Venture,&rdquo; &ldquo;Deeplink Creators,&rdquo; &ldquo;the Holding,&rdquo; &ldquo;We,&rdquo; &ldquo;Us,&rdquo; or &ldquo;Our&rdquo;), and the corporate entity, commercial organization, or authorized institutional representative executing a Service Proposal, Statement of Work (SOW), Subscription Order, or accessing our software systems (hereinafter referenced as &ldquo;Client,&rdquo; &ldquo;Enterprise Counterparty,&rdquo; &ldquo;You,&rdquo; or &ldquo;Your&rdquo;).
+                        </p>
+                        <p>
+                            1.2. <strong className="text-slate-950">Binding Nature of Terms:</strong> By accessing <strong className="text-slate-950">deeplinkcreators.com</strong>, authenticating into <strong className="text-slate-950">Sahyak CRM</strong> (<a href="https://sahyak.com" target="_blank" rel="noopener noreferrer" className="underline font-mono">sahyak.com</a>), provisioning multi-tenant database partitions, executing a digital intake brief, or issuing payment against an official commercial invoice, the Client unconditionally covenants to be bound by every term, limitation of liability, intellectual property reservation, and arbitration covenant contained herein.
+                        </p>
+                    </section>
 
-                            {[
-                                { id: 'preamble', label: '1. Contracting Parties & Scope' },
-                                { id: 'saas-license', label: '2. Sahyak CRM SaaS License' },
-                                { id: 'intellectual-property', label: '3. Intellectual Property Rights' },
-                                { id: 'commercial-retainers', label: '4. Fees, Billing & Taxes' },
-                                { id: 'liability-caps', label: '5. Limitation of Liability (3-Mo Cap)' },
-                                { id: 'indemnification', label: '6. Indemnification Obligations' },
-                                { id: 'creator-syndication', label: '7. Creator Distribution Covenants' },
-                                { id: 'confidentiality', label: '8. Confidentiality & Non-Solicit' },
-                                { id: 'termination-purge', label: '9. Termination & Data Purge' },
-                                { id: 'anti-scraping', label: '10. Anti-Scraping & IP Shield' },
-                                { id: 'jurisdiction-arbitration', label: '11. Governing Law & Arbitration' },
-                            ].map((sec) => (
-                                <a
-                                    key={sec.id}
-                                    href={`#${sec.id}`}
-                                    onClick={() => setActiveSection(sec.id)}
-                                    className={`block px-2.5 py-1.5 rounded-lg transition-all ${
-                                        activeSection === sec.id
-                                            ? 'bg-[#9B7545]/20 text-[#D4B270] font-bold border border-[#9B7545]/30'
-                                            : 'text-[#AAA99F] hover:text-white hover:bg-white/05'
-                                    }`}
-                                >
-                                    {sec.label}
-                                </a>
-                            ))}
+                    {/* SECTION 2 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE II — ENTERPRISE SAAS SOFTWARE LICENSING &amp; SAHYAK CRM OPERATING COVENANTS
+                        </h2>
+                        <p>
+                            2.1. <strong className="text-slate-950">Grant of Scoped, Revocable SaaS License:</strong> Conditioned upon full and timely payment of applicable subscription or retainer fees, Deeplink Creators grants to Client a non-exclusive, non-transferable, non-sublicensable, revocable license to access and operationalize the multi-tenant SaaS features of <strong className="text-slate-950">Sahyak CRM</strong> solely for Client&apos;s internal commercial business operations during the contractual subscription term.
+                        </p>
+                        <p>
+                            2.2. <strong className="text-slate-950">Complimentary 30-Day Onboarding Access:</strong> Qualifying enterprise service retainers and platform engineering contracts include complimentary thirty (30) day evaluation access to Sahyak CRM for client operations. Continued operational access following the initial 30-day period requires transition to an active enterprise software license schedule.
+                        </p>
+                        <p>
+                            2.3. <strong className="text-slate-950">Absolute License Restrictions &amp; Zero-Tamper Covenants:</strong> Client expressly agrees that it shall NOT, directly or indirectly:
+                        </p>
+                        <ul className="list-disc list-inside space-y-1 pl-2 font-mono text-[10px] sm:text-[11px] text-slate-700">
+                            <li>Decompile, disassemble, reverse engineer, decrypt, or extract source code, mathematical algorithms, prompt structures, or database schema topologies from Sahyak CRM or associated APIs;</li>
+                            <li>Bypass, tamper with, or circumvent multi-tenant isolation barriers, tenant UUID validation checks, or role-based access control (RBAC) security perimeters;</li>
+                            <li>Sublicense, lease, resell, rent, time-share, distribute, or commercially exploit Sahyak CRM or platform endpoints to any third party or non-affiliated entity;</li>
+                            <li>Deploy automated scraping bots, crawlers, or extraction tools against platform API endpoints exceeding documented rate limits (exceeding 120 requests per minute per tenant vault).</li>
+                        </ul>
+                    </section>
 
-                            <div className="pt-3 mt-3 border-t border-white/08 text-[10px] text-[#65675F]">
-                                Formal Legal Register • Mayalok Venture Directorate
-                            </div>
-                        </div>
-                    </aside>
+                    {/* SECTION 3 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE III — ABSOLUTE RETENTION OF INTELLECTUAL PROPERTY &amp; ASSET VESTING
+                        </h2>
+                        <p>
+                            3.1. <strong className="text-slate-950">Universal Intellectual Property Vesting in Mayalok Venture:</strong> All right, title, and ownership interest in and to all software platforms, Next.js codebases, React frameworks, serverless API routes, telemetry pipelines, MongoDB and Cloudflare database schemas, neural workflow designs, brand trademarks, logos, service dossiers, and technical documentation developed or deployed by Deeplink Creators remain the sole, absolute, and unencumbered intellectual property of <strong className="text-slate-950">Mayalok Venture (Private Limited)</strong>.
+                        </p>
+                        <p>
+                            3.2. <strong className="text-slate-950">Client Data Ownership Distinction:</strong> Client retains exclusive ownership of proprietary raw customer records, lead data, and confidential business documents uploaded into Client&apos;s isolated Sahyak CRM tenant vault (&ldquo;Client Data&rdquo;). Client grants Mayalok Venture a limited, worldwide, royalty-free license to host, process, cache, and transmit Client Data strictly for fulfilling operational delivery, software execution, and generating anonymized, aggregated diagnostic telemetry.
+                        </p>
+                    </section>
 
-                    {/* Legal Sections Container (lg:col-span-9) */}
-                    <main className="lg:col-span-9 space-y-10 text-[11px] sm:text-xs leading-relaxed text-[#AAA99F]">
-                        {/* SECTION 1: PREAMBLE */}
-                        <section id="preamble" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Building2 size={15} />
-                                <span>1. Contracting Parties, Scope &amp; Legal Capacity</span>
-                            </div>
+                    {/* SECTION 4 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE IV — COMMERCIAL TERMS, INVOICING, STATUTORY TAXES &amp; PAYMENT DEFAULT
+                        </h2>
+                        <p>
+                            4.1. <strong className="text-slate-950">Retainer Fees &amp; Invoicing Mechanics:</strong> All commercial fees for software engineering, platform retainers, SaaS licenses, and creator distribution programs are denominated in Indian Rupees (INR) or agreed foreign currency (USD/EUR/GBP), payable upfront or strictly within Net-15 calendar days from the invoice issuance date.
+                        </p>
+                        <p>
+                            4.2. <strong className="text-slate-950">Statutory Tax Compliance:</strong> All commercial invoices are issued subject to applicable Goods and Services Tax (<strong className="text-slate-950">GST at 18%</strong>) and relevant withholding taxes (TDS) under the Income Tax Act, 1961. Client is responsible for remitting statutory taxes and providing formal withholding certificates (Form 16A) in a timely quarterly manner.
+                        </p>
+                        <p>
+                            4.3. <strong className="text-slate-950">Late Payment Penalties &amp; Operational Suspension:</strong>
+                        </p>
+                        <ul className="list-disc list-inside space-y-1 pl-2 text-slate-700">
+                            <li>Overdue balances accrue commercial interest at the statutory rate of <strong className="text-slate-950">18% per annum</strong>, calculated daily from the due date until final settlement;</li>
+                            <li>In the event an invoice remains unpaid for more than fourteen (14) calendar days past due date, Deeplink Creators reserves the non-derogable right to immediately freeze API gateways, suspend Sahyak CRM tenant routing, and halt creator distribution pipelines without liability for resulting commercial disruptions.</li>
+                        </ul>
+                    </section>
 
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                1.1 Binding Commercial Framework
-                            </h2>
+                    {/* SECTION 5 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE V — LIMITATION OF LIABILITY &amp; AGGREGATE 3-MONTH FEE CAP
+                        </h2>
+                        <p>
+                            5.1. <strong className="text-slate-950">Total Aggregate Monetary Liability Cap:</strong> TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, THE ENTIRE CUMULATIVE AGGREGATE LIABILITY OF MAYALOK VENTURE (PRIVATE LIMITED), DEEPLINK CREATORS, ITS DIRECTORS, EXECUTIVE FOUNDERS (KUNAL PRATAP SINGH, DILEEP YADAV), EMPLOYEES, AND AFFILIATES ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT, SAHYAK CRM SOFTWARE, OR SERVICES RENDERED—WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), INDEMNITY, BREACH OF STATUTORY DUTY, OR OTHERWISE—<strong className="text-slate-950">SHALL BE STRICTLY CAPPED AND LIMITED TO THE ACTUAL NET SERVICE FEES RECEIVED BY US FROM THE CLIENT DURING THE PRECEDING THREE (3) CALENDAR MONTHS</strong> IMMEDIATELY PRECEDING THE OCCURRENCE GIVING RISE TO THE CLAIM.
+                        </p>
+                        <p>
+                            5.2. <strong className="text-slate-950">Exclusion of Consequential &amp; Indirect Damages:</strong> IN NO EVENT SHALL MAYALOK VENTURE OR DEEPLINK CREATORS BE LIABLE FOR ANY CONSEQUENTIAL, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF COMMERCIAL PROFITS, LOSS OF REVENUE, BUSINESS INTERRUPTION, LOSS OF DATA, REPUTATIONAL DAMAGE, OR LOSS OF BUSINESS OPPORTUNITY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+                        </p>
+                        <p>
+                            5.3. <strong className="text-slate-950">Disclaimer of Upstream Cloud Infrastructure &amp; Ad Platform Disruptions:</strong> Deeplink Creators disclaims all liability for service latency, data transmission failures, or platform interruptions resulting from upstream cloud providers (Cloudflare, MongoDB Atlas, AWS, GCP, Vercel), telecom network backbones, or sudden policy bans, account suspensions, and algorithmic feed changes enacted by third-party platforms (Google, Meta, WhatsApp Cloud API, LinkedIn, TikTok).
+                        </p>
+                    </section>
 
-                            <p>
-                                These Enterprise Terms and Conditions (&ldquo;Terms,&rdquo; &ldquo;Agreement,&rdquo; or &ldquo;MSA&rdquo;) constitute a legally binding agreement between <strong className="text-white">Mayalok Venture (Private Limited)</strong>, operating through its proprietary digital software holding, venture engineering studio, and distribution division, <strong className="text-white">Deeplink Creators</strong> (&ldquo;Holding,&rdquo; &ldquo;Deeplink Creators,&rdquo; &ldquo;We,&rdquo; &ldquo;Us,&rdquo; &ldquo;Our&rdquo;), and the commercial entity, enterprise client, or individual navigating this domain or executing a Service Proposal, Statement of Work (SOW), or Software License (&ldquo;Client,&rdquo; &ldquo;Enterprise Counterparty,&rdquo; &ldquo;You&rdquo;).
-                            </p>
+                    {/* SECTION 6 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VI — COMPREHENSIVE INDEMNIFICATION COVENANTS
+                        </h2>
+                        <p>
+                            6.1. <strong className="text-slate-950">Client Indemnity Obligations:</strong> Client agrees to defend, indemnify, and hold harmless Mayalok Venture, Deeplink Creators, its corporate directors, officers, engineers, and sub-contractors against any third-party claims, legal demands, regulatory fines, damages, losses, and legal costs (including full attorney fees) arising from or relating to:
+                        </p>
+                        <ul className="list-disc list-inside space-y-1 pl-2 text-slate-700">
+                            <li>Client&apos;s violation of any applicable domestic or international law, including the Digital Personal Data Protection Act, 2023;</li>
+                            <li>Infringement of third-party intellectual property, trademarks, or copyrights caused by materials, assets, or instructions provided by Client;</li>
+                            <li>Unlawful, deceptive, or defamatory materials uploaded into Sahyak CRM or provided for creator syndication distribution;</li>
+                            <li>Breach of user credential security, administrative account compromises, or unauthorized tenant access originating on Client&apos;s hardware systems.</li>
+                        </ul>
+                    </section>
 
-                            <p>
-                                Deeplink Creators is an <strong className="text-white">AI-first Enterprise Software Holding and Venture Studio</strong>. We develop, license, and maintain proprietary B2B SaaS applications (including our flagship platform, <strong className="text-[#D4B270]">Sahyak CRM</strong> [sahyak.com]), custom workflow automations, and private creator distribution networks. By browsing our website, initiating inquiries, or executing a work order, you irrevocably consent to be bound by this Master Agreement.
-                            </p>
+                    {/* SECTION 7 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VII — CREATOR DISTRIBUTION NETWORKS &amp; EDITORIAL AUTONOMY
+                        </h2>
+                        <p>
+                            7.1. <strong className="text-slate-950">Independent Creator Status:</strong> Creators participating in our syndicated distribution networks are independent contractors and external media entities. While Deeplink Creators provides technical distribution routing and campaign attribution tokens, creators retain independent editorial control over their channels. Creators are required to strictly adhere to Advertising Standards Council of India (ASCI) guidelines regarding commercial disclosures.
+                        </p>
+                        <p>
+                            7.2. <strong className="text-slate-950">Absence of Speculative Commercial Guarantees:</strong> Deeplink Creators does not warrant, promise, or guarantee specific audience impressions, conversion volumes, closed sales, or speculative revenue targets from creator syndication campaigns. Commercial performance is contingent on market resonance, pricing, and client-side sales execution.
+                        </p>
+                    </section>
 
-                            <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 text-[#D0CBBF] space-y-1">
-                                <span className="font-mono text-[#D4B270] font-bold block">Contracting Identity:</span>
-                                <p>
-                                    All legal liabilities, commercial invoices, master service agreements, and binding covenants are executed exclusively by and with <strong className="text-white">Mayalok Venture (Private Limited)</strong>, registered in Uttar Pradesh, India.
-                                </p>
-                            </div>
-                        </section>
+                    {/* SECTION 8 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE VIII — CONFIDENTIALITY &amp; 24-MONTH NON-SOLICITATION COVENANT
+                        </h2>
+                        <p>
+                            8.1. <strong className="text-slate-950">Mutual Confidentiality (3 Years):</strong> Both parties covenant to maintain all proprietary technical blueprints, software source code, commercial pricing schedules, and customer records in strict confidence for a period of three (3) years post-termination.
+                        </p>
+                        <p>
+                            8.2. <strong className="text-slate-950">24-Month Non-Solicitation Covenant:</strong> During the term of this Agreement and for a period of <strong className="text-slate-950">twenty-four (24) months</strong> immediately following termination, Client shall not directly or indirectly recruit, solicit, hire, engage, or contract with any software engineer, developer, operational executive, or creator partner associated with Deeplink Creators without prior written approval from Mayalok Venture and payment of an agreed liquidated talent acquisition compensation fee equal to 100% of the individual&apos;s annual compensation.
+                        </p>
+                    </section>
 
-                        {/* SECTION 2: SAHYAK CRM SAAS LICENSE */}
-                        <section id="saas-license" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Server size={15} />
-                                <span>2. Sahyak CRM Software Licensing &amp; Multi-Tenant SLA</span>
-                            </div>
+                    {/* SECTION 9 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE IX — IMMEDIATE TERMINATION &amp; 30-DAY DATA PURGE PROTOCOL
+                        </h2>
+                        <p>
+                            9.1. <strong className="text-slate-950">Immediate Termination for Cause:</strong> Mayalok Venture reserves the statutory right to immediately terminate this Agreement and permanently revoke all SaaS access upon: (a) Client&apos;s material breach of intellectual property covenants; (b) unauthorized reverse engineering or penetration testing; (c) insolvency or bankruptcy filings; or (d) un-cured payment default exceeding fourteen (14) calendar days.
+                        </p>
+                        <p>
+                            9.2. <strong className="text-slate-950">Post-Termination Data Purge Lifecycle:</strong> Upon formal termination, Client possesses a strict grace period of thirty (30) calendar days to extract raw CRM customer records. Following day 30, all tenant database instances, backups, API keys, and workflow automations are permanently, cryptographically, and immutably deleted from production clusters.
+                        </p>
+                    </section>
 
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                2.1 Grant of Non-Exclusive, Scoped SaaS License
-                            </h2>
+                    {/* SECTION 10 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE X — PROHIBITION OF AUTOMATED SCRAPING, DATA HARVESTING &amp; IP THEFT
+                        </h2>
+                        <p>
+                            10.1. <strong className="text-slate-950">Strict Prohibition of Scraping &amp; LLM Training Extraction:</strong> All contents, code architectures, legal manuscripts, brand identities, and proprietary representations published on <strong className="text-slate-950">deeplinkcreators.com</strong> constitute protected intellectual property of Mayalok Venture. Any automated scraping, web crawling, screenshot harvesting, or data extraction for training AI models or commercial mirroring without written authorization is strictly prohibited under Sections 43 &amp; 66 of the Information Technology Act, 2000 and the Copyright Act, 1957.
+                        </p>
+                    </section>
 
-                            <p>
-                                Subject to timely payment of applicable service fees and strict adherence to this MSA, Deeplink Creators grants the Client a non-exclusive, non-transferable, non-sublicensable, revocable license to access and utilize the multi-tenant SaaS features of <strong className="text-white">Sahyak CRM</strong> (accessible at sahyak.com or client subdomain) for the designated contractual term.
-                            </p>
+                    {/* SECTION 11 */}
+                    <section className="space-y-3">
+                        <h2 className="text-xs sm:text-sm font-bold font-mono tracking-wider text-slate-950 uppercase border-b border-slate-300 pb-1">
+                            ARTICLE XI — GOVERNING LAW, MANDATORY ARBITRATION &amp; EXCLUSIVE JURISDICTION
+                        </h2>
+                        <p>
+                            11.1. <strong className="text-slate-950">Substantive Governing Law:</strong> This Master Agreement shall be governed by, construed, and interpreted in accordance with the substantive laws of the <strong className="text-slate-950">Republic of India</strong>, without regard to conflict of laws principles.
+                        </p>
+                        <p>
+                            11.2. <strong className="text-slate-950">Mandatory Binding Arbitration:</strong> Any dispute, controversy, or claim arising out of or relating to this Agreement, including its formation, validity, breach, or termination, shall be referred to and finally resolved by binding arbitration conducted in accordance with the <strong className="text-slate-950">Arbitration and Conciliation Act, 1996</strong>. The arbitration shall be conducted by a sole arbitrator mutually appointed by Mayalok Venture. The seat and venue of arbitration shall be <strong className="text-slate-950">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong>. The language of arbitration shall be English.
+                        </p>
+                        <p>
+                            11.3. <strong className="text-slate-950">Exclusive Judicial Jurisdiction:</strong> Subject to mandatory arbitration covenants, the competent commercial and civil courts situated in <strong className="text-slate-950">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong> shall possess sole and exclusive jurisdiction over any judicial proceedings arising hereunder.
+                        </p>
+                    </section>
+                </main>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">A. Complimentary 30-Day Onboarding:</strong>
-                                    <p>Qualifying technical retainers include complimentary 30-day access to Sahyak CRM. Continued utilization past 30 days is subject to standard enterprise licensing fees.</p>
-                                </div>
+                {/* White Paper Footer */}
+                <footer className="relative z-10 border-t-2 border-slate-900 pt-6 mt-12 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono text-slate-500">
+                    <div className="flex items-center gap-3">
+                        <Link href="/privacy" className="text-slate-900 font-bold hover:underline">
+                            PRIVACY &amp; DPDP CHARTER
+                        </Link>
+                        <span>•</span>
+                        <Link href="/disclaimer" className="text-slate-900 font-bold hover:underline">
+                            LEGAL &amp; PERFORMANCE DISCLAIMER
+                        </Link>
+                        <span>•</span>
+                        <Link href="/contact" className="text-slate-900 font-bold hover:underline">
+                            EXECUTIVE INTAKE
+                        </Link>
+                    </div>
 
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">B. Absolute License Restrictions:</strong>
-                                    <p>Client shall NOT reverse engineer, decompile, mirror, frame, benchmark, scrape, or extract source code, data schemas, or algorithms from Sahyak CRM or related APIs.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* SECTION 3: INTELLECTUAL PROPERTY */}
-                        <section id="intellectual-property" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Lock size={15} />
-                                <span>3. Intellectual Property Rights &amp; Asset Retention</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                3.1 Unconditional Retention of Software &amp; Architectural Assets
-                            </h2>
-
-                            <p>
-                                All right, title, and interest in and to Deeplink Creators platforms, including but not limited to source code, compiled binaries, database architectures, schema models, API integrations, neural workflow prompts, algorithms, UI designs, and registered marks (&ldquo;Deeplink Creators,&rdquo; &ldquo;Sahyak CRM,&rdquo; &ldquo;Mayalok Venture&rdquo;) remain the sole, unencumbered, and exclusive intellectual property of Mayalok Venture.
-                            </p>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-white/06 space-y-2">
-                                <span className="font-mono text-white font-bold block">Client Data vs. Platform Property:</span>
-                                <p>
-                                    Client retains ownership of proprietary customer lists and raw business data uploaded into Sahyak CRM. Client grants Deeplink Creators a limited, royalty-free license to process such data strictly for operational execution, delivery, and anonymized diagnostic telemetry.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 4: COMMERCIAL TERMS */}
-                        <section id="commercial-retainers" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Briefcase size={15} />
-                                <span>4. Commercial Retainers, Invoicing &amp; Statutory Taxes</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                4.1 Payment Terms &amp; Service Suspension Protocols
-                            </h2>
-
-                            <p>
-                                All fees for SaaS licenses, custom software development, and creator distribution retainers are denominated in Indian Rupees (INR) or agreed foreign currency, payable upfront or within Net-15 days of invoice date:
-                            </p>
-
-                            <ul className="space-y-2 list-disc list-inside text-[#AAA99F]">
-                                <li><strong className="text-white">Statutory Taxes:</strong> Invoices are subject to Goods and Services Tax (GST at 18%) and applicable statutory levies under Indian fiscal law.</li>
-                                <li><strong className="text-white">Late Payment Interest:</strong> Overdue invoices accrue statutory commercial interest at 18% per annum calculated daily from the due date until final settlement.</li>
-                                <li><strong className="text-white">Operational Freeze:</strong> Accounts remaining in arrears beyond 14 business days are subject to automated suspension of API access, Sahyak CRM tenant routing, and creator distribution pipelines.</li>
-                            </ul>
-                        </section>
-
-                        {/* SECTION 5: LIMITATION OF LIABILITY (3-MONTH CAP) */}
-                        <section id="liability-caps" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-[#9B7545]/40 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#D4B270] font-bold uppercase tracking-wider">
-                                <AlertTriangle size={15} className="text-[#9B7545]" />
-                                <span>5. Limitation of Liability &amp; Disclaimers (Strict 3-Month Fee Cap)</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                5.1 Maximum Aggregate Liability Cap
-                            </h2>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-[#9B7545]/30 text-[#D0CBBF] space-y-3 font-mono text-[11px]">
-                                <p className="font-bold text-white uppercase tracking-wider">
-                                    STATUTORY LIABILITY CEILING COVENANT:
-                                </p>
-                                <p>
-                                    TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL MAYALOK VENTURE (PRIVATE LIMITED), DEEPLINK CREATORS, ITS DIRECTORS, FOUNDERS (KUNAL PRATAP SINGH, DILEEP YADAV), EMPLOYEES, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, PUNITIVE, OR EXEMPLARY DAMAGES, INCLUDING LOSS OF PROFITS, LOSS OF REVENUE, BUSINESS INTERRUPTION, LOSS OF DATA, OR LOSS OF GOODWILL.
-                                </p>
-                                <p>
-                                    OUR TOTAL CUMULATIVE AGGREGATE LIABILITY ARISING UNDER OR RELATING TO THIS AGREEMENT, REGARDLESS OF THE LEGAL THEORY (WHETHER IN CONTRACT, TORT, STRICT LIABILITY, OR OTHERWISE), SHALL BE STRICTLY CAPPED AND LIMITED TO THE ACTUAL NET SERVICE FEES RECEIVED BY US FROM THE CLIENT DURING THE PRECEDING THREE (3) CALENDAR MONTHS PRIOR TO THE OCCURRENCE OF THE CLAIM.
-                                </p>
-                            </div>
-
-                            <div className="space-y-2 pt-1 text-xs">
-                                <span className="font-bold text-white font-mono block">Express Third-Party Outage &amp; Platform Shift Disclaimers:</span>
-                                <p>
-                                    Deeplink Creators shall bear zero legal liability for disruptions, outages, or performance degradations caused by third-party cloud infrastructure (Cloudflare, MongoDB Atlas, AWS, GCP), telecom carrier networks, or sudden advertising policy shifts and algorithmic bans enacted by Google, Meta, LinkedIn, or TikTok.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 6: INDEMNIFICATION */}
-                        <section id="indemnification" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Shield size={15} />
-                                <span>6. Enterprise Indemnification Covenants</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                6.1 Defense and Indemnity Obligations
-                            </h2>
-
-                            <p>
-                                Client agrees to defend, indemnify, and hold harmless Mayalok Venture, Deeplink Creators, its directors, officers, and contractors against any third-party claims, regulatory penalties, damages, losses, or legal expenses (including reasonable attorney fees) arising from:
-                            </p>
-
-                            <ul className="space-y-1.5 list-disc list-inside text-[#AAA99F]">
-                                <li>Client&apos;s breach of applicable laws, including the Digital Personal Data Protection Act, 2023.</li>
-                                <li>Any defamatory, infringing, deceptive, or unlawful materials uploaded into Sahyak CRM or provided for creator syndication.</li>
-                                <li>Unauthorized access, credential compromise, or security circumvention stemming from Client&apos;s administrative users.</li>
-                            </ul>
-                        </section>
-
-                        {/* SECTION 7: CREATOR DISTRIBUTION */}
-                        <section id="creator-syndication" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Briefcase size={15} />
-                                <span>7. Creator Distribution &amp; Non-Guarantee of Speculative Gains</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                7.1 Commercial Distribution Realities
-                            </h2>
-
-                            <p>
-                                Deeplink Creators engineers high-conversion distribution architecture and connects enterprise offerings with vetted creator networks. However, Client explicitly acknowledges that:
-                            </p>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">A. Zero Earnings Guarantee:</strong>
-                                    <p>Past case studies and ROI metrics are illustrative only. We do not warrant, promise, or guarantee specific conversion volumes, revenue targets, or commercial success.</p>
-                                </div>
-
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white font-mono block">B. Creator Editorial Autonomy:</strong>
-                                    <p>Creator partners maintain compliance with statutory ASCI guidelines and mandatory disclosure laws for sponsored enterprise messaging.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* SECTION 8: CONFIDENTIALITY */}
-                        <section id="confidentiality" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Lock size={15} />
-                                <span>8. Confidentiality &amp; Non-Solicitation Covenants</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                8.1 Mutual Protection of Trade Secrets &amp; Personnel
-                            </h2>
-
-                            <p>
-                                Both parties agree to protect proprietary trade secrets, software blueprints, and commercial data with reasonable care for a minimum of three (3) years post-termination.
-                            </p>
-
-                            <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                <strong className="text-[#D4B270] font-mono block">24-Month Non-Solicitation Covenant:</strong>
-                                <p>
-                                    Client covenants that during the term of this Agreement and for twenty-four (24) months thereafter, Client shall not directly or indirectly recruit, solicit, employ, or contract with any engineer, developer, executive, or creator partner associated with Deeplink Creators without prior written authorization and payment of a standard liquidated talent acquisition fee.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 9: TERMINATION & DATA PURGE */}
-                        <section id="termination-purge" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Ban size={15} />
-                                <span>9. Termination &amp; Automated Data Purge Protocol</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                9.1 Immediate Termination for Security Breach or Default
-                            </h2>
-
-                            <p>
-                                Deeplink Creators reserves the right to immediately terminate service access and revoke Sahyak CRM licenses without prior notice upon: (a) unauthorized reverse-engineering or security attacks; (b) material breach of data isolation rules; or (c) payment default exceeding 14 calendar days.
-                            </p>
-
-                            <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 font-mono text-[11px] space-y-1">
-                                <span className="text-white font-bold block">Post-Termination Data Lifecycle:</span>
-                                <p className="text-[#AAA99F]">
-                                    Upon formal contract termination, Client possesses thirty (30) calendar days to export raw CRM customer records. Following day 30, all tenant database instances, backups, and API keys are permanently and immutably deleted from production clusters.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 10: ANTI-SCRAPING PROHIBITION */}
-                        <section id="anti-scraping" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-[#9B7545]/40 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#D4B270] font-bold uppercase tracking-wider">
-                                <Ban size={15} className="text-[#9B7545]" />
-                                <span>10. Anti-Scraping, Anti-Screenshot &amp; Legal Enforcement</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                10.1 Prohibition of Automated Ingestion &amp; Content Mining
-                            </h2>
-
-                            <div className="p-4 rounded-xl bg-[#0F1112] border border-[#9B7545]/20 text-[#D0CBBF] space-y-2">
-                                <p className="font-semibold text-white">
-                                    EXPRESS COMPUTER MISUSE WARNING:
-                                </p>
-                                <p>
-                                    Any automated scraping, bot crawling, screenshot harvesting, reverse engineering of interface tokens, or extraction of code, case study narratives, or software designs for AI training models without explicit written permission from Mayalok Venture is strictly prohibited under Sections 43 &amp; 66 of the Information Technology Act, 2000.
-                                </p>
-                                <p>
-                                    Violators shall be subject to immediate civil injunctions, statutory damages, and criminal complaint prosecution under applicable Indian Cyber Crime statutes.
-                                </p>
-                            </div>
-                        </section>
-
-                        {/* SECTION 11: JURISDICTION & ARBITRATION */}
-                        <section id="jurisdiction-arbitration" className="p-6 sm:p-8 rounded-2xl bg-[#141618] border border-white/08 space-y-4">
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#9B7545] font-bold uppercase tracking-wider">
-                                <Scale size={15} />
-                                <span>11. Governing Law, Exclusive Jurisdiction &amp; Mandatory Arbitration</span>
-                            </div>
-
-                            <h2 className="text-lg sm:text-xl font-bold font-heading text-white">
-                                11.1 Commercial Dispute Resolution Framework
-                            </h2>
-
-                            <p>
-                                This Agreement shall be governed by, construed, and enforced in accordance with the substantive laws of the <strong className="text-white">Republic of India</strong>, without regard to its conflict of law principles.
-                            </p>
-
-                            <div className="space-y-2.5 font-mono text-[11px]">
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white block">A. Mandatory Arbitration:</strong>
-                                    <p className="text-[#AAA99F]">
-                                        Any dispute or claim arising out of or in connection with this Agreement shall be referred to and finally resolved by binding arbitration administered under the <strong className="text-white">Arbitration and Conciliation Act, 1996</strong> by a sole arbitrator appointed by Mayalok Venture. The seat and venue of arbitration shall be <strong className="text-[#D4B270]">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong>. The language of arbitration shall be English.
-                                    </p>
-                                </div>
-
-                                <div className="p-3.5 rounded-xl bg-[#0F1112] border border-white/06 space-y-1">
-                                    <strong className="text-white block">B. Exclusive Judicial Venue:</strong>
-                                    <p className="text-[#AAA99F]">
-                                        Subject to arbitration covenants, the competent civil and commercial courts located in <strong className="text-white">Greater Noida / Gautam Buddha Nagar, Uttar Pradesh, India</strong> shall possess exclusive jurisdiction over all legal proceedings.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* ── Document Footer Links ── */}
-                        <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#65675F]">
-                            <div className="flex items-center gap-4">
-                                <Link href="/privacy" className="text-[#D4B270] hover:underline">
-                                    Privacy Policy
-                                </Link>
-                                <span>•</span>
-                                <Link href="/disclaimer" className="text-[#D4B270] hover:underline">
-                                    Legal Disclaimer
-                                </Link>
-                                <span>•</span>
-                                <Link href="/contact" className="text-[#D4B270] hover:underline">
-                                    Corporate Contact
-                                </Link>
-                            </div>
-
-                            <p className="text-[10px]">
-                                © {new Date().getFullYear()} Deeplink Creators. All rights reserved. Registered under Mayalok Venture.
-                            </p>
-                        </div>
-                    </main>
-                </div>
+                    <div>
+                        © {new Date().getFullYear()} Mayalok Venture (Private Limited) • Deeplink Creators Holding. All Rights Reserved.
+                    </div>
+                </footer>
             </div>
         </div>
     )

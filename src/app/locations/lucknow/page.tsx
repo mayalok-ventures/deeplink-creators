@@ -611,7 +611,7 @@ export default function LucknowPage() {
                         >
                             <div className="inline-flex items-center gap-2 bg-[#C39A2B]/10 border border-[#C39A2B]/20 rounded-full px-5 py-2.5 mb-6">
                                 <Shield size={16} className="text-[#C39A2B]" />
-                                <span className="text-sm font-medium text-white/70">Limited to 5 New Clients Per Quarter</span>
+                                <span className="text-sm font-medium text-white/70">Enterprise Onboarding Strictly By Qualified Inquiry</span>
                             </div>
                             <h2 data-anim="heading" className="text-2xl md:text-3xl font-extrabold font-heading mb-6">
                                 Apply for a{' '}

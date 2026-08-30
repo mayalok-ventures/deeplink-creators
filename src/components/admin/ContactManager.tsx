@@ -9,14 +9,14 @@ export default function ContactManager() {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [form, setForm] = useState<SiteSettings>({
-        phone: '+91 99999 88888',
-        email: 'kunal@deeplinkcreators.com',
-        address: 'Mayalok Venture Studio, Knowledge Park III',
+        phone: '+91 97116 10928',
+        email: 'contact@deeplinkcreators.com',
+        address: 'Mayalok Venture Headquarters, Tech Zone 4',
         city: 'Greater Noida',
         state: 'Uttar Pradesh',
         pincode: '201306',
-        workingHoursWeekdays: '09:00 - 19:00 IST',
-        workingHoursSaturday: '10:00 - 17:00 IST',
+        workingHoursWeekdays: '09:00 - 18:00 IST',
+        workingHoursSaturday: '10:00 - 16:00 IST',
         workingHoursSunday: 'Closed',
     })
 

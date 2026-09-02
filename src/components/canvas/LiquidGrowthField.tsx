@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 1. GPU 2D WATER SIMULATION SHADERS (CALIBRATED SHALLOW-WATER SOLVER) ──
+// ── 1. GPU 2D WATER SIMULATION SHADERS (HIGH-PRECISION SHALLOW WATER) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const SimulationShader = {
@@ -16,12 +16,12 @@ const SimulationShader = {
         uVelocity: { value: new THREE.Vector2(0, 0) },    // Cursor velocity vector
         uForceStrength: { value: 0.0 },                   // Instantaneous force magnitude
         uAgitation: { value: 0.0 },                       // Cumulative agitation / churn energy
-        uClickPos: { value: new THREE.Vector2(-10, -10) },// Click splash epicenter UV
+        uClickPos: { value: new THREE.Vector2(-10, -10) },// Exact click epicenter UV
         uClickStrength: { value: 0.0 },                   // Click splash impulse strength
         uClickRadius: { value: 0.0 },                     // Expanding splash radius
         uDelta: { value: 0.016 },
-        uDamping: { value: 0.984 },                       // Viscous friction / dissipation rate
-        uWaveSpeed: { value: 0.32 },                      // Wave propagation speed constant
+        uDamping: { value: 0.985 },                       // Viscous friction / dissipation rate
+        uWaveSpeed: { value: 0.34 },                      // Wave propagation speed constant
         uTexelSize: { value: new THREE.Vector2(1 / 256, 1 / 256) }
     },
     vertexShader: `
@@ -75,12 +75,12 @@ const SimulationShader = {
             float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
             float newHeight = (hCenter + newVelocity) * uDamping;
 
-            // ── 1. GENTLE, NATURAL HAND DISPLACEMENT & AGITATION (NO CRATERS) ──
+            // ── 1. NATURAL HAND DRAG & INTENSIFYING AGITATION ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
                 // Natural hand footprint radius
-                float handRadius = 0.035;
+                float handRadius = 0.032;
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
                 // Agitation gently enriches the ripple intensity without digging deep pits
@@ -91,23 +91,23 @@ const SimulationShader = {
                 newVelocity -= impulse * 0.12;
 
                 // Subtle fluid micro-churning around active contact zone
-                if (uAgitation > 0.25) {
-                    float churn = sin(uv.x * 70.0 + uv.y * 70.0) * (uAgitation * 0.008 * forceProfile);
+                if (uAgitation > 0.2) {
+                    float churn = sin(uv.x * 75.0 + uv.y * 75.0) * (uAgitation * 0.007 * forceProfile);
                     newVelocity += churn;
                 }
             }
 
-            // ── 2. ELEGANT SLOW-MOTION CIRCULAR SPLASH (CLICK IMPULSE) ──
+            // ── 2. IMMEDIATE ACCURATE CIRCULAR SPLASH RIPPLE ──
             if (uClickStrength > 0.001) {
                 float clickDist = length(uv - uClickPos);
                 
-                // Fine circular wavefront ring
-                float ringWidth = 0.018;
+                // Crisp expanding circular wavefront ring
+                float ringWidth = 0.014;
                 float ringDist = abs(clickDist - uClickRadius);
                 float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
-                float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.025 * 0.025));
+                float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.020 * 0.020));
 
-                float splashWave = (ringProfile * 0.40 - centerDip * 0.20) * uClickStrength * 0.16;
+                float splashWave = (ringProfile * 0.42 - centerDip * 0.22) * uClickStrength * 0.18;
                 newVelocity += splashWave;
             }
 
@@ -118,7 +118,7 @@ const SimulationShader = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. MAIN RENDER SHADER: CRISP V10 OPTICS WITH NATURAL PROPORTIONS ──
+// ── 2. MAIN RENDER SHADER: CRISP HIGH-DEFINITION LIQUID-METAL OPTICS ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
@@ -195,14 +195,15 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Crisp Ambient Liquid Metal Surface (Zero river drift, resting calm sheet with brushed relief)
+        // 1. Crisp Ambient Liquid Metal Surface (Refined multi-scale detail)
         float calculateAmbientSurface(vec3 pos, float time, float scroll, float textZoneMask) {
             float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.024;
             float microTexture = snoise(vec3(pos.x * 2.6, pos.y * 2.6, time * 0.16)) * 0.012;
+            float fineGrain = snoise(vec3(pos.x * 4.8, pos.y * 4.8, time * 0.22)) * 0.006;
             float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.05 * scroll;
 
             float textDamping = mix(1.0, 0.35, textZoneMask);
-            return (microFlow + microTexture + scrollConduit) * textDamping;
+            return (microFlow + microTexture + fineGrain + scrollConduit) * textDamping;
         }
 
         void main() {
@@ -221,14 +222,14 @@ const LiquidFieldShaderMaterial = {
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // ── HIGH-PRECISION ANALYTICAL NORMALS (Derived directly from simulated water grid) ──
+            // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.009 for zero blur) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
             float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.055;
             float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.055;
             float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.055;
             float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.055;
 
-            float delta = 0.015;
+            float delta = 0.009;
             float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
             float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
 
@@ -239,8 +240,8 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Fluid roughness: polished displaced crests (0.12) vs calm substrate (0.34)
-            vRoughness = mix(0.12, 0.34, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
+            // Fluid roughness: crisp polished displaced crests (0.10) vs calm substrate (0.30)
+            vRoughness = mix(0.10, 0.30, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -276,13 +277,13 @@ const LiquidFieldShaderMaterial = {
             vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.4));
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Dual-Lobe Specular Highlights (Crisp crest glints + broad metallic sheen)
+            // Dual-Lobe Crisp Specular Highlights (Sharp crest glints + defined metallic sheen)
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(56.0, 20.0, vRoughness));
-            float specBroad = pow(max(dot(normal, halfKey), 0.0), 14.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(68.0, 24.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 16.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 24.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 26.0);
 
             // Deep Obsidian-Graphite Base Albedo with crisp trough ambient occlusion
             vec3 baseTone = uColorBase;
@@ -292,7 +293,7 @@ const LiquidFieldShaderMaterial = {
             // Environmental Specular & Fresnel Reflections (NO artificial additive light)
             float textDamping = mix(1.0, 0.3, vTextZone);
             vec3 finalColor = baseTone
-                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.35) * textDamping)
+                            + (uColorBrass * (specSharp * 1.45 + specBroad * 0.35) * textDamping)
                             + (uColorBronze * (specRim * 0.50) * textDamping)
                             + (uColorSage * (fresnel * 0.25 * diffRim) * textDamping);
 
@@ -385,10 +386,11 @@ function LiquidMesh({
         const dt = Math.min(delta, 0.05)
         const now = state.clock.getElapsedTime()
 
-        // ── 1. SMOOTH REALISTIC CURSOR DRAG FOLLOWER ──
+        // ── 1. EXACT SCREEN-TO-MESH UV PROJECTION (OVERFILL FACTOR 1.3 COMPENSATED) ──
+        // Since mesh is 1.3x viewport, screen center is UV 0.5 and screen edges map to [0.115, 0.885]
         const targetMouseUV = new THREE.Vector2(
-            mouse.current.rawNormX * 0.5 + 0.5,
-            mouse.current.rawNormY * 0.5 + 0.5
+            0.5 + (mouse.current.rawNormX * 0.5) / 1.3,
+            0.5 + (mouse.current.rawNormY * 0.5) / 1.3
         )
 
         // Silky smooth drag follow with slight physical inertia (~45ms lag)
@@ -411,18 +413,22 @@ function LiquidMesh({
         // Friction damping adapts dynamically: energized water sustains ripples naturally
         const dynamicDamping = THREE.MathUtils.lerp(0.982, 0.988, Math.min(cumulativeAgitation.current / 2.0, 1.0))
 
-        // ── 3. PROCESS CLICK SPLASH (ELEGANT SLOW-MOTION CIRCULAR RIPPLE) ──
+        // ── 3. PROCESS CLICK SPLASH (IMMEDIATE AT EXACT CLICK SPOT) ──
         let activeClickStrength = 0.0
         let activeClickRadius = 0.0
         let activeClickPos = new THREE.Vector2(-10, -10)
 
         if (clicks.current.length > 0) {
             const click = clicks.current[0]
-            // Splash expands slowly outward (~0.22 UV units/sec) over ~2.2 seconds
-            click.radius += dt * 0.22
-            click.strength *= Math.exp(-1.4 * dt)
+            // Splash expands slowly outward (~0.24 UV units/sec) over ~2.0 seconds
+            click.radius += dt * 0.24
+            click.strength *= Math.exp(-1.5 * dt)
 
-            activeClickPos.set(click.x, click.y)
+            // Convert screen UV [0, 1] to mesh UV [0.115, 0.885] for exact spot accuracy
+            activeClickPos.set(
+                0.5 + (click.x - 0.5) / 1.3,
+                0.5 + (click.y - 0.5) / 1.3
+            )
             activeClickStrength = click.strength
             activeClickRadius = click.radius
 
@@ -474,7 +480,7 @@ function LiquidMesh({
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 4. CAMERA & SCENE RIG ──
+// ── 4. CAMERA & SCENE RIG (SLIGHTLY INCREASED CAMERA DISTANCE Z = 3.95) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 function SceneRig({
@@ -489,7 +495,8 @@ function SceneRig({
     useFrame((state) => {
         const targetCamX = mouse.current.x * 0.16
         const targetCamY = mouse.current.y * 0.10 - scrollProgress * 0.4
-        const targetCamZ = 3.6 - scrollProgress * 0.5
+        // Slightly increased camera distance (3.95) for enhanced depth & spatial perspective
+        const targetCamZ = 3.95 - scrollProgress * 0.5
 
         state.camera.position.x += (targetCamX - state.camera.position.x) * 0.06
         state.camera.position.y += (targetCamY - state.camera.position.y) * 0.06
@@ -546,8 +553,8 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
                 x: uvX,
                 y: uvY,
                 time: performance.now() / 1000.0,
-                strength: 0.55,
-                radius: 0.008
+                strength: 0.60,
+                radius: 0.002 // Instantaneous pinpoint ripple starting exactly at click point
             })
         }
 
@@ -572,7 +579,7 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
     return (
         <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 overflow-hidden cursor-pointer">
             <Canvas
-                camera={{ position: [0, 0, 3.6], fov: 48 }}
+                camera={{ position: [0, 0, 3.95], fov: 48 }}
                 dpr={[1, 2]}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
             >

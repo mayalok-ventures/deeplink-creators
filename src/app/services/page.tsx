@@ -28,7 +28,15 @@ import {
     Store,
     Layout,
     Brain,
-    Bot
+    Bot,
+    ArrowUpRight,
+    Zap,
+    Target,
+    Gauge,
+    Sliders,
+    Activity,
+    Compass,
+    Factory
 } from 'lucide-react'
 
 if (typeof window !== 'undefined') {
@@ -36,358 +44,209 @@ if (typeof window !== 'undefined') {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   SERVICE DOSSIER INTERFACE & COMPREHENSIVE 10-PILLAR DATASET
+   PILLAR 01: SAHYAK CRM INTERACTIVE WORKFLOW STAGES
 ═══════════════════════════════════════════════════════════════════════ */
-interface ServiceDossier {
-    index: string
-    slug: string
-    category: string
-    title: string
-    summary: string
-    metric: string
-    metricLabel: string
-    capabilities: string[]
-    useCase: string
-    techStack: Array<{ name: string; icon: string }>
-    accent: string
-}
-
-const SERVICE_DOSSIERS: ServiceDossier[] = [
+const SAHYAK_STAGES = [
     {
-        index: '01',
-        slug: '/services/custom-saas-development',
-        category: 'B2B ENTERPRISE SAAS',
-        title: 'Custom SaaS & Platform Engineering',
-        summary: 'Architecting proprietary multi-tenant cloud software, high-concurrency database backends, internal operational portals, and mission-critical API platforms.',
-        metric: '100%',
-        metricLabel: 'Proprietary IP Ownership',
-        capabilities: [
-            'Multi-tenant database schema with cryptographic tenant isolation',
-            'Role-based access control (RBAC), SSO, and DPDP-ready compliance',
-            'Distributed microservices, webhooks & high-throughput REST/GraphQL APIs',
-            'Fullstack Next.js, Node.js, Python & PostgreSQL architecture',
-        ],
-        useCase: 'Eliminating recurring vendor software lock-in by engineering proprietary enterprise SaaS assets that your holding owns permanently.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-        ],
-        accent: '#9B7545',
+        id: '01',
+        name: 'Capture',
+        tag: 'STAGE 01 // INGESTION',
+        title: 'Multi-Channel Lead Ingestion',
+        description: 'Inbound inquiries from creator funnels, search campaigns, and organic SEO are ingested with complete channel attribution.',
+        status: 'Attributed & Ingested'
     },
     {
-        index: '02',
-        slug: '/services/ai-marketing-automation',
-        category: 'AUTONOMOUS AI SYSTEMS',
-        title: 'AI Marketing & Pipeline Automation',
-        summary: 'Deploying autonomous LLM agents, intelligent lead qualification workflows, automated outbound telemetry, and real-time CRM routing logic.',
-        metric: '< 60s',
-        metricLabel: 'Lead Routing Latency',
-        capabilities: [
-            'Self-orchestrating AI agents for multi-channel intake & qualification',
-            'Stage-gated CRM pipeline automation integrated with Sahyak CRM',
-            'Predictive lead scoring based on ICP behavioral signals',
-            'Automated multi-step follow-up sequences across Email & WhatsApp',
-        ],
-        useCase: 'Eliminating pipeline leakage and accelerating lead response time from hours to under 60 seconds across distributed enterprise teams.',
-        techStack: [
-            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-        ],
-        accent: '#3F5544',
+        id: '02',
+        name: 'Qualify',
+        tag: 'STAGE 02 // STAGE GATES',
+        title: 'Mandatory Qualification Gates',
+        description: 'Reps cannot advance speculative deals. Enforced verification of budget brackets, purchase timelines, and decision-maker access.',
+        status: 'Stage Gate Verified'
     },
     {
-        index: '03',
-        slug: '/services/industrial-seo',
-        category: 'SEARCH INFRASTRUCTURE',
-        title: 'Industrial & Enterprise SEO Infrastructure',
-        summary: 'Engineering semantic search authority, entity-based knowledge graph architectures, and programmatic content systems for high-ticket commercial keywords.',
-        metric: 'Top 1%',
-        metricLabel: 'High-Intent SERP Placement',
-        capabilities: [
-            'Programmatic schema graphs, JSON-LD entity mapping & Knowledge Graph nodes',
-            'High-intent B2B commercial keyword domination and competitive displacement',
-            'Technical Core Web Vitals optimization (100/100 LCP/INP performance)',
-            'Generative Engine Optimization (GEO) for ChatGPT, Perplexity & Claude retrieval',
-        ],
-        useCase: 'Capturing continuous organic search traffic from C-suite decision-makers seeking enterprise machinery, SaaS, and specialized corporate services.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
-            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-        ],
-        accent: '#9B7545',
+        id: '03',
+        name: 'Assign',
+        tag: 'STAGE 03 // ROUTING',
+        title: 'Rules-Based Rep Allocation',
+        description: 'Automated lead distribution based on deal category, territory, and rep capacity ensures rapid first response.',
+        status: 'Assigned to Rep'
     },
     {
-        index: '04',
-        slug: '/services/social-commerce',
-        category: 'CREATOR SYNDICATION',
-        title: 'Creator-Led Commerce & Network Distribution',
-        summary: 'Building verified micro-creator syndication networks and social commerce pipelines that bypass traditional ad exchanges to acquire loyal customers.',
-        metric: '0%',
-        metricLabel: 'Ad Exchange Dependency',
-        capabilities: [
-            'Curated network of vetted B2B & vertical niche micro-influencers',
-            'Direct social checkout funnels and creator attribution tracking',
-            'Syndicated short-form content pipelines with measurable commercial ROI',
-            'Creator relationship management and automated payout telemetry',
-        ],
-        useCase: 'Establishing direct-to-consumer and B2B community distribution without suffering from escalating Meta/Google PPC ad bidding auctions.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
-            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-        ],
-        accent: '#3F5544',
+        id: '04',
+        name: 'Follow Up',
+        tag: 'STAGE 04 // CADENCE',
+        title: 'Activity Cadence & Telemetry',
+        description: 'Complete audit trail of calls, proposals, and demos. Automated reminders ensure zero pipeline leakage.',
+        status: 'Follow-Up Active'
     },
     {
-        index: '05',
-        slug: '/services/conversion-web-design',
-        category: 'CONVERSION ARCHITECTURE',
-        title: 'High-Velocity Conversion Web Architecture',
-        summary: 'Engineering sub-second web platforms, dynamic landing frameworks, and cognitive psychology funnels designed for institutional credibility and maximum lead capture.',
-        metric: '< 500ms',
-        metricLabel: 'Global Page Render',
-        capabilities: [
-            'Sub-second TTFB and zero-layout-shift editorial web experiences',
-            'Frictionless lead capture forms with instant WhatsApp & CRM handoff',
-            'A/B testing architecture and real-time behavioral heatmap telemetry',
-            'Responsive multi-breakpoint design engineered for executive review',
-        ],
-        useCase: 'Modernizing outdated corporate websites into institutional sales machines that convert high-ticket enterprise visitors into qualified briefings.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'Node.js', icon: '/images/strategy/nodejs.png' },
-            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
-            { name: 'CSS3', icon: '/images/strategy/css.png' },
-        ],
-        accent: '#9B7545',
-    },
-    {
-        index: '06',
-        slug: '/services/b2b-industrial-marketing',
-        category: 'INDUSTRIAL GROWTH',
-        title: 'B2B Industrial & Manufacturing Marketing',
-        summary: 'Tailored lead generation and demand capture systems for manufacturing plants, heavy machinery suppliers, chemical exporters, and industrial OEMs.',
-        metric: '4.2x',
-        metricLabel: 'Qualified RFQ Velocity',
-        capabilities: [
-            'High-ticket Request For Quotation (RFQ) funnels and spec-sheet download gates',
-            'Account-Based Marketing (ABM) targeting industrial procurement directors',
-            'Technical product catalog indexing with deep industrial search filters',
-            'Supply-chain & distributor pipeline telemetry integrated with CRM',
-        ],
-        useCase: 'Connecting industrial manufacturing plants across NCR, Gujarat, and Maharashtra directly with domestic and international procurement heads.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-        ],
-        accent: '#3F5544',
-    },
-    {
-        index: '07',
-        slug: '/services/performance-marketing',
-        category: 'PERFORMANCE ACQUISITION',
-        title: 'Precision Performance Marketing & CAC Control',
-        summary: 'Data-driven paid media execution across Google Ads, LinkedIn Campaign Manager, and programmatic networks focused strictly on customer acquisition cost efficiency.',
-        metric: '3.8x',
-        metricLabel: 'Average ROAS Multiplier',
-        capabilities: [
-            'High-intent Google Search Ads & LinkedIn InMail account-based targeting',
-            'Advanced conversion API (CAPI) and server-side tracking infrastructure',
-            'Continuous creative multivariate testing & CAC compression frameworks',
-            'Unified attribution dashboard mapping ad spend directly to closed revenue',
-        ],
-        useCase: 'Scaling paid acquisition profitably while maintaining strict visibility over cost-per-qualified-lead and pipeline velocity.',
-        techStack: [
-            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-        ],
-        accent: '#9B7545',
-    },
-    {
-        index: '08',
-        slug: '/services/brand-psychology',
-        category: 'AUTHORITY SYSTEMS',
-        title: 'Brand Psychology & Institutional Authority',
-        summary: 'Positioning corporate brands as undisputed category leaders through cognitive authority frameworks, executive PR narrative architecture, and institutional design.',
-        metric: 'Tier-1',
-        metricLabel: 'Market Standing & Trust',
-        capabilities: [
-            'Executive thought leadership, whitepaper authoring & industry briefings',
-            'Visual identity systems tailored for institutional investor confidence',
-            'Cognitive framing and premium pricing positioning blueprints',
-            'Crisis mitigation, brand sentiment monitoring & corporate reputation guardrails',
-        ],
-        useCase: 'Enabling growing enterprises to break out of commodity price wars and command premium retainers and contracts in competitive markets.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'HTML5', icon: '/images/strategy/HTML.png' },
-            { name: 'CSS3', icon: '/images/strategy/css.png' },
-        ],
-        accent: '#3F5544',
-    },
-    {
-        index: '09',
-        slug: '/services/real-estate-marketing',
-        category: 'PROPTECH ACQUISITION',
-        title: 'High-Ticket Real Estate & PropTech Marketing',
-        summary: 'Commercial and luxury residential buyer acquisition engines for real estate developers, REITs, and PropTech platforms across metropolitan corridors.',
-        metric: '₹50Cr+',
-        metricLabel: 'Pipeline Value Generated',
-        capabilities: [
-            'Verified NRI and high-net-worth investor acquisition funnels',
-            'Interactive 3D virtual walkthroughs and project microsite architecture',
-            'Automated site-visit scheduling with instant WhatsApp agent dispatch',
-            'Lead qualification filtering out unverified inquiries before sales calls',
-        ],
-        useCase: 'Accelerating luxury inventory absorption and commercial property leasing through hyper-targeted high-net-worth buyer acquisition.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'React Native', icon: '/images/strategy/reactnative.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-        ],
-        accent: '#9B7545',
-    },
-    {
-        index: '10',
-        slug: '/services/education-marketing',
-        category: 'EDTECH ENGINES',
-        title: 'Higher Education & EdTech Student Enrollment',
-        summary: 'End-to-end student recruitment pipelines, application portal architectures, and enrollment optimization systems for universities, colleges, and EdTech firms.',
-        metric: '65%',
-        metricLabel: 'Application Completion Rate',
-        capabilities: [
-            'Multi-channel student acquisition across NEET, JEE, MBA & global degree programs',
-            'Dynamic application portals with document verification and fee payment integration',
-            'Automated counselor assignment and multi-touchpoint nurturing journeys',
-            'Counselor call tracking and conversion attribution telemetry',
-        ],
-        useCase: 'Maximizing admissions yield and reducing cost-per-enrolled-student for educational institutions and online learning platforms.',
-        techStack: [
-            { name: 'Next.js', icon: '/images/strategy/nextjs.png' },
-            { name: 'Python', icon: '/images/strategy/python-logo.png' },
-            { name: 'PostgreSQL', icon: '/images/strategy/postgresql.png' },
-        ],
-        accent: '#3F5544',
-    },
+        id: '05',
+        name: 'Convert',
+        tag: 'STAGE 05 // VELOCITY',
+        title: 'Pipeline Velocity & Revenue Tracking',
+        description: 'Real-time visibility into active pipeline stages, deal velocity, and closed-won revenue.',
+        status: 'Closed-Won Revenue'
+    }
 ]
 
 /* ═══════════════════════════════════════════════════════════════════════
-   BENTO DOSSIER CARD COMPONENT
+   PILLAR 02: CREATOR DISTRIBUTION CHANNELS
 ═══════════════════════════════════════════════════════════════════════ */
-function ServiceBentoCard({ dossier }: { dossier: ServiceDossier }) {
-    return (
-        <article className="gsap-card group relative rounded-2xl border border-[#181A16]/12 bg-white p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            {/* Top Bar: Chapter Numeral, Category Badge, Metric Badge */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                        <span className="text-3xl font-extrabold font-mono text-[#9B7545]">
-                            {dossier.index}
-                        </span>
-                        <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded bg-[#E6E2D7] text-[#181A16] border border-[#181A16]/08">
-                            {dossier.category}
-                        </span>
-                    </div>
+const CREATOR_CHANNELS = [
+    {
+        id: 'b2b-tech',
+        num: '01',
+        tag: 'B2B & TECHNOLOGY',
+        title: 'Software, SaaS & Tech Operators',
+        audience: 'Founders, CTOs, Operators & Technical Decision Makers',
+        summary: 'Architectural walk-throughs, product teardowns, and targeted peer adoption across verified technical communities.',
+        deliverable: 'Direct reach to software buyers without ad network fatigue',
+        slug: '/services/social-commerce/'
+    },
+    {
+        id: 'industrial',
+        num: '02',
+        tag: 'INDUSTRIAL & MANUFACTURING',
+        title: 'Commercial Machinery & OEM Equipment',
+        audience: 'Plant Managers, Operations Heads & Procurement Directors',
+        summary: 'Factory floor demonstrations, operational machinery reviews, and qualified commercial inquiry generation.',
+        deliverable: 'Direct access to industrial specifiers and procurement teams',
+        slug: '/services/social-commerce/'
+    },
+    {
+        id: 'regional',
+        num: '03',
+        tag: 'REGIONAL CORRIDORS',
+        title: 'Delhi NCR & High-Growth Metros',
+        audience: 'Regional Business Owners, Distributors & Commercial Buyers',
+        summary: 'Dense localized creator networks driving geo-targeted commercial authority across Delhi NCR and key metro hubs.',
+        deliverable: 'High-trust localized reach and regional commercial footprint',
+        slug: '/services/social-commerce/'
+    },
+    {
+        id: 'high-ticket',
+        num: '04',
+        tag: 'HIGH-TICKET SERVICES',
+        title: 'Consulting, Real Estate & Advisory',
+        audience: 'Business Owners, Executives & High-Intent Clients',
+        summary: 'Authoritative problem breakdowns, executive thought leadership, and high-value consultative pipeline conversion.',
+        deliverable: 'Authority-driven channels delivering qualified deal flow',
+        slug: '/services/social-commerce/'
+    }
+]
 
-                    <div className="text-right hidden sm:block">
-                        <span className="text-sm font-extrabold font-mono text-[#181A16] block">
-                            {dossier.metric}
-                        </span>
-                        <span className="text-[10px] font-mono text-[#65675F] block">
-                            {dossier.metricLabel}
-                        </span>
-                    </div>
-                </div>
+/* ═══════════════════════════════════════════════════════════════════════
+   PILLAR 03: DEMAND & GROWTH SYSTEMS CAPABILITIES
+═══════════════════════════════════════════════════════════════════════ */
+const GROWTH_CAPABILITIES = [
+    {
+        num: '01',
+        slug: '/services/industrial-seo/',
+        category: 'SEARCH INFRASTRUCTURE',
+        title: 'Industrial & Commercial SEO Infrastructure',
+        summary: 'Engineering semantic search authority, entity-based knowledge graph architectures, and programmatic keyword systems for high-intent search queries.',
+        metric: 'High-Intent Search',
+        metricLabel: 'Durable Organic Demand',
+        capabilities: [
+            'Programmatic schema graphs and entity mapping',
+            'High-intent commercial search keyword strategy',
+            'Technical Core Web Vitals optimization',
+            'Generative Engine Optimization (GEO) for AI search engines'
+        ],
+        techStack: ['Next.js', 'PostgreSQL', 'HTML5', 'Node.js']
+    },
+    {
+        num: '02',
+        slug: '/services/performance-marketing/',
+        category: 'PERFORMANCE ACQUISITION',
+        title: 'Precision Performance Marketing & CAC Control',
+        summary: 'Data-driven paid media execution across Google Search, LinkedIn, and Meta campaigns focused on unit-economic customer acquisition cost efficiency.',
+        metric: 'Unit Economics',
+        metricLabel: 'Attribution & CAC Control',
+        capabilities: [
+            'High-intent Google Search & LinkedIn account targeting',
+            'Server-side Conversion API (CAPI) tracking infrastructure',
+            'Continuous creative testing & CAC compression',
+            'Direct attribution connecting ad spend to pipeline stages'
+        ],
+        techStack: ['Python', 'PostgreSQL', 'Next.js']
+    },
+    {
+        num: '03',
+        slug: '/services/conversion-web-design/',
+        category: 'CONVERSION ARCHITECTURE',
+        title: 'High-Velocity Conversion Web Architecture',
+        summary: 'Engineering fast web platforms, dynamic landing frameworks, and structured lead funnels designed for commercial credibility and high conversion.',
+        metric: 'Sub-Second Render',
+        metricLabel: 'Conversion Optimization',
+        capabilities: [
+            'Editorial, high-performance web experiences',
+            'Friction-free lead capture with instant CRM handoff',
+            'Behavioral tracking and conversion rate optimization (CRO)',
+            'Responsive multi-breakpoint design engineered for decision makers'
+        ],
+        techStack: ['Next.js', 'Node.js', 'HTML5', 'CSS3']
+    },
+    {
+        num: '04',
+        slug: '/services/ai-marketing-automation/',
+        category: 'PIPELINE AUTOMATION',
+        title: 'AI Workflow & Pipeline Automation',
+        summary: 'Deploying automated lead qualification workflows, stage-gated CRM routing logic, and multi-channel follow-up sequences that eliminate response lag.',
+        metric: 'Instant Handoff',
+        metricLabel: 'Zero Pipeline Leakage',
+        capabilities: [
+            'Multi-channel lead intake and automated verification',
+            'Stage-gated pipeline automation synchronized with Sahyak CRM',
+            'Automated follow-up sequences across Email and messaging',
+            'Real-time rep routing alerts and SLA monitoring'
+        ],
+        techStack: ['Python', 'Node.js', 'PostgreSQL', 'Next.js']
+    },
+    {
+        num: '05',
+        slug: '/services/brand-psychology/',
+        category: 'EXECUTIVE AUTHORITY',
+        title: 'Executive Positioning & Brand Psychology',
+        summary: 'Positioning corporate brands as category leaders through cognitive authority frameworks, executive thought leadership, and high-trust design systems.',
+        metric: 'Market Standing',
+        metricLabel: 'Executive Trust & Authority',
+        capabilities: [
+            'Executive thought leadership and industry briefings',
+            'Visual identity systems tailored for commercial confidence',
+            'Cognitive framing and premium market positioning',
+            'Corporate reputation architecture'
+        ],
+        techStack: ['Next.js', 'HTML5', 'CSS3']
+    }
+]
 
-                {/* Title */}
-                <h2 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16] tracking-tight group-hover:text-[#9B7545] transition-colors leading-snug">
-                    <Link href={dossier.slug} className="focus:outline-none">
-                        {dossier.title}
-                    </Link>
-                </h2>
-
-                {/* Summary */}
-                <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
-                    {dossier.summary}
-                </p>
-
-                {/* Core Capabilities Checklist */}
-                <div className="pt-3 border-t border-[#181A16]/08 space-y-2">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#9B7545] block">
-                        CORE ARCHITECTURAL CAPABILITIES
-                    </span>
-                    <ul className="space-y-1.5 text-xs text-[#181A16]">
-                        {dossier.capabilities.map((cap, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <CheckCircle2 size={13} className="text-[#3F5544] flex-shrink-0 mt-0.5" />
-                                <span className="leading-snug text-[#454740]">{cap}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Impact Statement */}
-                <div className="pt-2">
-                    <p className="text-[11px] font-mono text-[#65675F] leading-relaxed bg-[#FAF8F5] p-3 rounded-xl border border-[#181A16]/08">
-                        <strong className="text-[#181A16]">Strategic Impact:</strong> {dossier.useCase}
-                    </p>
-                </div>
-            </div>
-
-            {/* Bottom Actions & Tech Badges */}
-            <div className="pt-5 mt-4 border-t border-[#181A16]/08 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                        {dossier.techStack.map((tech) => (
-                            <span
-                                key={tech.name}
-                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#181A16]/08 text-[10px] font-mono text-[#181A16]"
-                            >
-                                <img
-                                    src={tech.icon}
-                                    alt={tech.name}
-                                    className="w-3 h-3 object-contain"
-                                />
-                                <span>{tech.name}</span>
-                            </span>
-                        ))}
-                    </div>
-
-                    <span className="text-[11px] font-mono font-bold text-[#9B7545] sm:hidden">
-                        {dossier.metric} {dossier.metricLabel}
-                    </span>
-                </div>
-
-                {/* Explicit Navigation Links to Sub-page and Briefing */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                    <Link
-                        href={dossier.slug}
-                        className="tactile-btn inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-[#181A16]/15 hover:bg-[#E6E2D7] text-[#181A16] font-heading font-semibold text-xs tracking-wide transition-all shadow-xs"
-                    >
-                        <span>Examine Blueprint</span>
-                        <ChevronRight size={13} className="text-[#9B7545]" />
-                    </Link>
-
-                    <Link
-                        href="/contact"
-                        className="tactile-btn inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#181A16] hover:bg-[#252720] text-[#F3F0E8] font-heading font-semibold text-xs tracking-wide transition-all shadow-xs"
-                    >
-                        <span>Schedule Briefing</span>
-                        <ArrowRight size={13} className="text-[#D4B270]" />
-                    </Link>
-                </div>
-            </div>
-        </article>
-    )
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   INDUSTRY APPLICATIONS / USE CASES DATA
+═══════════════════════════════════════════════════════════════════════ */
+const INDUSTRY_APPLICATIONS = [
+    {
+        icon: Factory,
+        slug: '/services/b2b-industrial-marketing/',
+        title: 'B2B Industrial & Manufacturing',
+        summary: 'Demand generation and RFQ pipelines for manufacturing plants, heavy machinery OEMs, and engineering suppliers.',
+        highlight: 'High-ticket RFQ funnels & industrial search indexing'
+    },
+    {
+        icon: Building2,
+        slug: '/services/real-estate-marketing/',
+        title: 'High-Ticket Real Estate & PropTech',
+        summary: 'Commercial and residential buyer acquisition engines for developers, property firms, and PropTech platforms.',
+        highlight: 'Verified investor acquisition & project microsites'
+    },
+    {
+        icon: GraduationCap,
+        slug: '/services/education-marketing/',
+        title: 'Higher Education & EdTech',
+        summary: 'Recruitment pipelines, dynamic application portal architectures, and counselor workflow optimization for institutions.',
+        highlight: 'Application portal architecture & counselor tracking'
+    }
+]
 
 /* ═══════════════════════════════════════════════════════════════════════
    SAHYAK CRM INSIDE-OUT SPOTLIGHT COMPONENT
@@ -438,25 +297,29 @@ function SahyakInsideOutSpotlight() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                         className="object-cover object-top"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#181A16]/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#181A16]/80 via-transparent to-transparent" />
                 </div>
 
                 <div className="impossible-reflection" />
 
                 <div className="p-4 bg-[#181A16]/95 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#AAA99F] relative z-10">
                     <span className="text-[#D4B270] font-semibold">sahyak.com</span>
-                    <span>30-DAY COMPLIMENTARY DEPLOYMENT</span>
+                    <span className="text-[#8FA994]">PROPRIETARY SALES OPERATING SYSTEM</span>
                 </div>
             </div>
         </div>
     )
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MAIN OFFERING PAGE
+═══════════════════════════════════════════════════════════════════════ */
 export default function ServicesPage() {
     const shouldReduceMotion = useReducedMotion()
     const containerRef = useRef<HTMLDivElement>(null)
+    const [activeSahyakStage, setActiveSahyakStage] = useState(0)
 
-    // GSAP ScrollTrigger Integration for subtle card reveals
+    // GSAP ScrollTrigger Integration for smooth card reveals
     useEffect(() => {
         if (shouldReduceMotion || typeof window === 'undefined') return
 
@@ -489,40 +352,41 @@ export default function ServicesPage() {
             ref={containerRef}
             className="bg-[#F3F0E8] text-[#181A16] min-h-screen selection:bg-[#9B7545]/20 selection:text-[#181A16] relative overflow-x-hidden font-sans"
         >
-            {/* Subtle Architectural Grid */}
+            {/* Subtle Architectural Grid Texture */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
             {/* ══════════════════════════════════════════════════════════════
-                1. COMPACT SERVICES HEADER (Editorial Catalog Intro)
+                1. OFFERING HERO & 4 OPERATING SIGNALS
             ══════════════════════════════════════════════════════════════ */}
-            <header className="relative pt-12 sm:pt-16 md:pt-20 pb-10 sm:pb-12 md:pb-14 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+            <header className="relative pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-16 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    {/* Left Column: Core Value & Call to Actions */}
-                    <div className="lg:col-span-7 space-y-5">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6E2D7] border border-[#181A16]/10">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#9B7545] animate-pulse flex-shrink-0" />
+                    {/* Left Column: Core Identity & CTAs */}
+                    <div className="lg:col-span-7 space-y-6">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E6E2D7] border border-[#181A16]/10">
+                            <span className="w-2 h-2 rounded-full bg-[#9B7545] animate-pulse flex-shrink-0" />
                             <span className="marginal-label text-[#181A16] font-bold">
-                                ENTERPRISE OFFERINGS CATALOG // 10 ACTIVE PILLARS
+                                DEEPLINK OFFERINGS // COMMERCIAL INFRASTRUCTURE
                             </span>
                         </div>
 
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-[#181A16] leading-[1.14]">
-                            Software, Distribution &amp;{' '}
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-[#181A16] leading-[1.08]">
+                            What We Build &amp;{' '}
                             <span className="text-brass-gradient">
-                                Enterprise Systems.
+                                Operate for Growth.
                             </span>
                         </h1>
 
-                        <p className="text-sm sm:text-base md:text-lg text-[#65675F] max-w-2xl leading-relaxed font-normal">
-                            Deeplink Creators, backed by Mayalok Venture, engineers proprietary B2B software infrastructure, autonomous AI revenue pipelines, and creator-led syndication networks for organizations seeking durable commercial advantage.
+                        <p className="text-base sm:text-lg text-[#65675F] max-w-2xl leading-relaxed font-normal">
+                            Software, creator distribution, and growth systems engineered to connect demand generation directly to downstream sales execution.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto pt-1">
+                        {/* Standardized Primary/Secondary CTAs */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
                             <Link
                                 href="/contact"
                                 className="tactile-btn inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-sm tracking-wide shadow-sm hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[46px]"
                             >
-                                <span>Schedule Enterprise Briefing</span>
+                                <span>Schedule Briefing</span>
                                 <ArrowRight size={16} className="text-[#D4B270]" />
                             </Link>
 
@@ -532,59 +396,59 @@ export default function ServicesPage() {
                                 rel="noopener noreferrer"
                                 className="tactile-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[46px]"
                             >
-                                <span>Sahyak CRM Platform ↗</span>
+                                <span>Explore Sahyak CRM</span>
                                 <ExternalLink size={14} className="text-[#9B7545]" />
                             </a>
                         </div>
                     </div>
 
-                    {/* Right Column: Key Operating Signals */}
+                    {/* Right Column: 4 Clean Operating Signals */}
                     <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
                         <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
                             <span className="marginal-label text-[#9B7545] font-bold block">
-                                ARCHITECTURE
+                                01 // SOFTWARE
                             </span>
-                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
-                                Multi-Tenant
-                            </span>
-                            <p className="text-xs text-[#65675F] leading-snug">
-                                Cryptographic tenant isolation &amp; custom workflow logic
-                            </p>
-                        </div>
-
-                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
-                            <span className="marginal-label text-[#9B7545] font-bold block">
-                                DISTRIBUTION
-                            </span>
-                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
-                                Creator-Led
-                            </span>
-                            <p className="text-xs text-[#65675F] leading-snug">
-                                Vetted audience access &amp; direct attribution tracking
-                            </p>
-                        </div>
-
-                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
-                            <span className="marginal-label text-[#9B7545] font-bold block">
-                                CRM PLATFORM
-                            </span>
-                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
+                            <span className="text-base sm:text-lg font-bold font-heading text-[#181A16] block">
                                 Sahyak CRM
                             </span>
                             <p className="text-xs text-[#65675F] leading-snug">
-                                30-day deployment benefit included with engagements
+                                Lead qualification, rep routing &amp; pipeline control
                             </p>
                         </div>
 
                         <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
                             <span className="marginal-label text-[#9B7545] font-bold block">
-                                GOVERNANCE
+                                02 // DISTRIBUTION
                             </span>
-                            <span className="text-lg sm:text-xl font-bold font-heading text-[#181A16] block">
-                                Mayalok Unit
+                            <span className="text-base sm:text-lg font-bold font-heading text-[#181A16] block">
+                                Creator Networks
                             </span>
                             <p className="text-xs text-[#65675F] leading-snug">
-                                Institutional venture capital backing and stability
+                                Managed regional &amp; industry distribution channels
+                            </p>
+                        </div>
+
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                03 // DEMAND
+                            </span>
+                            <span className="text-base sm:text-lg font-bold font-heading text-[#181A16] block">
+                                Growth Systems
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                Search, paid media, conversion web UX &amp; automation
+                            </p>
+                        </div>
+
+                        <div className="p-4 sm:p-5 rounded-2xl border border-[#181A16]/10 bg-white shadow-sm space-y-1">
+                            <span className="marginal-label text-[#9B7545] font-bold block">
+                                04 // VISION
+                            </span>
+                            <span className="text-base sm:text-lg font-bold font-heading text-[#181A16] block">
+                                Mayalok Vision
+                            </span>
+                            <p className="text-xs text-[#65675F] leading-snug">
+                                Operating business within the Mayalok Venture vision
                             </p>
                         </div>
                     </div>
@@ -592,125 +456,527 @@ export default function ServicesPage() {
             </header>
 
             {/* ══════════════════════════════════════════════════════════════
-                2. TEN SPECIALIZED SERVICE DOSSIERS (Bento Grid Reintegration)
-            ══════════════════════════════════════════════════════════════ */}
-            <main className="relative pb-16 sm:pb-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
-                <div className="mb-8 flex items-center justify-between pb-4 border-b border-[#181A16]/10">
-                    <div>
-                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#9B7545] block">
-                            ACTIVE SERVICE PILLARS
-                        </span>
-                        <h2 className="text-xl sm:text-2xl font-extrabold font-heading text-[#181A16]">
-                            Explore Specialized Engineering &amp; Growth Architectures
-                        </h2>
-                    </div>
-                    <span className="text-xs font-mono text-[#65675F] hidden sm:inline">
-                        10 Dedicated Pillars
-                    </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                    {SERVICE_DOSSIERS.map((dossier) => (
-                        <ServiceBentoCard key={dossier.slug} dossier={dossier} />
-                    ))}
-                </div>
-            </main>
-
-            {/* ══════════════════════════════════════════════════════════════
-                3. SAHYAK CRM COMPLIMENTARY INCLUSION CHAPTER
+                2. PILLAR 01: PROPRIETARY OPERATING SOFTWARE (SAHYAK CRM)
             ══════════════════════════════════════════════════════════════ */}
             <section
-                id="sahyak-crm"
-                className="py-14 sm:py-20 md:py-28 px-5 sm:px-6 lg:px-8 bg-[#252720] text-[#F3F0E8] relative z-10 border-t border-[#181A16]"
+                id="operating-software"
+                className="py-16 sm:py-24 px-5 sm:px-6 lg:px-8 bg-[#181A16] text-[#F3F0E8] relative z-10 border-y border-[#181A16]"
             >
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                        {/* Left Narrative Column (lg:col-span-6) */}
-                        <div className="lg:col-span-6 space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9B7545]/20 border border-[#9B7545]/35 text-[#D4B270] text-[11px] font-mono font-bold tracking-widest uppercase">
-                                <Sparkles size={13} />
-                                FLAGSHIP SOFTWARE BENEFIT
+                {/* Subtle Texture */}
+                <div className="absolute inset-0 bg-[radial-gradient(#9B7545_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-15 pointer-events-none" />
+
+                <div className="max-w-7xl mx-auto relative z-10 space-y-14 sm:space-y-16">
+                    {/* Pillar 01 Header */}
+                    <div className="max-w-3xl">
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-4xl font-extrabold font-heading text-[#D4B270]">01</span>
+                            <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#AAA99F] border-l border-white/15 pl-3">
+                                PROPRIETARY OPERATING SOFTWARE
+                            </span>
+                        </div>
+
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight mb-4">
+                            Sahyak CRM: Turning Demand Into{' '}
+                            <span className="text-[#D4B270]">Closed Revenue.</span>
+                        </h2>
+
+                        <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed">
+                            Demand generation only creates value when leads convert into revenue. Sahyak is DeepLink&apos;s proprietary sales operating system—engineered to capture, qualify, route, follow up, and close inquiries with complete operational visibility.
+                        </p>
+                    </div>
+
+                    {/* Sahyak Grid: Interactive Workflow & 3D Tilt Viewport */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                        {/* Left: 5-Stage Interactive Operational Pipeline */}
+                        <div className="lg:col-span-6 space-y-4">
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D4B270] block">
+                                SAHYAK SALES OPERATING WORKFLOW
+                            </span>
+
+                            <div className="space-y-2.5">
+                                {SAHYAK_STAGES.map((st, idx) => {
+                                    const isCurrent = activeSahyakStage === idx
+
+                                    return (
+                                        <button
+                                            key={st.id}
+                                            onClick={() => setActiveSahyakStage(idx)}
+                                            className={`w-full text-left p-4 rounded-2xl border transition-all ${
+                                                isCurrent
+                                                    ? 'bg-white/[0.08] border-[#9B7545] shadow-lg -translate-x-1'
+                                                    : 'bg-white/[0.02] border-white/08 hover:bg-white/[0.05] hover:border-white/15'
+                                            }`}
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[11px] font-mono font-bold text-[#D4B270]">
+                                                    {st.tag}
+                                                </span>
+                                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white">
+                                                    {st.status}
+                                                </span>
+                                            </div>
+                                            <h4 className="font-heading font-bold text-base text-white mt-1">
+                                                {st.title}
+                                            </h4>
+                                            <p className="text-xs text-[#AAA99F] mt-1 leading-relaxed">
+                                                {st.description}
+                                            </p>
+                                        </button>
+                                    )
+                                })}
                             </div>
 
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-                                30-Day Sahyak CRM Access{' '}
-                                <span className="text-[#D4B270]">
-                                    Included with Every Client Engagement.
+                            {/* Engagement Deployment Note */}
+                            <div className="p-4 rounded-2xl bg-white/[0.03] border border-[#9B7545]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                                <span className="text-[#D4B270] font-mono font-semibold">
+                                    Eligible DeepLink growth engagements include pre-configured Sahyak CRM deployment.
                                 </span>
-                            </h2>
-
-                            <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed">
-                                We believe execution without software is incomplete. When you partner with Deeplink Creators for software development or distribution architecture, we deploy Sahyak CRM into your organization with 30 days of complimentary access.
-                            </p>
-
-                            <div className="space-y-3 pt-2">
-                                {[
-                                    'Pre-configured pipeline stages tailored to your commercial model',
-                                    'Multi-agent lead assignment, status tracking & SLA monitoring',
-                                    'Automated multi-channel follow-up workflows and notifications',
-                                    'Seamless integration with custom web apps and landing pages',
-                                ].map((benefit) => (
-                                    <div key={benefit} className="flex items-center gap-2.5 text-xs sm:text-sm text-white">
-                                        <CheckCircle2 size={15} className="text-[#9B7545] flex-shrink-0" />
-                                        <span>{benefit}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="pt-2 flex flex-wrap items-center gap-4">
                                 <a
                                     href="https://sahyak.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="tactile-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-md"
+                                    className="text-white hover:text-[#D4B270] underline flex-shrink-0 font-medium"
                                 >
-                                    <span>Explore Sahyak CRM (sahyak.com)</span>
-                                    <ExternalLink size={14} />
+                                    sahyak.com ↗
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Right: 3D Tilt Viewport */}
+                        <div className="lg:col-span-6 space-y-4">
+                            <SahyakInsideOutSpotlight />
+
+                            <div className="flex flex-wrap items-center gap-3 pt-2">
+                                <a
+                                    href="https://sahyak.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="tactile-btn inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
+                                >
+                                    <span>Explore Sahyak Platform</span>
+                                    <ExternalLink size={13} />
                                 </a>
 
                                 <Link
                                     href="/contact"
                                     className="tactile-btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all border border-white/10"
                                 >
-                                    <span>Claim 30-Day Deployment</span>
-                                    <ArrowRight size={14} className="text-[#D4B270]" />
+                                    <span>Schedule Briefing</span>
+                                    <ArrowRight size={13} className="text-[#D4B270]" />
                                 </Link>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Right Software Mockup (Inside-Out 3D Spotlight) */}
-                        <div className="lg:col-span-6">
-                            <SahyakInsideOutSpotlight />
+                    {/* Secondary Capability: Custom Commercial Systems */}
+                    <div
+                        id="custom-systems"
+                        className="p-8 sm:p-10 rounded-3xl bg-white/[0.03] border border-white/10 space-y-6"
+                    >
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                            <div>
+                                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D4B270] block">
+                                    SECONDARY SOFTWARE CAPABILITY
+                                </span>
+                                <h3 className="text-2xl font-bold font-heading text-white mt-1">
+                                    Custom Commercial Systems &amp; Operational Portals
+                                </h3>
+                            </div>
+                            <Link
+                                href="/services/custom-saas-development/"
+                                className="inline-flex items-center gap-1.5 text-xs font-mono text-[#D4B270] hover:underline"
+                            >
+                                <span>Examine Custom Software Blueprint</span>
+                                <ArrowRight size={13} />
+                            </Link>
+                        </div>
+
+                        <p className="text-sm text-[#AAA99F] leading-relaxed max-w-4xl">
+                            When standard CRM software is insufficient for complex operations, DeepLink engineers custom internal sales portals, multi-tenant B2B platforms, distributor networks, business dashboards, and custom integrations tailored to your specific commercial workflows.
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono text-white">
+                            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/08">
+                                <span className="text-[#D4B270] block mb-1">01 // INTERNAL PORTALS</span>
+                                <span>Sales Rep &amp; Account Portals</span>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/08">
+                                <span className="text-[#D4B270] block mb-1">02 // DISTRIBUTION HUBS</span>
+                                <span>Distributor &amp; Vendor Networks</span>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/08">
+                                <span className="text-[#D4B270] block mb-1">03 // CUSTOM SAAS</span>
+                                <span>Proprietary Cloud Platforms</span>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/08">
+                                <span className="text-[#D4B270] block mb-1">04 // INTEGRATIONS</span>
+                                <span>Multi-Channel API Infrastructure</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* ══════════════════════════════════════════════════════════════
-                4. ENTERPRISE ENGAGEMENT CTA
+                3. PILLAR 02: CREATOR DISTRIBUTION NETWORKS
             ══════════════════════════════════════════════════════════════ */}
-            <section className="py-14 sm:py-20 md:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
-                <div className="p-8 sm:p-12 md:p-16 rounded-3xl border border-[#181A16]/15 bg-[#181A16] text-[#F3F0E8] text-center space-y-6 shadow-2xl">
+            <section
+                id="creator-distribution"
+                className="py-16 sm:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10"
+            >
+                <div className="space-y-12 sm:space-y-16">
+                    {/* Pillar 02 Header */}
+                    <div className="max-w-3xl">
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-4xl font-extrabold font-heading text-[#9B7545]">02</span>
+                            <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#65675F] border-l border-[#181A16]/10 pl-3">
+                                CREATOR-LED DISTRIBUTION
+                            </span>
+                        </div>
+
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[#181A16] tracking-tight leading-tight mb-4">
+                            Managed Creator Networks as an{' '}
+                            <span className="text-brass-gradient">Owned Acquisition Channel.</span>
+                        </h2>
+
+                        <p className="text-base sm:text-lg text-[#65675F] leading-relaxed">
+                            Traditional advertising faces rising acquisition costs, creative fatigue, and algorithm volatility. DeepLink organizes creators into structured, accountable distribution channels to reach targeted audiences directly.
+                        </p>
+                    </div>
+
+                    {/* Flow Diagram: Brand -> Creator Network -> Distribution -> Audience -> Sahyak */}
+                    <div className="p-6 sm:p-8 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] space-y-6 shadow-xl">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono">
+                            <span className="text-[#D4B270] font-bold">CREATOR DISTRIBUTION CONDUIT</span>
+                            <span className="text-[#8FA994] bg-[#3F5544]/20 px-2.5 py-1 rounded">OWNED CHANNEL</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                                <span className="text-[10px] font-mono text-[#D4B270] block">STEP 01</span>
+                                <p className="text-sm font-bold text-white font-heading">Brand / Offer</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Value Proposition</p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                                <span className="text-[10px] font-mono text-[#8FA994] block">STEP 02</span>
+                                <p className="text-sm font-bold text-white font-heading">Creator Network</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Targeted Hubs</p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                                <span className="text-[10px] font-mono text-[#D4B270] block">STEP 03</span>
+                                <p className="text-sm font-bold text-white font-heading">Content Reach</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Audience Ingestion</p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                                <span className="text-[10px] font-mono text-[#8FA994] block">STEP 04</span>
+                                <p className="text-sm font-bold text-white font-heading">Lead Capture</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Attributed Inquiries</p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                                <span className="text-[10px] font-mono text-[#D4B270] block">STEP 05</span>
+                                <p className="text-sm font-bold text-white font-heading">Sahyak CRM</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Sales Routing &amp; Close</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 4 Creator Channel Bento Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        {CREATOR_CHANNELS.map((ch) => (
+                            <article
+                                key={ch.id}
+                                className="gsap-card group p-6 sm:p-8 rounded-3xl bg-white border border-[#181A16]/12 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-6"
+                            >
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-2xl font-extrabold font-mono text-[#9B7545]">
+                                            {ch.num}
+                                        </span>
+                                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-[#E6E2D7] text-[#181A16]">
+                                            {ch.tag}
+                                        </span>
+                                    </div>
+
+                                    <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16]">
+                                        {ch.title}
+                                    </h3>
+
+                                    <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                                        {ch.summary}
+                                    </p>
+
+                                    <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#181A16]/08 text-xs font-mono text-[#181A16] space-y-1">
+                                        <span className="text-[#9B7545] font-bold block">Target Audience:</span>
+                                        <span>{ch.audience}</span>
+                                    </div>
+                                </div>
+
+                                <div className="pt-4 border-t border-[#181A16]/08 flex items-center justify-between">
+                                    <span className="text-[11px] font-mono text-[#3F5544]">
+                                        {ch.deliverable}
+                                    </span>
+                                    <Link
+                                        href={ch.slug}
+                                        className="inline-flex items-center gap-1 text-xs font-heading font-bold text-[#181A16] hover:text-[#9B7545] transition-colors"
+                                    >
+                                        <span>Examine Blueprint</span>
+                                        <ChevronRight size={14} className="text-[#9B7545]" />
+                                    </Link>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ══════════════════════════════════════════════════════════════
+                4. PILLAR 03: DEMAND & PERFORMANCE GROWTH SYSTEMS
+            ══════════════════════════════════════════════════════════════ */}
+            <section
+                id="growth-systems"
+                className="py-16 sm:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10"
+            >
+                <div className="space-y-12 sm:space-y-16">
+                    {/* Pillar 03 Header */}
+                    <div className="max-w-3xl">
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-4xl font-extrabold font-heading text-[#9B7545]">03</span>
+                            <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#65675F] border-l border-[#181A16]/10 pl-3">
+                                DEMAND &amp; GROWTH SYSTEMS
+                            </span>
+                        </div>
+
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[#181A16] tracking-tight leading-tight mb-4">
+                            Acquisition &amp; Conversion Systems That{' '}
+                            <span className="text-brass-gradient">Feed Downstream Sales.</span>
+                        </h2>
+
+                        <p className="text-base sm:text-lg text-[#65675F] leading-relaxed">
+                            Search, advertising, conversion web architecture, and automated routing engineered to deliver high-intent buyer inquiries directly into Sahyak CRM.
+                        </p>
+                    </div>
+
+                    {/* 5 Core Growth Capabilities Matrix */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        {GROWTH_CAPABILITIES.map((cap) => (
+                            <article
+                                key={cap.num}
+                                className="gsap-card group p-6 sm:p-8 rounded-3xl bg-white border border-[#181A16]/12 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-6"
+                            >
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl font-extrabold font-mono text-[#9B7545]">
+                                                {cap.num}
+                                            </span>
+                                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-[#E6E2D7] text-[#181A16]">
+                                                {cap.category}
+                                            </span>
+                                        </div>
+                                        <span className="text-xs font-mono font-bold text-[#181A16] hidden sm:block">
+                                            {cap.metric}
+                                        </span>
+                                    </div>
+
+                                    <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#181A16] group-hover:text-[#9B7545] transition-colors">
+                                        <Link href={cap.slug}>
+                                            {cap.title}
+                                        </Link>
+                                    </h3>
+
+                                    <p className="text-xs sm:text-sm text-[#65675F] leading-relaxed">
+                                        {cap.summary}
+                                    </p>
+
+                                    {/* Capabilities Checklist */}
+                                    <div className="pt-3 border-t border-[#181A16]/08 space-y-2">
+                                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#9B7545] block">
+                                            SYSTEM CAPABILITIES
+                                        </span>
+                                        <ul className="space-y-1.5 text-xs text-[#181A16]">
+                                            {cap.capabilities.map((c, i) => (
+                                                <li key={i} className="flex items-start gap-2">
+                                                    <CheckCircle2 size={13} className="text-[#3F5544] flex-shrink-0 mt-0.5" />
+                                                    <span className="leading-snug text-[#454740]">{c}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div className="pt-4 border-t border-[#181A16]/08 flex items-center justify-between">
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {cap.techStack.map((tech) => (
+                                            <span
+                                                key={tech}
+                                                className="px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#181A16]/08 text-[10px] font-mono text-[#65675F]"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <Link
+                                        href={cap.slug}
+                                        className="inline-flex items-center gap-1 text-xs font-heading font-bold text-[#181A16] hover:text-[#9B7545] transition-colors"
+                                    >
+                                        <span>Examine Blueprint</span>
+                                        <ChevronRight size={14} className="text-[#9B7545]" />
+                                    </Link>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+
+                    {/* Sub-Section: Industry Applications & Use Cases */}
+                    <div className="p-8 sm:p-10 rounded-3xl bg-[#FAF8F5] border border-[#181A16]/10 space-y-6">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#181A16]/10 pb-4">
+                            <div>
+                                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#9B7545] block">
+                                    SECTOR APPLICATIONS
+                                </span>
+                                <h3 className="text-2xl font-bold font-heading text-[#181A16] mt-1">
+                                    Industry-Specific Acquisition &amp; Conversion Use Cases
+                                </h3>
+                            </div>
+                            <span className="text-xs font-mono text-[#65675F]">
+                                Specialized Pipeline Blueprints
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {INDUSTRY_APPLICATIONS.map((app) => {
+                                const IconComp = app.icon
+
+                                return (
+                                    <div
+                                        key={app.title}
+                                        className="p-6 rounded-2xl bg-white border border-[#181A16]/08 space-y-4 flex flex-col justify-between"
+                                    >
+                                        <div className="space-y-3">
+                                            <div className="w-9 h-9 rounded-xl bg-[#F3F0E8] border border-[#181A16]/10 flex items-center justify-center text-[#9B7545]">
+                                                <IconComp size={18} />
+                                            </div>
+                                            <h4 className="font-heading font-bold text-lg text-[#181A16]">
+                                                {app.title}
+                                            </h4>
+                                            <p className="text-xs text-[#65675F] leading-relaxed">
+                                                {app.summary}
+                                            </p>
+                                        </div>
+
+                                        <div className="pt-3 border-t border-[#181A16]/08 flex items-center justify-between">
+                                            <span className="text-[10px] font-mono text-[#3F5544]">
+                                                {app.highlight}
+                                            </span>
+                                            <Link
+                                                href={app.slug}
+                                                className="text-xs font-mono text-[#9B7545] hover:underline"
+                                            >
+                                                Blueprint →
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ══════════════════════════════════════════════════════════════
+                5. THE CONNECTED COMMERCIAL SYSTEM (SYNTHESIS)
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="py-16 sm:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
+                <div className="rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-12 shadow-2xl space-y-8 relative overflow-hidden">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono text-[#AAA99F]">
+                        <span className="text-[#D4B270] font-bold">
+                            CONNECTED COMMERCIAL FLOW // DEMAND ➔ DISTRIBUTION ➔ SAHYAK ➔ REVENUE
+                        </span>
+                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">
+                            UNIFIED SYSTEM
+                        </span>
+                    </div>
+
+                    <div className="max-w-2xl space-y-2">
+                        <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight">
+                            Why these capabilities operate in one system.
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#AAA99F] leading-relaxed">
+                            When demand generation, creator distribution, and sales operating software are disconnected, lead leakage occurs at every handoff. DeepLink synchronizes acquisition with sales execution.
+                        </p>
+                    </div>
+
+                    {/* Visual 4-Stage Synthesis */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+                        <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono text-[#D4B270] block">01 DEMAND &amp; DISTRIBUTION</span>
+                            <p className="text-sm font-bold text-white font-heading">Qualified Inbound Intent</p>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                Search SEO, performance media, and creator reach attract commercial buyers.
+                            </p>
+                        </div>
+
+                        <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono text-[#8FA994] block">02 CONVERSION &amp; INGESTION</span>
+                            <p className="text-sm font-bold text-white font-heading">Friction-Free Capture</p>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                High-trust web architecture captures inquiries with channel attribution.
+                            </p>
+                        </div>
+
+                        <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono text-[#D4B270] block">03 SAHYAK SALES EXECUTION</span>
+                            <p className="text-sm font-bold text-white font-heading">Stage Gate Operations</p>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                Rep routing, qualification criteria, and follow-up discipline convert leads.
+                            </p>
+                        </div>
+
+                        <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono text-[#8FA994] block">04 CLOSED REVENUE &amp; DATA</span>
+                            <p className="text-sm font-bold text-white font-heading">Optimization Feedback</p>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                Closed deal data feeds back to optimize acquisition targeting and CAC.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ══════════════════════════════════════════════════════════════
+                6. FINAL STRATEGIC CTA
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="py-16 sm:py-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
+                <div className="p-8 sm:p-12 md:p-16 rounded-3xl border border-[#181A16] bg-[#181A16] text-[#F3F0E8] text-center space-y-6 shadow-2xl">
                     <span className="marginal-label text-[#D4B270] tracking-widest font-bold">
-                        ENGAGEMENT PROCESS
+                        GET STARTED // CONNECTED GROWTH INFRASTRUCTURE
                     </span>
 
                     <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold font-heading text-white tracking-tight max-w-3xl mx-auto leading-tight">
-                        Engineer your software and distribution systems.
+                        Ready to build permanent systems for your business?
                     </h2>
 
                     <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed max-w-2xl mx-auto font-normal">
-                        Submit your project scope or schedule a technical briefing with our principals in Greater Noida.
+                        Schedule a briefing to evaluate Sahyak CRM deployment, activate creator distribution channels, or build custom demand systems.
                     </p>
 
-                    <div className="pt-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
                         <Link
                             href="/contact"
-                            className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-bold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
+                            className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-bold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px] w-full sm:w-auto"
                         >
-                            <span>Schedule Enterprise Briefing</span>
+                            <span>Schedule Briefing</span>
                             <ArrowRight size={16} />
                         </Link>
+                        <a
+                            href="https://sahyak.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px] w-full sm:w-auto"
+                        >
+                            <span>Explore sahyak.com</span>
+                            <ArrowUpRight size={16} className="text-[#D4B270]" />
+                        </a>
                     </div>
                 </div>
             </section>

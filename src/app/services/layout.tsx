@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Enterprise Offerings & Software Holdings | Deeplink Creators',
-    description: 'Explore Deeplink Creators’ enterprise capabilities: Proprietary B2B SaaS engineering, creator-led distribution networks, high-ticket revenue systems, and 30-day Sahyak CRM client deployment.',
+    title: 'Offerings & Commercial Growth Systems | Deeplink Creators',
+    description: 'Explore Deeplink Creators’ commercial growth infrastructure: Proprietary sales software (Sahyak CRM), managed creator distribution networks, and demand acquisition systems.',
     openGraph: {
-        title: 'Enterprise Offerings & Software Holdings | Deeplink Creators',
-        description: 'Explore Deeplink Creators’ enterprise capabilities: Proprietary B2B SaaS engineering, creator-led distribution networks, high-ticket revenue systems, and 30-day Sahyak CRM client deployment.',
+        title: 'Offerings & Commercial Growth Systems | Deeplink Creators',
+        description: 'Explore Deeplink Creators’ commercial growth infrastructure: Proprietary sales software (Sahyak CRM), managed creator distribution networks, and demand acquisition systems.',
         url: 'https://deeplinkcreators.com/services/',
         type: 'website',
         images: [
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
                 url: '/images/hero-enterprise-architecture.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'Deeplink Creators Enterprise Offerings & Software Holdings',
+                alt: 'Deeplink Creators Offerings & Commercial Growth Systems',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Enterprise Offerings & Software Holdings | Deeplink Creators',
-        description: 'B2B SaaS engineering, creator-led distribution, revenue systems, and Sahyak CRM deployment.',
+        title: 'Offerings & Commercial Growth Systems | Deeplink Creators',
+        description: 'Proprietary sales software (Sahyak CRM), managed creator distribution networks, and demand acquisition systems.',
         images: ['/images/hero-enterprise-architecture.jpg'],
     },
     alternates: {
@@ -28,12 +28,12 @@ export const metadata: Metadata = {
     },
 }
 
-// Service ItemList Schema
+// Structured ItemList Schema reflecting the 3 Connected Growth Systems
 const servicesSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Enterprise Offerings & Software Holdings",
-    "description": "Core software infrastructure and creator-led distribution offerings by Deeplink Creators",
+    "name": "Deeplink Creators Commercial Growth Systems",
+    "description": "Operating software, creator distribution networks, and performance demand systems built by Deeplink Creators.",
     "url": "https://deeplinkcreators.com/services/",
     "itemListElement": [
         {
@@ -41,12 +41,12 @@ const servicesSchema = {
             "position": 1,
             "item": {
                 "@type": "Service",
-                "name": "Proprietary B2B SaaS Engineering",
-                "description": "Design and engineering of multi-tenant, mobile-ready software platforms, workflow automation, and role-based access systems.",
+                "name": "Proprietary Operating Software (Sahyak CRM)",
+                "description": "Sales pipeline operating system for multi-channel lead ingestion, qualification stage gates, rep routing, and deal conversion visibility.",
                 "provider": {
                     "@id": "https://deeplinkcreators.com/#organization"
                 },
-                "url": "https://deeplinkcreators.com/services/#software-engineering"
+                "url": "https://deeplinkcreators.com/services/#operating-software"
             }
         },
         {
@@ -54,8 +54,8 @@ const servicesSchema = {
             "position": 2,
             "item": {
                 "@type": "Service",
-                "name": "Creator-Led Distribution",
-                "description": "Structuring curated creator ecosystems into accountable distribution channels connecting enterprise offerings with niche audiences.",
+                "name": "Managed Creator Distribution Networks",
+                "description": "Curated creator networks structured into accountable acquisition channels connecting businesses to targeted local, regional, and industry audiences.",
                 "provider": {
                     "@id": "https://deeplinkcreators.com/#organization"
                 },
@@ -67,12 +67,12 @@ const servicesSchema = {
             "position": 3,
             "item": {
                 "@type": "Service",
-                "name": "High-Ticket Revenue & Pipeline Systems",
-                "description": "Lead routing, follow-up discipline, and pipeline visibility systems designed to stop revenue leakage in high-ticket enterprise sales.",
+                "name": "Demand & Performance Growth Systems",
+                "description": "High-intent search infrastructure (SEO), precision performance marketing, conversion web architecture, and automated pipeline workflows.",
                 "provider": {
                     "@id": "https://deeplinkcreators.com/#organization"
                 },
-                "url": "https://deeplinkcreators.com/services/#revenue-systems"
+                "url": "https://deeplinkcreators.com/services/#growth-systems"
             }
         },
         {
@@ -80,25 +80,12 @@ const servicesSchema = {
             "position": 4,
             "item": {
                 "@type": "Service",
-                "name": "Enterprise Systems Advisory",
-                "description": "Strategic guidance on software architecture, operational workflow design, and distribution infrastructure backed by Mayalok Venture.",
+                "name": "Custom Commercial Software & Portals",
+                "description": "Engineering bespoke internal sales portals, distributor networks, business dashboards, and custom SaaS platforms for complex operations.",
                 "provider": {
                     "@id": "https://deeplinkcreators.com/#organization"
                 },
-                "url": "https://deeplinkcreators.com/services/#systems-advisory"
-            }
-        },
-        {
-            "@type": "ListItem",
-            "position": 5,
-            "item": {
-                "@type": "Service",
-                "name": "Sahyak CRM Client Deployment Benefit",
-                "description": "Complimentary 30-day access to Sahyak CRM included with eligible service engagements to centralize lead ownership and follow-up discipline.",
-                "provider": {
-                    "@id": "https://deeplinkcreators.com/#organization"
-                },
-                "url": "https://deeplinkcreators.com/services/#sahyak-crm"
+                "url": "https://deeplinkcreators.com/services/#custom-systems"
             }
         }
     ]

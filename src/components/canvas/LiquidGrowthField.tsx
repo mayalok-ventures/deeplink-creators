@@ -5,10 +5,11 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 1. GPU 2D WATER SIMULATION SHADERS (ASPECT-SCALED MULTI-SPLASH SOLVER) ──
+// ── 1. HIGH-PRECISION 9-POINT ISOTROPIC 2D WATER SIMULATION SHADER ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const MAX_SPLASHES = 6
+const SIM_SIZE = 384
 
 const SimulationShader = {
     uniforms: {
@@ -23,9 +24,9 @@ const SimulationShader = {
         uSplashRadius: { value: new Array(MAX_SPLASHES).fill(0) },
         uAspect: { value: 1.0 },                          // Viewport aspect ratio
         uDelta: { value: 0.016 },
-        uDamping: { value: 0.985 },                       // Viscous friction / dissipation rate
-        uWaveSpeed: { value: 0.34 },                      // Wave propagation speed constant
-        uTexelSize: { value: new THREE.Vector2(1 / 256, 1 / 256) }
+        uDamping: { value: 0.986 },                       // Viscous friction / dissipation rate
+        uWaveSpeed: { value: 0.35 },                      // Wave propagation speed constant
+        uTexelSize: { value: new THREE.Vector2(1 / SIM_SIZE, 1 / SIM_SIZE) }
     },
     vertexShader: `
         varying vec2 vUv;
@@ -64,61 +65,79 @@ const SimulationShader = {
         void main() {
             vec2 uv = vUv;
 
-            // Sample 4-neighborhood for discrete 2D Laplacian operator
+            // Sample 9-point neighborhood for isotropic discrete 2D Laplacian operator
             vec4 center = texture2D(uCurrentWater, uv);
-            float hCenter = center.r;
-            float vCenter = center.g;
+            float hC = center.r;
+            float vC = center.g;
 
-            float hLeft  = texture2D(uCurrentWater, uv - vec2(uTexelSize.x, 0.0)).r;
-            float hRight = texture2D(uCurrentWater, uv + vec2(uTexelSize.x, 0.0)).r;
-            float hDown  = texture2D(uCurrentWater, uv - vec2(0.0, uTexelSize.y)).r;
-            float hUp    = texture2D(uCurrentWater, uv + vec2(0.0, uTexelSize.y)).r;
+            // Direct orthogonal cardinal neighbors
+            float hL = texture2D(uCurrentWater, uv - vec2(uTexelSize.x, 0.0)).r;
+            float hR = texture2D(uCurrentWater, uv + vec2(uTexelSize.x, 0.0)).r;
+            float hD = texture2D(uCurrentWater, uv - vec2(0.0, uTexelSize.y)).r;
+            float hU = texture2D(uCurrentWater, uv + vec2(0.0, uTexelSize.y)).r;
 
-            // Discrete 2D Laplacian operator
-            float laplacian = (hLeft + hRight + hDown + hUp) - 4.0 * hCenter;
+            // Diagonal corner neighbors for isotropic wave dispersion (eliminates grid artifacts)
+            float hTL = texture2D(uCurrentWater, uv + vec2(-uTexelSize.x, uTexelSize.y)).r;
+            float hTR = texture2D(uCurrentWater, uv + vec2(uTexelSize.x, uTexelSize.y)).r;
+            float hBL = texture2D(uCurrentWater, uv + vec2(-uTexelSize.x, -uTexelSize.y)).r;
+            float hBR = texture2D(uCurrentWater, uv + vec2(uTexelSize.x, -uTexelSize.y)).r;
 
-            // Integrate 2D Wave & Momentum Equation with realistic viscous friction
-            float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
-            float newHeight = (hCenter + newVelocity) * uDamping;
+            // 9-point isotropic discrete Laplacian operator
+            float laplacian = 0.5 * (hL + hR + hD + hU) + 0.25 * (hTL + hTR + hBL + hBR) - 3.0 * hC;
 
-            // Aspect scale factor: prevents overly thick/giant footprint on narrow mobile screens
+            // Integrate 2D Wave & Momentum Equation with realistic viscous dissipation
+            float newVelocity = (vC + laplacian * uWaveSpeed) * uDamping;
+            float newHeight = (hC + newVelocity) * uDamping;
+
+            // Aspect scale factor: preserves uniform circular waves across all screen ratios
             float aspectScale = clamp(uAspect * 0.7 + 0.3, 0.65, 1.15);
 
-            // ── 1. BUOYANT, GENTLE HAND DRAG & INTENSIFYING AGITATION ──
+            // ── 1. BUOYANT HAND DISPLACEMENT & HYDRODYNAMIC VORTEX SHEAR ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
                 // Hand footprint radius scaled proportionally to screen aspect
-                float handRadius = 0.028 * aspectScale;
+                float handRadius = 0.026 * aspectScale;
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
-                // Agitation gently enriches the ripple intensity without digging deep pits
+                // Agitation gently enriches the ripple intensity and capillary frequency
                 float agitationBoost = 1.0 + min(uAgitation * 0.35, 0.75);
                 float impulse = forceProfile * uForceStrength * agitationBoost * aspectScale;
 
                 // Gentle buoyant velocity impulse
                 newVelocity -= impulse * 0.065;
 
+                // Hydrodynamic vortex shear: transverse curls along the wake flanks
+                vec2 perpDir = normalize(vec2(-uVelocity.y, uVelocity.x) + 0.0001);
+                float transverseOffset = dot(uv - uMouse, perpDir);
+                float shear = sin(transverseOffset * 100.0) * forceProfile * uForceStrength * 0.012;
+                newVelocity += shear;
+
                 // Subtle fluid micro-churning around active contact zone
                 if (uAgitation > 0.2) {
-                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.004 * forceProfile);
+                    float churn = sin(uv.x * 90.0 + uv.y * 90.0) * (uAgitation * 0.004 * forceProfile);
                     newVelocity += churn;
                 }
             }
 
-            // ── 2. CONCURRENT MULTI-SPLASH RIPPLES (SCALED PROPORTIONALLY) ──
+            // ── 2. CONCURRENT MULTI-SPLASH RIPPLES WITH CAPILLARY WAVE DISPERSION ──
             for (int i = 0; i < MAX_SPLASHES; i++) {
                 if (uSplashStrength[i] > 0.001) {
                     float clickDist = length(uv - uSplashPos[i]);
                     
-                    // Fine expanding circular wavefront ring
+                    // Fine primary expanding circular wavefront ring
                     float ringWidth = 0.013 * aspectScale;
                     float ringDist = abs(clickDist - uSplashRadius[i]);
                     float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
-                    float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.015 * 0.015 * aspectScale * aspectScale));
+                    
+                    // Secondary harmonic capillary wave trail behind the primary crest
+                    float secRingDist = abs(clickDist - uSplashRadius[i] * 0.65);
+                    float secRingProfile = exp(-(secRingDist * secRingDist) / (2.0 * ringWidth * ringWidth * 1.5)) * 0.35;
 
-                    // Buoyant splash wave: gentle crest with soft center depression
-                    float splashWave = (ringProfile * 0.32 - centerDip * 0.12) * uSplashStrength[i] * 0.10 * aspectScale;
+                    float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.014 * 0.014 * aspectScale * aspectScale));
+
+                    // Buoyant splash wave: gentle primary crest + secondary harmonic ripple + soft center depression
+                    float splashWave = (ringProfile * 0.30 + secRingProfile * 0.12 - centerDip * 0.12) * uSplashStrength[i] * 0.10 * aspectScale;
                     newVelocity += splashWave;
                 }
             }
@@ -130,7 +149,7 @@ const SimulationShader = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. MAIN RENDER SHADER: UNIFORM SCREEN-WIDE ILLUMINATION & LIGHTER TONES ──
+// ── 2. MAIN RENDER SHADER: CRYSTAL-CLEAR LIQUID OPTICS & SCREEN-WIDE DETAIL ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
@@ -139,11 +158,11 @@ const LiquidFieldShaderMaterial = {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
-        uColorBase: { value: new THREE.Color('#222720') },   // Lighter, rich obsidian-graphite
-        uColorSlate: { value: new THREE.Color('#353C32') },  // Warm metallic slate midtone
-        uColorBrass: { value: new THREE.Color('#DFBF82') },  // Glistening champagne brass highlights
-        uColorBronze: { value: new THREE.Color('#AD8756') }, // Warm bronze secondary
-        uColorSage: { value: new THREE.Color('#9BB8A2') }    // Sage Fresnel edge accent
+        uColorBase: { value: new THREE.Color('#262D24') },   // Luminous, clear obsidian graphite
+        uColorSlate: { value: new THREE.Color('#3E4A3B') },  // Crystal metallic slate midtone
+        uColorBrass: { value: new THREE.Color('#E2C488') },  // Radiant champagne gold highlights
+        uColorBronze: { value: new THREE.Color('#B58F5E') }, // Warm bronze secondary
+        uColorSage: { value: new THREE.Color('#A2C2A9') }    // Crisp sage Fresnel edge accent
     },
     vertexShader: `
         uniform sampler2D uWaterMap;
@@ -210,9 +229,9 @@ const LiquidFieldShaderMaterial = {
         // 1. Crisp Ambient Liquid Metal Surface (Uniform multi-scale organic detail)
         float calculateAmbientSurface(vec3 pos, float time, float scroll, float aspectScale) {
             float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.018;
-            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.009;
-            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.005;
-            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.040 * scroll;
+            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.010;
+            float fineGrain = snoise(vec3(pos.x * 5.6, pos.y * 5.6, time * 0.22)) * 0.005;
+            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.038 * scroll;
 
             return (microFlow + microTexture + fineGrain + scrollConduit) * aspectScale;
         }
@@ -224,7 +243,7 @@ const LiquidFieldShaderMaterial = {
             // Aspect scaling factor for mobile proportions
             float aspectScale = clamp(uAspect * 0.7 + 0.3, 0.65, 1.0);
 
-            // Sample simulated physical water heightfield with refined, shallow amplitude
+            // Sample simulated physical water heightfield with crystal-clear amplitude
             float heightMultiplier = 0.028 * aspectScale;
             float waterHeight = texture2D(uWaterMap, uv).r * heightMultiplier;
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, aspectScale);
@@ -233,14 +252,14 @@ const LiquidFieldShaderMaterial = {
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.008 for crystalline clarity) ──
-            vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
+            // ── ULTRA-SHARP ANALYTICAL NORMALS (Tighter delta = 0.006 for crystalline clarity) ──
+            vec2 texel = vec2(1.0 / 384.0, 1.0 / 384.0);
             float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * heightMultiplier;
             float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * heightMultiplier;
             float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * heightMultiplier;
             float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * heightMultiplier;
 
-            float delta = 0.008;
+            float delta = 0.006;
             float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, aspectScale);
             float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, aspectScale);
 
@@ -251,8 +270,8 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Fluid roughness: crisp polished displaced crests (0.09) vs calm substrate (0.28)
-            vRoughness = mix(0.09, 0.28, clamp(-totalElevation * 4.0 + 0.35, 0.0, 1.0));
+            // Fluid roughness: crisp polished displaced crests (0.08) vs calm substrate (0.26)
+            vRoughness = mix(0.08, 0.26, clamp(-totalElevation * 4.0 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -276,9 +295,9 @@ const LiquidFieldShaderMaterial = {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
 
-            // Physically Plausible Fresnel for liquid metal
+            // Physically Plausible Fresnel for crystal-clear liquid metal
             float NdotV = max(dot(viewDir, normal), 0.0);
-            float fresnel = pow(1.0 - NdotV, 3.2);
+            float fresnel = pow(1.0 - NdotV, 3.4);
 
             // Directional Key Light (Warm Environmental Key)
             vec3 lightKey = normalize(vec3(0.65, 0.85, 0.9));
@@ -288,23 +307,23 @@ const LiquidFieldShaderMaterial = {
             vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.4));
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Dual-Lobe Crisp Specular Highlights (Sharp crest glints + defined metallic sheen)
+            // Dual-Lobe Crisp Specular Highlights (Ultra-sharp crest glints + radiant metallic sheen)
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(72.0, 26.0, vRoughness));
-            float specBroad = pow(max(dot(normal, halfKey), 0.0), 18.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(80.0, 32.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 20.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 28.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 30.0);
 
-            // Lighter, Richer Liquid-Metal Substrate (Uniform across left and right screen)
-            float ao = clamp(vElevation * 3.5 + 0.98, 0.82, 1.15);
-            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45 + diffKey * 0.20) * ao;
+            // Crystal-Clear Liquid-Metal Substrate (Luminous and uniform across full screen)
+            float ao = clamp(vElevation * 3.5 + 0.98, 0.85, 1.15);
+            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.50 + diffKey * 0.25) * ao;
 
             // Environmental Specular & Fresnel Reflections (100% UNIFORM SCREEN-WIDE)
             vec3 finalColor = baseAlbedo
-                            + (uColorBrass * (specSharp * 1.45 + specBroad * 0.40))
-                            + (uColorBronze * (specRim * 0.52))
-                            + (uColorSage * (fresnel * 0.30 * diffRim));
+                            + (uColorBrass * (specSharp * 1.55 + specBroad * 0.42))
+                            + (uColorBronze * (specRim * 0.55))
+                            + (uColorSage * (fresnel * 0.32 * diffRim));
 
             gl_FragColor = vec4(finalColor, 1.0);
         }
@@ -312,10 +331,8 @@ const LiquidFieldShaderMaterial = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 3. GPU WATER SIMULATOR & PING-PONG CONTROLLER ──
+// ── 3. GPU WATER SIMULATOR & PING-PONG CONTROLLER (384x384 RESOLUTION) ──
 // ══════════════════════════════════════════════════════════════════════════════
-
-const SIM_SIZE = 256
 
 function LiquidMesh({
     mouse,
@@ -335,7 +352,7 @@ function LiquidMesh({
     const prevSmoothedMouseUV = useRef(new THREE.Vector2(0.5, 0.5))
     const cumulativeAgitation = useRef(0.0)
 
-    // Ping-Pong Render Targets for 2D GPU Wave State Simulation
+    // Ping-Pong Render Targets for 2D GPU Wave State Simulation (384x384)
     const { rtA, rtB, simScene, simCamera, simMaterial } = useMemo(() => {
         const options: THREE.RenderTargetOptions = {
             minFilter: THREE.LinearFilter,
@@ -484,7 +501,7 @@ function LiquidMesh({
 
     return (
         <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.1, 0, 0]}>
-            <planeGeometry args={[planeW, planeH, 180, 130]} />
+            <planeGeometry args={[planeW, planeH, 200, 140]} />
             <primitive object={shaderData} ref={materialRef} attach="material" />
         </mesh>
     )
@@ -524,7 +541,7 @@ function SceneRig({
         <>
             <ambientLight intensity={0.65} />
             <directionalLight position={[5, 7, 5]} intensity={1.7} color="#FFF8E7" />
-            <directionalLight position={[-5, -4, 3]} intensity={0.95} color="#DFBF82" />
+            <directionalLight position={[-5, -4, 3]} intensity={0.95} color="#E2C488" />
 
             <LiquidMesh mouse={mouse} clicks={clicks} scrollProgress={scrollProgress} />
         </>

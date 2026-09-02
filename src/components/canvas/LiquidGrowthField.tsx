@@ -5,10 +5,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── V11 ARCHITECTURE: PHYSICAL WATER DISPLACEMENT + PERSISTENT MEMORY ──
+// ── V12 ARCHITECTURE: CRISP V10 OPTICS + SPATIALLY PERSISTENT FLUID MEMORY ──
 // ══════════════════════════════════════════════════════════════════════════════
 
-const DISTURBANCE_NODES = 14
+const DISTURBANCE_NODES = 20
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
@@ -17,14 +17,13 @@ const LiquidFieldShaderMaterial = {
         uNodeExtra: { value: new Array(DISTURBANCE_NODES).fill(0).map(() => new THREE.Vector3(0, 0, 1)) }, // (dirX, dirY, radius)
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
-        uColorBase: { value: new THREE.Color('#121411') },
-        uColorSlate: { value: new THREE.Color('#242823') },
+        uColorBase: { value: new THREE.Color('#10120F') },
         uColorBrass: { value: new THREE.Color('#D4B270') },
         uColorBronze: { value: new THREE.Color('#9B7545') },
         uColorSage: { value: new THREE.Color('#8FA994') }
     },
     vertexShader: `
-        #define NODE_COUNT 14
+        #define NODE_COUNT 20
 
         uniform float uTime;
         uniform vec3 uNodes[NODE_COUNT];       // (x, y, energy)
@@ -35,13 +34,11 @@ const LiquidFieldShaderMaterial = {
         varying vec2 vUv;
         varying vec3 vNormal;
         varying vec3 vPosition;
-        varying vec3 vWorldPos;
         varying float vElevation;
-        varying float vActivity;
         varying float vTextZone;
         varying float vRoughness;
 
-        // Simplex 3D noise for calm background micro-texture
+        // Simplex 3D noise for crisp resting liquid-metal structure
         vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
         vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
 
@@ -91,23 +88,20 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Calm Ambient Liquid Surface (Zero river drift, resting calm glassy sheet)
+        // 1. Crisp Ambient Liquid Metal Surface (Zero river drift, resting calm sheet with brushed relief)
         float calculateAmbientSurface(vec3 pos, float time, float scroll, float textZoneMask) {
-            // Extremely slow, non-directional organic micro-drift
-            float microFlow = snoise(vec3(pos.x * 0.25, pos.y * 0.25, time * 0.06)) * 0.018;
-            float microTexture = snoise(vec3(pos.x * 2.2, pos.y * 2.2, time * 0.14)) * 0.008;
-            
-            // Subtle scroll directional conduit (strictly active during scroll)
-            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.04 * scroll;
+            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.024;
+            float microTexture = snoise(vec3(pos.x * 2.6, pos.y * 2.6, time * 0.16)) * 0.012;
+            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.05 * scroll;
 
             float textDamping = mix(1.0, 0.35, textZoneMask);
             return (microFlow + microTexture + scrollConduit) * textDamping;
         }
 
-        // 2. Volume-Balanced Displaced Water Mass (ZERO forward lead, centered under contact)
-        float calculateDisplacedWater(vec2 pos2D, out float totalActivity) {
+        // 2. Volume-Conserving Displaced Water Patch (Zero forward lead, centered under contact)
+        // Spatially anchored to persistent temporal nodes; ZERO traveling sine waves
+        float calculateDisplacedWater(vec2 pos2D) {
             float totalDisplacement = 0.0;
-            totalActivity = 0.0;
 
             for (int i = 0; i < NODE_COUNT; i++) {
                 float energy = uNodes[i].z;
@@ -115,41 +109,33 @@ const LiquidFieldShaderMaterial = {
 
                 vec2 nodePos = uNodes[i].xy;
                 vec2 moveDir = uNodeExtra[i].xy;
-                float radius = uNodeExtra[i].z;
+                vec2 perpDir = vec2(-moveDir.y, moveDir.x);
 
                 vec2 r = pos2D - nodePos;
                 float distSq = dot(r, r);
 
                 // Ignore vertices outside the local hand-disturbance footprint (~0.85 unit radius)
-                if (distSq > 0.72) continue;
+                if (distSq > 0.75) continue;
 
-                // Decompose into longitudinal (motion axis) and transverse (cross-track) coordinates
-                vec2 perpDir = vec2(-moveDir.y, moveDir.x);
-                float s_par = dot(r, moveDir);   // along motion axis
-                float s_perp = dot(r, perpDir);  // cross-track lateral axis
+                float s_par = dot(r, moveDir);   // longitudinal axis
+                float s_perp = dot(r, perpDir);  // lateral cross-track axis
 
-                // A. Central Contact Depression / Trough (Directly beneath contact point: s_par ~ 0)
-                float troughDip = -exp(-(s_par * s_par) / 0.065 - (s_perp * s_perp) / 0.075) * 0.042;
+                // A. Central Contact Depression / Trough (Directly at contact point: s_par = 0.0)
+                float troughDip = -exp(-(s_par * s_par) / 0.075 - (s_perp * s_perp) / 0.085) * 0.048;
 
-                // B. Leading Bow Mound (Water pushed forward: peak at s_par = +0.12, NO forward lead)
-                float bowRise = exp(-((s_par - 0.12) * (s_par - 0.12)) / 0.055 - (s_perp * s_perp) / 0.14) * 0.034;
+                // B. Leading Bow Mound (Water pushed forward: peak at s_par = +0.12, zero lead beyond hand)
+                float bowRise = exp(-((s_par - 0.12) * (s_par - 0.12)) / 0.055 - (s_perp * s_perp) / 0.15) * 0.038;
 
-                // C. Lateral Shoulder Swells (Water pushed sideways around the moving hand: s_perp = ±0.26)
-                float shoulderSwell = exp(-(s_par * s_par) / 0.10 - ((abs(s_perp) - 0.26) * (abs(s_perp) - 0.26)) / 0.035) * 0.028;
+                // C. Lateral Shoulder Swells (Water pushed sideways around the moving hand: s_perp = ±0.28)
+                float shoulderSwell = exp(-(s_par * s_par) / 0.11 - ((abs(s_perp) - 0.28) * (abs(s_perp) - 0.28)) / 0.035) * 0.032;
 
-                // D. Soft Trailing Wake Memory (Residual fluid mass trailing behind: s_par < 0)
-                float trailingMass = exp(-((s_par + 0.28) * (s_par + 0.28)) / 0.12 - (s_perp * s_perp) / 0.12) * 0.022;
+                // D. Soft Trailing Wake Mass (Residual fluid mass trailing behind: s_par < 0)
+                float trailingMass = exp(-((s_par + 0.22) * (s_par + 0.22)) / 0.12 - (s_perp * s_perp) / 0.14) * 0.026;
 
-                // Net volume-balanced displacement for this temporal node
-                float nodeDisp = (troughDip + bowRise + shoulderSwell + trailingMass) * energy;
-                totalDisplacement += nodeDisp;
-
-                // Activity weight for micro-normal capillary layer in fragment shader
-                float nodeActivity = exp(-distSq / 0.35) * energy;
-                totalActivity += nodeActivity;
+                // Volume-balanced displacement for this node
+                totalDisplacement += (troughDip + bowRise + shoulderSwell + trailingMass) * energy;
             }
 
-            totalActivity = clamp(totalActivity, 0.0, 1.0);
             return totalDisplacement;
         }
 
@@ -161,25 +147,21 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Compute total fluid displacement & activity
+            // Compute total fluid displacement
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
-            float act;
-            float waterDisp = calculateDisplacedWater(pos.xy, act);
-            vActivity = act;
+            float waterDisp = calculateDisplacedWater(pos.xy);
 
             float totalElevation = baseElev + waterDisp;
             pos.z += totalElevation;
             vElevation = totalElevation;
-            vWorldPos = pos;
 
-            // Analytical Normals directly derived from the displaced heightfield
+            // High-Precision Analytical Normals directly derived from displaced surface heightfield
             float delta = 0.015;
             float eCenter = totalElevation;
-            float dummyAct;
             float eRight  = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone)
-                          + calculateDisplacedWater(pos.xy + vec2(delta, 0.0), dummyAct);
+                          + calculateDisplacedWater(pos.xy + vec2(delta, 0.0));
             float eUp     = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone)
-                          + calculateDisplacedWater(pos.xy + vec2(0.0, delta), dummyAct);
+                          + calculateDisplacedWater(pos.xy + vec2(0.0, delta));
 
             vec3 dX = vec3(delta, 0.0, eRight - eCenter);
             vec3 dY = vec3(0.0, delta, eUp - eCenter);
@@ -188,17 +170,16 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Fluid roughness: polished displaced crests (0.12) vs calm substrate (0.32)
-            vRoughness = mix(0.12, 0.32, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
+            // Fluid roughness: polished displaced crests (0.12) vs calm substrate (0.34)
+            vRoughness = mix(0.12, 0.34, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
     `,
     fragmentShader: `
-        #define NODE_COUNT 14
+        #define NODE_COUNT 20
 
         uniform vec3 uColorBase;
-        uniform vec3 uColorSlate;
         uniform vec3 uColorBrass;
         uniform vec3 uColorBronze;
         uniform vec3 uColorSage;
@@ -208,39 +189,13 @@ const LiquidFieldShaderMaterial = {
         varying vec2 vUv;
         varying vec3 vNormal;
         varying vec3 vPosition;
-        varying vec3 vWorldPos;
         varying float vElevation;
-        varying float vActivity;
         varying float vTextZone;
         varying float vRoughness;
-
-        // Procedural micro-texture noise implementation
-        float hash(vec2 p) {
-            vec3 p3 = fract(vec3(p.xyx) * 0.1031);
-            p3 += dot(p3, p3.yzx + 33.33);
-            return fract((p3.x + p3.y) * p3.z);
-        }
-
-        float noise2D(vec2 p) {
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            f = f * f * (3.0 - 2.0 * f);
-            return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), f.x),
-                       mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
-        }
 
         void main() {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
-
-            // ── MICRO-NORMAL CAPILLARY LAYER (High-frequency liquid facets on disturbed water) ──
-            if (vActivity > 0.01) {
-                vec2 microCoord = vWorldPos.xy * 16.0;
-                float microN1 = noise2D(microCoord + vec2(uTime * 0.2, 0.0));
-                float microN2 = noise2D(microCoord * 1.8 - vec2(0.0, uTime * 0.15));
-                vec2 microOffset = (vec2(microN1, microN2) - 0.5) * (0.045 * vActivity);
-                normal = normalize(normal + vec3(microOffset, 0.0));
-            }
 
             // Physically Plausible Fresnel for dark liquid metal
             float NdotV = max(dot(viewDir, normal), 0.0);
@@ -254,25 +209,25 @@ const LiquidFieldShaderMaterial = {
             vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.4));
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Dual-Lobe Crisp Specular Highlights from tilted normal reflections
+            // Dual-Lobe Specular Highlights (Crisp crest glints + broad metallic sheen)
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(56.0, 18.0, vRoughness));
-            float specBroad = pow(max(dot(normal, halfKey), 0.0), 12.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(56.0, 20.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 14.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 22.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 24.0);
 
-            // ── SOPHISTICATED LIQUID-METAL COLOR COMPOSITION (NO BINARY BLACK/GOLD) ──
-            // 1. Deep Obsidian-Graphite Base with subtle Slate midtone
-            float ao = clamp(vElevation * 4.5 + 0.96, 0.65, 1.12);
-            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45) * ao;
+            // Deep Obsidian-Graphite Base Albedo with crisp trough ambient occlusion
+            vec3 baseTone = uColorBase;
+            float ao = clamp(vElevation * 4.5 + 0.95, 0.65, 1.15);
+            baseTone *= ao;
 
-            // 2. Reflected Environmental Metallic Highlights (Brass crests, Bronze rims, Sage accents)
+            // Environmental Specular & Fresnel Reflections (NO artificial additive light)
             float textDamping = mix(1.0, 0.3, vTextZone);
-            vec3 finalColor = baseAlbedo
-                            + (uColorBrass * (specSharp * 1.2 + specBroad * 0.30) * textDamping)
-                            + (uColorBronze * (specRim * 0.45) * textDamping)
-                            + (uColorSage * (fresnel * 0.22 * diffRim) * textDamping);
+            vec3 finalColor = baseTone
+                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.35) * textDamping)
+                            + (uColorBronze * (specRim * 0.50) * textDamping)
+                            + (uColorSage * (fresnel * 0.25 * diffRim) * textDamping);
 
             // ZERO ADDITIVE CURSOR GLOW — Pure optical reflection of displaced liquid geometry
             gl_FragColor = vec4(finalColor, 1.0);
@@ -281,16 +236,16 @@ const LiquidFieldShaderMaterial = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. ASPECT-AWARE LIQUID FIELD MESH WITH TEMPORAL DISTURBANCE MEMORY ──
+// ── 2. ASPECT-AWARE LIQUID FIELD MESH WITH 20-NODE SPATIAL PERSISTENCE ──
 // ══════════════════════════════════════════════════════════════════════════════
 
-interface DisturbanceNode {
+interface SpatialDisturbanceNode {
     x: number
     y: number
     dirX: number
     dirY: number
-    energy: number
-    radius: number
+    initialEnergy: number
+    birthTime: number
 }
 
 function LiquidMesh({
@@ -304,16 +259,23 @@ function LiquidMesh({
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const { viewport } = useThree()
 
-    // Fluid follower position (subtle ~40ms physical lag behind cursor)
+    // Fluid follower position (subtle ~40ms physical inertia lag behind raw cursor)
     const fluidPos = useRef({ x: 0, y: 0 })
-    const lastNodeSpawnPos = useRef({ x: 0, y: 0 })
+    const lastSpawnPos = useRef({ x: 0, y: 0 })
     const lastSpawnTime = useRef(0)
 
-    // Array of 14 persistent temporal disturbance nodes
-    const nodes = useRef<DisturbanceNode[]>(
-        new Array(DISTURBANCE_NODES).fill(0).map(() => ({ x: 0, y: 0, dirX: 0, dirY: 0, energy: 0, radius: 1.0 }))
+    // Array of 20 persistent spatial disturbance nodes
+    const nodes = useRef<SpatialDisturbanceNode[]>(
+        new Array(DISTURBANCE_NODES).fill(0).map(() => ({
+            x: 0,
+            y: 0,
+            dirX: 0,
+            dirY: 0,
+            initialEnergy: 0,
+            birthTime: 0
+        }))
     )
-    const activeIndex = useRef(0)
+    const activeSlot = useRef(0)
 
     const shaderData = useMemo(() => {
         return new THREE.ShaderMaterial({
@@ -340,64 +302,59 @@ function LiquidMesh({
         const targetWorldX = mouse.current.x * (4.2 * viewport.aspect)
         const targetWorldY = mouse.current.y * 3.0
 
-        // Subtle time-normalized follower (lag is tiny: ~40ms)
+        // Smooth physical follower (very subtle lag: ~40ms)
         const followAlpha = 1.0 - Math.exp(-18.0 * dt)
         fluidPos.current.x += (targetWorldX - fluidPos.current.x) * followAlpha
         fluidPos.current.y += (targetWorldY - fluidPos.current.y) * followAlpha
 
-        // Compute movement vector and speed of the fluid follower
-        const dx = fluidPos.current.x - lastNodeSpawnPos.current.x
-        const dy = fluidPos.current.y - lastNodeSpawnPos.current.y
+        // Compute movement delta since last disturbance node spawn
+        const dx = fluidPos.current.x - lastSpawnPos.current.x
+        const dy = fluidPos.current.y - lastSpawnPos.current.y
         const distMoved = Math.hypot(dx, dy)
         const timeSinceSpawn = now - lastSpawnTime.current
 
-        // Continuous local energy injection: spawn or refresh node if moved or if swirling in place
-        if (distMoved > 0.06 || (distMoved > 0.02 && timeSinceSpawn > 0.07)) {
+        // Continuous local energy injection: spawn new node along path or refresh if swirling in place
+        if (distMoved > 0.10 || (distMoved > 0.03 && timeSinceSpawn > 0.08)) {
             const dirX = dx / (distMoved + 0.0001)
             const dirY = dy / (distMoved + 0.0001)
-            const speedEnergy = Math.min(distMoved * 5.5, 1.0)
+            const speedEnergy = Math.min(distMoved * 4.5, 1.0)
 
             // Spawn into next ring-buffer slot (Old nodes stay permanently in their world position!)
-            const slot = activeIndex.current % DISTURBANCE_NODES
+            const slot = activeSlot.current % DISTURBANCE_NODES
             nodes.current[slot] = {
                 x: fluidPos.current.x,
                 y: fluidPos.current.y,
                 dirX,
                 dirY,
-                energy: Math.max(speedEnergy, 0.35),
-                radius: 1.0
+                initialEnergy: Math.max(speedEnergy, 0.4),
+                birthTime: now
             }
 
-            activeIndex.current++
-            lastNodeSpawnPos.current = { x: fluidPos.current.x, y: fluidPos.current.y }
+            activeSlot.current++
+            lastSpawnPos.current = { x: fluidPos.current.x, y: fluidPos.current.y }
             lastSpawnTime.current = now
         }
 
-        // Physical time-decay for all active nodes (~1.8s half-life to calm equilibrium)
-        // STRICTLY TIME-BASED: Moving the cursor does NOT discount older nodes!
-        const decayFactor = Math.exp(-1.4 * dt)
-        for (let i = 0; i < DISTURBANCE_NODES; i++) {
-            nodes.current[i].energy *= decayFactor
-            if (nodes.current[i].energy < 0.001) {
-                nodes.current[i].energy = 0
-            }
-        }
-
-        // Push temporal nodes array to GLSL uniforms
+        // Push temporal nodes array to GLSL uniforms with strict elapsed physical time decay
+        // (Half-life ~0.63s, total settling lifetime ~2.2s; moving cursor does NOT kill older nodes!)
         const nodesUniform = mat.uniforms.uNodes.value as THREE.Vector3[]
         const nodeExtraUniform = mat.uniforms.uNodeExtra.value as THREE.Vector3[]
 
         for (let i = 0; i < DISTURBANCE_NODES; i++) {
-            nodesUniform[i].set(
-                nodes.current[i].x,
-                nodes.current[i].y,
-                nodes.current[i].energy
-            )
-            nodeExtraUniform[i].set(
-                nodes.current[i].dirX,
-                nodes.current[i].dirY,
-                nodes.current[i].radius
-            )
+            const node = nodes.current[i]
+            if (node.initialEnergy > 0) {
+                const age = now - node.birthTime
+                const currentEnergy = node.initialEnergy * Math.exp(-1.1 * age)
+
+                if (currentEnergy > 0.001) {
+                    nodesUniform[i].set(node.x, node.y, currentEnergy)
+                    nodeExtraUniform[i].set(node.dirX, node.dirY, 1.0)
+                } else {
+                    nodesUniform[i].set(node.x, node.y, 0)
+                }
+            } else {
+                nodesUniform[i].set(0, 0, 0)
+            }
         }
 
         // Decay mouse velocity tracking
@@ -471,7 +428,7 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
             const dy = normY - mouse.current.lastY
             const currentSpeed = Math.hypot(dx, dy)
 
-            // Filtered smooth velocity injection
+            // Smooth velocity injection
             mouse.current.vx = dx * 1.5
             mouse.current.vy = dy * 1.5
             mouse.current.speed = Math.min(currentSpeed * 4.0, 0.45)

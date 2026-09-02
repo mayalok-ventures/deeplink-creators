@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 1. GPU 2D WATER SIMULATION SHADERS (MULTI-SPLASH SHALLOW WATER SOLVER) ──
+// ── 1. GPU 2D WATER SIMULATION SHADERS (ASPECT-SCALED MULTI-SPLASH SOLVER) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const MAX_SPLASHES = 6
@@ -21,6 +21,7 @@ const SimulationShader = {
         uSplashPos: { value: new Array(MAX_SPLASHES).fill(0).map(() => new THREE.Vector2(-10, -10)) },
         uSplashStrength: { value: new Array(MAX_SPLASHES).fill(0) },
         uSplashRadius: { value: new Array(MAX_SPLASHES).fill(0) },
+        uAspect: { value: 1.0 },                          // Viewport aspect ratio
         uDelta: { value: 0.016 },
         uDamping: { value: 0.985 },                       // Viscous friction / dissipation rate
         uWaveSpeed: { value: 0.34 },                      // Wave propagation speed constant
@@ -45,6 +46,7 @@ const SimulationShader = {
         uniform vec2 uSplashPos[MAX_SPLASHES];
         uniform float uSplashStrength[MAX_SPLASHES];
         uniform float uSplashRadius[MAX_SPLASHES];
+        uniform float uAspect;
         uniform float uDelta;
         uniform float uDamping;
         uniform float uWaveSpeed;
@@ -79,41 +81,44 @@ const SimulationShader = {
             float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
             float newHeight = (hCenter + newVelocity) * uDamping;
 
+            // Aspect scale factor: prevents overly thick/giant footprint on narrow mobile screens
+            float aspectScale = clamp(uAspect * 0.7 + 0.3, 0.65, 1.15);
+
             // ── 1. BUOYANT, GENTLE HAND DRAG & INTENSIFYING AGITATION ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
-                // Natural hand footprint radius
-                float handRadius = 0.030;
+                // Hand footprint radius scaled proportionally to screen aspect
+                float handRadius = 0.028 * aspectScale;
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
                 // Agitation gently enriches the ripple intensity without digging deep pits
                 float agitationBoost = 1.0 + min(uAgitation * 0.35, 0.75);
-                float impulse = forceProfile * uForceStrength * agitationBoost;
+                float impulse = forceProfile * uForceStrength * agitationBoost * aspectScale;
 
                 // Gentle buoyant velocity impulse
-                newVelocity -= impulse * 0.075;
+                newVelocity -= impulse * 0.065;
 
                 // Subtle fluid micro-churning around active contact zone
                 if (uAgitation > 0.2) {
-                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.005 * forceProfile);
+                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.004 * forceProfile);
                     newVelocity += churn;
                 }
             }
 
-            // ── 2. CONCURRENT MULTI-SPLASH RIPPLES (IMMEDIATE ON EVERY CLICK) ──
+            // ── 2. CONCURRENT MULTI-SPLASH RIPPLES (SCALED PROPORTIONALLY) ──
             for (int i = 0; i < MAX_SPLASHES; i++) {
                 if (uSplashStrength[i] > 0.001) {
                     float clickDist = length(uv - uSplashPos[i]);
                     
-                    // Crisp expanding circular wavefront ring
-                    float ringWidth = 0.015;
+                    // Fine expanding circular wavefront ring
+                    float ringWidth = 0.013 * aspectScale;
                     float ringDist = abs(clickDist - uSplashRadius[i]);
                     float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
-                    float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.018 * 0.018));
+                    float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.015 * 0.015 * aspectScale * aspectScale));
 
                     // Buoyant splash wave: gentle crest with soft center depression
-                    float splashWave = (ringProfile * 0.35 - centerDip * 0.14) * uSplashStrength[i] * 0.12;
+                    float splashWave = (ringProfile * 0.32 - centerDip * 0.12) * uSplashStrength[i] * 0.10 * aspectScale;
                     newVelocity += splashWave;
                 }
             }
@@ -202,23 +207,27 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Crisp Ambient Liquid Metal Surface (Uniform multi-scale organic detail across whole screen)
-        float calculateAmbientSurface(vec3 pos, float time, float scroll) {
-            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.020;
-            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.010;
-            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.006;
-            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.045 * scroll;
+        // 1. Crisp Ambient Liquid Metal Surface (Uniform multi-scale organic detail)
+        float calculateAmbientSurface(vec3 pos, float time, float scroll, float aspectScale) {
+            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.018;
+            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.009;
+            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.005;
+            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.040 * scroll;
 
-            return microFlow + microTexture + fineGrain + scrollConduit;
+            return (microFlow + microTexture + fineGrain + scrollConduit) * aspectScale;
         }
 
         void main() {
             vUv = uv;
             vec3 pos = position;
 
-            // Sample simulated physical water heightfield with refined, shallow amplitude (0.034)
-            float waterHeight = texture2D(uWaterMap, uv).r * 0.034;
-            float baseElev = calculateAmbientSurface(pos, uTime, uScroll);
+            // Aspect scaling factor for mobile proportions
+            float aspectScale = clamp(uAspect * 0.7 + 0.3, 0.65, 1.0);
+
+            // Sample simulated physical water heightfield with refined, shallow amplitude
+            float heightMultiplier = 0.028 * aspectScale;
+            float waterHeight = texture2D(uWaterMap, uv).r * heightMultiplier;
+            float baseElev = calculateAmbientSurface(pos, uTime, uScroll, aspectScale);
 
             float totalElevation = baseElev + waterHeight;
             pos.z += totalElevation;
@@ -226,14 +235,14 @@ const LiquidFieldShaderMaterial = {
 
             // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.008 for crystalline clarity) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
-            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.034;
-            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.034;
-            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.034;
-            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.034;
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * heightMultiplier;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * heightMultiplier;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * heightMultiplier;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * heightMultiplier;
 
             float delta = 0.008;
-            float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll);
-            float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll);
+            float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, aspectScale);
+            float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, aspectScale);
 
             vec3 dX = vec3(delta, 0.0, (ambR + hR) - (baseElev + waterHeight));
             vec3 dY = vec3(0.0, delta, (ambU + hU) - (baseElev + waterHeight));
@@ -243,7 +252,7 @@ const LiquidFieldShaderMaterial = {
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
             // Fluid roughness: crisp polished displaced crests (0.09) vs calm substrate (0.28)
-            vRoughness = mix(0.09, 0.28, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
+            vRoughness = mix(0.09, 0.28, clamp(-totalElevation * 4.0 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -288,7 +297,7 @@ const LiquidFieldShaderMaterial = {
             float specRim = pow(max(dot(normal, halfRim), 0.0), 28.0);
 
             // Lighter, Richer Liquid-Metal Substrate (Uniform across left and right screen)
-            float ao = clamp(vElevation * 3.0 + 0.98, 0.82, 1.15);
+            float ao = clamp(vElevation * 3.5 + 0.98, 0.82, 1.15);
             vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45 + diffKey * 0.20) * ao;
 
             // Environmental Specular & Fresnel Reflections (100% UNIFORM SCREEN-WIDE)
@@ -399,7 +408,7 @@ function LiquidMesh({
         const mouseDelta = new THREE.Vector2().subVectors(smoothedMouseUV.current, prevSmoothedMouseUV.current)
         const speed = mouseDelta.length()
         // Calibrated force scaling for natural shallow water
-        const instantaneousForce = Math.min(speed * 10.0, 0.36)
+        const instantaneousForce = Math.min(speed * 10.0, 0.35)
 
         // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = RICHER RIPPLES & LONGER SETTLING) ──
         if (speed > 0.0005) {
@@ -448,6 +457,7 @@ function LiquidMesh({
         simMaterial.uniforms.uVelocity.value.copy(mouseDelta)
         simMaterial.uniforms.uForceStrength.value = instantaneousForce
         simMaterial.uniforms.uAgitation.value = cumulativeAgitation.current
+        simMaterial.uniforms.uAspect.value = viewport.aspect
         simMaterial.uniforms.uDamping.value = dynamicDamping
         simMaterial.uniforms.uDelta.value = dt
 
@@ -481,7 +491,7 @@ function LiquidMesh({
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 4. CAMERA & SCENE RIG (CAMERA DISTANCE Z = 3.95) ──
+// ── 4. CAMERA & SCENE RIG (RESPONSIVE ASPECT-AWARE DISTANCE) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 function SceneRig({
@@ -493,10 +503,16 @@ function SceneRig({
     clicks: React.MutableRefObject<Array<{ x: number; y: number; time: number; strength: number; radius: number }>>
     scrollProgress: number
 }) {
+    const { viewport } = useThree()
+
     useFrame((state) => {
-        const targetCamX = mouse.current.x * 0.16
-        const targetCamY = mouse.current.y * 0.10 - scrollProgress * 0.4
-        const targetCamZ = 3.95 - scrollProgress * 0.5
+        const isMobile = viewport.aspect < 1.0
+        // Aspect-aware camera distance: pull back smoothly on portrait/mobile screens to scale down water ripples
+        const baseZ = isMobile ? 3.95 + (1.0 - Math.min(viewport.aspect, 1.0)) * 2.2 : 3.95
+
+        const targetCamX = mouse.current.x * (isMobile ? 0.08 : 0.16)
+        const targetCamY = mouse.current.y * (isMobile ? 0.06 : 0.10) - scrollProgress * 0.4
+        const targetCamZ = baseZ - scrollProgress * 0.5
 
         state.camera.position.x += (targetCamX - state.camera.position.x) * 0.06
         state.camera.position.y += (targetCamY - state.camera.position.y) * 0.06

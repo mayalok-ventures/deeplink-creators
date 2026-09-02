@@ -24,46 +24,46 @@ export default function CreatorNetworkSection() {
         {
             id: 'b2b-tech',
             tag: '01 / B2B & TECHNOLOGY',
-            title: 'Software, SaaS & Developer Tools',
-            profile: 'Founders, CTOs, Tech Leads & Enterprise Operators',
+            title: 'Software, SaaS & Tech Operators',
+            profile: 'Founders, CTOs, Operators & Technical Decision Makers',
             impact: 'Educational product teardowns, architectural walk-throughs, and targeted peer adoption.',
-            channelOrigin: 'Enterprise Brand Source',
-            hub: 'Tech Authority Hub (3 Nodes)',
-            audience: 'Verified B2B Decision Makers',
-            topologyDesc: 'Concentrated executive channels with high-velocity deal routing.'
+            channelOrigin: 'Product / SaaS Source',
+            hub: 'Tech & Founder Creator Network',
+            audience: 'B2B Commercial Buyers',
+            topologyDesc: 'Direct distribution through respected operators and founders.'
         },
         {
             id: 'industrial',
             tag: '02 / INDUSTRIAL & MANUFACTURING',
-            title: 'Commercial Equipment & Engineering',
-            profile: 'Plant Managers, Procurement Heads, Machinery Buyers',
-            impact: 'Operational field reviews, factory demonstration showcases, and qualified commercial RFQs.',
+            title: 'Commercial Machinery & Engineering',
+            profile: 'Plant Managers, Operations Heads, Procurement Teams',
+            impact: 'Operational field reviews, factory demonstration showcases, and qualified commercial inquiries.',
             channelOrigin: 'Manufacturer / OEM',
-            hub: 'Industrial Authority Creators',
-            audience: 'Commercial Procurement Leads',
-            topologyDesc: 'Wide centralized engineering spans with strong distribution paths.'
+            hub: 'Industrial & Trade Creators',
+            audience: 'Commercial Buyers & Specifiers',
+            topologyDesc: 'Targeted reach across manufacturing and commercial trade networks.'
         },
         {
             id: 'regional',
             tag: '03 / REGIONAL CORRIDORS',
             title: 'Delhi NCR & High-Growth Metros',
-            profile: 'Regional Business Owners, Distributors & High-Net-Worth Consumers',
+            profile: 'Regional Business Owners, Distributors & Commercial Buyers',
             impact: 'Localized community trust, regional brand footprint, and geo-targeted commercial inquiries.',
-            channelOrigin: 'Regional Enterprise',
-            hub: 'Local Metro Creator Hubs',
+            channelOrigin: 'Regional Business',
+            hub: 'Regional & Local Metro Creators',
             audience: 'Regional Commercial Buyers',
-            topologyDesc: 'Dense localized metro clusters with shorter, highly interconnected paths.'
+            topologyDesc: 'High-density localized reach across Delhi NCR and key metro corridors.'
         },
         {
             id: 'high-ticket',
             tag: '04 / HIGH-TICKET SERVICES',
-            title: 'Consulting, Real Estate & Premium Education',
-            profile: 'Senior Executives, Institutional Buyers, High-Intent Students',
+            title: 'Consulting, Real Estate & Advisory',
+            profile: 'Business Owners, Executives & High-Intent Clients',
             impact: 'Long-form thought leadership, deep-dive problem breakdowns, and advisory pipeline conversion.',
             channelOrigin: 'Service Firm',
             hub: 'Domain Expert Creators',
-            audience: 'High-Intent Pipeline',
-            topologyDesc: 'Selective high-value advisory routing conduits.'
+            audience: 'High-Intent Clients',
+            topologyDesc: 'Authority-driven channels delivering qualified consultative pipeline.'
         }
     ]
 
@@ -74,23 +74,23 @@ export default function CreatorNetworkSection() {
             {/* Section Header */}
             <div className="max-w-3xl mb-16 sm:mb-20">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
-                    DISTRIBUTION INFRASTRUCTURE // CAUSAL NETWORK PROPAGATION
+                    MANAGED CREATOR DISTRIBUTION // OWNED ACQUISITION CHANNEL
                 </span>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.06] mb-5">
-                    Distribution is{' '}
-                    <span className="text-brass-gradient">changing.</span>
+                    Creator distribution as an{' '}
+                    <span className="text-brass-gradient">owned acquisition channel.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    One message propagated through curated creator hubs reaches verified commercial buyers with organic authority, bypassing algorithmic ad fatigue.
+                    Traditional paid ads face rising acquisition costs, creative fatigue, and algorithm volatility. DeepLink builds and manages curated creator networks that distribute your message directly to targeted local and niche audiences.
                 </p>
             </div>
 
-            {/* Static Clean Architectural Network Grid (Zero 3D WebGL Animations) */}
+            {/* Static Clean Architectural Network Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
                 {/* Left: Clean Architectural Pathway Map (lg:col-span-7) */}
                 <div className="lg:col-span-7 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
                     <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono">
-                        <span className="text-[#D4B270] font-bold">PROPAGATION CONDUIT BLUEPRINT</span>
+                        <span className="text-[#D4B270] font-bold">AUDIENCE REACH &amp; ACQUISITION CHANNEL</span>
                         <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded-lg">DIRECT ACCESS</span>
                     </div>
 
@@ -99,17 +99,17 @@ export default function CreatorNetworkSection() {
                         <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
                             <span className="text-[10px] font-mono uppercase text-[#D4B270] block">01 SOURCE</span>
                             <p className="text-sm font-bold text-white font-heading">{active.channelOrigin}</p>
-                            <p className="text-[11px] text-[#AAA99F] font-mono">Primary Signal</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Primary Offer</p>
                         </div>
                         <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
-                            <span className="text-[10px] font-mono uppercase text-[#8FA994] block">02 HUBS</span>
+                            <span className="text-[10px] font-mono uppercase text-[#8FA994] block">02 NETWORK</span>
                             <p className="text-sm font-bold text-white font-heading">{active.hub}</p>
-                            <p className="text-[11px] text-[#AAA99F] font-mono">Syndication Nodes</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Distribution Nodes</p>
                         </div>
                         <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
-                            <span className="text-[10px] font-mono uppercase text-[#D4B270] block">03 TARGET</span>
+                            <span className="text-[10px] font-mono uppercase text-[#D4B270] block">03 AUDIENCE</span>
                             <p className="text-sm font-bold text-white font-heading">{active.audience}</p>
-                            <p className="text-[11px] text-[#AAA99F] font-mono">Verified Buyers</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Target Buyers</p>
                         </div>
                     </div>
 
@@ -123,7 +123,7 @@ export default function CreatorNetworkSection() {
                 {/* Right: Channel Selectors (lg:col-span-5) */}
                 <div className="lg:col-span-5 space-y-4">
                     <p className="text-xs font-mono uppercase tracking-wider text-[#9B7545]">
-                        DYNAMIC NETWORK TOPOLOGIES
+                        REGIONAL &amp; INDUSTRY CREATOR NETWORKS
                     </p>
 
                     <div className="space-y-2.5">
@@ -164,7 +164,7 @@ export default function CreatorNetworkSection() {
                             href="/services/social-commerce/"
                             className="tactile-btn inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#181A16] hover:bg-[#252720] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
                         >
-                            <span>Learn More About Creator Distribution</span>
+                            <span>Explore Creator Distribution Systems</span>
                             <ArrowRight size={14} className="text-[#D4B270]" />
                         </Link>
                     </div>

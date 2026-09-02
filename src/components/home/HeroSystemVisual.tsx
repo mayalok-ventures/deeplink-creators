@@ -76,7 +76,7 @@ export default function HeroSystemVisual({
                                 Sahyak CRM: Sales Pipeline Control
                             </h4>
                             <p className="text-xs text-[#AAA99F] leading-relaxed">
-                                Lead routing, pipeline stage gates, and sales team accountability built into one commercial operating system.
+                                Lead routing, pipeline qualification gates, and sales team accountability built into one operating system.
                             </p>
                         </div>
                     )}
@@ -88,14 +88,14 @@ export default function HeroSystemVisual({
                                     PILLAR 02 // CREATOR NETWORKS
                                 </span>
                                 <span className="text-[10px] font-mono text-[#8FA994] bg-[#3F5544]/20 px-2 py-0.5 rounded">
-                                    DIRECT ACCESS
+                                    ACQUISITION CHANNEL
                                 </span>
                             </div>
                             <h4 className="text-xl font-heading font-extrabold text-white">
                                 Creator-Led Market Distribution
                             </h4>
                             <p className="text-xs text-[#AAA99F] leading-relaxed">
-                                Curated creator syndication connecting enterprise products to verified local and niche buyers without algorithm dependency.
+                                Managed creator networks connecting businesses to relevant local and niche audiences as an organized distribution channel.
                             </p>
                         </div>
                     )}
@@ -122,7 +122,7 @@ export default function HeroSystemVisual({
                     <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#AAA99F]">
                         <span className="flex items-center gap-1.5">
                             <Zap size={12} className="text-[#9B7545]" />
-                            <span>Synchronous Execution</span>
+                            <span>Connected Infrastructure</span>
                         </span>
                         <span className="text-[#D4B270]">Mayalok Venture</span>
                     </div>

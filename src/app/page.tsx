@@ -38,7 +38,7 @@ const faqSchema = {
             "name": "What is Deeplink Creators?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators builds proprietary software, creator-led distribution systems, and digital growth infrastructure for businesses ready to scale."
+                "text": "Deeplink Creators builds proprietary sales software (Sahyak CRM), managed creator distribution networks, and digital growth systems connected into one commercial operating system."
             }
         },
         {
@@ -54,7 +54,7 @@ const faqSchema = {
             "name": "What is Sahyak CRM and how is it deployed?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Sahyak CRM (sahyak.com) is Deeplink Creators' flagship B2B sales pipeline software, providing lead routing, pipeline stage gates, and sales team accountability. Qualifying client engagements include complimentary 30-day access."
+                "text": "Sahyak CRM (sahyak.com) is Deeplink Creators' proprietary sales operating system, providing multi-channel lead capture, stage-gate qualification, rep routing, and sales team accountability. Qualifying client engagements include access."
             }
         },
         {
@@ -62,7 +62,7 @@ const faqSchema = {
             "name": "How does creator-led distribution work?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Deeplink Creators builds curated networks of creators that help businesses reach targeted local and niche audiences, reducing reliance on volatile paid ad algorithms."
+                "text": "Deeplink Creators builds and manages curated networks of creators that help businesses reach targeted local, regional, and industry audiences as an organized acquisition channel."
             }
         },
         {
@@ -109,7 +109,7 @@ export default function HomePage() {
                 SECTION 1 — HERO: TRUE 100vw × 100vh FULL-BLEED SPATIAL ENVIRONMENT
             ══════════════════════════════════════════════════════════════ */}
             <section className="relative w-full min-h-screen sm:min-h-[100svh] flex items-center justify-center z-10 overflow-hidden bg-[#10120F]">
-                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field (Edge-to-Edge Coverage across complete 100vw) */}
+                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field */}
                 <div className="absolute inset-0 w-full h-full pointer-events-auto z-0">
                     <LiquidGrowthField scrollProgress={scrollProgress} />
                 </div>
@@ -146,27 +146,27 @@ export default function HomePage() {
 
                             {/* Narrative Subhead */}
                             <p className="text-base sm:text-lg md:text-xl text-[#AAA99F] leading-relaxed max-w-2xl font-normal">
-                                Software, creator-led distribution, and growth systems built to help businesses create stronger commercial infrastructure.
+                                Software, creator-led distribution, and growth systems connected into one commercial operating engine.
                             </p>
 
-                            {/* Action CTA Buttons */}
+                            {/* Action CTA Buttons (Primary: Schedule Briefing, Secondary: Explore Sahyak CRM) */}
                             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                                <Link
+                                    href="/contact"
+                                    className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-semibold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
+                                >
+                                    <span>Schedule Briefing</span>
+                                    <ChevronRight size={16} className="text-white" />
+                                </Link>
                                 <a
                                     href="https://sahyak.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
+                                    className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
                                 >
                                     <span>Explore Sahyak CRM</span>
-                                    <ArrowUpRight size={16} className="text-white" />
+                                    <ArrowUpRight size={16} className="text-[#D4B270]" />
                                 </a>
-                                <Link
-                                    href="/contact"
-                                    className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
-                                >
-                                    <span>Schedule Briefing</span>
-                                    <ChevronRight size={16} className="text-[#AAA99F]" />
-                                </Link>
                             </div>
 
                             {/* Location Coordinate */}
@@ -331,7 +331,7 @@ export default function HomePage() {
                             href="/contact"
                             className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#9B7545] via-[#B88E56] to-[#9B7545] text-white font-heading font-bold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px] w-full sm:w-auto"
                         >
-                            <span>Schedule Enterprise Briefing</span>
+                            <span>Schedule Briefing</span>
                             <ArrowRight size={16} />
                         </Link>
                         <a

@@ -65,7 +65,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <p className="text-xs sm:text-sm text-[#AAA99F] leading-relaxed max-w-sm">
-                            An AI-first enterprise software holding and venture studio operating under Mayalok Venture. Based in Greater Noida and serving the Delhi NCR capital corridor.
+                            DeepLink Creators builds operating software, creator distribution networks, and growth systems within the broader Mayalok Venture vision. Based in Greater Noida, Delhi NCR.
                         </p>
                         <div className="space-y-2 pt-2 text-xs text-[#AAA99F]">
                             <div className="flex items-start gap-2.5">
@@ -127,7 +127,7 @@ const Footer = () => {
                                     href="/services/social-commerce/"
                                     className="text-[#AAA99F] hover:text-white transition-colors"
                                 >
-                                    Creator-Led Syndication
+                                    Creator-Led Distribution
                                 </Link>
                             </li>
                             <li>
@@ -135,7 +135,7 @@ const Footer = () => {
                                     href="/services/"
                                     className="text-[#D4B270] hover:underline font-mono text-[11px] block pt-1"
                                 >
-                                    View All 10 Pillars →
+                                    View All Offerings →
                                 </Link>
                             </li>
                         </ul>
@@ -174,7 +174,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link href="/about/" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    About Mayalok Holding
+                                    About DeepLink &amp; Mayalok
                                 </Link>
                             </li>
                         </ul>
@@ -223,7 +223,7 @@ const Footer = () => {
                         &copy; 2026 Mayalok Venture &amp; Deeplink Creators. All rights reserved.
                     </p>
                     <p className="text-[11px] font-mono text-[#D4B270]/80">
-                        Institutional Software &amp; Creator Distribution.
+                        Operating Software &amp; Creator Distribution Systems.
                     </p>
                 </div>
             </div>

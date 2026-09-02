@@ -27,16 +27,16 @@ export default function SahyakCrmShowcase() {
         {
             id: '01',
             name: 'Capture',
-            stageTag: 'STAGE 01 // MULTI-SOURCE INGESTION',
+            stageTag: 'STAGE 01 // MULTI-CHANNEL INGESTION',
             title: 'Unified Lead Capture & Attribution',
             description:
-                'Every inquiry from creator funnels, search ads, and organic SEO is ingested instantly with channel attribution.',
+                'Every inquiry from creator campaigns, search ads, organic SEO, and referrals is ingested instantly with channel attribution.',
             uiView: {
-                header: 'Live Ingestion Stream (Real-Time)',
+                header: 'Inbound Ingestion Stream',
                 items: [
-                    { label: 'Commercial Equipment RFP', source: 'Creator Syndication Funnel', value: '₹14,50,000', status: 'Routing' },
-                    { label: 'Industrial Automation Quote', source: 'Industrial SEO Search', value: '₹22,00,000', status: 'New Lead' },
-                    { label: 'SaaS Platform Deployment', source: 'Direct Inbound Form', value: '₹8,50,000', status: 'New Lead' }
+                    { label: 'Commercial Equipment Inquiry', source: 'Channel: Creator Distribution Network', value: 'Attributed', status: 'Ingested' },
+                    { label: 'Industrial Automation Lead', source: 'Channel: High-Intent Organic SEO', value: 'Attributed', status: 'New Lead' },
+                    { label: 'Growth Infrastructure Request', source: 'Channel: Direct Inbound Web Form', value: 'Attributed', status: 'New Lead' }
                 ]
             }
         },
@@ -44,47 +44,47 @@ export default function SahyakCrmShowcase() {
             id: '02',
             name: 'Qualify',
             stageTag: 'STAGE 02 // STAGE GATE GOVERNANCE',
-            title: 'Enforced Pipeline Verification Gates',
+            title: 'Enforced Pipeline Qualification Gates',
             description:
-                'Reps cannot advance deals on speculation. Mandatory verification of budget, timeline, and decision-maker access.',
+                'Reps cannot advance deals on speculation. Mandatory verification of commercial budget, implementation timeline, and decision-maker access.',
             uiView: {
                 header: 'Stage Gate Verification Matrix',
                 items: [
-                    { label: 'Authority Verification', source: 'Decision Maker Confirmed: MD & VP', value: 'Verified', status: 'Passed' },
-                    { label: 'Commercial Budget Check', source: '₹15L - ₹30L Bracket Confirmed', value: 'Verified', status: 'Passed' },
-                    { label: 'Rollout Timeline', source: 'Target Deployment: Q4 Implementation', value: 'Confirmed', status: 'Passed' }
+                    { label: 'Decision-Maker Access', source: 'Confirmed: MD & Commercial Head', value: 'Verified', status: 'Gate Passed' },
+                    { label: 'Commercial Budget Scope', source: 'Verified Project Allocation', value: 'Verified', status: 'Gate Passed' },
+                    { label: 'Rollout Timeline', source: 'Target Deployment: Q4 Implementation', value: 'Confirmed', status: 'Gate Passed' }
                 ]
             }
         },
         {
             id: '03',
             name: 'Assign',
-            stageTag: 'STAGE 03 // INTELLIGENT ROUTING',
-            title: 'Rules-Based Rep & Account Routing',
+            stageTag: 'STAGE 03 // RULES-BASED ROUTING',
+            title: 'Automatic Rep & Account Allocation',
             description:
-                'Automatic lead distribution based on deal value, geography, and rep bandwidth ensures sub-15m first response.',
+                'Automatic lead distribution based on deal category, territory, and rep bandwidth ensures rapid first response.',
             uiView: {
                 header: 'Rep Routing & Capacity Engine',
                 items: [
-                    { label: 'Account Exec A (Enterprise)', source: '3 Active Deals (Capacity: 75%)', value: 'Assigned', status: 'Active' },
-                    { label: 'Account Exec B (Industrial)', source: '2 Active Deals (Capacity: 50%)', value: 'Next in Queue', status: 'Routing' },
-                    { label: 'Account Exec C (Regional)', source: '4 Active Deals (Capacity: 80%)', value: 'Balanced', status: 'Standby' }
+                    { label: 'Account Executive A (B2B)', source: '3 Active Deals (Capacity: 75%)', value: 'Assigned', status: 'Active' },
+                    { label: 'Account Executive B (Industrial)', source: '2 Active Deals (Capacity: 50%)', value: 'Next in Queue', status: 'Routing' },
+                    { label: 'Account Executive C (Regional)', source: '4 Active Deals (Capacity: 80%)', value: 'Balanced', status: 'Standby' }
                 ]
             }
         },
         {
             id: '04',
             name: 'Follow Up',
-            stageTag: 'STAGE 04 // ACTIVITY TELEMETRY',
-            title: 'Activity Cadence & Timeline Audit',
+            stageTag: 'STAGE 04 // ACTIVITY AUDIT',
+            title: 'Activity Cadence & Timeline Telemetry',
             description:
-                'Full audit trail of calls, demos, and follow-ups. Zero deals slip through cracks with automated cadence reminders.',
+                'Full audit trail of calls, demos, and follow-ups. Automated cadence reminders ensure zero deals stall or slip through cracks.',
             uiView: {
-                header: 'Executive Activity Timeline',
+                header: 'Rep Activity Timeline',
                 items: [
-                    { label: 'Executive Discovery Call', source: 'Completed by Kunal • 28m duration', value: 'Positive Intent', status: 'Logged' },
-                    { label: 'Commercial Proposal Sent', source: 'Sent to CFO • Scheduled Follow-up', value: 'Tomorrow 11 AM', status: 'Pending' },
-                    { label: 'Technical Architecture Review', source: 'Completed with VP Engineering', value: 'Approved', status: 'Logged' }
+                    { label: 'Discovery Briefing Call', source: 'Completed by Rep • Positive Commercial Intent', value: 'Logged', status: 'Active' },
+                    { label: 'Commercial Scope Proposal', source: 'Sent to Stakeholders • Follow-up Set', value: 'Tomorrow 11 AM', status: 'Pending' },
+                    { label: 'Technical Architecture Review', source: 'Completed with Technical Lead', value: 'Approved', status: 'Logged' }
                 ]
             }
         },
@@ -94,13 +94,13 @@ export default function SahyakCrmShowcase() {
             stageTag: 'STAGE 05 // REVENUE PIPELINE',
             title: 'Pipeline Velocity & Deal Closing',
             description:
-                'Real-time visibility into deal velocity and closed-won revenue without compiling manual spreadsheets.',
+                'Real-time visibility into deal velocity and closed revenue without compiling manual spreadsheets.',
             uiView: {
                 header: 'Closed-Won Revenue Kanban',
                 items: [
-                    { label: 'Master Services Agreement Signed', source: 'Industrial Distribution Hub', value: '₹32,50,000', status: 'Won' },
-                    { label: 'Enterprise Platform Contract', source: 'SaaS Platform Deployment', value: '₹18,50,000', status: 'Closing' },
-                    { label: 'Annual Growth Infrastructure', source: 'Commercial Proposal Accepted', value: '₹14,00,000', status: 'Won' }
+                    { label: 'Master Services Agreement', source: 'Distribution Partnership', value: 'Contract Signed', status: 'Closed-Won' },
+                    { label: 'Software Deployment Contract', source: 'Sahyak Sales Suite Integration', value: 'Final Review', status: 'Closing' },
+                    { label: 'Annual Growth Infrastructure', source: 'Demand & Distribution System', value: 'Proposal Accepted', status: 'Closed-Won' }
                 ]
             }
         }
@@ -117,14 +117,14 @@ export default function SahyakCrmShowcase() {
                 {/* Section Header */}
                 <div className="max-w-3xl mb-20">
                     <span className="text-xs font-mono font-bold tracking-widest text-[#D4B270] uppercase block mb-3">
-                        THE PRODUCT MOMENT // SAHYAK CRM
+                        THE POST-ACQUISITION LAYER // SAHYAK CRM
                     </span>
                     <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-white tracking-tight leading-[1.06] mb-5">
-                        A CRM built around the way{' '}
-                        <span className="text-[#D4B270]">sales actually happen.</span>
+                        What happens after{' '}
+                        <span className="text-[#D4B270]">demand is created?</span>
                     </h2>
                     <p className="text-base sm:text-lg text-[#AAA99F] leading-relaxed max-w-2xl font-normal">
-                        Sahyak brings leads, pipelines, follow-ups, accountability and sales visibility into one operating system.
+                        Demand generation only creates value when leads convert into revenue. Sahyak provides the sales operating infrastructure to capture, qualify, route, follow up, and close deals with complete visibility.
                     </p>
                 </div>
 
@@ -206,8 +206,8 @@ export default function SahyakCrmShowcase() {
                                         {current.uiView.header}
                                     </h4>
                                 </div>
-                                <span className="text-xs font-mono text-[#3F5544] bg-[#3F5544]/20 border border-[#3F5544]/40 px-2.5 py-1 rounded-lg">
-                                    ACTIVE PIPELINE
+                                <span className="text-xs font-mono text-[#8FA994] bg-[#3F5544]/20 border border-[#3F5544]/40 px-2.5 py-1 rounded-lg">
+                                    OPERATIONAL WORKFLOW
                                 </span>
                             </div>
 

@@ -142,7 +142,7 @@ const Header = () => {
                                 onClick={() => setIsMenuOpen(false)}
                                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-bold text-sm tracking-wide shadow-md"
                             >
-                                <span>Schedule Enterprise Briefing</span>
+                                <span>Schedule Briefing</span>
                                 <ArrowRight size={16} className="text-[#D4B270]" />
                             </Link>
 
@@ -152,7 +152,7 @@ const Header = () => {
                                 rel="noopener noreferrer"
                                 className="block text-center text-xs font-mono text-[#65675F] hover:text-[#9B7545] py-2"
                             >
-                                Holding Parent: Mayalok Venture ↗
+                                Venture Vision: Mayalok Venture ↗
                             </a>
                         </div>
                     </motion.div>

@@ -16,14 +16,14 @@ export default function ThreeSystemsSection() {
             {/* Section Narrative Header */}
             <div className="max-w-3xl mb-20">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
-                    FROM SIGNAL TO SYSTEM // THREE WAYS WE BUILD LEVERAGE
+                    THREE CONNECTED CAPABILITIES // GROWTH INFRASTRUCTURE
                 </span>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.06] mb-6">
-                    Commercial leverage requires{' '}
+                    Commercial growth requires{' '}
                     <span className="text-brass-gradient">connected infrastructure.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    When distribution, marketing, and sales software operate in silos, pipeline leaks at every handoff. We build three synchronized pillars to eliminate friction.
+                    When distribution, marketing, and sales software operate in silos, pipeline leaks at every handoff. We build three synchronized capabilities that connect demand directly to sales execution.
                 </p>
             </div>
 
@@ -46,7 +46,7 @@ export default function ThreeSystemsSection() {
                         </h3>
 
                         <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed">
-                            A sales operations suite engineered for stage-gate governance, rules-based rep routing, and absolute activity accountability across the entire deal lifecycle.
+                            A sales operations suite engineered for qualification stage gates, rules-based rep routing, and complete activity accountability across the entire deal lifecycle.
                         </p>
 
                         <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -60,30 +60,30 @@ export default function ThreeSystemsSection() {
                                 <ArrowUpRight size={14} />
                             </a>
                             <span className="text-xs font-mono text-[#D4B270]">
-                                Complimentary 30-Day Deployment Included
+                                Included with Qualifying Engagements
                             </span>
                         </div>
                     </div>
 
-                    {/* Software Modular UI Matrix */}
+                    {/* Software Modular UI Matrix (Operational States, No Fabricated Currency) */}
                     <div className="lg:col-span-6 space-y-3">
                         <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
                             <div>
-                                <p className="text-xs font-bold text-white font-heading">Enterprise Software RFP</p>
-                                <p className="text-[11px] text-[#AAA99F] font-mono">Stage: Stage Gate Approved</p>
+                                <p className="text-xs font-bold text-white font-heading">Inbound Commercial Lead</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Source: Creator Distribution • Qualification Verified</p>
                             </div>
                             <span className="text-xs font-mono font-bold text-[#D4B270] bg-[#9B7545]/20 px-3 py-1 rounded-lg border border-[#9B7545]/30">
-                                ₹18,50,000
+                                Assigned to Rep
                             </span>
                         </div>
 
                         <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
                             <div>
-                                <p className="text-xs font-bold text-white font-heading">Industrial Automation Pilot</p>
-                                <p className="text-[11px] text-[#AAA99F] font-mono">Stage: Discovery Completed</p>
+                                <p className="text-xs font-bold text-white font-heading">High-Intent Search Inquiry</p>
+                                <p className="text-[11px] text-[#AAA99F] font-mono">Source: Organic SEO • Discovery Completed</p>
                             </div>
-                            <span className="text-xs font-mono font-bold text-[#3F5544] bg-[#3F5544]/20 px-3 py-1 rounded-lg border border-[#3F5544]/30">
-                                ₹9,20,000
+                            <span className="text-xs font-mono font-bold text-[#8FA994] bg-[#3F5544]/20 px-3 py-1 rounded-lg border border-[#3F5544]/30">
+                                Follow-up Active
                             </span>
                         </div>
                     </div>
@@ -108,7 +108,7 @@ export default function ThreeSystemsSection() {
                             </h3>
 
                             <p className="text-sm text-[#65675F] leading-relaxed">
-                                Curated creator syndication connecting enterprise products to verified local and niche buyers without relying on volatile ad network algorithms.
+                                Managed creator distribution networks connecting businesses directly to targeted local and niche audiences, reducing reliance on volatile ad network algorithms.
                             </p>
                         </div>
 
@@ -138,7 +138,7 @@ export default function ThreeSystemsSection() {
                             </h3>
 
                             <p className="text-sm text-[#65675F] leading-relaxed">
-                                High-intent search acquisition, industrial SEO, conversion-focused web engineering, and AI automation synchronized directly into sales pipelines.
+                                High-intent search acquisition, SEO, conversion-focused web architecture, and automated lead routing synchronized directly into sales pipelines.
                             </p>
                         </div>
 

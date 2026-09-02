@@ -4,7 +4,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── 1. GLSL SHADER DEFINITIONS FOR ATMOSPHERIC LIQUID GROWTH FIELD ──
+// ── 1. GLSL SHADER DEFINITIONS WITH CONTROLLED CONTRAST & VISCOUS FLUID DYNAMICS ──
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
@@ -29,6 +29,7 @@ const LiquidFieldShaderMaterial = {
         varying float vElevation;
         varying float vMouseDist;
         varying float vEdgeFalloff;
+        varying float vTextZone;
 
         // Simplex 3D noise implementation
         vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
@@ -87,22 +88,28 @@ const LiquidFieldShaderMaterial = {
             // Organic edge distance falloff for seamless blending
             vec2 centeredUv = (uv - 0.5) * 2.0;
             float edgeDist = length(centeredUv);
-            vEdgeFalloff = smoothstep(1.0, 0.4, edgeDist);
+            vEdgeFalloff = smoothstep(1.0, 0.35, edgeDist);
 
-            // 1. Chaotic Macro Viscous Flow (State 01)
-            float chaosNoise = snoise(vec3(pos.x * 0.4, pos.y * 0.4, uTime * 0.2)) * 0.35;
-            float microNoise = snoise(vec3(pos.x * 1.5, pos.y * 1.5, uTime * 0.4)) * 0.1;
+            // Text Zone Mask (Left hemisphere where headline sits: pos.x < 0.2)
+            // In this zone, dampen amplitude so text remains 100% legible
+            float textZone = smoothstep(0.8, -1.8, pos.x) * smoothstep(2.2, 0.0, abs(pos.y));
+            vTextZone = textZone;
+            float activityDamping = mix(1.0, 0.45, textZone);
 
-            // 2. Continuous Scroll-Driven Organization into Stream Conduits (State 02 -> 03)
-            float organizedChannels = sin(pos.x * 3.5 + pos.y * 1.5 - uTime * 2.5) * 0.2 * uScroll;
-            float triConduit = (sin(pos.y * 4.0 - uTime * 2.0) * 0.15 + sin(pos.x * 3.0) * 0.1) * smoothstep(0.3, 0.8, uScroll);
+            // 1. Viscous Fluid Flow (Macro + Micro)
+            float chaosNoise = snoise(vec3(pos.x * 0.35, pos.y * 0.35, uTime * 0.18)) * 0.3 * activityDamping;
+            float microNoise = snoise(vec3(pos.x * 1.2, pos.y * 1.2, uTime * 0.3)) * 0.08 * activityDamping;
 
-            // 3. Physical Cursor Wake & Pressure Well
-            float distToMouse = distance(pos.xy, uMouse * vec2(4.0, 2.8));
+            // 2. Continuous Scroll-Driven Organization into 3 System Conduits
+            float organizedChannels = sin(pos.x * 3.0 + pos.y * 1.2 - uTime * 2.0) * 0.18 * uScroll;
+            float triConduit = (sin(pos.y * 3.5 - uTime * 1.8) * 0.12 + sin(pos.x * 2.5) * 0.08) * smoothstep(0.25, 0.8, uScroll);
+
+            // 3. Physical Cursor Force & Viscous Wake
+            float distToMouse = distance(pos.xy, uMouse * vec2(3.8, 2.6));
             vMouseDist = distToMouse;
 
-            float mousePressure = exp(-distToMouse * 2.0) * (0.4 + uMouseVelocity * 0.8);
-            float rippleWake = sin(distToMouse * 12.0 - uTime * 5.0) * exp(-distToMouse * 2.2) * 0.16 * (uMouseVelocity + 0.25);
+            float mousePressure = exp(-distToMouse * 2.2) * (0.35 + uMouseVelocity * 0.7);
+            float rippleWake = sin(distToMouse * 10.0 - uTime * 4.5) * exp(-distToMouse * 2.0) * 0.14 * (uMouseVelocity + 0.2);
 
             float totalElevation = (mix(chaosNoise + microNoise, organizedChannels + triConduit, uScroll * 0.8) - mousePressure + rippleWake) * vEdgeFalloff;
             pos.z += totalElevation;
@@ -110,9 +117,9 @@ const LiquidFieldShaderMaterial = {
 
             // Analytical finite-difference normal calculation
             float delta = 0.04;
-            float nX = snoise(vec3((pos.x + delta) * 0.4, pos.y * 0.4, uTime * 0.2)) - snoise(vec3((pos.x - delta) * 0.4, pos.y * 0.4, uTime * 0.2));
-            float nY = snoise(vec3(pos.x * 0.4, (pos.y + delta) * 0.4, uTime * 0.2)) - snoise(vec3(pos.x * 0.4, (pos.y - delta) * 0.4, uTime * 0.2));
-            vec3 customNormal = normalize(vec3(-nX * 2.2, -nY * 2.2, 1.0));
+            float nX = snoise(vec3((pos.x + delta) * 0.35, pos.y * 0.35, uTime * 0.18)) - snoise(vec3((pos.x - delta) * 0.35, pos.y * 0.35, uTime * 0.18));
+            float nY = snoise(vec3(pos.x * 0.35, (pos.y + delta) * 0.35, uTime * 0.18)) - snoise(vec3(pos.x * 0.35, (pos.y - delta) * 0.35, uTime * 0.18));
+            vec3 customNormal = normalize(vec3(-nX * 2.0, -nY * 2.0, 1.0));
 
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
@@ -134,75 +141,74 @@ const LiquidFieldShaderMaterial = {
         varying float vElevation;
         varying float vMouseDist;
         varying float vEdgeFalloff;
+        varying float vTextZone;
 
         void main() {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
 
-            // Physically plausible liquid metal Fresnel
+            // Physically plausible Fresnel
             float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.0);
 
             // Directional key and rim lighting
-            vec3 lightKey = normalize(vec3(0.6, 0.9, 1.0));
-            vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.5));
+            vec3 lightKey = normalize(vec3(0.6, 0.8, 1.0));
+            vec3 lightRim = normalize(vec3(-0.6, -0.5, 0.4));
 
             float diffKey = max(dot(normal, lightKey), 0.0);
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Specular reflections
+            // Specular highlights
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specKey = pow(max(dot(normal, halfKey), 0.0), 36.0);
+            float specKey = pow(max(dot(normal, halfKey), 0.0), 32.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 18.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 16.0);
 
-            // Fluid color composition with continuous organization
-            vec3 baseTone = mix(uColorBase, uColorBronze * 0.5, clamp(vElevation * 1.6 + 0.3, 0.0, 1.0));
-            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 2.4 + fresnel * 0.7, 0.0, 1.0));
-            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.35 * diffRim);
+            // Fluid Color Tones
+            vec3 baseTone = mix(uColorBase, uColorBronze * 0.4, clamp(vElevation * 1.5 + 0.3, 0.0, 1.0));
+            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 2.2 + fresnel * 0.6, 0.0, 1.0));
+            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.3 * diffRim);
 
-            // Final physical composite with specular glints
-            vec3 finalColor = sageAccent + (uColorBrass * specKey * 1.5) + (uColorBronze * specRim * 0.7);
+            // Quiet zone contrast control behind typography (vTextZone)
+            // Suppress harsh specular glints in text zone to guarantee razor-sharp headline readability
+            float specFactor = mix(1.0, 0.25, vTextZone);
+            vec3 finalColor = sageAccent + (uColorBrass * specKey * 1.3 * specFactor) + (uColorBronze * specRim * 0.6 * specFactor);
 
-            // Subsurface light around cursor
-            finalColor += uColorBrass * exp(-vMouseDist * 2.2) * 0.4;
+            // Cursor subsurface warmth
+            finalColor += uColorBrass * exp(-vMouseDist * 2.2) * 0.35;
 
-            // Organic alpha falloff at edges for seamless environmental blending
-            float alpha = smoothstep(0.0, 0.3, vEdgeFalloff) * 0.92;
+            // Organic alpha falloff at edges
+            float alpha = smoothstep(0.0, 0.28, vEdgeFalloff) * mix(0.9, 0.7, vTextZone);
 
             gl_FragColor = vec4(finalColor, alpha);
         }
     `
 }
 
-// ── 2. INTELLIGENT SIGNAL PARTICLES (Signal to System Progression) ──
-function IntelligentSignalParticles({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
-    const count = 260
+// ── 2. PHYSICALLY DERIVED PARTICLES (Derived from Fluid Velocity Field) ──
+function FluidSuspendedParticles({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
+    const count = 220
     const pointsRef = useRef<THREE.Points>(null)
 
-    const [positions, initialPositions, velocities] = useMemo(() => {
+    const [positions, velocities] = useMemo(() => {
         const pos = new Float32Array(count * 3)
-        const initPos = new Float32Array(count * 3)
         const vels = new Float32Array(count * 3)
 
         for (let i = 0; i < count; i++) {
-            const x = (Math.random() - 0.5) * 8.0
-            const y = (Math.random() - 0.5) * 5.5
-            const z = 0.08 + Math.random() * 0.18
+            // Bias particle distribution toward the right side so text zone remains clean
+            const x = -3.2 + Math.random() * 6.8
+            const y = (Math.random() - 0.5) * 5.0
+            const z = 0.06 + Math.random() * 0.14
 
             pos[i * 3] = x
             pos[i * 3 + 1] = y
             pos[i * 3 + 2] = z
 
-            initPos[i * 3] = x
-            initPos[i * 3 + 1] = y
-            initPos[i * 3 + 2] = z
-
-            vels[i * 3] = (Math.random() - 0.5) * 0.01
-            vels[i * 3 + 1] = (Math.random() - 0.5) * 0.01
+            vels[i * 3] = 0
+            vels[i * 3 + 1] = 0
             vels[i * 3 + 2] = 0
         }
-        return [pos, initPos, vels]
+        return [pos, vels]
     }, [count])
 
     useFrame((state) => {
@@ -212,7 +218,7 @@ function IntelligentSignalParticles({ mouse, scrollProgress }: { mouse: React.Mu
         const time = state.clock.getElapsedTime()
 
         const targetMouseX = mouse.current.x * 3.8
-        const targetMouseY = mouse.current.y * 2.5
+        const targetMouseY = mouse.current.y * 2.6
         const mSpeed = Math.hypot(mouse.current.vx, mouse.current.vy)
 
         for (let i = 0; i < count; i++) {
@@ -220,46 +226,51 @@ function IntelligentSignalParticles({ mouse, scrollProgress }: { mouse: React.Mu
             const px = array[idx]
             const py = array[idx + 1]
 
-            // Distance to cursor
+            // 1. Fluid Velocity Field at Particle Position (px, py)
+            // Macro fluid circulation
+            const fluidVx = Math.cos(py * 0.7 + time * 0.35) * 0.007 + (scrollProgress * 0.018)
+            const fluidVy = -Math.sin(px * 0.7 + time * 0.25) * 0.005 - (scrollProgress * 0.012)
+
+            // Particles inherit fluid velocity via viscous drag
+            velocities[idx] += (fluidVx - velocities[idx]) * 0.06
+            velocities[idx + 1] += (fluidVy - velocities[idx + 1]) * 0.06
+
+            // 2. Cursor Pressure Well & Momentum Handoff
             const dx = px - targetMouseX
             const dy = py - targetMouseY
             const dist = Math.hypot(dx, dy)
 
-            if (dist < 1.6 && mSpeed > 0.003) {
-                // "THE INTELLIGENCE MOMENT": Cursor streamlines
-                const tangentX = -mouse.current.vy * 0.09
-                const tangentY = mouse.current.vx * 0.09
-                velocities[idx] += (tangentX - velocities[idx]) * 0.16
-                velocities[idx + 1] += (tangentY - velocities[idx + 1]) * 0.16
-            } else if (scrollProgress > 0.2) {
-                // SCROLL TRANSFORMATION: Signals align into directional conduit streams
-                const conduitY = (Math.floor((i / count) * 3) - 1) * 1.4
-                const flowSpeed = 0.015 + (i % 3) * 0.008
-                velocities[idx] += flowSpeed * (1.0 + scrollProgress)
-                velocities[idx + 1] += (conduitY - py) * 0.03 * scrollProgress
+            if (dist < 1.6 && mSpeed > 0.001) {
+                // Physical displacement + wake velocity
+                const pushForce = Math.exp(-dist * 2.2) * 0.035
+                const pushX = (dx / (dist + 0.01)) * pushForce + mouse.current.vx * 0.07
+                const pushY = (dy / (dist + 0.01)) * pushForce + mouse.current.vy * 0.07
 
-                // Wrap around X boundary
-                if (array[idx] > 4.2) {
-                    array[idx] = -4.2
-                }
-            } else {
-                // Organic viscous wandering around anchor position
-                const origX = initialPositions[idx]
-                const origY = initialPositions[idx + 1]
-                const wanderX = Math.sin(time * 0.7 + i) * 0.25
-                const wanderY = Math.cos(time * 0.5 + i * 0.5) * 0.25
-
-                velocities[idx] += ((origX + wanderX) - px) * 0.035
-                velocities[idx + 1] += ((origY + wanderY) - py) * 0.035
+                velocities[idx] += pushX
+                velocities[idx + 1] += pushY
             }
 
-            // Damping & integration
+            // 3. Scroll Organization into 3 System Conduits
+            if (scrollProgress > 0.25) {
+                const conduitY = (Math.floor((i / count) * 3) - 1) * 1.3
+                velocities[idx + 1] += (conduitY - py) * 0.025 * scrollProgress
+                velocities[idx] += 0.012 * scrollProgress
+            }
+
+            // 4. Physical Viscous Damping (Inertia + Drag)
             velocities[idx] *= 0.93
             velocities[idx + 1] *= 0.93
 
+            // Integrate position
             array[idx] += velocities[idx]
             array[idx + 1] += velocities[idx + 1]
-            array[idx + 2] = 0.1 + Math.sin(time * 2.0 + px * 2.0) * 0.07
+            array[idx + 2] = 0.08 + Math.sin(time * 1.8 + px * 1.5) * 0.05
+
+            // Boundary wrapping
+            if (array[idx] > 4.2) array[idx] = -3.8
+            if (array[idx] < -3.8) array[idx] = 4.2
+            if (array[idx + 1] > 2.8) array[idx + 1] = -2.8
+            if (array[idx + 1] < -2.8) array[idx + 1] = 2.8
         }
 
         posAttr.needsUpdate = true
@@ -276,10 +287,10 @@ function IntelligentSignalParticles({ mouse, scrollProgress }: { mouse: React.Mu
                 />
             </bufferGeometry>
             <pointsMaterial
-                size={0.05}
+                size={0.045}
                 color="#D4B270"
                 transparent
-                opacity={0.88}
+                opacity={0.8}
                 sizeAttenuation
                 depthWrite={false}
                 blending={THREE.AdditiveBlending}
@@ -311,16 +322,16 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
         mat.uniforms.uScroll.value = scrollProgress
 
         // Smooth mouse uniform interpolation
-        mat.uniforms.uMouse.value.x += (mouse.current.x - mat.uniforms.uMouse.value.x) * 0.1
-        mat.uniforms.uMouse.value.y += (mouse.current.y - mat.uniforms.uMouse.value.y) * 0.1
+        mat.uniforms.uMouse.value.x += (mouse.current.x - mat.uniforms.uMouse.value.x) * 0.08
+        mat.uniforms.uMouse.value.y += (mouse.current.y - mat.uniforms.uMouse.value.y) * 0.08
 
         // Mouse velocity decay
-        const speed = Math.hypot(mouse.current.vx, mouse.current.vy) * 22.0
-        mat.uniforms.uMouseVelocity.value += (speed - mat.uniforms.uMouseVelocity.value) * 0.1
+        const speed = Math.hypot(mouse.current.vx, mouse.current.vy) * 20.0
+        mat.uniforms.uMouseVelocity.value += (speed - mat.uniforms.uMouseVelocity.value) * 0.08
     })
 
     return (
-        <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.15, 0, 0]}>
+        <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.12, 0, 0]}>
             <planeGeometry args={[8.4, 5.8, 160, 120]} />
             <primitive object={shaderData} ref={materialRef} attach="material" />
         </mesh>
@@ -331,24 +342,24 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
 function SceneRig({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     useFrame((state) => {
         // Continuous camera inertia linked to mouse & scroll progress
-        const targetCamX = mouse.current.x * 0.4
-        const targetCamY = mouse.current.y * 0.3 - scrollProgress * 0.5
-        const targetCamZ = 3.6 - scrollProgress * 0.6
+        const targetCamX = mouse.current.x * 0.35
+        const targetCamY = mouse.current.y * 0.25 - scrollProgress * 0.45
+        const targetCamZ = 3.6 - scrollProgress * 0.5
 
         state.camera.position.x += (targetCamX - state.camera.position.x) * 0.05
         state.camera.position.y += (targetCamY - state.camera.position.y) * 0.05
         state.camera.position.z += (targetCamZ - state.camera.position.z) * 0.05
-        state.camera.lookAt(0, -scrollProgress * 0.3, 0)
+        state.camera.lookAt(0, -scrollProgress * 0.25, 0)
     })
 
     return (
         <>
             <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 7, 5]} intensity={1.6} color="#FFF8E7" />
-            <directionalLight position={[-5, -4, 3]} intensity={0.9} color="#D4B270" />
+            <directionalLight position={[5, 7, 5]} intensity={1.5} color="#FFF8E7" />
+            <directionalLight position={[-5, -4, 3]} intensity={0.8} color="#D4B270" />
 
             <LiquidMesh mouse={mouse} scrollProgress={scrollProgress} />
-            <IntelligentSignalParticles mouse={mouse} scrollProgress={scrollProgress} />
+            <FluidSuspendedParticles mouse={mouse} scrollProgress={scrollProgress} />
         </>
     )
 }

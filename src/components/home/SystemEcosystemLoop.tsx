@@ -23,23 +23,23 @@ export default function SystemEcosystemLoop() {
     const convergenceSteps = [
         {
             num: '01',
-            title: 'Distribution Creates Attention',
-            sub: 'Curated Creator Channels',
-            desc: 'Targeted creator syndication introduces enterprise products to verified buyer niches without total reliance on paid ad algorithms.',
+            title: 'Multiple Acquisition Streams Enter',
+            sub: 'SEO • Creators • Ads • Content',
+            desc: 'Diverse commercial acquisition channels feed steady high-intent signals into a centralized system without single-channel vulnerability.',
             icon: Network
         },
         {
             num: '02',
-            title: 'Growth Captures & Converts Demand',
-            sub: 'Search, Social & Conversion UX',
-            desc: 'High-intent search capture, technical SEO, and conversion-engineered landing assets turn audience attention into qualified inquiries.',
+            title: 'Central Growth Engine Orchestrates',
+            sub: 'Conversion UX & Automated Routing',
+            desc: 'Inbound attention is captured, qualified through high-trust web architecture, and automatically routed with zero pipeline leakage.',
             icon: TrendingUp
         },
         {
             num: '03',
-            title: 'Sahyak Operationalizes Revenue',
-            sub: 'Sales Pipeline & Accountability',
-            desc: 'Inquiries route automatically into Sahyak CRM for stage-gate qualification, team follow-ups, and predictable deal closing.',
+            title: 'Sahyak Produces Compounding Revenue',
+            sub: 'Sales Pipeline & Deal Velocity',
+            desc: 'Stage-gate sales execution converts inquiries into closed revenue, generating customer insights that feed back into acquisition.',
             icon: Cpu
         }
     ]
@@ -56,22 +56,22 @@ export default function SystemEcosystemLoop() {
                     <span className="text-brass-gradient">Multiple growth levers.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    When distribution, marketing, and sales software operate in isolation, pipeline leaks at every handoff. DeepLink Creators connects all three into a single continuous feedback loop.
+                    Many inputs feed one connected growth engine. Attention, conversion, and sales execution reinforce each other in an autonomous feedback cycle.
                 </p>
             </div>
 
             {/* Central Orbital Convergence Payoff Canvas */}
             <div className="mb-12 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono text-[#AAA99F]">
-                    <span className="text-[#D4B270] font-bold">SYNCHRONOUS ORBITAL PAYOFF // THREE.JS ENGINE</span>
-                    <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">AUTONOMOUS CONVERGENCE</span>
+                    <span className="text-[#D4B270] font-bold">CONVERGENCE ENGINE // MANY INPUTS ➔ ONE SYSTEM ➔ COMPOUNDING OUTPUT</span>
+                    <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">FEEDBACK LOOP</span>
                 </div>
 
                 <CompoundingLoopCanvas activeIndex={activeNode} />
 
                 <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-[#AAA99F]">
-                    <span>Distribution Creates Attention ➔ Growth Captures Demand ➔ Sahyak Closes Deals</span>
-                    <span className="text-[#D4B270]">Autonomous Feedback Loop</span>
+                    <span>6 Input Streams (SEO, Performance, Creators, Automation, CRM, Content) ➔ Central Engine ➔ Compounding Revenue</span>
+                    <span className="text-[#D4B270]">Autonomous Feedback Cycle</span>
                 </div>
             </div>
 

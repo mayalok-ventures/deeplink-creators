@@ -23,7 +23,7 @@ const NetworkFlowCanvas = dynamic(
     {
         ssr: false,
         loading: () => (
-            <div className="w-full h-[320px] flex items-center justify-center bg-[#181A16] rounded-3xl">
+            <div className="w-full h-[340px] flex items-center justify-center bg-[#181A16] rounded-3xl">
                 <div className="w-7 h-7 rounded-full border-2 border-[#D4B270] border-t-transparent animate-spin" />
             </div>
         )
@@ -40,9 +40,10 @@ export default function CreatorNetworkSection() {
             title: 'Software, SaaS & Developer Tools',
             profile: 'Founders, CTOs, Tech Leads & Enterprise Operators',
             impact: 'Educational product teardowns, architectural walk-throughs, and targeted peer adoption.',
-            channelOrigin: 'Enterprise Brand',
-            hub: 'Curated Tech Creator Hub',
-            audience: 'Verified B2B Decision Makers'
+            channelOrigin: 'Enterprise Brand Source',
+            hub: 'Tech Authority Hub (3 Nodes)',
+            audience: 'Verified B2B Decision Makers',
+            topologyDesc: 'Concentrated executive channels with high-velocity deal routing.'
         },
         {
             id: 'industrial',
@@ -50,9 +51,10 @@ export default function CreatorNetworkSection() {
             title: 'Commercial Equipment & Engineering',
             profile: 'Plant Managers, Procurement Heads, Machinery Buyers',
             impact: 'Operational field reviews, factory demonstration showcases, and qualified commercial RFQs.',
-            channelOrigin: 'OEM / Manufacturer',
+            channelOrigin: 'Manufacturer / OEM',
             hub: 'Industrial Authority Creators',
-            audience: 'Commercial Procurement Leads'
+            audience: 'Commercial Procurement Leads',
+            topologyDesc: 'Wide centralized engineering spans with strong distribution paths.'
         },
         {
             id: 'regional',
@@ -62,7 +64,8 @@ export default function CreatorNetworkSection() {
             impact: 'Localized community trust, regional brand footprint, and geo-targeted commercial inquiries.',
             channelOrigin: 'Regional Enterprise',
             hub: 'Local Metro Creator Hubs',
-            audience: 'Regional Commercial Buyers'
+            audience: 'Regional Commercial Buyers',
+            topologyDesc: 'Dense localized metro clusters with shorter, highly interconnected paths.'
         },
         {
             id: 'high-ticket',
@@ -72,25 +75,26 @@ export default function CreatorNetworkSection() {
             impact: 'Long-form thought leadership, deep-dive problem breakdowns, and advisory pipeline conversion.',
             channelOrigin: 'Service Firm',
             hub: 'Domain Expert Creators',
-            audience: 'High-Intent Pipeline'
+            audience: 'High-Intent Pipeline',
+            topologyDesc: 'Selective high-value advisory routing conduits.'
         }
     ]
 
     const active = channels[selectedChannel]
 
     return (
-        <section className="py-20 sm:py-28 md:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+        <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
             {/* Section Header */}
             <div className="max-w-3xl mb-16 sm:mb-20">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
-                    DISTRIBUTION INFRASTRUCTURE
+                    DISTRIBUTION INFRASTRUCTURE // CAUSAL NETWORK PROPAGATION
                 </span>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.08] mb-5">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.06] mb-5">
                     Distribution is{' '}
                     <span className="text-brass-gradient">changing.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    We are building creator-led distribution networks that connect businesses with relevant local and niche audiences, bypassing ad-network fatigue.
+                    One message propagated through curated creator hubs reaches verified commercial buyers with organic authority, bypassing algorithmic ad fatigue.
                 </p>
             </div>
 
@@ -99,32 +103,32 @@ export default function CreatorNetworkSection() {
                 {/* Left: Interactive 3D WebGL Canvas Topology (lg:col-span-7) */}
                 <div className="lg:col-span-7 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-6 sm:p-8 shadow-2xl space-y-5 relative overflow-hidden">
                     <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs font-mono">
-                        <span className="text-[#D4B270] font-bold">PROCEDURAL TOPOLOGY // WEBGL BEZIER CONDUITS</span>
-                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded-lg">LIVE FLOW</span>
+                        <span className="text-[#D4B270] font-bold">CAUSAL PROPAGATION TOPOLOGY</span>
+                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded-lg">ORIGIN ➔ HUBS ➔ AUDIENCE</span>
                     </div>
 
                     {/* R3F WebGL Flow Canvas */}
                     <div className="rounded-2xl overflow-hidden bg-[#121310] border border-white/10 relative">
                         <NetworkFlowCanvas activeIndex={selectedChannel} />
-                        
-                        <div className="absolute top-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono text-[#AAA99F]">
-                            <span>ORIGIN: {active.channelOrigin}</span>
+
+                        <div className="absolute top-3 left-4 right-4 flex flex-wrap items-center justify-between text-[10px] font-mono text-[#AAA99F] gap-2">
+                            <span>SOURCE: {active.channelOrigin}</span>
                             <span className="text-[#D4B270]">HUB: {active.hub}</span>
-                            <span className="text-[#8FA994]">AUDIENCE: {active.audience}</span>
+                            <span className="text-[#8FA994]">TARGET: {active.audience}</span>
                         </div>
                     </div>
 
-                    {/* Impact Summary */}
-                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-xs text-[#AAA99F] leading-relaxed">
-                        <span className="text-[#D4B270] font-mono font-bold block mb-1">AUDIENCE IMPACT:</span>
-                        {active.impact}
+                    {/* Dynamic Topology Blueprint Note */}
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-xs text-[#AAA99F] leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono">
+                        <span className="text-[#D4B270]">{active.topologyDesc}</span>
+                        <span className="text-[#8FA994]">{active.impact}</span>
                     </div>
                 </div>
 
                 {/* Right: Channel Selectors (lg:col-span-5) */}
                 <div className="lg:col-span-5 space-y-4">
                     <p className="text-xs font-mono uppercase tracking-wider text-[#9B7545]">
-                        EXPLORE NICHE VERTICALS
+                        DYNAMIC NETWORK TOPOLOGIES
                     </p>
 
                     <div className="space-y-2.5">

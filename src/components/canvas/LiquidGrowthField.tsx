@@ -10,14 +10,18 @@ import * as THREE from 'three'
 
 const SimulationShader = {
     uniforms: {
-        uCurrentWater: { value: null },      // Texture from previous frame: R=Height, G=Velocity
-        uMouse: { value: new THREE.Vector2(-10, -10) },     // Normalized cursor [0, 1]
-        uPrevMouse: { value: new THREE.Vector2(-10, -10) }, // Previous normalized cursor
-        uVelocity: { value: new THREE.Vector2(0, 0) },      // Cursor velocity vector
-        uForceStrength: { value: 0.0 },                     // Force magnitude
+        uCurrentWater: { value: null },                    // Texture from previous frame: R=Height, G=Velocity
+        uMouse: { value: new THREE.Vector2(-10, -10) },   // Smoothed cursor UV [0, 1]
+        uPrevMouse: { value: new THREE.Vector2(-10, -10) },// Previous smoothed cursor UV
+        uVelocity: { value: new THREE.Vector2(0, 0) },    // Cursor velocity vector
+        uForceStrength: { value: 0.0 },                   // Instantaneous force magnitude
+        uAgitation: { value: 0.0 },                       // Cumulative agitation / churn energy
+        uClickPos: { value: new THREE.Vector2(-10, -10) },// Click splash epicenter UV
+        uClickStrength: { value: 0.0 },                   // Click splash impulse strength
+        uClickRadius: { value: 0.0 },                     // Expanding splash radius
         uDelta: { value: 0.016 },
-        uDamping: { value: 0.984 },                         // Viscous dissipation rate
-        uWaveSpeed: { value: 0.38 },                        // Wave propagation constant
+        uDamping: { value: 0.988 },                       // Viscous friction / dissipation rate
+        uWaveSpeed: { value: 0.36 },                      // Wave propagation speed constant
         uTexelSize: { value: new THREE.Vector2(1 / 256, 1 / 256) }
     },
     vertexShader: `
@@ -33,6 +37,10 @@ const SimulationShader = {
         uniform vec2 uPrevMouse;
         uniform vec2 uVelocity;
         uniform float uForceStrength;
+        uniform float uAgitation;
+        uniform vec2 uClickPos;
+        uniform float uClickStrength;
+        uniform float uClickRadius;
         uniform float uDelta;
         uniform float uDamping;
         uniform float uWaveSpeed;
@@ -60,25 +68,51 @@ const SimulationShader = {
             float hDown  = texture2D(uCurrentWater, uv - vec2(0.0, uTexelSize.y)).r;
             float hUp    = texture2D(uCurrentWater, uv + vec2(0.0, uTexelSize.y)).r;
 
-            // Discrete 2D Laplacian
+            // Discrete 2D Laplacian operator
             float laplacian = (hLeft + hRight + hDown + hUp) - 4.0 * hCenter;
 
-            // Integrate 2D Wave & Momentum Equation: dV/dt = c^2 * Laplacian - damping * V
+            // Integrate 2D Wave & Momentum Equation with viscous friction
             float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
             float newHeight = (hCenter + newVelocity) * uDamping;
 
-            // ── LOCAL FORCE INJECTION FROM CURSOR MOVEMENT ──
-            // If cursor moved, inject physical impulse force along the continuous movement segment
+            // ── 1. REALISTIC CONTINUOUS DRAG & INTENSIFYING AGITATION ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
-                // Broad hand-sized footprint (radius ~0.045 in UV space)
-                float handRadius = 0.042;
+                
+                // Hand footprint width expands slightly with movement speed and agitation
+                float handRadius = 0.038 + min(uAgitation * 0.008, 0.025);
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
-                // Force creates a volume-conserving impulse (depression in center + fluid rise)
-                float impulse = forceProfile * uForceStrength;
-                newVelocity -= impulse * 0.45; // Depresses water beneath the hand
-                newHeight   -= impulse * 0.15;
+                // Cumulative agitation intensifies the local ripple amplitude and churn
+                float agitationBoost = 1.0 + uAgitation * 1.4;
+                float impulse = forceProfile * uForceStrength * agitationBoost;
+
+                // Volume-conserving displacement: central dip + lateral wake displacement
+                newVelocity -= impulse * 0.48;
+                newHeight   -= impulse * 0.16;
+
+                // Subtle fluid micro-churning around the agitated contact zone
+                if (uAgitation > 0.3) {
+                    float churn = sin(uv.x * 90.0 + uv.y * 90.0) * cos(uv.x * 60.0) * (uAgitation * 0.022 * forceProfile);
+                    newVelocity += churn;
+                }
+            }
+
+            // ── 2. SLOW-MOTION CIRCULAR SPLASH (CLICK IMPULSE) ──
+            if (uClickStrength > 0.001) {
+                float clickDist = length(uv - uClickPos);
+                
+                // Expanding circular wavefront ring
+                float ringWidth = 0.016;
+                float ringDist = abs(clickDist - uClickRadius);
+                float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
+                
+                // Central splash depression
+                float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.025 * 0.025));
+
+                float splashWave = (ringProfile * 0.75 - centerDip * 0.55) * uClickStrength;
+                newVelocity += splashWave * 0.65;
+                newHeight   += splashWave * 0.25;
             }
 
             // Write state: R = Surface Height H, G = Surface Velocity V
@@ -184,7 +218,7 @@ const LiquidFieldShaderMaterial = {
             vTextZone = textZone;
 
             // Sample simulated physical water heightfield from the 2D GPU Water State texture
-            float waterHeight = texture2D(uWaterMap, uv).r * 0.28;
+            float waterHeight = texture2D(uWaterMap, uv).r * 0.32;
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
 
             float totalElevation = baseElev + waterHeight;
@@ -193,10 +227,10 @@ const LiquidFieldShaderMaterial = {
 
             // ── HIGH-PRECISION ANALYTICAL NORMALS (Derived directly from simulated water grid) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
-            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.28;
-            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.28;
-            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.28;
-            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.28;
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.32;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.32;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.32;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.32;
 
             float delta = 0.015;
             float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
@@ -280,14 +314,21 @@ const SIM_SIZE = 256
 
 function LiquidMesh({
     mouse,
+    clicks,
     scrollProgress
 }: {
     mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number; rawNormX: number; rawNormY: number }>
+    clicks: React.MutableRefObject<Array<{ x: number; y: number; time: number; strength: number; radius: number }>>
     scrollProgress: number
 }) {
     const meshRef = useRef<THREE.Mesh>(null)
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const { gl, viewport } = useThree()
+
+    // Smooth fluid follower for silky, realistic cursor drag
+    const smoothedMouseUV = useRef(new THREE.Vector2(0.5, 0.5))
+    const prevSmoothedMouseUV = useRef(new THREE.Vector2(0.5, 0.5))
+    const cumulativeAgitation = useRef(0.0)
 
     // Ping-Pong Render Targets for 2D GPU Wave State Simulation
     const { rtA, rtB, simScene, simCamera, simMaterial } = useMemo(() => {
@@ -327,10 +368,9 @@ function LiquidMesh({
         return { rtA, rtB, simScene, simCamera, simMaterial }
     }, [gl])
 
-    // Track ping-pong buffer swap & previous mouse UV
+    // Track ping-pong buffer swap
     const currentTarget = useRef(rtA)
     const previousTarget = useRef(rtB)
-    const prevMouseUV = useRef(new THREE.Vector2(0.5, 0.5))
 
     const shaderData = useMemo(() => {
         return new THREE.ShaderMaterial({
@@ -349,23 +389,63 @@ function LiquidMesh({
         const dt = Math.min(delta, 0.05)
         const now = state.clock.getElapsedTime()
 
-        // ── 1. STEP THE 2D GPU WATER SIMULATION (OFFSCREEN PASS) ──
-        // Convert normalized mouse coordinates [-1, 1] to UV space [0, 1]
-        const mouseUV = new THREE.Vector2(
+        // ── 1. SMOOTH REALISTIC CURSOR DRAG FOLLOWER ──
+        const targetMouseUV = new THREE.Vector2(
             mouse.current.rawNormX * 0.5 + 0.5,
             mouse.current.rawNormY * 0.5 + 0.5
         )
 
-        const mouseDelta = new THREE.Vector2().subVectors(mouseUV, prevMouseUV.current)
+        // Silky smooth drag follow with slight physical inertia (~45ms lag)
+        const dragLerp = 1.0 - Math.exp(-22.0 * dt)
+        prevSmoothedMouseUV.current.copy(smoothedMouseUV.current)
+        smoothedMouseUV.current.lerp(targetMouseUV, dragLerp)
+
+        const mouseDelta = new THREE.Vector2().subVectors(smoothedMouseUV.current, prevSmoothedMouseUV.current)
         const speed = mouseDelta.length()
-        const force = Math.min(speed * 18.0, 1.0)
+        const instantaneousForce = Math.min(speed * 26.0, 1.0)
+
+        // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = STRONGER & LONGER EFFECTS) ──
+        if (speed > 0.0005) {
+            cumulativeAgitation.current = Math.min(cumulativeAgitation.current + speed * 32.0, 4.0)
+        }
+        // Viscous settling decay for cumulative churn
+        cumulativeAgitation.current *= Math.exp(-0.65 * dt)
+
+        // Friction damping adapts dynamically: energized agitated water sustains ripples longer
+        const dynamicDamping = THREE.MathUtils.lerp(0.985, 0.991, Math.min(cumulativeAgitation.current / 3.0, 1.0))
+
+        // ── 3. PROCESS CLICK SPLASH (SLOW-MOTION CIRCULAR WAVE IMPULSE) ──
+        let activeClickStrength = 0.0
+        let activeClickRadius = 0.0
+        let activeClickPos = new THREE.Vector2(-10, -10)
+
+        if (clicks.current.length > 0) {
+            const click = clicks.current[0]
+            const age = now - click.time
+            // Splash expands slowly outward (~0.28 UV units/sec) over ~2.4 seconds
+            click.radius += dt * 0.28
+            click.strength *= Math.exp(-1.3 * dt)
+
+            activeClickPos.set(click.x, click.y)
+            activeClickStrength = click.strength
+            activeClickRadius = click.radius
+
+            if (click.strength < 0.005 || click.radius > 1.2) {
+                clicks.current.shift()
+            }
+        }
 
         // Update simulation uniforms
         simMaterial.uniforms.uCurrentWater.value = currentTarget.current.texture
-        simMaterial.uniforms.uMouse.value.copy(mouseUV)
-        simMaterial.uniforms.uPrevMouse.value.copy(prevMouseUV.current)
+        simMaterial.uniforms.uMouse.value.copy(smoothedMouseUV.current)
+        simMaterial.uniforms.uPrevMouse.value.copy(prevSmoothedMouseUV.current)
         simMaterial.uniforms.uVelocity.value.copy(mouseDelta)
-        simMaterial.uniforms.uForceStrength.value = force
+        simMaterial.uniforms.uForceStrength.value = instantaneousForce
+        simMaterial.uniforms.uAgitation.value = cumulativeAgitation.current
+        simMaterial.uniforms.uClickPos.value.copy(activeClickPos)
+        simMaterial.uniforms.uClickStrength.value = activeClickStrength
+        simMaterial.uniforms.uClickRadius.value = activeClickRadius
+        simMaterial.uniforms.uDamping.value = dynamicDamping
         simMaterial.uniforms.uDelta.value = dt
 
         // Render simulation step into write target
@@ -378,10 +458,7 @@ function LiquidMesh({
         currentTarget.current = previousTarget.current
         previousTarget.current = temp
 
-        // Store previous mouse UV
-        prevMouseUV.current.copy(mouseUV)
-
-        // ── 2. RENDER MAIN CRISP SURFACE MESH WITH SIMULATED WATER TEXTURE ──
+        // ── 4. RENDER MAIN CRISP SURFACE MESH WITH SIMULATED WATER TEXTURE ──
         mat.uniforms.uWaterMap.value = currentTarget.current.texture
         mat.uniforms.uTime.value = now
         mat.uniforms.uScroll.value = scrollProgress
@@ -406,9 +483,11 @@ function LiquidMesh({
 
 function SceneRig({
     mouse,
+    clicks,
     scrollProgress
 }: {
     mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number; rawNormX: number; rawNormY: number }>
+    clicks: React.MutableRefObject<Array<{ x: number; y: number; time: number; strength: number; radius: number }>>
     scrollProgress: number
 }) {
     useFrame((state) => {
@@ -428,7 +507,7 @@ function SceneRig({
             <directionalLight position={[5, 7, 5]} intensity={1.5} color="#FFF8E7" />
             <directionalLight position={[-5, -4, 3]} intensity={0.8} color="#D4B270" />
 
-            <LiquidMesh mouse={mouse} scrollProgress={scrollProgress} />
+            <LiquidMesh mouse={mouse} clicks={clicks} scrollProgress={scrollProgress} />
         </>
     )
 }
@@ -440,6 +519,7 @@ function SceneRig({
 export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgress?: number }) {
     const [mounted, setMounted] = useState(false)
     const mouse = useRef({ x: 0, y: 0, vx: 0, vy: 0, speed: 0, rawNormX: 0, rawNormY: 0 })
+    const clicks = useRef<Array<{ x: number; y: number; time: number; strength: number; radius: number }>>([])
 
     useEffect(() => {
         setMounted(true)
@@ -462,6 +542,19 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
             mouse.current.y = normY
         }
 
+        const handlePointerDown = (e: MouseEvent) => {
+            const uvX = e.clientX / window.innerWidth
+            const uvY = 1.0 - (e.clientY / window.innerHeight)
+
+            clicks.current.push({
+                x: uvX,
+                y: uvY,
+                time: performance.now() / 1000.0,
+                strength: 1.0,
+                radius: 0.008
+            })
+        }
+
         const handleMouseLeave = () => {
             mouse.current.vx = 0
             mouse.current.vy = 0
@@ -469,9 +562,11 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
         }
 
         window.addEventListener('mousemove', handleMouseMove, { passive: true })
+        window.addEventListener('pointerdown', handlePointerDown, { passive: true })
         window.addEventListener('mouseleave', handleMouseLeave, { passive: true })
         return () => {
             window.removeEventListener('mousemove', handleMouseMove)
+            window.removeEventListener('pointerdown', handlePointerDown)
             window.removeEventListener('mouseleave', handleMouseLeave)
         }
     }, [])
@@ -479,13 +574,13 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
     if (!mounted) return null
 
     return (
-        <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 overflow-hidden">
+        <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 overflow-hidden cursor-pointer">
             <Canvas
                 camera={{ position: [0, 0, 3.6], fov: 48 }}
                 dpr={[1, 2]}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
             >
-                <SceneRig mouse={mouse} scrollProgress={scrollProgress} />
+                <SceneRig mouse={mouse} clicks={clicks} scrollProgress={scrollProgress} />
             </Canvas>
         </div>
     )

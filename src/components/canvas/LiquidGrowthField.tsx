@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 1. GPU 2D WATER SIMULATION SHADERS (PING-PONG WAVE EQUATION SOLVER) ──
+// ── 1. GPU 2D WATER SIMULATION SHADERS (CALIBRATED SHALLOW-WATER SOLVER) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const SimulationShader = {
@@ -20,8 +20,8 @@ const SimulationShader = {
         uClickStrength: { value: 0.0 },                   // Click splash impulse strength
         uClickRadius: { value: 0.0 },                     // Expanding splash radius
         uDelta: { value: 0.016 },
-        uDamping: { value: 0.988 },                       // Viscous friction / dissipation rate
-        uWaveSpeed: { value: 0.36 },                      // Wave propagation speed constant
+        uDamping: { value: 0.984 },                       // Viscous friction / dissipation rate
+        uWaveSpeed: { value: 0.32 },                      // Wave propagation speed constant
         uTexelSize: { value: new THREE.Vector2(1 / 256, 1 / 256) }
     },
     vertexShader: `
@@ -71,48 +71,44 @@ const SimulationShader = {
             // Discrete 2D Laplacian operator
             float laplacian = (hLeft + hRight + hDown + hUp) - 4.0 * hCenter;
 
-            // Integrate 2D Wave & Momentum Equation with viscous friction
+            // Integrate 2D Wave & Momentum Equation with realistic viscous friction
             float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
             float newHeight = (hCenter + newVelocity) * uDamping;
 
-            // ── 1. REALISTIC CONTINUOUS DRAG & INTENSIFYING AGITATION ──
+            // ── 1. GENTLE, NATURAL HAND DISPLACEMENT & AGITATION (NO CRATERS) ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
-                // Hand footprint width expands slightly with movement speed and agitation
-                float handRadius = 0.038 + min(uAgitation * 0.008, 0.025);
+                // Natural hand footprint radius
+                float handRadius = 0.035;
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
-                // Cumulative agitation intensifies the local ripple amplitude and churn
-                float agitationBoost = 1.0 + uAgitation * 1.4;
+                // Agitation gently enriches the ripple intensity without digging deep pits
+                float agitationBoost = 1.0 + min(uAgitation * 0.45, 0.9);
                 float impulse = forceProfile * uForceStrength * agitationBoost;
 
-                // Volume-conserving displacement: central dip + lateral wake displacement
-                newVelocity -= impulse * 0.48;
-                newHeight   -= impulse * 0.16;
+                // Gentle velocity impulse (produces smooth shallow water displacement)
+                newVelocity -= impulse * 0.12;
 
-                // Subtle fluid micro-churning around the agitated contact zone
-                if (uAgitation > 0.3) {
-                    float churn = sin(uv.x * 90.0 + uv.y * 90.0) * cos(uv.x * 60.0) * (uAgitation * 0.022 * forceProfile);
+                // Subtle fluid micro-churning around active contact zone
+                if (uAgitation > 0.25) {
+                    float churn = sin(uv.x * 70.0 + uv.y * 70.0) * (uAgitation * 0.008 * forceProfile);
                     newVelocity += churn;
                 }
             }
 
-            // ── 2. SLOW-MOTION CIRCULAR SPLASH (CLICK IMPULSE) ──
+            // ── 2. ELEGANT SLOW-MOTION CIRCULAR SPLASH (CLICK IMPULSE) ──
             if (uClickStrength > 0.001) {
                 float clickDist = length(uv - uClickPos);
                 
-                // Expanding circular wavefront ring
-                float ringWidth = 0.016;
+                // Fine circular wavefront ring
+                float ringWidth = 0.018;
                 float ringDist = abs(clickDist - uClickRadius);
                 float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
-                
-                // Central splash depression
                 float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.025 * 0.025));
 
-                float splashWave = (ringProfile * 0.75 - centerDip * 0.55) * uClickStrength;
-                newVelocity += splashWave * 0.65;
-                newHeight   += splashWave * 0.25;
+                float splashWave = (ringProfile * 0.40 - centerDip * 0.20) * uClickStrength * 0.16;
+                newVelocity += splashWave;
             }
 
             // Write state: R = Surface Height H, G = Surface Velocity V
@@ -122,7 +118,7 @@ const SimulationShader = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. MAIN RENDER SHADER: CRISP V10 OPTICS DRIVEN BY SIMULATED WATER MAP ──
+// ── 2. MAIN RENDER SHADER: CRISP V10 OPTICS WITH NATURAL PROPORTIONS ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
@@ -217,8 +213,8 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Sample simulated physical water heightfield from the 2D GPU Water State texture
-            float waterHeight = texture2D(uWaterMap, uv).r * 0.32;
+            // Sample simulated physical water heightfield with refined, realistic amplitude (0.055)
+            float waterHeight = texture2D(uWaterMap, uv).r * 0.055;
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
 
             float totalElevation = baseElev + waterHeight;
@@ -227,10 +223,10 @@ const LiquidFieldShaderMaterial = {
 
             // ── HIGH-PRECISION ANALYTICAL NORMALS (Derived directly from simulated water grid) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
-            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.32;
-            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.32;
-            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.32;
-            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.32;
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.055;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.055;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.055;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.055;
 
             float delta = 0.015;
             float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
@@ -402,29 +398,29 @@ function LiquidMesh({
 
         const mouseDelta = new THREE.Vector2().subVectors(smoothedMouseUV.current, prevSmoothedMouseUV.current)
         const speed = mouseDelta.length()
-        const instantaneousForce = Math.min(speed * 26.0, 1.0)
+        // Calibrated force scaling for natural shallow water
+        const instantaneousForce = Math.min(speed * 10.0, 0.40)
 
-        // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = STRONGER & LONGER EFFECTS) ──
+        // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = RICHER RIPPLES & LONGER SETTLING) ──
         if (speed > 0.0005) {
-            cumulativeAgitation.current = Math.min(cumulativeAgitation.current + speed * 32.0, 4.0)
+            cumulativeAgitation.current = Math.min(cumulativeAgitation.current + speed * 12.0, 2.0)
         }
         // Viscous settling decay for cumulative churn
-        cumulativeAgitation.current *= Math.exp(-0.65 * dt)
+        cumulativeAgitation.current *= Math.exp(-0.75 * dt)
 
-        // Friction damping adapts dynamically: energized agitated water sustains ripples longer
-        const dynamicDamping = THREE.MathUtils.lerp(0.985, 0.991, Math.min(cumulativeAgitation.current / 3.0, 1.0))
+        // Friction damping adapts dynamically: energized water sustains ripples naturally
+        const dynamicDamping = THREE.MathUtils.lerp(0.982, 0.988, Math.min(cumulativeAgitation.current / 2.0, 1.0))
 
-        // ── 3. PROCESS CLICK SPLASH (SLOW-MOTION CIRCULAR WAVE IMPULSE) ──
+        // ── 3. PROCESS CLICK SPLASH (ELEGANT SLOW-MOTION CIRCULAR RIPPLE) ──
         let activeClickStrength = 0.0
         let activeClickRadius = 0.0
         let activeClickPos = new THREE.Vector2(-10, -10)
 
         if (clicks.current.length > 0) {
             const click = clicks.current[0]
-            const age = now - click.time
-            // Splash expands slowly outward (~0.28 UV units/sec) over ~2.4 seconds
-            click.radius += dt * 0.28
-            click.strength *= Math.exp(-1.3 * dt)
+            // Splash expands slowly outward (~0.22 UV units/sec) over ~2.2 seconds
+            click.radius += dt * 0.22
+            click.strength *= Math.exp(-1.4 * dt)
 
             activeClickPos.set(click.x, click.y)
             activeClickStrength = click.strength
@@ -550,7 +546,7 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
                 x: uvX,
                 y: uvY,
                 time: performance.now() / 1000.0,
-                strength: 1.0,
+                strength: 0.55,
                 radius: 0.008
             })
         }

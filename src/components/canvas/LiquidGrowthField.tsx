@@ -1,10 +1,10 @@
 'use client'
 
 import { useRef, useMemo, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── 1. GLSL SHADER DEFINITIONS FOR PURE LIQUID SURFACE (ZERO PARTICLES) ──
+// ── 1. GLSL SHADER DEFINITIONS FOR MULTI-SCALE PHYSICAL LIQUID METAL ──
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
@@ -12,7 +12,8 @@ const LiquidFieldShaderMaterial = {
         uMouse: { value: new THREE.Vector2(0, 0) },
         uMouseVelocity: { value: 0 },
         uScroll: { value: 0 },
-        uColorBase: { value: new THREE.Color('#141613') },
+        uAspect: { value: 1.0 },
+        uColorBase: { value: new THREE.Color('#10120F') },
         uColorBrass: { value: new THREE.Color('#D4B270') },
         uColorBronze: { value: new THREE.Color('#9B7545') },
         uColorSage: { value: new THREE.Color('#8FA994') }
@@ -22,14 +23,15 @@ const LiquidFieldShaderMaterial = {
         uniform vec2 uMouse;
         uniform float uMouseVelocity;
         uniform float uScroll;
+        uniform float uAspect;
 
         varying vec2 vUv;
         varying vec3 vNormal;
         varying vec3 vPosition;
         varying float vElevation;
         varying float vMouseDist;
-        varying float vEdgeFalloff;
         varying float vTextZone;
+        varying float vRoughness;
 
         // Simplex 3D noise implementation
         vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
@@ -81,48 +83,66 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
+        // Multi-layered procedural surface displacement calculation
+        float calculateElevation(vec3 pos, float time, float scroll, float textZoneMask) {
+            // Layer 1: Macro Viscous Flow (Broad fluid mass & domain warping)
+            vec3 warpPos = pos + vec3(snoise(pos * 0.15 + time * 0.08) * 0.8, snoise(pos * 0.15 - time * 0.06) * 0.8, 0.0);
+            float macroNoise = snoise(vec3(warpPos.x * 0.28, warpPos.y * 0.28, time * 0.14)) * 0.38;
+
+            // Layer 2: Mid-Scale Flow Ridges & Viscous Folds
+            float midRidges = sin(warpPos.x * 1.8 + warpPos.y * 0.8 - time * 1.2 + macroNoise * 2.5) * 0.18;
+            float secondaryFlow = snoise(vec3(pos.x * 0.8, pos.y * 0.8, time * 0.22)) * 0.12;
+
+            // Layer 3: High-Frequency Micro-Texture
+            float microTexture = snoise(vec3(pos.x * 2.6, pos.y * 2.6, time * 0.4)) * 0.04;
+
+            // Scroll-Driven Stream Alignment
+            float scrollConduits = sin(pos.x * 2.8 + pos.y * 1.0 - time * 1.8) * 0.16 * scroll;
+
+            // Controlled activity damping in quiet text zone
+            float activityMultiplier = mix(1.0, 0.4, textZoneMask);
+
+            return (macroNoise + midRidges + secondaryFlow + microTexture + scrollConduits) * activityMultiplier;
+        }
+
         void main() {
             vUv = uv;
             vec3 pos = position;
 
-            // Organic edge distance falloff for seamless blending
-            vec2 centeredUv = (uv - 0.5) * 2.0;
-            float edgeDist = length(centeredUv);
-            vEdgeFalloff = smoothstep(1.0, 0.35, edgeDist);
-
-            // Text Zone Mask (Left hemisphere where headline sits: pos.x < 0.2)
-            // In this zone, dampen amplitude so text remains 100% legible
-            float textZone = smoothstep(0.8, -1.8, pos.x) * smoothstep(2.2, 0.0, abs(pos.y));
+            // Text Zone Mask (Left side where headline sits: pos.x < 0.0)
+            float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
-            float activityDamping = mix(1.0, 0.45, textZone);
 
-            // 1. Viscous Fluid Flow (Macro + Micro)
-            float chaosNoise = snoise(vec3(pos.x * 0.35, pos.y * 0.35, uTime * 0.18)) * 0.3 * activityDamping;
-            float microNoise = snoise(vec3(pos.x * 1.2, pos.y * 1.2, uTime * 0.3)) * 0.08 * activityDamping;
+            // Base Multi-Scale Surface Elevation
+            float baseElevation = calculateElevation(pos, uTime, uScroll, textZone);
 
-            // 2. Continuous Scroll-Driven Organization into 3 System Conduits
-            float organizedChannels = sin(pos.x * 3.0 + pos.y * 1.2 - uTime * 2.0) * 0.18 * uScroll;
-            float triConduit = (sin(pos.y * 3.5 - uTime * 1.8) * 0.12 + sin(pos.x * 2.5) * 0.08) * smoothstep(0.25, 0.8, uScroll);
-
-            // 3. Physical Cursor Force & Viscous Wake
-            float distToMouse = distance(pos.xy, uMouse * vec2(3.8, 2.6));
+            // Cursor Pressure Well & Wake Displacement
+            vec2 mouseWorldPos = uMouse * vec2(4.2 * uAspect, 3.0);
+            float distToMouse = distance(pos.xy, mouseWorldPos);
             vMouseDist = distToMouse;
 
-            float mousePressure = exp(-distToMouse * 2.2) * (0.35 + uMouseVelocity * 0.7);
-            float rippleWake = sin(distToMouse * 10.0 - uTime * 4.5) * exp(-distToMouse * 2.0) * 0.14 * (uMouseVelocity + 0.2);
+            float mousePressure = exp(-distToMouse * 2.0) * (0.36 + uMouseVelocity * 0.75);
+            float rippleWake = sin(distToMouse * 11.0 - uTime * 4.5) * exp(-distToMouse * 1.8) * 0.15 * (uMouseVelocity + 0.2);
 
-            float totalElevation = (mix(chaosNoise + microNoise, organizedChannels + triConduit, uScroll * 0.8) - mousePressure + rippleWake) * vEdgeFalloff;
+            float totalElevation = baseElevation - mousePressure + rippleWake;
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // Analytical finite-difference normal calculation
-            float delta = 0.04;
-            float nX = snoise(vec3((pos.x + delta) * 0.35, pos.y * 0.35, uTime * 0.18)) - snoise(vec3((pos.x - delta) * 0.35, pos.y * 0.35, uTime * 0.18));
-            float nY = snoise(vec3(pos.x * 0.35, (pos.y + delta) * 0.35, uTime * 0.18)) - snoise(vec3(pos.x * 0.35, (pos.y - delta) * 0.35, uTime * 0.18));
-            vec3 customNormal = normalize(vec3(-nX * 2.0, -nY * 2.0, 1.0));
+            // High-Precision Finite-Difference Analytical Normal Calculation
+            float delta = 0.015;
+            float eCenter = baseElevation - mousePressure + rippleWake;
+            float eRight  = calculateElevation(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
+            float eUp     = calculateElevation(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
+
+            vec3 dX = vec3(delta, 0.0, eRight - eCenter);
+            vec3 dY = vec3(0.0, delta, eUp - eCenter);
+            vec3 customNormal = normalize(cross(dX, dY));
 
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
+
+            // Procedural roughness: smooth polished crests (0.15) vs deeper soft valleys (0.65)
+            vRoughness = mix(0.18, 0.65, clamp(-totalElevation * 1.8 + 0.5, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -140,62 +160,67 @@ const LiquidFieldShaderMaterial = {
         varying vec3 vPosition;
         varying float vElevation;
         varying float vMouseDist;
-        varying float vEdgeFalloff;
         varying float vTextZone;
+        varying float vRoughness;
 
         void main() {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
 
-            // Physically plausible Fresnel
-            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.0);
+            // Physically Plausible Fresnel with view curvature
+            float NdotV = max(dot(viewDir, normal), 0.0);
+            float fresnel = pow(1.0 - NdotV, 3.2);
 
-            // Directional key and rim lighting
-            vec3 lightKey = normalize(vec3(0.6, 0.8, 1.0));
-            vec3 lightRim = normalize(vec3(-0.6, -0.5, 0.4));
-
+            // Directional Key Light (Warm Environmental Key)
+            vec3 lightKey = normalize(vec3(0.65, 0.85, 0.9));
             float diffKey = max(dot(normal, lightKey), 0.0);
+
+            // Directional Rim Light (Sage Secondary Accent)
+            vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.4));
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Specular highlights
+            // Dual-Lobe Specular Highlights (Sharp crest response + broad metallic sheen)
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specKey = pow(max(dot(normal, halfKey), 0.0), 32.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(48.0, 16.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 12.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 16.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 20.0);
 
-            // Fluid Color Tones
-            vec3 baseTone = mix(uColorBase, uColorBronze * 0.4, clamp(vElevation * 1.5 + 0.3, 0.0, 1.0));
-            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 2.2 + fresnel * 0.6, 0.0, 1.0));
-            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.3 * diffRim);
+            // Sophisticated Material Color Composition
+            // 1. Deep Obsidian-Graphite Base
+            vec3 baseTone = mix(uColorBase, uColorBronze * 0.45, clamp(vElevation * 1.6 + 0.35, 0.0, 1.0));
+            // 2. Warm Burnished Brass on Elevated Ridges & Flow Folds
+            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 2.4 + fresnel * 0.7, 0.0, 1.0));
+            // 3. Subtle Sage Subsurface Tint on Shadow Creases
+            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.32 * diffRim);
 
-            // Quiet zone contrast control behind typography (vTextZone)
-            // Suppress harsh specular glints in text zone to guarantee razor-sharp headline readability
-            float specFactor = mix(1.0, 0.25, vTextZone);
-            vec3 finalColor = sageAccent + (uColorBrass * specKey * 1.3 * specFactor) + (uColorBronze * specRim * 0.6 * specFactor);
+            // Text Zone Contrast Control (Quiet left hemisphere for razor-sharp typography)
+            float textDamping = mix(1.0, 0.3, vTextZone);
+            vec3 finalColor = sageAccent
+                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.4) * textDamping)
+                            + (uColorBronze * specRim * 0.7 * textDamping);
 
-            // Cursor subsurface warmth
-            finalColor += uColorBrass * exp(-vMouseDist * 2.2) * 0.35;
+            // Cursor interaction warmth
+            finalColor += uColorBrass * exp(-vMouseDist * 2.0) * 0.38;
 
-            // Organic alpha falloff at edges
-            float alpha = smoothstep(0.0, 0.28, vEdgeFalloff) * mix(0.9, 0.7, vTextZone);
-
-            gl_FragColor = vec4(finalColor, alpha);
+            // Full-bleed coverage: 100% solid atmospheric liquid environment (zero edge cutout)
+            gl_FragColor = vec4(finalColor, 1.0);
         }
     `
 }
 
-// ── 2. LIQUID FIELD MESH ──
+// ── 2. ASPECT-AWARE LIQUID FIELD MESH (FULL COVERAGE) ──
 function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     const meshRef = useRef<THREE.Mesh>(null)
     const materialRef = useRef<THREE.ShaderMaterial>(null)
+    const { viewport } = useThree()
 
     const shaderData = useMemo(() => {
         return new THREE.ShaderMaterial({
             uniforms: THREE.UniformsUtils.clone(LiquidFieldShaderMaterial.uniforms),
             vertexShader: LiquidFieldShaderMaterial.vertexShader,
             fragmentShader: LiquidFieldShaderMaterial.fragmentShader,
-            transparent: true,
             side: THREE.DoubleSide
         })
     }, [])
@@ -206,6 +231,7 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
 
         mat.uniforms.uTime.value = state.clock.getElapsedTime()
         mat.uniforms.uScroll.value = scrollProgress
+        mat.uniforms.uAspect.value = viewport.aspect
 
         // Smooth mouse uniform interpolation
         mat.uniforms.uMouse.value.x += (mouse.current.x - mat.uniforms.uMouse.value.x) * 0.08
@@ -216,26 +242,30 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
         mat.uniforms.uMouseVelocity.value += (speed - mat.uniforms.uMouseVelocity.value) * 0.08
     })
 
+    // Sized to overfill viewport dimensions completely (1.3x margin ensures zero visible edge clipping)
+    const planeW = viewport.width * 1.3
+    const planeH = viewport.height * 1.3
+
     return (
-        <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.12, 0, 0]}>
-            <planeGeometry args={[8.6, 6.0, 160, 120]} />
+        <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.1, 0, 0]}>
+            <planeGeometry args={[planeW, planeH, 180, 130]} />
             <primitive object={shaderData} ref={materialRef} attach="material" />
         </mesh>
     )
 }
 
-// ── 3. CAMERA & SCENE RIG (ZERO PARTICLES) ──
+// ── 3. CAMERA & SCENE RIG ──
 function SceneRig({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     useFrame((state) => {
         // Continuous camera inertia linked to mouse & scroll progress
-        const targetCamX = mouse.current.x * 0.35
-        const targetCamY = mouse.current.y * 0.25 - scrollProgress * 0.45
+        const targetCamX = mouse.current.x * 0.3
+        const targetCamY = mouse.current.y * 0.2 - scrollProgress * 0.4
         const targetCamZ = 3.6 - scrollProgress * 0.5
 
         state.camera.position.x += (targetCamX - state.camera.position.x) * 0.05
         state.camera.position.y += (targetCamY - state.camera.position.y) * 0.05
         state.camera.position.z += (targetCamZ - state.camera.position.z) * 0.05
-        state.camera.lookAt(0, -scrollProgress * 0.25, 0)
+        state.camera.lookAt(0, -scrollProgress * 0.2, 0)
     })
 
     return (
@@ -280,7 +310,7 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
             <Canvas
                 camera={{ position: [0, 0, 3.6], fov: 48 }}
                 dpr={[1, 2]}
-                gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+                gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
             >
                 <SceneRig mouse={mouse} scrollProgress={scrollProgress} />
             </Canvas>

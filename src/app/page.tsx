@@ -14,7 +14,7 @@ import {
     Zap
 } from 'lucide-react'
 
-// Dynamically import full-bleed WebGL Liquid Growth Field (Zero particles)
+// Dynamically import full-bleed WebGL Liquid Growth Field (Zero particles, edge-to-edge coverage)
 const LiquidGrowthField = dynamic(
     () => import('@/components/canvas/LiquidGrowthField'),
     { ssr: false }
@@ -106,80 +106,83 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 1 — HERO: TRUE FULL-SCREEN 100vw × 100vh SPATIAL FIELD
+                SECTION 1 — HERO: TRUE 100vw × 100vh FULL-BLEED SPATIAL ENVIRONMENT
             ══════════════════════════════════════════════════════════════ */}
-            <section className="relative w-full min-h-screen sm:min-h-[100svh] flex items-center pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 overflow-hidden">
-                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field (Zero Particles) */}
-                <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 opacity-80">
+            <section className="relative w-full min-h-screen sm:min-h-[100svh] flex items-center justify-center z-10 overflow-hidden bg-[#10120F]">
+                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field (Edge-to-Edge Coverage across complete 100vw) */}
+                <div className="absolute inset-0 w-full h-full pointer-events-auto z-0">
                     <LiquidGrowthField scrollProgress={scrollProgress} />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10 w-full pointer-events-none">
-                    {/* Hero Text Layer (lg:col-span-7) */}
-                    <div className="lg:col-span-7 space-y-7 pointer-events-auto">
-                        {/* Top Vision Tag */}
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181A16]/90 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#F3F0E8]">
-                                <span className="w-2 h-2 rounded-full bg-[#D4B270] animate-pulse" />
-                                SOFTWARE • DISTRIBUTION • GROWTH
-                            </span>
-                            <a
-                                href="https://mayalokventures.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
-                            >
-                                <span>MAYALOK VENTURE VISION</span>
-                                <ExternalLink size={11} className="text-[#9B7545]" />
-                            </a>
+                {/* Hero Centered Content Container */}
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 pointer-events-none">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
+                        {/* Hero Text Layer (lg:col-span-7) */}
+                        <div className="lg:col-span-7 space-y-7 pointer-events-auto">
+                            {/* Top Vision Tag */}
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181A16]/90 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#F3F0E8]">
+                                    <span className="w-2 h-2 rounded-full bg-[#D4B270] animate-pulse" />
+                                    SOFTWARE • DISTRIBUTION • GROWTH
+                                </span>
+                                <a
+                                    href="https://mayalokventures.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
+                                >
+                                    <span>MAYALOK VENTURE VISION</span>
+                                    <ExternalLink size={11} className="text-[#9B7545]" />
+                                </a>
+                            </div>
+
+                            {/* Display Headline Embedded in Field */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading text-[#F3F0E8] tracking-tight leading-[1.04]">
+                                We Build the Systems Behind{' '}
+                                <span className="text-brass-gradient">
+                                    Business Growth.
+                                </span>
+                            </h1>
+
+                            {/* Narrative Subhead */}
+                            <p className="text-base sm:text-lg md:text-xl text-[#AAA99F] leading-relaxed max-w-2xl font-normal">
+                                Software, creator-led distribution, and growth systems built to help businesses create stronger commercial infrastructure.
+                            </p>
+
+                            {/* Action CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                                <a
+                                    href="https://sahyak.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[48px]"
+                                >
+                                    <span>Explore Sahyak CRM</span>
+                                    <ArrowUpRight size={16} className="text-white" />
+                                </a>
+                                <Link
+                                    href="/contact"
+                                    className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
+                                >
+                                    <span>Schedule Briefing</span>
+                                    <ChevronRight size={16} className="text-[#AAA99F]" />
+                                </Link>
+                            </div>
+
+                            {/* Location Coordinate */}
+                            <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-[#AAA99F]">
+                                <Building2 size={14} className="text-[#D4B270]" />
+                                <span>Greater Noida • Delhi NCR</span>
+                            </div>
                         </div>
 
-                        {/* Display Headline Embedded in Field */}
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.04]">
-                            We Build the Systems Behind{' '}
-                            <span className="text-brass-gradient">
-                                Business Growth.
-                            </span>
-                        </h1>
-
-                        {/* Narrative Subhead */}
-                        <p className="text-base sm:text-lg md:text-xl text-[#52544D] leading-relaxed max-w-2xl font-normal">
-                            Software, creator-led distribution, and growth systems built to help businesses create stronger commercial infrastructure.
-                        </p>
-
-                        {/* Action CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                            <a
-                                href="https://sahyak.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-sm tracking-wide shadow-md hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[48px]"
-                            >
-                                <span>Explore Sahyak CRM</span>
-                                <ArrowUpRight size={16} className="text-[#D4B270]" />
-                            </a>
-                            <Link
-                                href="/contact"
-                                className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/90 backdrop-blur-md text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
-                            >
-                                <span>Schedule Briefing</span>
-                                <ChevronRight size={16} className="text-[#65675F]" />
-                            </Link>
+                        {/* Hero Editorial Anchor (lg:col-span-5) */}
+                        <div className="lg:col-span-5 relative pointer-events-auto">
+                            <HeroSystemVisual
+                                activePillar={activePillar}
+                                onPillarChange={setActivePillar}
+                            />
                         </div>
-
-                        {/* Location Coordinate */}
-                        <div className="pt-4 border-t border-[#181A16]/10 flex items-center gap-2 text-xs font-mono text-[#65675F]">
-                            <Building2 size={14} className="text-[#9B7545]" />
-                            <span>Greater Noida • Delhi NCR</span>
-                        </div>
-                    </div>
-
-                    {/* Hero Editorial Anchor (lg:col-span-5) */}
-                    <div className="lg:col-span-5 relative pointer-events-auto">
-                        <HeroSystemVisual
-                            activePillar={activePillar}
-                            onPillarChange={setActivePillar}
-                        />
                     </div>
                 </div>
             </section>

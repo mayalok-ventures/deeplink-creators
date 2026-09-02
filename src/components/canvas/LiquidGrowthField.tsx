@@ -5,8 +5,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 1. GPU 2D WATER SIMULATION SHADERS (HIGH-PRECISION SHALLOW WATER) ──
+// ── 1. GPU 2D WATER SIMULATION SHADERS (MULTI-SPLASH SHALLOW WATER SOLVER) ──
 // ══════════════════════════════════════════════════════════════════════════════
+
+const MAX_SPLASHES = 6
 
 const SimulationShader = {
     uniforms: {
@@ -16,9 +18,9 @@ const SimulationShader = {
         uVelocity: { value: new THREE.Vector2(0, 0) },    // Cursor velocity vector
         uForceStrength: { value: 0.0 },                   // Instantaneous force magnitude
         uAgitation: { value: 0.0 },                       // Cumulative agitation / churn energy
-        uClickPos: { value: new THREE.Vector2(-10, -10) },// Exact click epicenter UV
-        uClickStrength: { value: 0.0 },                   // Click splash impulse strength
-        uClickRadius: { value: 0.0 },                     // Expanding splash radius
+        uSplashPos: { value: new Array(MAX_SPLASHES).fill(0).map(() => new THREE.Vector2(-10, -10)) },
+        uSplashStrength: { value: new Array(MAX_SPLASHES).fill(0) },
+        uSplashRadius: { value: new Array(MAX_SPLASHES).fill(0) },
         uDelta: { value: 0.016 },
         uDamping: { value: 0.985 },                       // Viscous friction / dissipation rate
         uWaveSpeed: { value: 0.34 },                      // Wave propagation speed constant
@@ -32,15 +34,17 @@ const SimulationShader = {
         }
     `,
     fragmentShader: `
+        #define MAX_SPLASHES 6
+
         uniform sampler2D uCurrentWater;
         uniform vec2 uMouse;
         uniform vec2 uPrevMouse;
         uniform vec2 uVelocity;
         uniform float uForceStrength;
         uniform float uAgitation;
-        uniform vec2 uClickPos;
-        uniform float uClickStrength;
-        uniform float uClickRadius;
+        uniform vec2 uSplashPos[MAX_SPLASHES];
+        uniform float uSplashStrength[MAX_SPLASHES];
+        uniform float uSplashRadius[MAX_SPLASHES];
         uniform float uDelta;
         uniform float uDamping;
         uniform float uWaveSpeed;
@@ -75,7 +79,7 @@ const SimulationShader = {
             float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
             float newHeight = (hCenter + newVelocity) * uDamping;
 
-            // ── 1. NATURAL HAND DRAG & INTENSIFYING AGITATION ──
+            // ── 1. BUOYANT, GENTLE HAND DRAG & INTENSIFYING AGITATION ──
             if (uForceStrength > 0.001) {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
@@ -84,31 +88,34 @@ const SimulationShader = {
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
                 // Agitation gently enriches the ripple intensity without digging deep pits
-                float agitationBoost = 1.0 + min(uAgitation * 0.45, 0.9);
+                float agitationBoost = 1.0 + min(uAgitation * 0.40, 0.85);
                 float impulse = forceProfile * uForceStrength * agitationBoost;
 
-                // Gentle velocity impulse (produces smooth shallow water displacement)
-                newVelocity -= impulse * 0.12;
+                // Gentle buoyant velocity impulse
+                newVelocity -= impulse * 0.085;
 
                 // Subtle fluid micro-churning around active contact zone
                 if (uAgitation > 0.2) {
-                    float churn = sin(uv.x * 75.0 + uv.y * 75.0) * (uAgitation * 0.007 * forceProfile);
+                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.006 * forceProfile);
                     newVelocity += churn;
                 }
             }
 
-            // ── 2. IMMEDIATE ACCURATE CIRCULAR SPLASH RIPPLE ──
-            if (uClickStrength > 0.001) {
-                float clickDist = length(uv - uClickPos);
-                
-                // Crisp expanding circular wavefront ring
-                float ringWidth = 0.014;
-                float ringDist = abs(clickDist - uClickRadius);
-                float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
-                float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.020 * 0.020));
+            // ── 2. CONCURRENT MULTI-SPLASH RIPPLES (IMMEDIATE ON EVERY CLICK) ──
+            for (int i = 0; i < MAX_SPLASHES; i++) {
+                if (uSplashStrength[i] > 0.001) {
+                    float clickDist = length(uv - uSplashPos[i]);
+                    
+                    // Crisp expanding circular wavefront ring
+                    float ringWidth = 0.015;
+                    float ringDist = abs(clickDist - uSplashRadius[i]);
+                    float ringProfile = exp(-(ringDist * ringDist) / (2.0 * ringWidth * ringWidth));
+                    float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.018 * 0.018));
 
-                float splashWave = (ringProfile * 0.42 - centerDip * 0.22) * uClickStrength * 0.18;
-                newVelocity += splashWave;
+                    // Buoyant splash wave: gentle crest with soft center depression
+                    float splashWave = (ringProfile * 0.38 - centerDip * 0.16) * uSplashStrength[i] * 0.14;
+                    newVelocity += splashWave;
+                }
             }
 
             // Write state: R = Surface Height H, G = Surface Velocity V
@@ -118,7 +125,7 @@ const SimulationShader = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. MAIN RENDER SHADER: CRISP HIGH-DEFINITION LIQUID-METAL OPTICS ──
+// ── 2. MAIN RENDER SHADER: LIGHTER REFINED LIQUID-METAL OPTICS & RICH DETAIL ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
@@ -127,10 +134,11 @@ const LiquidFieldShaderMaterial = {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
-        uColorBase: { value: new THREE.Color('#10120F') },
-        uColorBrass: { value: new THREE.Color('#D4B270') },
-        uColorBronze: { value: new THREE.Color('#9B7545') },
-        uColorSage: { value: new THREE.Color('#8FA994') }
+        uColorBase: { value: new THREE.Color('#1C201A') },   // Lighter refined obsidian-charcoal
+        uColorSlate: { value: new THREE.Color('#2C3229') },  // Warm metallic slate midtone
+        uColorBrass: { value: new THREE.Color('#D8B878') },  // Glistening golden brass highlights
+        uColorBronze: { value: new THREE.Color('#A88252') }, // Warm bronze secondary
+        uColorSage: { value: new THREE.Color('#96B29C') }    // Sage Fresnel edge accent
     },
     vertexShader: `
         uniform sampler2D uWaterMap;
@@ -195,11 +203,11 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Crisp Ambient Liquid Metal Surface (Refined multi-scale detail)
+        // 1. Crisp Ambient Liquid Metal Surface (Multi-scale organic detail)
         float calculateAmbientSurface(vec3 pos, float time, float scroll, float textZoneMask) {
-            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.024;
-            float microTexture = snoise(vec3(pos.x * 2.6, pos.y * 2.6, time * 0.16)) * 0.012;
-            float fineGrain = snoise(vec3(pos.x * 4.8, pos.y * 4.8, time * 0.22)) * 0.006;
+            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.022;
+            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.012;
+            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.007;
             float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.05 * scroll;
 
             float textDamping = mix(1.0, 0.35, textZoneMask);
@@ -214,22 +222,22 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Sample simulated physical water heightfield with refined, realistic amplitude (0.055)
-            float waterHeight = texture2D(uWaterMap, uv).r * 0.055;
+            // Sample simulated physical water heightfield with refined, buoyant amplitude (0.048)
+            float waterHeight = texture2D(uWaterMap, uv).r * 0.048;
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
 
             float totalElevation = baseElev + waterHeight;
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.009 for zero blur) ──
+            // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.008 for crystalline clarity) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
-            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.055;
-            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.055;
-            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.055;
-            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.055;
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.048;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.048;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.048;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.048;
 
-            float delta = 0.009;
+            float delta = 0.008;
             float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
             float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
 
@@ -240,14 +248,15 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Fluid roughness: crisp polished displaced crests (0.10) vs calm substrate (0.30)
-            vRoughness = mix(0.10, 0.30, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
+            // Fluid roughness: crisp polished displaced crests (0.09) vs calm substrate (0.28)
+            vRoughness = mix(0.09, 0.28, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
     `,
     fragmentShader: `
         uniform vec3 uColorBase;
+        uniform vec3 uColorSlate;
         uniform vec3 uColorBrass;
         uniform vec3 uColorBronze;
         uniform vec3 uColorSage;
@@ -265,7 +274,7 @@ const LiquidFieldShaderMaterial = {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
 
-            // Physically Plausible Fresnel for dark liquid metal
+            // Physically Plausible Fresnel for liquid metal
             float NdotV = max(dot(viewDir, normal), 0.0);
             float fresnel = pow(1.0 - NdotV, 3.2);
 
@@ -279,25 +288,23 @@ const LiquidFieldShaderMaterial = {
 
             // Dual-Lobe Crisp Specular Highlights (Sharp crest glints + defined metallic sheen)
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(68.0, 24.0, vRoughness));
-            float specBroad = pow(max(dot(normal, halfKey), 0.0), 16.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(72.0, 26.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 18.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 26.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 28.0);
 
-            // Deep Obsidian-Graphite Base Albedo with crisp trough ambient occlusion
-            vec3 baseTone = uColorBase;
-            float ao = clamp(vElevation * 4.5 + 0.95, 0.65, 1.15);
-            baseTone *= ao;
+            // Lighter, Richer Liquid-Metal Substrate (NO pitch black crushing)
+            float ao = clamp(vElevation * 3.2 + 0.98, 0.80, 1.15);
+            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45 + diffKey * 0.15) * ao;
 
-            // Environmental Specular & Fresnel Reflections (NO artificial additive light)
+            // Environmental Specular & Fresnel Reflections
             float textDamping = mix(1.0, 0.3, vTextZone);
-            vec3 finalColor = baseTone
-                            + (uColorBrass * (specSharp * 1.45 + specBroad * 0.35) * textDamping)
-                            + (uColorBronze * (specRim * 0.50) * textDamping)
-                            + (uColorSage * (fresnel * 0.25 * diffRim) * textDamping);
+            vec3 finalColor = baseAlbedo
+                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.38) * textDamping)
+                            + (uColorBronze * (specRim * 0.52) * textDamping)
+                            + (uColorSage * (fresnel * 0.28 * diffRim) * textDamping);
 
-            // ZERO ADDITIVE CURSOR GLOW — Pure optical reflection of displaced liquid geometry
             gl_FragColor = vec4(finalColor, 1.0);
         }
     `
@@ -387,7 +394,6 @@ function LiquidMesh({
         const now = state.clock.getElapsedTime()
 
         // ── 1. EXACT SCREEN-TO-MESH UV PROJECTION (OVERFILL FACTOR 1.3 COMPENSATED) ──
-        // Since mesh is 1.3x viewport, screen center is UV 0.5 and screen edges map to [0.115, 0.885]
         const targetMouseUV = new THREE.Vector2(
             0.5 + (mouse.current.rawNormX * 0.5) / 1.3,
             0.5 + (mouse.current.rawNormY * 0.5) / 1.3
@@ -401,7 +407,7 @@ function LiquidMesh({
         const mouseDelta = new THREE.Vector2().subVectors(smoothedMouseUV.current, prevSmoothedMouseUV.current)
         const speed = mouseDelta.length()
         // Calibrated force scaling for natural shallow water
-        const instantaneousForce = Math.min(speed * 10.0, 0.40)
+        const instantaneousForce = Math.min(speed * 10.0, 0.38)
 
         // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = RICHER RIPPLES & LONGER SETTLING) ──
         if (speed > 0.0005) {
@@ -413,27 +419,33 @@ function LiquidMesh({
         // Friction damping adapts dynamically: energized water sustains ripples naturally
         const dynamicDamping = THREE.MathUtils.lerp(0.982, 0.988, Math.min(cumulativeAgitation.current / 2.0, 1.0))
 
-        // ── 3. PROCESS CLICK SPLASH (IMMEDIATE AT EXACT CLICK SPOT) ──
-        let activeClickStrength = 0.0
-        let activeClickRadius = 0.0
-        let activeClickPos = new THREE.Vector2(-10, -10)
+        // ── 3. PROCESS CONCURRENT MULTI-SPLASH CLICKS (IMMEDIATE ON EVERY CLICK) ──
+        const splashPosUniform = simMaterial.uniforms.uSplashPos.value as THREE.Vector2[]
+        const splashStrengthUniform = simMaterial.uniforms.uSplashStrength.value as number[]
+        const splashRadiusUniform = simMaterial.uniforms.uSplashRadius.value as number[]
 
-        if (clicks.current.length > 0) {
-            const click = clicks.current[0]
-            // Splash expands slowly outward (~0.24 UV units/sec) over ~2.0 seconds
-            click.radius += dt * 0.24
-            click.strength *= Math.exp(-1.5 * dt)
+        // Clear uniform slots initially
+        for (let i = 0; i < MAX_SPLASHES; i++) {
+            splashPosUniform[i].set(-10, -10)
+            splashStrengthUniform[i] = 0
+            splashRadiusUniform[i] = 0
+        }
 
-            // Convert screen UV [0, 1] to mesh UV [0.115, 0.885] for exact spot accuracy
-            activeClickPos.set(
-                0.5 + (click.x - 0.5) / 1.3,
-                0.5 + (click.y - 0.5) / 1.3
-            )
-            activeClickStrength = click.strength
-            activeClickRadius = click.radius
+        // Update all concurrent active splashes
+        for (let i = clicks.current.length - 1; i >= 0; i--) {
+            const click = clicks.current[i]
+            click.radius += dt * 0.26
+            click.strength *= Math.exp(-1.45 * dt)
 
             if (click.strength < 0.005 || click.radius > 1.2) {
-                clicks.current.shift()
+                clicks.current.splice(i, 1)
+            } else if (i < MAX_SPLASHES) {
+                splashPosUniform[i].set(
+                    0.5 + (click.x - 0.5) / 1.3,
+                    0.5 + (click.y - 0.5) / 1.3
+                )
+                splashStrengthUniform[i] = click.strength
+                splashRadiusUniform[i] = click.radius
             }
         }
 
@@ -444,9 +456,6 @@ function LiquidMesh({
         simMaterial.uniforms.uVelocity.value.copy(mouseDelta)
         simMaterial.uniforms.uForceStrength.value = instantaneousForce
         simMaterial.uniforms.uAgitation.value = cumulativeAgitation.current
-        simMaterial.uniforms.uClickPos.value.copy(activeClickPos)
-        simMaterial.uniforms.uClickStrength.value = activeClickStrength
-        simMaterial.uniforms.uClickRadius.value = activeClickRadius
         simMaterial.uniforms.uDamping.value = dynamicDamping
         simMaterial.uniforms.uDelta.value = dt
 
@@ -480,7 +489,7 @@ function LiquidMesh({
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 4. CAMERA & SCENE RIG (SLIGHTLY INCREASED CAMERA DISTANCE Z = 3.95) ──
+// ── 4. CAMERA & SCENE RIG (CAMERA DISTANCE Z = 3.95) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 function SceneRig({
@@ -495,7 +504,6 @@ function SceneRig({
     useFrame((state) => {
         const targetCamX = mouse.current.x * 0.16
         const targetCamY = mouse.current.y * 0.10 - scrollProgress * 0.4
-        // Slightly increased camera distance (3.95) for enhanced depth & spatial perspective
         const targetCamZ = 3.95 - scrollProgress * 0.5
 
         state.camera.position.x += (targetCamX - state.camera.position.x) * 0.06
@@ -506,9 +514,9 @@ function SceneRig({
 
     return (
         <>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 7, 5]} intensity={1.5} color="#FFF8E7" />
-            <directionalLight position={[-5, -4, 3]} intensity={0.8} color="#D4B270" />
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[5, 7, 5]} intensity={1.6} color="#FFF8E7" />
+            <directionalLight position={[-5, -4, 3]} intensity={0.9} color="#D8B878" />
 
             <LiquidMesh mouse={mouse} clicks={clicks} scrollProgress={scrollProgress} />
         </>
@@ -553,8 +561,8 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
                 x: uvX,
                 y: uvY,
                 time: performance.now() / 1000.0,
-                strength: 0.60,
-                radius: 0.002 // Instantaneous pinpoint ripple starting exactly at click point
+                strength: 0.65,
+                radius: 0.002 // Instantaneous pinpoint ripple on frame 0
             })
         }
 

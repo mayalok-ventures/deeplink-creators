@@ -5,16 +5,96 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── V12 ARCHITECTURE: CRISP V10 OPTICS + SPATIALLY PERSISTENT FLUID MEMORY ──
+// ── 1. GPU 2D WATER SIMULATION SHADERS (PING-PONG WAVE EQUATION SOLVER) ──
 // ══════════════════════════════════════════════════════════════════════════════
 
-const DISTURBANCE_NODES = 20
+const SimulationShader = {
+    uniforms: {
+        uCurrentWater: { value: null },      // Texture from previous frame: R=Height, G=Velocity
+        uMouse: { value: new THREE.Vector2(-10, -10) },     // Normalized cursor [0, 1]
+        uPrevMouse: { value: new THREE.Vector2(-10, -10) }, // Previous normalized cursor
+        uVelocity: { value: new THREE.Vector2(0, 0) },      // Cursor velocity vector
+        uForceStrength: { value: 0.0 },                     // Force magnitude
+        uDelta: { value: 0.016 },
+        uDamping: { value: 0.984 },                         // Viscous dissipation rate
+        uWaveSpeed: { value: 0.38 },                        // Wave propagation constant
+        uTexelSize: { value: new THREE.Vector2(1 / 256, 1 / 256) }
+    },
+    vertexShader: `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D uCurrentWater;
+        uniform vec2 uMouse;
+        uniform vec2 uPrevMouse;
+        uniform vec2 uVelocity;
+        uniform float uForceStrength;
+        uniform float uDelta;
+        uniform float uDamping;
+        uniform float uWaveSpeed;
+        uniform vec2 uTexelSize;
+
+        varying vec2 vUv;
+
+        // Distance from point p to line segment [a, b]
+        float distToSegment(vec2 p, vec2 a, vec2 b) {
+            vec2 pa = p - a, ba = b - a;
+            float h = clamp(dot(pa, ba) / dot(ba, ba + 0.00001), 0.0, 1.0);
+            return length(pa - ba * h);
+        }
+
+        void main() {
+            vec2 uv = vUv;
+
+            // Sample 4-neighborhood for discrete 2D Laplacian operator
+            vec4 center = texture2D(uCurrentWater, uv);
+            float hCenter = center.r;
+            float vCenter = center.g;
+
+            float hLeft  = texture2D(uCurrentWater, uv - vec2(uTexelSize.x, 0.0)).r;
+            float hRight = texture2D(uCurrentWater, uv + vec2(uTexelSize.x, 0.0)).r;
+            float hDown  = texture2D(uCurrentWater, uv - vec2(0.0, uTexelSize.y)).r;
+            float hUp    = texture2D(uCurrentWater, uv + vec2(0.0, uTexelSize.y)).r;
+
+            // Discrete 2D Laplacian
+            float laplacian = (hLeft + hRight + hDown + hUp) - 4.0 * hCenter;
+
+            // Integrate 2D Wave & Momentum Equation: dV/dt = c^2 * Laplacian - damping * V
+            float newVelocity = (vCenter + laplacian * uWaveSpeed) * uDamping;
+            float newHeight = (hCenter + newVelocity) * uDamping;
+
+            // ── LOCAL FORCE INJECTION FROM CURSOR MOVEMENT ──
+            // If cursor moved, inject physical impulse force along the continuous movement segment
+            if (uForceStrength > 0.001) {
+                float segDist = distToSegment(uv, uPrevMouse, uMouse);
+                // Broad hand-sized footprint (radius ~0.045 in UV space)
+                float handRadius = 0.042;
+                float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
+
+                // Force creates a volume-conserving impulse (depression in center + fluid rise)
+                float impulse = forceProfile * uForceStrength;
+                newVelocity -= impulse * 0.45; // Depresses water beneath the hand
+                newHeight   -= impulse * 0.15;
+            }
+
+            // Write state: R = Surface Height H, G = Surface Velocity V
+            gl_FragColor = vec4(newHeight, newVelocity, 0.0, 1.0);
+        }
+    `
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── 2. MAIN RENDER SHADER: CRISP V10 OPTICS DRIVEN BY SIMULATED WATER MAP ──
+// ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
+        uWaterMap: { value: null },           // 2D GPU Water State Texture
         uTime: { value: 0 },
-        uNodes: { value: new Array(DISTURBANCE_NODES).fill(0).map(() => new THREE.Vector3(0, 0, 0)) },     // (x, y, energy)
-        uNodeExtra: { value: new Array(DISTURBANCE_NODES).fill(0).map(() => new THREE.Vector3(0, 0, 1)) }, // (dirX, dirY, radius)
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
         uColorBase: { value: new THREE.Color('#10120F') },
@@ -23,11 +103,8 @@ const LiquidFieldShaderMaterial = {
         uColorSage: { value: new THREE.Color('#8FA994') }
     },
     vertexShader: `
-        #define NODE_COUNT 20
-
+        uniform sampler2D uWaterMap;
         uniform float uTime;
-        uniform vec3 uNodes[NODE_COUNT];       // (x, y, energy)
-        uniform vec3 uNodeExtra[NODE_COUNT];   // (dirX, dirY, radius)
         uniform float uScroll;
         uniform float uAspect;
 
@@ -98,47 +175,6 @@ const LiquidFieldShaderMaterial = {
             return (microFlow + microTexture + scrollConduit) * textDamping;
         }
 
-        // 2. Volume-Conserving Displaced Water Patch (Zero forward lead, centered under contact)
-        // Spatially anchored to persistent temporal nodes; ZERO traveling sine waves
-        float calculateDisplacedWater(vec2 pos2D) {
-            float totalDisplacement = 0.0;
-
-            for (int i = 0; i < NODE_COUNT; i++) {
-                float energy = uNodes[i].z;
-                if (energy < 0.001) continue;
-
-                vec2 nodePos = uNodes[i].xy;
-                vec2 moveDir = uNodeExtra[i].xy;
-                vec2 perpDir = vec2(-moveDir.y, moveDir.x);
-
-                vec2 r = pos2D - nodePos;
-                float distSq = dot(r, r);
-
-                // Ignore vertices outside the local hand-disturbance footprint (~0.85 unit radius)
-                if (distSq > 0.75) continue;
-
-                float s_par = dot(r, moveDir);   // longitudinal axis
-                float s_perp = dot(r, perpDir);  // lateral cross-track axis
-
-                // A. Central Contact Depression / Trough (Directly at contact point: s_par = 0.0)
-                float troughDip = -exp(-(s_par * s_par) / 0.075 - (s_perp * s_perp) / 0.085) * 0.048;
-
-                // B. Leading Bow Mound (Water pushed forward: peak at s_par = +0.12, zero lead beyond hand)
-                float bowRise = exp(-((s_par - 0.12) * (s_par - 0.12)) / 0.055 - (s_perp * s_perp) / 0.15) * 0.038;
-
-                // C. Lateral Shoulder Swells (Water pushed sideways around the moving hand: s_perp = ±0.28)
-                float shoulderSwell = exp(-(s_par * s_par) / 0.11 - ((abs(s_perp) - 0.28) * (abs(s_perp) - 0.28)) / 0.035) * 0.032;
-
-                // D. Soft Trailing Wake Mass (Residual fluid mass trailing behind: s_par < 0)
-                float trailingMass = exp(-((s_par + 0.22) * (s_par + 0.22)) / 0.12 - (s_perp * s_perp) / 0.14) * 0.026;
-
-                // Volume-balanced displacement for this node
-                totalDisplacement += (troughDip + bowRise + shoulderSwell + trailingMass) * energy;
-            }
-
-            return totalDisplacement;
-        }
-
         void main() {
             vUv = uv;
             vec3 pos = position;
@@ -147,24 +183,27 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Compute total fluid displacement
+            // Sample simulated physical water heightfield from the 2D GPU Water State texture
+            float waterHeight = texture2D(uWaterMap, uv).r * 0.28;
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
-            float waterDisp = calculateDisplacedWater(pos.xy);
 
-            float totalElevation = baseElev + waterDisp;
+            float totalElevation = baseElev + waterHeight;
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // High-Precision Analytical Normals directly derived from displaced surface heightfield
-            float delta = 0.015;
-            float eCenter = totalElevation;
-            float eRight  = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone)
-                          + calculateDisplacedWater(pos.xy + vec2(delta, 0.0));
-            float eUp     = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone)
-                          + calculateDisplacedWater(pos.xy + vec2(0.0, delta));
+            // ── HIGH-PRECISION ANALYTICAL NORMALS (Derived directly from simulated water grid) ──
+            vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.28;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.28;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.28;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.28;
 
-            vec3 dX = vec3(delta, 0.0, eRight - eCenter);
-            vec3 dY = vec3(0.0, delta, eUp - eCenter);
+            float delta = 0.015;
+            float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
+            float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
+
+            vec3 dX = vec3(delta, 0.0, (ambR + hR) - (baseElev + waterHeight));
+            vec3 dY = vec3(0.0, delta, (ambU + hU) - (baseElev + waterHeight));
             vec3 customNormal = normalize(cross(dX, dY));
 
             vNormal = normalMatrix * customNormal;
@@ -177,8 +216,6 @@ const LiquidFieldShaderMaterial = {
         }
     `,
     fragmentShader: `
-        #define NODE_COUNT 20
-
         uniform vec3 uColorBase;
         uniform vec3 uColorBrass;
         uniform vec3 uColorBronze;
@@ -236,46 +273,64 @@ const LiquidFieldShaderMaterial = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. ASPECT-AWARE LIQUID FIELD MESH WITH 20-NODE SPATIAL PERSISTENCE ──
+// ── 3. GPU WATER SIMULATOR & PING-PONG CONTROLLER ──
 // ══════════════════════════════════════════════════════════════════════════════
 
-interface SpatialDisturbanceNode {
-    x: number
-    y: number
-    dirX: number
-    dirY: number
-    initialEnergy: number
-    birthTime: number
-}
+const SIM_SIZE = 256
 
 function LiquidMesh({
     mouse,
     scrollProgress
 }: {
-    mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number }>
+    mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number; rawNormX: number; rawNormY: number }>
     scrollProgress: number
 }) {
     const meshRef = useRef<THREE.Mesh>(null)
     const materialRef = useRef<THREE.ShaderMaterial>(null)
-    const { viewport } = useThree()
+    const { gl, viewport } = useThree()
 
-    // Fluid follower position (subtle ~40ms physical inertia lag behind raw cursor)
-    const fluidPos = useRef({ x: 0, y: 0 })
-    const lastSpawnPos = useRef({ x: 0, y: 0 })
-    const lastSpawnTime = useRef(0)
+    // Ping-Pong Render Targets for 2D GPU Wave State Simulation
+    const { rtA, rtB, simScene, simCamera, simMaterial } = useMemo(() => {
+        const options: THREE.RenderTargetOptions = {
+            minFilter: THREE.LinearFilter,
+            magFilter: THREE.LinearFilter,
+            format: THREE.RGBAFormat,
+            type: THREE.HalfFloatType,
+            depthBuffer: false,
+            stencilBuffer: false
+        }
 
-    // Array of 20 persistent spatial disturbance nodes
-    const nodes = useRef<SpatialDisturbanceNode[]>(
-        new Array(DISTURBANCE_NODES).fill(0).map(() => ({
-            x: 0,
-            y: 0,
-            dirX: 0,
-            dirY: 0,
-            initialEnergy: 0,
-            birthTime: 0
-        }))
-    )
-    const activeSlot = useRef(0)
+        const rtA = new THREE.WebGLRenderTarget(SIM_SIZE, SIM_SIZE, options)
+        const rtB = new THREE.WebGLRenderTarget(SIM_SIZE, SIM_SIZE, options)
+
+        // Clear render targets initially
+        gl.setRenderTarget(rtA)
+        gl.clearColor()
+        gl.clear()
+        gl.setRenderTarget(rtB)
+        gl.clearColor()
+        gl.clear()
+        gl.setRenderTarget(null)
+
+        const simScene = new THREE.Scene()
+        const simCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+
+        const simMaterial = new THREE.ShaderMaterial({
+            uniforms: THREE.UniformsUtils.clone(SimulationShader.uniforms),
+            vertexShader: SimulationShader.vertexShader,
+            fragmentShader: SimulationShader.fragmentShader
+        })
+
+        const quadMesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), simMaterial)
+        simScene.add(quadMesh)
+
+        return { rtA, rtB, simScene, simCamera, simMaterial }
+    }, [gl])
+
+    // Track ping-pong buffer swap & previous mouse UV
+    const currentTarget = useRef(rtA)
+    const previousTarget = useRef(rtB)
+    const prevMouseUV = useRef(new THREE.Vector2(0.5, 0.5))
 
     const shaderData = useMemo(() => {
         return new THREE.ShaderMaterial({
@@ -290,78 +345,47 @@ function LiquidMesh({
         if (!materialRef.current) return
         const mat = materialRef.current
 
-        // Clamp delta to prevent huge jumps on tab switch
+        // Clamp delta to prevent simulation blowup on tab switch
         const dt = Math.min(delta, 0.05)
         const now = state.clock.getElapsedTime()
 
+        // ── 1. STEP THE 2D GPU WATER SIMULATION (OFFSCREEN PASS) ──
+        // Convert normalized mouse coordinates [-1, 1] to UV space [0, 1]
+        const mouseUV = new THREE.Vector2(
+            mouse.current.rawNormX * 0.5 + 0.5,
+            mouse.current.rawNormY * 0.5 + 0.5
+        )
+
+        const mouseDelta = new THREE.Vector2().subVectors(mouseUV, prevMouseUV.current)
+        const speed = mouseDelta.length()
+        const force = Math.min(speed * 18.0, 1.0)
+
+        // Update simulation uniforms
+        simMaterial.uniforms.uCurrentWater.value = currentTarget.current.texture
+        simMaterial.uniforms.uMouse.value.copy(mouseUV)
+        simMaterial.uniforms.uPrevMouse.value.copy(prevMouseUV.current)
+        simMaterial.uniforms.uVelocity.value.copy(mouseDelta)
+        simMaterial.uniforms.uForceStrength.value = force
+        simMaterial.uniforms.uDelta.value = dt
+
+        // Render simulation step into write target
+        gl.setRenderTarget(previousTarget.current)
+        gl.render(simScene, simCamera)
+        gl.setRenderTarget(null)
+
+        // Swap ping-pong buffers
+        const temp = currentTarget.current
+        currentTarget.current = previousTarget.current
+        previousTarget.current = temp
+
+        // Store previous mouse UV
+        prevMouseUV.current.copy(mouseUV)
+
+        // ── 2. RENDER MAIN CRISP SURFACE MESH WITH SIMULATED WATER TEXTURE ──
+        mat.uniforms.uWaterMap.value = currentTarget.current.texture
         mat.uniforms.uTime.value = now
         mat.uniforms.uScroll.value = scrollProgress
         mat.uniforms.uAspect.value = viewport.aspect
-
-        // Target world position of the mouse
-        const targetWorldX = mouse.current.x * (4.2 * viewport.aspect)
-        const targetWorldY = mouse.current.y * 3.0
-
-        // Smooth physical follower (very subtle lag: ~40ms)
-        const followAlpha = 1.0 - Math.exp(-18.0 * dt)
-        fluidPos.current.x += (targetWorldX - fluidPos.current.x) * followAlpha
-        fluidPos.current.y += (targetWorldY - fluidPos.current.y) * followAlpha
-
-        // Compute movement delta since last disturbance node spawn
-        const dx = fluidPos.current.x - lastSpawnPos.current.x
-        const dy = fluidPos.current.y - lastSpawnPos.current.y
-        const distMoved = Math.hypot(dx, dy)
-        const timeSinceSpawn = now - lastSpawnTime.current
-
-        // Continuous local energy injection: spawn new node along path or refresh if swirling in place
-        if (distMoved > 0.10 || (distMoved > 0.03 && timeSinceSpawn > 0.08)) {
-            const dirX = dx / (distMoved + 0.0001)
-            const dirY = dy / (distMoved + 0.0001)
-            const speedEnergy = Math.min(distMoved * 4.5, 1.0)
-
-            // Spawn into next ring-buffer slot (Old nodes stay permanently in their world position!)
-            const slot = activeSlot.current % DISTURBANCE_NODES
-            nodes.current[slot] = {
-                x: fluidPos.current.x,
-                y: fluidPos.current.y,
-                dirX,
-                dirY,
-                initialEnergy: Math.max(speedEnergy, 0.4),
-                birthTime: now
-            }
-
-            activeSlot.current++
-            lastSpawnPos.current = { x: fluidPos.current.x, y: fluidPos.current.y }
-            lastSpawnTime.current = now
-        }
-
-        // Push temporal nodes array to GLSL uniforms with strict elapsed physical time decay
-        // (Half-life ~0.63s, total settling lifetime ~2.2s; moving cursor does NOT kill older nodes!)
-        const nodesUniform = mat.uniforms.uNodes.value as THREE.Vector3[]
-        const nodeExtraUniform = mat.uniforms.uNodeExtra.value as THREE.Vector3[]
-
-        for (let i = 0; i < DISTURBANCE_NODES; i++) {
-            const node = nodes.current[i]
-            if (node.initialEnergy > 0) {
-                const age = now - node.birthTime
-                const currentEnergy = node.initialEnergy * Math.exp(-1.1 * age)
-
-                if (currentEnergy > 0.001) {
-                    nodesUniform[i].set(node.x, node.y, currentEnergy)
-                    nodeExtraUniform[i].set(node.dirX, node.dirY, 1.0)
-                } else {
-                    nodesUniform[i].set(node.x, node.y, 0)
-                }
-            } else {
-                nodesUniform[i].set(0, 0, 0)
-            }
-        }
-
-        // Decay mouse velocity tracking
-        const velDecay = Math.exp(-6.0 * dt)
-        mouse.current.vx *= velDecay
-        mouse.current.vy *= velDecay
-        mouse.current.speed *= velDecay
     })
 
     // Sized to overfill viewport dimensions completely
@@ -377,14 +401,14 @@ function LiquidMesh({
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 3. CAMERA & SCENE RIG ──
+// ── 4. CAMERA & SCENE RIG ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 function SceneRig({
     mouse,
     scrollProgress
 }: {
-    mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number }>
+    mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; speed: number; rawNormX: number; rawNormY: number }>
     scrollProgress: number
 }) {
     useFrame((state) => {
@@ -410,12 +434,12 @@ function SceneRig({
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 4. EXPORTED PURE LIQUID GROWTH FIELD CANVAS ──
+// ── 5. EXPORTED PURE LIQUID GROWTH FIELD CANVAS ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgress?: number }) {
     const [mounted, setMounted] = useState(false)
-    const mouse = useRef({ x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, speed: 0 })
+    const mouse = useRef({ x: 0, y: 0, vx: 0, vy: 0, speed: 0, rawNormX: 0, rawNormY: 0 })
 
     useEffect(() => {
         setMounted(true)
@@ -424,17 +448,16 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
             const normX = (e.clientX / window.innerWidth) * 2 - 1
             const normY = -(e.clientY / window.innerHeight) * 2 + 1
 
-            const dx = normX - mouse.current.lastX
-            const dy = normY - mouse.current.lastY
+            const dx = normX - mouse.current.rawNormX
+            const dy = normY - mouse.current.rawNormY
             const currentSpeed = Math.hypot(dx, dy)
 
-            // Smooth velocity injection
             mouse.current.vx = dx * 1.5
             mouse.current.vy = dy * 1.5
             mouse.current.speed = Math.min(currentSpeed * 4.0, 0.45)
 
-            mouse.current.lastX = normX
-            mouse.current.lastY = normY
+            mouse.current.rawNormX = normX
+            mouse.current.rawNormY = normY
             mouse.current.x = normX
             mouse.current.y = normY
         }

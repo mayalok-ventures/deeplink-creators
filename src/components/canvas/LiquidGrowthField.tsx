@@ -4,15 +4,15 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── 1. GLSL SHADER: TRAJECTORY STREAK FIELD + DARK LIQUID-METAL OPTICS ──
+// ── 1. GLSL SHADER: DISPLACED LOCAL FLUID MASS + DARK LIQUID-METAL OPTICS ──
 
-const TRAIL_LENGTH = 10
+const TRAIL_LENGTH = 12
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
         uTime: { value: 0 },
         uTrail: { value: new Array(TRAIL_LENGTH).fill(0).map(() => new THREE.Vector3(0, 0, 0)) },
-        uTrailDir: { value: new Array(TRAIL_LENGTH).fill(0).map(() => new THREE.Vector2(0, 0)) },
+        uTrailExtra: { value: new Array(TRAIL_LENGTH).fill(0).map(() => new THREE.Vector3(0, 0, 1)) },
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
         uColorBase: { value: new THREE.Color('#10120F') },
@@ -21,11 +21,11 @@ const LiquidFieldShaderMaterial = {
         uColorSage: { value: new THREE.Color('#8FA994') }
     },
     vertexShader: `
-        #define TRAIL_COUNT 10
+        #define TRAIL_COUNT 12
 
         uniform float uTime;
-        uniform vec3 uTrail[TRAIL_COUNT];
-        uniform vec2 uTrailDir[TRAIL_COUNT];
+        uniform vec3 uTrail[TRAIL_COUNT];        // (x, y, intensity)
+        uniform vec3 uTrailExtra[TRAIL_COUNT];   // (dirX, dirY, radiusScale)
         uniform float uScroll;
         uniform float uAspect;
 
@@ -33,7 +33,7 @@ const LiquidFieldShaderMaterial = {
         varying vec3 vNormal;
         varying vec3 vPosition;
         varying float vElevation;
-        varying float vTrailDist;
+        varying float vFluidDist;
         varying float vTextZone;
         varying float vRoughness;
 
@@ -87,7 +87,7 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Ambient Glassy Liquid Metal Surface (Zero ocean swell, calm & shallow)
+        // 1. Ambient Glassy Liquid Metal Surface (Calm, resting state with subtle brushed texture)
         float calculateAmbientSurface(vec3 pos, float time, float scroll, float textZoneMask) {
             float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.12)) * 0.035;
             float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.25)) * 0.015;
@@ -97,8 +97,8 @@ const LiquidFieldShaderMaterial = {
             return (microFlow + microTexture + scrollConduit) * textDamping;
         }
 
-        // 2. Physical Fluid Trajectory Wake (STRICTLY along historical path, NO radial waves)
-        float calculateTrajectoryWake(vec2 pos2D) {
+        // 2. Localized Displaced Fluid Mass (Hand moving through shallow water patch)
+        float calculateDisplacedFluidMass(vec2 pos2D) {
             float totalDisplacement = 0.0;
 
             for (int i = 0; i < TRAIL_COUNT; i++) {
@@ -106,21 +106,31 @@ const LiquidFieldShaderMaterial = {
                 if (intensity < 0.002) continue;
 
                 vec2 trailPos = uTrail[i].xy;
-                vec2 trailDir = uTrailDir[i];
+                vec2 trailDir = uTrailExtra[i].xy;
+                float radiusScale = uTrailExtra[i].z;
+
                 vec2 toPoint = pos2D - trailPos;
                 float d2 = dot(toPoint, toPoint);
 
-                // Sharp localized Gaussian influence radius (sigma = 0.24, radius ~ 0.5)
-                float spatialWeight = exp(-d2 / 0.06);
+                // Broad Soft Fluid Body (Footprint of a hand in water, radius ~ 0.75 units)
+                float bodyRadiusSq = 0.24 * radiusScale;
+                float bodyWeight = exp(-d2 / (2.0 * bodyRadiusSq));
 
-                if (spatialWeight > 0.001) {
+                // Inner Core (Displaced center mass)
+                float coreRadiusSq = 0.07 * radiusScale;
+                float coreWeight = exp(-d2 / (2.0 * coreRadiusSq));
+
+                if (bodyWeight > 0.002) {
+                    // Flow shear along motion direction
                     float alongMotion = dot(toPoint, trailDir);
                     float crossMotion = toPoint.x * trailDir.y - toPoint.y * trailDir.x;
 
-                    // Physical streak elevation along the movement path
-                    float streakElevation = sin(alongMotion * 14.0) * exp(-abs(crossMotion) * 5.5) * 0.055;
+                    // Soft organic fluid mound pushed by hand movement
+                    float fluidMound = (coreWeight * 0.042 + bodyWeight * 0.024);
+                    // Gentle trailing flow wave
+                    float flowWave = sin(alongMotion * 8.0) * exp(-abs(crossMotion) * 3.2) * 0.032 * bodyWeight;
 
-                    totalDisplacement += (spatialWeight * 0.03 + streakElevation * spatialWeight) * intensity;
+                    totalDisplacement += (fluidMound + flowWave) * intensity;
                 }
             }
 
@@ -135,24 +145,24 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Distance to active cursor head
-            vTrailDist = distance(pos.xy, uTrail[0].xy);
+            // Distance to active fluid follower head
+            vFluidDist = distance(pos.xy, uTrail[0].xy);
 
             // Compute total fluid displacement
             float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
-            float wakeElev = calculateTrajectoryWake(pos.xy);
+            float fluidElev = calculateDisplacedFluidMass(pos.xy);
 
-            float totalElevation = baseElev + wakeElev;
+            float totalElevation = baseElev + fluidElev;
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // High-Precision Analytical Normals (Reacts sharply to cursor fluid streak)
-            float delta = 0.012;
+            // High-Precision Analytical Normals across broader fluid mass
+            float delta = 0.016;
             float eCenter = totalElevation;
             float eRight  = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone)
-                          + calculateTrajectoryWake(pos.xy + vec2(delta, 0.0));
+                          + calculateDisplacedFluidMass(pos.xy + vec2(delta, 0.0));
             float eUp     = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone)
-                          + calculateTrajectoryWake(pos.xy + vec2(0.0, delta));
+                          + calculateDisplacedFluidMass(pos.xy + vec2(0.0, delta));
 
             vec3 dX = vec3(delta, 0.0, eRight - eCenter);
             vec3 dY = vec3(0.0, delta, eUp - eCenter);
@@ -161,14 +171,14 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Liquid roughness: polished streak crests (0.12) vs calm substrate (0.35)
-            vRoughness = mix(0.12, 0.35, clamp(-totalElevation * 3.5 + 0.35, 0.0, 1.0));
+            // Fluid roughness: polished displaced crests (0.12) vs calm substrate (0.35)
+            vRoughness = mix(0.12, 0.35, clamp(-totalElevation * 3.2 + 0.35, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
     `,
     fragmentShader: `
-        #define TRAIL_COUNT 10
+        #define TRAIL_COUNT 12
 
         uniform vec3 uColorBase;
         uniform vec3 uColorBrass;
@@ -182,7 +192,7 @@ const LiquidFieldShaderMaterial = {
         varying vec3 vNormal;
         varying vec3 vPosition;
         varying float vElevation;
-        varying float vTrailDist;
+        varying float vFluidDist;
         varying float vTextZone;
         varying float vRoughness;
 
@@ -213,8 +223,8 @@ const LiquidFieldShaderMaterial = {
             // Liquid Metal Color Composition
             // 1. Deep Obsidian-Graphite Base
             vec3 baseTone = mix(uColorBase, uColorBronze * 0.4, clamp(vElevation * 3.0 + 0.4, 0.0, 1.0));
-            // 2. Warm Burnished Brass Highlights on Streak Crests
-            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 4.5 + fresnel * 0.65, 0.0, 1.0));
+            // 2. Warm Burnished Brass Highlights on Displaced Fluid Crests
+            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 4.2 + fresnel * 0.65, 0.0, 1.0));
             // 3. Subtle Sage Subsurface Accent
             vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.28 * diffRim);
 
@@ -224,9 +234,9 @@ const LiquidFieldShaderMaterial = {
                             + (uColorBrass * (specSharp * 1.5 + specBroad * 0.45) * textDamping)
                             + (uColorBronze * specRim * 0.65 * textDamping);
 
-            // Subtle streak trail illumination (strictly active when trail intensity > 0)
+            // Subtle fluid mass illumination (strictly active when follower intensity > 0)
             float activeHeadIntensity = uTrail[0].z;
-            finalColor += uColorBrass * exp(-vTrailDist * 4.0) * (0.28 * activeHeadIntensity);
+            finalColor += uColorBrass * exp(-vFluidDist * 2.8) * (0.24 * activeHeadIntensity);
 
             // Full-bleed coverage: 100% solid atmospheric liquid environment
             gl_FragColor = vec4(finalColor, 1.0);
@@ -234,7 +244,7 @@ const LiquidFieldShaderMaterial = {
     `
 }
 
-// ── 2. ASPECT-AWARE LIQUID FIELD MESH ──
+// ── 2. ASPECT-AWARE LIQUID FIELD MESH WITH FLUID FOLLOW INERTIA ──
 function LiquidMesh({
     mouse,
     scrollProgress
@@ -246,9 +256,12 @@ function LiquidMesh({
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const { viewport } = useThree()
 
-    // Ring buffer of 10 recent trajectory points
+    // Fluid follower position (has slight physical fluid lag behind raw cursor)
+    const fluidPos = useRef({ x: 0, y: 0, vx: 0, vy: 0 })
+
+    // Ring buffer of 12 historical fluid mass samples
     const trailHistory = useRef(
-        new Array(TRAIL_LENGTH).fill(0).map(() => ({ x: 0, y: 0, dirX: 0, dirY: 0, intensity: 0 }))
+        new Array(TRAIL_LENGTH).fill(0).map(() => ({ x: 0, y: 0, dirX: 0, dirY: 0, intensity: 0, radiusScale: 1.0 }))
     )
 
     const shaderData = useMemo(() => {
@@ -268,39 +281,51 @@ function LiquidMesh({
         mat.uniforms.uScroll.value = scrollProgress
         mat.uniforms.uAspect.value = viewport.aspect
 
-        // Current world mouse coordinate
-        const currentWorldX = mouse.current.x * (4.2 * viewport.aspect)
-        const currentWorldY = mouse.current.y * 3.0
+        // Target world position of the mouse
+        const targetWorldX = mouse.current.x * (4.2 * viewport.aspect)
+        const targetWorldY = mouse.current.y * 3.0
 
-        const dx = currentWorldX - trailHistory.current[0].x
-        const dy = currentWorldY - trailHistory.current[0].y
+        // Physical fluid follow inertia (smooth fluid mass follows cursor with subtle lag)
+        const toTargetX = targetWorldX - fluidPos.current.x
+        const toTargetY = targetWorldY - fluidPos.current.y
+        const followDist = Math.hypot(toTargetX, toTargetY)
+
+        // Smooth follow update
+        fluidPos.current.x += toTargetX * 0.16
+        fluidPos.current.y += toTargetY * 0.16
+
+        // Compute movement delta of fluid follower
+        const dx = fluidPos.current.x - trailHistory.current[0].x
+        const dy = fluidPos.current.y - trailHistory.current[0].y
         const distMoved = Math.hypot(dx, dy)
 
-        if (distMoved > 0.035) {
-            // Shift trajectory history backward
+        if (distMoved > 0.025) {
+            // Shift history backward
             for (let i = TRAIL_LENGTH - 1; i > 0; i--) {
                 trailHistory.current[i] = {
                     ...trailHistory.current[i - 1],
-                    intensity: trailHistory.current[i - 1].intensity * 0.84
+                    intensity: trailHistory.current[i - 1].intensity * 0.88,
+                    radiusScale: Math.min(trailHistory.current[i - 1].radiusScale * 1.08, 1.8) // Broader wake behind
                 }
             }
 
             // Insert new head at index 0
             const dirX = dx / (distMoved + 0.0001)
             const dirY = dy / (distMoved + 0.0001)
-            const normalizedSpeed = Math.min(distMoved * 6.5, 1.0)
+            const normalizedIntensity = Math.min(distMoved * 5.0, 1.0)
 
             trailHistory.current[0] = {
-                x: currentWorldX,
-                y: currentWorldY,
+                x: fluidPos.current.x,
+                y: fluidPos.current.y,
                 dirX,
                 dirY,
-                intensity: normalizedSpeed
+                intensity: normalizedIntensity,
+                radiusScale: 1.0
             }
         } else {
-            // Cursor is stationary: decay all trail points rapidly toward 0 (calm equilibrium)
+            // Fluid is slowing / stopping: authentic water settling rate (~1.5 - 2.0s half-life)
             for (let i = 0; i < TRAIL_LENGTH; i++) {
-                trailHistory.current[i].intensity *= 0.88
+                trailHistory.current[i].intensity *= 0.962
                 if (trailHistory.current[i].intensity < 0.001) {
                     trailHistory.current[i].intensity = 0
                 }
@@ -309,7 +334,7 @@ function LiquidMesh({
 
         // Push trajectory history to GLSL uniforms
         const trailUniform = mat.uniforms.uTrail.value as THREE.Vector3[]
-        const trailDirUniform = mat.uniforms.uTrailDir.value as THREE.Vector2[]
+        const trailExtraUniform = mat.uniforms.uTrailExtra.value as THREE.Vector3[]
 
         for (let i = 0; i < TRAIL_LENGTH; i++) {
             trailUniform[i].set(
@@ -317,13 +342,14 @@ function LiquidMesh({
                 trailHistory.current[i].y,
                 trailHistory.current[i].intensity
             )
-            trailDirUniform[i].set(
+            trailExtraUniform[i].set(
                 trailHistory.current[i].dirX,
-                trailHistory.current[i].dirY
+                trailHistory.current[i].dirY,
+                trailHistory.current[i].radiusScale
             )
         }
 
-        // Decay velocity per frame
+        // Decay mouse velocity per frame
         mouse.current.vx *= 0.88
         mouse.current.vy *= 0.88
         mouse.current.speed *= 0.88
@@ -387,6 +413,7 @@ export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgre
             const dy = normY - mouse.current.lastY
             const currentSpeed = Math.hypot(dx, dy)
 
+            // Filtered smooth velocity injection
             mouse.current.vx = dx * 1.5
             mouse.current.vy = dy * 1.5
             mouse.current.speed = Math.min(currentSpeed * 4.0, 0.45)

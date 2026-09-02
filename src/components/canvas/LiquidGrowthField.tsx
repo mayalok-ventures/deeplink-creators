@@ -84,19 +84,19 @@ const SimulationShader = {
                 float segDist = distToSegment(uv, uPrevMouse, uMouse);
                 
                 // Natural hand footprint radius
-                float handRadius = 0.032;
+                float handRadius = 0.030;
                 float forceProfile = exp(-(segDist * segDist) / (2.0 * handRadius * handRadius));
 
                 // Agitation gently enriches the ripple intensity without digging deep pits
-                float agitationBoost = 1.0 + min(uAgitation * 0.40, 0.85);
+                float agitationBoost = 1.0 + min(uAgitation * 0.35, 0.75);
                 float impulse = forceProfile * uForceStrength * agitationBoost;
 
                 // Gentle buoyant velocity impulse
-                newVelocity -= impulse * 0.085;
+                newVelocity -= impulse * 0.075;
 
                 // Subtle fluid micro-churning around active contact zone
                 if (uAgitation > 0.2) {
-                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.006 * forceProfile);
+                    float churn = sin(uv.x * 80.0 + uv.y * 80.0) * (uAgitation * 0.005 * forceProfile);
                     newVelocity += churn;
                 }
             }
@@ -113,7 +113,7 @@ const SimulationShader = {
                     float centerDip = exp(-(clickDist * clickDist) / (2.0 * 0.018 * 0.018));
 
                     // Buoyant splash wave: gentle crest with soft center depression
-                    float splashWave = (ringProfile * 0.38 - centerDip * 0.16) * uSplashStrength[i] * 0.14;
+                    float splashWave = (ringProfile * 0.35 - centerDip * 0.14) * uSplashStrength[i] * 0.12;
                     newVelocity += splashWave;
                 }
             }
@@ -125,7 +125,7 @@ const SimulationShader = {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── 2. MAIN RENDER SHADER: LIGHTER REFINED LIQUID-METAL OPTICS & RICH DETAIL ──
+// ── 2. MAIN RENDER SHADER: UNIFORM SCREEN-WIDE ILLUMINATION & LIGHTER TONES ──
 // ══════════════════════════════════════════════════════════════════════════════
 
 const LiquidFieldShaderMaterial = {
@@ -134,11 +134,11 @@ const LiquidFieldShaderMaterial = {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uAspect: { value: 1.0 },
-        uColorBase: { value: new THREE.Color('#1C201A') },   // Lighter refined obsidian-charcoal
-        uColorSlate: { value: new THREE.Color('#2C3229') },  // Warm metallic slate midtone
-        uColorBrass: { value: new THREE.Color('#D8B878') },  // Glistening golden brass highlights
-        uColorBronze: { value: new THREE.Color('#A88252') }, // Warm bronze secondary
-        uColorSage: { value: new THREE.Color('#96B29C') }    // Sage Fresnel edge accent
+        uColorBase: { value: new THREE.Color('#222720') },   // Lighter, rich obsidian-graphite
+        uColorSlate: { value: new THREE.Color('#353C32') },  // Warm metallic slate midtone
+        uColorBrass: { value: new THREE.Color('#DFBF82') },  // Glistening champagne brass highlights
+        uColorBronze: { value: new THREE.Color('#AD8756') }, // Warm bronze secondary
+        uColorSage: { value: new THREE.Color('#9BB8A2') }    // Sage Fresnel edge accent
     },
     vertexShader: `
         uniform sampler2D uWaterMap;
@@ -150,7 +150,6 @@ const LiquidFieldShaderMaterial = {
         varying vec3 vNormal;
         varying vec3 vPosition;
         varying float vElevation;
-        varying float vTextZone;
         varying float vRoughness;
 
         // Simplex 3D noise for crisp resting liquid-metal structure
@@ -203,28 +202,23 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // 1. Crisp Ambient Liquid Metal Surface (Multi-scale organic detail)
-        float calculateAmbientSurface(vec3 pos, float time, float scroll, float textZoneMask) {
-            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.022;
-            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.012;
-            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.007;
-            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.05 * scroll;
+        // 1. Crisp Ambient Liquid Metal Surface (Uniform multi-scale organic detail across whole screen)
+        float calculateAmbientSurface(vec3 pos, float time, float scroll) {
+            float microFlow = snoise(vec3(pos.x * 0.35, pos.y * 0.35, time * 0.08)) * 0.020;
+            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.16)) * 0.010;
+            float fineGrain = snoise(vec3(pos.x * 5.2, pos.y * 5.2, time * 0.22)) * 0.006;
+            float scrollConduit = sin(pos.x * 2.2 + pos.y * 0.8) * 0.045 * scroll;
 
-            float textDamping = mix(1.0, 0.35, textZoneMask);
-            return (microFlow + microTexture + fineGrain + scrollConduit) * textDamping;
+            return microFlow + microTexture + fineGrain + scrollConduit;
         }
 
         void main() {
             vUv = uv;
             vec3 pos = position;
 
-            // Text Zone Mask (Quiet left hemisphere where headline sits: pos.x < 0.0)
-            float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
-            vTextZone = textZone;
-
-            // Sample simulated physical water heightfield with refined, buoyant amplitude (0.048)
-            float waterHeight = texture2D(uWaterMap, uv).r * 0.048;
-            float baseElev = calculateAmbientSurface(pos, uTime, uScroll, textZone);
+            // Sample simulated physical water heightfield with refined, shallow amplitude (0.034)
+            float waterHeight = texture2D(uWaterMap, uv).r * 0.034;
+            float baseElev = calculateAmbientSurface(pos, uTime, uScroll);
 
             float totalElevation = baseElev + waterHeight;
             pos.z += totalElevation;
@@ -232,14 +226,14 @@ const LiquidFieldShaderMaterial = {
 
             // ── HIGH-PRECISION SHARP ANALYTICAL NORMALS (Tighter delta = 0.008 for crystalline clarity) ──
             vec2 texel = vec2(1.0 / 256.0, 1.0 / 256.0);
-            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.048;
-            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.048;
-            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.048;
-            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.048;
+            float hL = texture2D(uWaterMap, uv - vec2(texel.x, 0.0)).r * 0.034;
+            float hR = texture2D(uWaterMap, uv + vec2(texel.x, 0.0)).r * 0.034;
+            float hD = texture2D(uWaterMap, uv - vec2(0.0, texel.y)).r * 0.034;
+            float hU = texture2D(uWaterMap, uv + vec2(0.0, texel.y)).r * 0.034;
 
             float delta = 0.008;
-            float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
-            float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
+            float ambR = calculateAmbientSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll);
+            float ambU = calculateAmbientSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll);
 
             vec3 dX = vec3(delta, 0.0, (ambR + hR) - (baseElev + waterHeight));
             vec3 dY = vec3(0.0, delta, (ambU + hU) - (baseElev + waterHeight));
@@ -267,7 +261,6 @@ const LiquidFieldShaderMaterial = {
         varying vec3 vNormal;
         varying vec3 vPosition;
         varying float vElevation;
-        varying float vTextZone;
         varying float vRoughness;
 
         void main() {
@@ -294,16 +287,15 @@ const LiquidFieldShaderMaterial = {
             vec3 halfRim = normalize(lightRim + viewDir);
             float specRim = pow(max(dot(normal, halfRim), 0.0), 28.0);
 
-            // Lighter, Richer Liquid-Metal Substrate (NO pitch black crushing)
-            float ao = clamp(vElevation * 3.2 + 0.98, 0.80, 1.15);
-            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45 + diffKey * 0.15) * ao;
+            // Lighter, Richer Liquid-Metal Substrate (Uniform across left and right screen)
+            float ao = clamp(vElevation * 3.0 + 0.98, 0.82, 1.15);
+            vec3 baseAlbedo = mix(uColorBase, uColorSlate, fresnel * 0.45 + diffKey * 0.20) * ao;
 
-            // Environmental Specular & Fresnel Reflections
-            float textDamping = mix(1.0, 0.3, vTextZone);
+            // Environmental Specular & Fresnel Reflections (100% UNIFORM SCREEN-WIDE)
             vec3 finalColor = baseAlbedo
-                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.38) * textDamping)
-                            + (uColorBronze * (specRim * 0.52) * textDamping)
-                            + (uColorSage * (fresnel * 0.28 * diffRim) * textDamping);
+                            + (uColorBrass * (specSharp * 1.45 + specBroad * 0.40))
+                            + (uColorBronze * (specRim * 0.52))
+                            + (uColorSage * (fresnel * 0.30 * diffRim));
 
             gl_FragColor = vec4(finalColor, 1.0);
         }
@@ -407,7 +399,7 @@ function LiquidMesh({
         const mouseDelta = new THREE.Vector2().subVectors(smoothedMouseUV.current, prevSmoothedMouseUV.current)
         const speed = mouseDelta.length()
         // Calibrated force scaling for natural shallow water
-        const instantaneousForce = Math.min(speed * 10.0, 0.38)
+        const instantaneousForce = Math.min(speed * 10.0, 0.36)
 
         // ── 2. CUMULATIVE AGITATION ACCUMULATION (MORE MOVEMENT = RICHER RIPPLES & LONGER SETTLING) ──
         if (speed > 0.0005) {
@@ -514,9 +506,9 @@ function SceneRig({
 
     return (
         <>
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[5, 7, 5]} intensity={1.6} color="#FFF8E7" />
-            <directionalLight position={[-5, -4, 3]} intensity={0.9} color="#D8B878" />
+            <ambientLight intensity={0.65} />
+            <directionalLight position={[5, 7, 5]} intensity={1.7} color="#FFF8E7" />
+            <directionalLight position={[-5, -4, 3]} intensity={0.95} color="#DFBF82" />
 
             <LiquidMesh mouse={mouse} clicks={clicks} scrollProgress={scrollProgress} />
         </>

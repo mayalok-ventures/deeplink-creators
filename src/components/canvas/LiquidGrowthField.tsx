@@ -4,7 +4,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── 1. GLSL SHADER DEFINITIONS FOR MULTI-SCALE PHYSICAL LIQUID METAL ──
+// ── 1. GLSL SHADER: WATER-LIKE FLUID DYNAMICS + DARK LIQUID-METAL OPTICS ──
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
@@ -83,26 +83,36 @@ const LiquidFieldShaderMaterial = {
             return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
         }
 
-        // Multi-layered procedural surface displacement calculation
-        float calculateElevation(vec3 pos, float time, float scroll, float textZoneMask) {
-            // Layer 1: Macro Viscous Flow (Broad fluid mass & domain warping)
-            vec3 warpPos = pos + vec3(snoise(pos * 0.15 + time * 0.08) * 0.8, snoise(pos * 0.15 - time * 0.06) * 0.8, 0.0);
-            float macroNoise = snoise(vec3(warpPos.x * 0.28, warpPos.y * 0.28, time * 0.14)) * 0.38;
+        // 1. Calm Ambient Liquid Surface (Subtle, organic fluid currents)
+        float calculateBaseSurface(vec3 pos, float time, float scroll, float textZoneMask) {
+            // Calm Macro Currents
+            float macroFlow = snoise(vec3(pos.x * 0.22, pos.y * 0.22, time * 0.18)) * 0.16;
+            // Gentle Secondary Streamlines
+            float midStream = sin(pos.x * 1.6 + pos.y * 0.7 - time * 0.8 + macroFlow * 1.5) * 0.08;
+            // Micro-Texture Sheen
+            float microTexture = snoise(vec3(pos.x * 2.8, pos.y * 2.8, time * 0.35)) * 0.025;
+            // Scroll Alignment Stream
+            float scrollConduits = sin(pos.x * 2.5 + pos.y * 0.9 - time * 1.5) * 0.12 * scroll;
 
-            // Layer 2: Mid-Scale Flow Ridges & Viscous Folds
-            float midRidges = sin(warpPos.x * 1.8 + warpPos.y * 0.8 - time * 1.2 + macroNoise * 2.5) * 0.18;
-            float secondaryFlow = snoise(vec3(pos.x * 0.8, pos.y * 0.8, time * 0.22)) * 0.12;
+            float activityDamping = mix(1.0, 0.35, textZoneMask);
+            return (macroFlow + midStream + microTexture + scrollConduits) * activityDamping;
+        }
 
-            // Layer 3: High-Frequency Micro-Texture
-            float microTexture = snoise(vec3(pos.x * 2.6, pos.y * 2.6, time * 0.4)) * 0.04;
+        // 2. High-Mobility Water-Like Ripple Wavefronts
+        float calculateWaterRipples(vec2 pos2D, vec2 mousePos, float time, float velocity) {
+            float dist = distance(pos2D, mousePos);
+            float velFactor = clamp(velocity * 0.7, 0.0, 0.4);
 
-            // Scroll-Driven Stream Alignment
-            float scrollConduits = sin(pos.x * 2.8 + pos.y * 1.0 - time * 1.8) * 0.16 * scroll;
+            // Localized fingertip-touch pressure well (tight radius, low displacement)
+            float localTouch = exp(-dist * 4.8) * (0.09 + velFactor * 0.22);
 
-            // Controlled activity damping in quiet text zone
-            float activityMultiplier = mix(1.0, 0.4, textZoneMask);
+            // Primary fast-traveling water ripple wavefront (high speed, sharp wave crest)
+            float primaryWave = sin(dist * 20.0 - time * 11.0) * exp(-dist * 3.0) * (0.07 + velFactor * 0.15);
 
-            return (macroNoise + midRidges + secondaryFlow + microTexture + scrollConduits) * activityMultiplier;
+            // Secondary capillary ripple (crisp micro-ring dispersion)
+            float capillaryWave = sin(dist * 34.0 - time * 16.0) * exp(-dist * 4.2) * (0.035 + velFactor * 0.06);
+
+            return -localTouch + primaryWave + capillaryWave;
         }
 
         void main() {
@@ -113,26 +123,25 @@ const LiquidFieldShaderMaterial = {
             float textZone = smoothstep(1.0, -1.8, pos.x) * smoothstep(2.5, 0.0, abs(pos.y));
             vTextZone = textZone;
 
-            // Base Multi-Scale Surface Elevation
-            float baseElevation = calculateElevation(pos, uTime, uScroll, textZone);
-
-            // Cursor Pressure Well & Wake Displacement
+            // Mouse coordinate in world space
             vec2 mouseWorldPos = uMouse * vec2(4.2 * uAspect, 3.0);
-            float distToMouse = distance(pos.xy, mouseWorldPos);
-            vMouseDist = distToMouse;
+            vMouseDist = distance(pos.xy, mouseWorldPos);
 
-            float mousePressure = exp(-distToMouse * 2.0) * (0.36 + uMouseVelocity * 0.75);
-            float rippleWake = sin(distToMouse * 11.0 - uTime * 4.5) * exp(-distToMouse * 1.8) * 0.15 * (uMouseVelocity + 0.2);
+            // Compute total water displacement
+            float baseElev = calculateBaseSurface(pos, uTime, uScroll, textZone);
+            float waterRipple = calculateWaterRipples(pos.xy, mouseWorldPos, uTime, uMouseVelocity);
 
-            float totalElevation = baseElevation - mousePressure + rippleWake;
+            float totalElevation = baseElev + waterRipple;
             pos.z += totalElevation;
             vElevation = totalElevation;
 
-            // High-Precision Finite-Difference Analytical Normal Calculation
-            float delta = 0.015;
-            float eCenter = baseElevation - mousePressure + rippleWake;
-            float eRight  = calculateElevation(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone);
-            float eUp     = calculateElevation(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone);
+            // High-Precision Analytical Normals (Reacts sharply to water ripple crests)
+            float delta = 0.012;
+            float eCenter = totalElevation;
+            float eRight  = calculateBaseSurface(pos + vec3(delta, 0.0, 0.0), uTime, uScroll, textZone)
+                          + calculateWaterRipples(pos.xy + vec2(delta, 0.0), mouseWorldPos, uTime, uMouseVelocity);
+            float eUp     = calculateBaseSurface(pos + vec3(0.0, delta, 0.0), uTime, uScroll, textZone)
+                          + calculateWaterRipples(pos.xy + vec2(0.0, delta), mouseWorldPos, uTime, uMouseVelocity);
 
             vec3 dX = vec3(delta, 0.0, eRight - eCenter);
             vec3 dY = vec3(0.0, delta, eUp - eCenter);
@@ -141,8 +150,8 @@ const LiquidFieldShaderMaterial = {
             vNormal = normalMatrix * customNormal;
             vPosition = (modelViewMatrix * vec4(pos, 1.0)).xyz;
 
-            // Procedural roughness: smooth polished crests (0.15) vs deeper soft valleys (0.65)
-            vRoughness = mix(0.18, 0.65, clamp(-totalElevation * 1.8 + 0.5, 0.0, 1.0));
+            // Water-like polished surface: low roughness on ripple crests (0.10) vs calm base (0.35)
+            vRoughness = mix(0.12, 0.42, clamp(-totalElevation * 2.5 + 0.4, 0.0, 1.0));
 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -167,7 +176,7 @@ const LiquidFieldShaderMaterial = {
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(-vPosition);
 
-            // Physically Plausible Fresnel with view curvature
+            // Physically Plausible Fresnel for liquid metal
             float NdotV = max(dot(viewDir, normal), 0.0);
             float fresnel = pow(1.0 - NdotV, 3.2);
 
@@ -179,38 +188,38 @@ const LiquidFieldShaderMaterial = {
             vec3 lightRim = normalize(vec3(-0.7, -0.6, 0.4));
             float diffRim = max(dot(normal, lightRim), 0.0);
 
-            // Dual-Lobe Specular Highlights (Sharp crest response + broad metallic sheen)
+            // Dual-Lobe Crisp Specular Highlights on Traveling Water Ripples
             vec3 halfKey = normalize(lightKey + viewDir);
-            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(48.0, 16.0, vRoughness));
-            float specBroad = pow(max(dot(normal, halfKey), 0.0), 12.0);
+            float specSharp = pow(max(dot(normal, halfKey), 0.0), mix(56.0, 20.0, vRoughness));
+            float specBroad = pow(max(dot(normal, halfKey), 0.0), 14.0);
 
             vec3 halfRim = normalize(lightRim + viewDir);
-            float specRim = pow(max(dot(normal, halfRim), 0.0), 20.0);
+            float specRim = pow(max(dot(normal, halfRim), 0.0), 24.0);
 
-            // Sophisticated Material Color Composition
+            // Liquid Metal Color Composition
             // 1. Deep Obsidian-Graphite Base
-            vec3 baseTone = mix(uColorBase, uColorBronze * 0.45, clamp(vElevation * 1.6 + 0.35, 0.0, 1.0));
-            // 2. Warm Burnished Brass on Elevated Ridges & Flow Folds
-            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 2.4 + fresnel * 0.7, 0.0, 1.0));
-            // 3. Subtle Sage Subsurface Tint on Shadow Creases
-            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.32 * diffRim);
+            vec3 baseTone = mix(uColorBase, uColorBronze * 0.4, clamp(vElevation * 2.2 + 0.4, 0.0, 1.0));
+            // 2. Warm Burnished Brass Highlights on Water Wavefronts
+            vec3 ridgeColor = mix(baseTone, uColorBrass, clamp(vElevation * 3.0 + fresnel * 0.65, 0.0, 1.0));
+            // 3. Subtle Sage Subsurface Accent
+            vec3 sageAccent = mix(ridgeColor, uColorSage, fresnel * 0.28 * diffRim);
 
-            // Text Zone Contrast Control (Quiet left hemisphere for razor-sharp typography)
+            // Text Zone Contrast Control (Quiet left zone for crisp typography)
             float textDamping = mix(1.0, 0.3, vTextZone);
             vec3 finalColor = sageAccent
-                            + (uColorBrass * (specSharp * 1.4 + specBroad * 0.4) * textDamping)
-                            + (uColorBronze * specRim * 0.7 * textDamping);
+                            + (uColorBrass * (specSharp * 1.5 + specBroad * 0.45) * textDamping)
+                            + (uColorBronze * specRim * 0.65 * textDamping);
 
-            // Cursor interaction warmth
-            finalColor += uColorBrass * exp(-vMouseDist * 2.0) * 0.38;
+            // Ripple wavefront light enhancement
+            finalColor += uColorBrass * exp(-vMouseDist * 3.5) * 0.3;
 
-            // Full-bleed coverage: 100% solid atmospheric liquid environment (zero edge cutout)
+            // Full-bleed coverage: 100% solid atmospheric liquid environment
             gl_FragColor = vec4(finalColor, 1.0);
         }
     `
 }
 
-// ── 2. ASPECT-AWARE LIQUID FIELD MESH (FULL COVERAGE) ──
+// ── 2. ASPECT-AWARE LIQUID FIELD MESH ──
 function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     const meshRef = useRef<THREE.Mesh>(null)
     const materialRef = useRef<THREE.ShaderMaterial>(null)
@@ -233,16 +242,17 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
         mat.uniforms.uScroll.value = scrollProgress
         mat.uniforms.uAspect.value = viewport.aspect
 
-        // Smooth mouse uniform interpolation
-        mat.uniforms.uMouse.value.x += (mouse.current.x - mat.uniforms.uMouse.value.x) * 0.08
-        mat.uniforms.uMouse.value.y += (mouse.current.y - mat.uniforms.uMouse.value.y) * 0.08
+        // Fast, water-like mouse coordinate tracking
+        mat.uniforms.uMouse.value.x += (mouse.current.x - mat.uniforms.uMouse.value.x) * 0.15
+        mat.uniforms.uMouse.value.y += (mouse.current.y - mat.uniforms.uMouse.value.y) * 0.15
 
-        // Mouse velocity decay
-        const speed = Math.hypot(mouse.current.vx, mouse.current.vy) * 20.0
-        mat.uniforms.uMouseVelocity.value += (speed - mat.uniforms.uMouseVelocity.value) * 0.08
+        // Fast mouse velocity dissipation (water dissipates energy quickly)
+        const speed = Math.hypot(mouse.current.vx, mouse.current.vy) * 22.0
+        mat.uniforms.uMouseVelocity.value += (speed - mat.uniforms.uMouseVelocity.value) * 0.18
+        mat.uniforms.uMouseVelocity.value *= 0.94
     })
 
-    // Sized to overfill viewport dimensions completely (1.3x margin ensures zero visible edge clipping)
+    // Sized to overfill viewport dimensions completely
     const planeW = viewport.width * 1.3
     const planeH = viewport.height * 1.3
 
@@ -257,14 +267,14 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
 // ── 3. CAMERA & SCENE RIG ──
 function SceneRig({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     useFrame((state) => {
-        // Continuous camera inertia linked to mouse & scroll progress
-        const targetCamX = mouse.current.x * 0.3
-        const targetCamY = mouse.current.y * 0.2 - scrollProgress * 0.4
+        // Continuous smooth camera inertia
+        const targetCamX = mouse.current.x * 0.25
+        const targetCamY = mouse.current.y * 0.18 - scrollProgress * 0.4
         const targetCamZ = 3.6 - scrollProgress * 0.5
 
-        state.camera.position.x += (targetCamX - state.camera.position.x) * 0.05
-        state.camera.position.y += (targetCamY - state.camera.position.y) * 0.05
-        state.camera.position.z += (targetCamZ - state.camera.position.z) * 0.05
+        state.camera.position.x += (targetCamX - state.camera.position.x) * 0.06
+        state.camera.position.y += (targetCamY - state.camera.position.y) * 0.06
+        state.camera.position.z += (targetCamZ - state.camera.position.z) * 0.06
         state.camera.lookAt(0, -scrollProgress * 0.2, 0)
     })
 

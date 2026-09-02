@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import {
     Network,
     Users,
@@ -14,21 +13,9 @@ import {
     Globe2,
     TrendingUp,
     Shield,
-    ArrowUpRight
+    ArrowUpRight,
+    Cpu
 } from 'lucide-react'
-
-// Dynamic R3F Canvas import
-const NetworkFlowCanvas = dynamic(
-    () => import('@/components/canvas/NetworkFlowCanvas'),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="w-full h-[340px] flex items-center justify-center bg-[#181A16] rounded-3xl">
-                <div className="w-7 h-7 rounded-full border-2 border-[#D4B270] border-t-transparent animate-spin" />
-            </div>
-        )
-    }
-)
 
 export default function CreatorNetworkSection() {
     const [selectedChannel, setSelectedChannel] = useState(0)
@@ -98,28 +85,36 @@ export default function CreatorNetworkSection() {
                 </p>
             </div>
 
-            {/* Immersive 3D Network Topology & Selector Grid */}
+            {/* Static Clean Architectural Network Grid (Zero 3D WebGL Animations) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                {/* Left: Interactive 3D WebGL Canvas Topology (lg:col-span-7) */}
-                <div className="lg:col-span-7 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-6 sm:p-8 shadow-2xl space-y-5 relative overflow-hidden">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs font-mono">
-                        <span className="text-[#D4B270] font-bold">CAUSAL PROPAGATION TOPOLOGY</span>
-                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded-lg">ORIGIN ➔ HUBS ➔ AUDIENCE</span>
+                {/* Left: Clean Architectural Pathway Map (lg:col-span-7) */}
+                <div className="lg:col-span-7 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono">
+                        <span className="text-[#D4B270] font-bold">PROPAGATION CONDUIT BLUEPRINT</span>
+                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded-lg">DIRECT ACCESS</span>
                     </div>
 
-                    {/* R3F WebGL Flow Canvas */}
-                    <div className="rounded-2xl overflow-hidden bg-[#121310] border border-white/10 relative">
-                        <NetworkFlowCanvas activeIndex={selectedChannel} />
-
-                        <div className="absolute top-3 left-4 right-4 flex flex-wrap items-center justify-between text-[10px] font-mono text-[#AAA99F] gap-2">
-                            <span>SOURCE: {active.channelOrigin}</span>
-                            <span className="text-[#D4B270]">HUB: {active.hub}</span>
-                            <span className="text-[#8FA994]">TARGET: {active.audience}</span>
+                    {/* Static 3-Stage Propagation Flow Diagram */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                        <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono uppercase text-[#D4B270] block">01 SOURCE</span>
+                            <p className="text-sm font-bold text-white font-heading">{active.channelOrigin}</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Primary Signal</p>
+                        </div>
+                        <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono uppercase text-[#8FA994] block">02 HUBS</span>
+                            <p className="text-sm font-bold text-white font-heading">{active.hub}</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Syndication Nodes</p>
+                        </div>
+                        <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                            <span className="text-[10px] font-mono uppercase text-[#D4B270] block">03 TARGET</span>
+                            <p className="text-sm font-bold text-white font-heading">{active.audience}</p>
+                            <p className="text-[11px] text-[#AAA99F] font-mono">Verified Buyers</p>
                         </div>
                     </div>
 
                     {/* Dynamic Topology Blueprint Note */}
-                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-xs text-[#AAA99F] leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono">
+                    <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 text-xs text-[#AAA99F] leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
                         <span className="text-[#D4B270]">{active.topologyDesc}</span>
                         <span className="text-[#8FA994]">{active.impact}</span>
                     </div>

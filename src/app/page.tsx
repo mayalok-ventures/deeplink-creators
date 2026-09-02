@@ -14,7 +14,7 @@ import {
     Zap
 } from 'lucide-react'
 
-// Dynamically import full-bleed WebGL Liquid Growth Field
+// Dynamically import full-bleed WebGL Liquid Growth Field (Zero particles)
 const LiquidGrowthField = dynamic(
     () => import('@/components/canvas/LiquidGrowthField'),
     { ssr: false }
@@ -106,11 +106,11 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 1 — HERO: ONE UNIFIED SPATIAL COMPOSITION
+                SECTION 1 — HERO: TRUE FULL-SCREEN 100vw × 100vh SPATIAL FIELD
             ══════════════════════════════════════════════════════════════ */}
-            <section className="relative min-h-[90vh] flex items-center pt-16 sm:pt-20 md:pt-28 pb-20 sm:pb-28 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 overflow-hidden">
-                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field */}
-                <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 opacity-85">
+            <section className="relative w-full min-h-screen sm:min-h-[100svh] flex items-center pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 overflow-hidden">
+                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field (Zero Particles) */}
+                <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 opacity-80">
                     <LiquidGrowthField scrollProgress={scrollProgress} />
                 </div>
 
@@ -119,7 +119,7 @@ export default function HomePage() {
                     <div className="lg:col-span-7 space-y-7 pointer-events-auto">
                         {/* Top Vision Tag */}
                         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181A16]/85 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#F3F0E8]">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181A16]/90 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#F3F0E8]">
                                 <span className="w-2 h-2 rounded-full bg-[#D4B270] animate-pulse" />
                                 SOFTWARE • DISTRIBUTION • GROWTH
                             </span>
@@ -127,7 +127,7 @@ export default function HomePage() {
                                 href="https://mayalokventures.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
+                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
                             >
                                 <span>MAYALOK VENTURE VISION</span>
                                 <ExternalLink size={11} className="text-[#9B7545]" />

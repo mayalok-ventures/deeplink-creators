@@ -4,7 +4,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── 1. GLSL SHADER DEFINITIONS WITH CONTROLLED CONTRAST & VISCOUS FLUID DYNAMICS ──
+// ── 1. GLSL SHADER DEFINITIONS FOR PURE LIQUID SURFACE (ZERO PARTICLES) ──
 
 const LiquidFieldShaderMaterial = {
     uniforms: {
@@ -185,121 +185,7 @@ const LiquidFieldShaderMaterial = {
     `
 }
 
-// ── 2. PHYSICALLY DERIVED PARTICLES (Derived from Fluid Velocity Field) ──
-function FluidSuspendedParticles({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
-    const count = 220
-    const pointsRef = useRef<THREE.Points>(null)
-
-    const [positions, velocities] = useMemo(() => {
-        const pos = new Float32Array(count * 3)
-        const vels = new Float32Array(count * 3)
-
-        for (let i = 0; i < count; i++) {
-            // Bias particle distribution toward the right side so text zone remains clean
-            const x = -3.2 + Math.random() * 6.8
-            const y = (Math.random() - 0.5) * 5.0
-            const z = 0.06 + Math.random() * 0.14
-
-            pos[i * 3] = x
-            pos[i * 3 + 1] = y
-            pos[i * 3 + 2] = z
-
-            vels[i * 3] = 0
-            vels[i * 3 + 1] = 0
-            vels[i * 3 + 2] = 0
-        }
-        return [pos, vels]
-    }, [count])
-
-    useFrame((state) => {
-        if (!pointsRef.current) return
-        const posAttr = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute
-        const array = posAttr.array as Float32Array
-        const time = state.clock.getElapsedTime()
-
-        const targetMouseX = mouse.current.x * 3.8
-        const targetMouseY = mouse.current.y * 2.6
-        const mSpeed = Math.hypot(mouse.current.vx, mouse.current.vy)
-
-        for (let i = 0; i < count; i++) {
-            const idx = i * 3
-            const px = array[idx]
-            const py = array[idx + 1]
-
-            // 1. Fluid Velocity Field at Particle Position (px, py)
-            // Macro fluid circulation
-            const fluidVx = Math.cos(py * 0.7 + time * 0.35) * 0.007 + (scrollProgress * 0.018)
-            const fluidVy = -Math.sin(px * 0.7 + time * 0.25) * 0.005 - (scrollProgress * 0.012)
-
-            // Particles inherit fluid velocity via viscous drag
-            velocities[idx] += (fluidVx - velocities[idx]) * 0.06
-            velocities[idx + 1] += (fluidVy - velocities[idx + 1]) * 0.06
-
-            // 2. Cursor Pressure Well & Momentum Handoff
-            const dx = px - targetMouseX
-            const dy = py - targetMouseY
-            const dist = Math.hypot(dx, dy)
-
-            if (dist < 1.6 && mSpeed > 0.001) {
-                // Physical displacement + wake velocity
-                const pushForce = Math.exp(-dist * 2.2) * 0.035
-                const pushX = (dx / (dist + 0.01)) * pushForce + mouse.current.vx * 0.07
-                const pushY = (dy / (dist + 0.01)) * pushForce + mouse.current.vy * 0.07
-
-                velocities[idx] += pushX
-                velocities[idx + 1] += pushY
-            }
-
-            // 3. Scroll Organization into 3 System Conduits
-            if (scrollProgress > 0.25) {
-                const conduitY = (Math.floor((i / count) * 3) - 1) * 1.3
-                velocities[idx + 1] += (conduitY - py) * 0.025 * scrollProgress
-                velocities[idx] += 0.012 * scrollProgress
-            }
-
-            // 4. Physical Viscous Damping (Inertia + Drag)
-            velocities[idx] *= 0.93
-            velocities[idx + 1] *= 0.93
-
-            // Integrate position
-            array[idx] += velocities[idx]
-            array[idx + 1] += velocities[idx + 1]
-            array[idx + 2] = 0.08 + Math.sin(time * 1.8 + px * 1.5) * 0.05
-
-            // Boundary wrapping
-            if (array[idx] > 4.2) array[idx] = -3.8
-            if (array[idx] < -3.8) array[idx] = 4.2
-            if (array[idx + 1] > 2.8) array[idx + 1] = -2.8
-            if (array[idx + 1] < -2.8) array[idx + 1] = 2.8
-        }
-
-        posAttr.needsUpdate = true
-    })
-
-    return (
-        <points ref={pointsRef}>
-            <bufferGeometry>
-                <bufferAttribute
-                    attach="attributes-position"
-                    count={positions.length / 3}
-                    array={positions}
-                    itemSize={3}
-                />
-            </bufferGeometry>
-            <pointsMaterial
-                size={0.045}
-                color="#D4B270"
-                transparent
-                opacity={0.8}
-                sizeAttenuation
-                depthWrite={false}
-                blending={THREE.AdditiveBlending}
-            />
-        </points>
-    )
-}
-
-// ── 3. LIQUID FIELD MESH ──
+// ── 2. LIQUID FIELD MESH ──
 function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     const meshRef = useRef<THREE.Mesh>(null)
     const materialRef = useRef<THREE.ShaderMaterial>(null)
@@ -332,13 +218,13 @@ function LiquidMesh({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{
 
     return (
         <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-0.12, 0, 0]}>
-            <planeGeometry args={[8.4, 5.8, 160, 120]} />
+            <planeGeometry args={[8.6, 6.0, 160, 120]} />
             <primitive object={shaderData} ref={materialRef} attach="material" />
         </mesh>
     )
 }
 
-// ── 4. CAMERA & SCENE RIG ──
+// ── 3. CAMERA & SCENE RIG (ZERO PARTICLES) ──
 function SceneRig({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number }>; scrollProgress: number }) {
     useFrame((state) => {
         // Continuous camera inertia linked to mouse & scroll progress
@@ -359,12 +245,11 @@ function SceneRig({ mouse, scrollProgress }: { mouse: React.MutableRefObject<{ x
             <directionalLight position={[-5, -4, 3]} intensity={0.8} color="#D4B270" />
 
             <LiquidMesh mouse={mouse} scrollProgress={scrollProgress} />
-            <FluidSuspendedParticles mouse={mouse} scrollProgress={scrollProgress} />
         </>
     )
 }
 
-// ── 5. EXPORTED LIQUID GROWTH FIELD CANVAS ──
+// ── 4. EXPORTED PURE LIQUID GROWTH FIELD CANVAS ──
 export default function LiquidGrowthField({ scrollProgress = 0 }: { scrollProgress?: number }) {
     const [mounted, setMounted] = useState(false)
     const mouse = useRef({ x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0 })

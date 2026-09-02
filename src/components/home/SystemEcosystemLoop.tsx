@@ -1,21 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
 import { Network, TrendingUp, Cpu, ArrowRight, Zap, CheckCircle2 } from 'lucide-react'
-
-// Dynamic R3F Canvas import
-const CompoundingLoopCanvas = dynamic(
-    () => import('@/components/canvas/CompoundingLoopCanvas'),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="w-full h-[300px] flex items-center justify-center bg-[#181A16] rounded-3xl">
-                <div className="w-7 h-7 rounded-full border-2 border-[#D4B270] border-t-transparent animate-spin" />
-            </div>
-        )
-    }
-)
 
 export default function SystemEcosystemLoop() {
     const [activeNode, setActiveNode] = useState<number | null>(null)
@@ -60,17 +46,65 @@ export default function SystemEcosystemLoop() {
                 </p>
             </div>
 
-            {/* Central Orbital Convergence Payoff Canvas */}
-            <div className="mb-12 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+            {/* Clean Static Architectural Convergence Blueprint (Zero 3D WebGL Animations) */}
+            <div className="mb-12 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-12 shadow-2xl relative overflow-hidden space-y-8">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono text-[#AAA99F]">
-                    <span className="text-[#D4B270] font-bold">CONVERGENCE ENGINE // MANY INPUTS ➔ ONE SYSTEM ➔ COMPOUNDING OUTPUT</span>
-                    <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">FEEDBACK LOOP</span>
+                    <span className="text-[#D4B270] font-bold">CONVERGENCE MATRIX // MANY INPUTS ➔ ONE SYSTEM ➔ COMPOUNDING OUTPUT</span>
+                    <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">FEEDBACK ARCHITECTURE</span>
                 </div>
 
-                <CompoundingLoopCanvas activeIndex={activeNode} />
+                {/* 6 Input Feeds -> Central Core -> 3 Compounding Outputs */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    {/* Left: 6 Input Streams */}
+                    <div className="space-y-2.5">
+                        <span className="text-[10px] font-mono uppercase text-[#D4B270] tracking-wider block">
+                            01 // INPUT ACQUISITION CHANNELS
+                        </span>
+                        <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">SEO Traffic</span>
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">Paid Search</span>
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">Creator Reach</span>
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">Content Hubs</span>
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">Automation</span>
+                            <span className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white">Direct Referrals</span>
+                        </div>
+                    </div>
+
+                    {/* Middle: Central Orchestration Engine */}
+                    <div className="p-6 rounded-2xl bg-white/[0.06] border border-[#9B7545]/40 text-center space-y-3">
+                        <span className="text-[10px] font-mono uppercase text-[#8FA994] tracking-wider block">
+                            02 // CENTRAL GROWTH ENGINE
+                        </span>
+                        <h4 className="text-lg font-bold font-heading text-white">DeepLink Operating Core</h4>
+                        <p className="text-xs text-[#AAA99F] leading-relaxed">
+                            Synchronizes conversion UX, lead attribution, and instant CRM handoffs.
+                        </p>
+                    </div>
+
+                    {/* Right: Compounding Revenue Outputs */}
+                    <div className="space-y-2.5">
+                        <span className="text-[10px] font-mono uppercase text-[#D4B270] tracking-wider block">
+                            03 // COMPOUNDING REVENUE OUTPUT
+                        </span>
+                        <div className="space-y-2 text-xs font-mono">
+                            <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-white">
+                                <span>Qualified Sales Inquiries</span>
+                                <span className="text-[#D4B270]">Active</span>
+                            </div>
+                            <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-white">
+                                <span>Sahyak CRM Stage Gates</span>
+                                <span className="text-[#8FA994]">Governed</span>
+                            </div>
+                            <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-white">
+                                <span>Predictable Closed Deals</span>
+                                <span className="text-[#D4B270]">Compounding</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-[#AAA99F]">
-                    <span>6 Input Streams (SEO, Performance, Creators, Automation, CRM, Content) ➔ Central Engine ➔ Compounding Revenue</span>
+                    <span>Continuous Feedback: Closed deal data optimizes acquisition channels</span>
                     <span className="text-[#D4B270]">Autonomous Feedback Cycle</span>
                 </div>
             </div>

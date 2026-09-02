@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import {
     ArrowRight,
     ChevronRight,
@@ -12,6 +13,12 @@ import {
     ArrowUpRight,
     Zap
 } from 'lucide-react'
+
+// Dynamically import full-bleed WebGL Liquid Growth Field
+const LiquidGrowthField = dynamic(
+    () => import('@/components/canvas/LiquidGrowthField'),
+    { ssr: false }
+)
 
 import HeroSystemVisual from '@/components/home/HeroSystemVisual'
 import ThreeSystemsSection from '@/components/home/ThreeSystemsSection'
@@ -71,6 +78,21 @@ const faqSchema = {
 
 export default function HomePage() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [scrollProgress, setScrollProgress] = useState(0)
+    const [activePillar, setActivePillar] = useState<'software' | 'distribution' | 'growth'>('software')
+
+    // Continuous scroll progress calculation for GPU shader interpolation
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY
+            const heroHeight = window.innerHeight || 800
+            const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1)
+            setScrollProgress(progress)
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
 
     return (
         <div ref={containerRef} className="bg-[#F3F0E8] text-[#181A16] min-h-screen selection:bg-[#9B7545]/20 selection:text-[#181A16] relative overflow-x-hidden font-sans">
@@ -84,31 +106,36 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#181A1608_1px,transparent_1px),linear-gradient(to_bottom,#181A1608_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 1 — HERO
+                SECTION 1 — HERO: ONE UNIFIED SPATIAL COMPOSITION
             ══════════════════════════════════════════════════════════════ */}
-            <section className="relative pt-12 sm:pt-16 md:pt-24 pb-16 sm:pb-24 md:pb-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                    {/* Hero Text (lg:col-span-7) */}
-                    <div className="lg:col-span-7 space-y-7">
-                        {/* Top Tag */}
+            <section className="relative min-h-[90vh] flex items-center pt-16 sm:pt-20 md:pt-28 pb-20 sm:pb-28 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 overflow-hidden">
+                {/* Full-Bleed Atmospheric WebGL Liquid Growth Field */}
+                <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 opacity-85">
+                    <LiquidGrowthField scrollProgress={scrollProgress} />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10 w-full pointer-events-none">
+                    {/* Hero Text Layer (lg:col-span-7) */}
+                    <div className="lg:col-span-7 space-y-7 pointer-events-auto">
+                        {/* Top Vision Tag */}
                         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6E2D7] border border-[#181A16]/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#181A16]">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#9B7545]" />
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181A16]/85 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold tracking-widest uppercase text-[#F3F0E8]">
+                                <span className="w-2 h-2 rounded-full bg-[#D4B270] animate-pulse" />
                                 SOFTWARE • DISTRIBUTION • GROWTH
                             </span>
                             <a
                                 href="https://mayalokventures.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
+                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-[#181A16]/10 text-[11px] font-mono tracking-widest uppercase text-[#65675F] hover:text-[#181A16] hover:border-[#9B7545]/40 transition-colors"
                             >
                                 <span>MAYALOK VENTURE VISION</span>
                                 <ExternalLink size={11} className="text-[#9B7545]" />
                             </a>
                         </div>
 
-                        {/* Display Headline */}
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.06]">
+                        {/* Display Headline Embedded in Field */}
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.04]">
                             We Build the Systems Behind{' '}
                             <span className="text-brass-gradient">
                                 Business Growth.
@@ -116,7 +143,7 @@ export default function HomePage() {
                         </h1>
 
                         {/* Narrative Subhead */}
-                        <p className="text-base sm:text-lg md:text-xl text-[#65675F] leading-relaxed max-w-2xl font-normal">
+                        <p className="text-base sm:text-lg md:text-xl text-[#52544D] leading-relaxed max-w-2xl font-normal">
                             Software, creator-led distribution, and growth systems built to help businesses create stronger commercial infrastructure.
                         </p>
 
@@ -126,14 +153,14 @@ export default function HomePage() {
                                 href="https://sahyak.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-sm tracking-wide shadow-sm hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[48px]"
+                                className="tactile-btn inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#181A16] text-[#F3F0E8] font-heading font-semibold text-sm tracking-wide shadow-md hover:bg-[#252720] active:scale-[0.98] transition-all min-h-[48px]"
                             >
                                 <span>Explore Sahyak CRM</span>
                                 <ArrowUpRight size={16} className="text-[#D4B270]" />
                             </a>
                             <Link
                                 href="/contact"
-                                className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
+                                className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/90 backdrop-blur-md text-[#181A16] border border-[#181A16]/15 hover:bg-[#E6E2D7] font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px]"
                             >
                                 <span>Schedule Briefing</span>
                                 <ChevronRight size={16} className="text-[#65675F]" />
@@ -147,9 +174,12 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    {/* Hero System Visual (lg:col-span-5) */}
-                    <div className="lg:col-span-5 relative">
-                        <HeroSystemVisual />
+                    {/* Hero Editorial Anchor (lg:col-span-5) */}
+                    <div className="lg:col-span-5 relative pointer-events-auto">
+                        <HeroSystemVisual
+                            activePillar={activePillar}
+                            onPillarChange={setActivePillar}
+                        />
                     </div>
                 </div>
             </section>
@@ -160,34 +190,34 @@ export default function HomePage() {
             <ThreeSystemsSection />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 3 — SAHYAK CRM SHOWCASE
+                SECTION 3 — SAHYAK CRM (PRODUCT MOMENT)
             ══════════════════════════════════════════════════════════════ */}
             <SahyakCrmShowcase />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 4 — CREATOR-LED DISTRIBUTION NETWORK
+                SECTION 4 — CREATOR DISTRIBUTION (CAUSAL NETWORK)
             ══════════════════════════════════════════════════════════════ */}
             <CreatorNetworkSection />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 5 — GROWTH SYSTEMS (DEMAND GENERATION)
+                SECTION 5 — GROWTH SYSTEMS (CONTINUOUS CONDUIT)
             ══════════════════════════════════════════════════════════════ */}
             <GrowthSystemsSection />
 
             {/* ══════════════════════════════════════════════════════════════
-                SECTION 6 — THE COMPOUNDING ECOSYSTEM LOOP
+                SECTION 6 — THE COMPOUNDING CONVERGENCE CLIMAX
             ══════════════════════════════════════════════════════════════ */}
             <SystemEcosystemLoop />
 
             {/* ══════════════════════════════════════════════════════════════
                 SECTION 7 — MAYALOK VENTURE VISION
             ══════════════════════════════════════════════════════════════ */}
-            <section className="py-20 sm:py-28 md:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
+            <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
                     {/* Left Narrative (lg:col-span-7) */}
                     <div className="lg:col-span-7 space-y-6">
                         <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block">
-                            VENTURE VISION
+                            VENTURE VISION // FOUNDATIONAL BACKING
                         </span>
 
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[#181A16] tracking-tight leading-tight">
@@ -243,7 +273,7 @@ export default function HomePage() {
             {/* ══════════════════════════════════════════════════════════════
                 SECTION 9 — DIRECT ANSWERS & FAQ ACCORDION
             ══════════════════════════════════════════════════════════════ */}
-            <section className="py-20 sm:py-28 px-5 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10 border-t border-[#181A16]/10">
+            <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
                     <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
                         QUESTIONS &amp; ANSWERS
@@ -279,7 +309,7 @@ export default function HomePage() {
             {/* ══════════════════════════════════════════════════════════════
                 SECTION 10 — STRATEGIC CTA
             ══════════════════════════════════════════════════════════════ */}
-            <section className="py-20 sm:py-28 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
+            <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
                 <div className="p-10 sm:p-14 md:p-18 rounded-3xl border border-[#181A16] bg-[#181A16] text-[#F3F0E8] text-center space-y-6 shadow-2xl">
                     <span className="text-xs font-mono font-bold tracking-widest text-[#D4B270] uppercase">
                         GET STARTED
@@ -307,7 +337,7 @@ export default function HomePage() {
                             rel="noopener noreferrer"
                             className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px] w-full sm:w-auto"
                         >
-                            <span>Explore Sahyak.com</span>
+                            <span>Explore sahyak.com</span>
                             <ArrowUpRight size={16} className="text-[#D4B270]" />
                         </a>
                     </div>

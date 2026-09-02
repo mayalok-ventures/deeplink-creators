@@ -1,124 +1,131 @@
 'use client'
 
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
 import {
     Cpu,
     Network,
     TrendingUp,
     Zap,
-    MousePointer2,
-    Activity
+    ArrowUpRight
 } from 'lucide-react'
 
-// Dynamically import the Liquid Growth Field Canvas with ssr: false
-const LiquidGrowthField = dynamic(
-    () => import('@/components/canvas/LiquidGrowthField'),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="w-full h-[380px] sm:h-[440px] md:h-[480px] flex items-center justify-center bg-[#121310] rounded-3xl border border-[#9B7545]/20">
-                <div className="w-8 h-8 rounded-full border-2 border-[#D4B270] border-t-transparent animate-spin" />
-            </div>
-        )
-    }
-)
-
-export default function HeroSystemVisual() {
-    const [activePillar, setActivePillar] = useState<'software' | 'distribution' | 'growth'>('software')
-
+export default function HeroSystemVisual({
+    activePillar = 'software',
+    onPillarChange
+}: {
+    activePillar?: 'software' | 'distribution' | 'growth'
+    onPillarChange?: (p: 'software' | 'distribution' | 'growth') => void
+}) {
     return (
-        <div className="relative w-full max-w-2xl mx-auto lg:max-w-none select-none">
-            {/* Ambient Background Aura */}
-            <div className="absolute -inset-6 bg-gradient-to-tr from-[#9B7545]/25 via-[#181A16]/50 to-[#3F5544]/20 rounded-3xl blur-3xl pointer-events-none" />
+        <div className="relative w-full select-none">
+            {/* Open Editorial Architectural Frame (Zero Fake Debug Chrome) */}
+            <div className="space-y-4">
+                {/* Minimalist Pillar Anchors */}
+                <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#181A16]/60 backdrop-blur-xl border border-white/10 w-fit">
+                    <button
+                        onClick={() => onPillarChange?.('software')}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                            activePillar === 'software'
+                                ? 'bg-[#9B7545] text-white shadow-sm font-bold'
+                                : 'text-[#AAA99F] hover:text-white'
+                        }`}
+                    >
+                        01 Software
+                    </button>
+                    <button
+                        onClick={() => onPillarChange?.('distribution')}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                            activePillar === 'distribution'
+                                ? 'bg-[#9B7545] text-white shadow-sm font-bold'
+                                : 'text-[#AAA99F] hover:text-white'
+                        }`}
+                    >
+                        02 Distribution
+                    </button>
+                    <button
+                        onClick={() => onPillarChange?.('growth')}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                            activePillar === 'growth'
+                                ? 'bg-[#9B7545] text-white shadow-sm font-bold'
+                                : 'text-[#AAA99F] hover:text-white'
+                        }`}
+                    >
+                        03 Growth
+                    </button>
+                </div>
 
-            <div className="relative rounded-3xl bg-[#181A16] border border-[#9B7545]/30 shadow-2xl overflow-hidden transition-all duration-300">
-                {/* Visual Header / Kernel Bar */}
-                <div className="px-5 py-3.5 bg-[#121310] border-b border-white/10 flex items-center justify-between text-xs font-mono">
-                    <div className="flex items-center gap-2.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#D4B270] animate-pulse" />
-                        <span className="text-white font-bold tracking-wider text-[11px]">
-                            LIVING GROWTH FIELD // GLSL FLUID
+                {/* Spatial System Context Card */}
+                <div className="p-6 rounded-3xl bg-[#181A16]/80 backdrop-blur-2xl border border-white/15 shadow-2xl text-[#F3F0E8] space-y-4">
+                    {activePillar === 'software' && (
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                                <span className="text-[10px] font-mono text-[#D4B270] uppercase tracking-widest font-bold">
+                                    PILLAR 01 // OPERATING SOFTWARE
+                                </span>
+                                <a
+                                    href="https://sahyak.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[11px] font-mono text-[#D4B270] hover:underline flex items-center gap-1"
+                                >
+                                    <span>sahyak.com</span>
+                                    <ArrowUpRight size={12} />
+                                </a>
+                            </div>
+                            <h4 className="text-xl font-heading font-extrabold text-white">
+                                Sahyak CRM: Sales Pipeline Control
+                            </h4>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                Lead routing, pipeline stage gates, and sales team accountability built into one commercial operating system.
+                            </p>
+                        </div>
+                    )}
+
+                    {activePillar === 'distribution' && (
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                                <span className="text-[10px] font-mono text-[#8FA994] uppercase tracking-widest font-bold">
+                                    PILLAR 02 // CREATOR NETWORKS
+                                </span>
+                                <span className="text-[10px] font-mono text-[#8FA994] bg-[#3F5544]/20 px-2 py-0.5 rounded">
+                                    DIRECT ACCESS
+                                </span>
+                            </div>
+                            <h4 className="text-xl font-heading font-extrabold text-white">
+                                Creator-Led Market Distribution
+                            </h4>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                Curated creator syndication connecting enterprise products to verified local and niche buyers without algorithm dependency.
+                            </p>
+                        </div>
+                    )}
+
+                    {activePillar === 'growth' && (
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                                <span className="text-[10px] font-mono text-[#D4B270] uppercase tracking-widest font-bold">
+                                    PILLAR 03 // DEMAND SYSTEMS
+                                </span>
+                                <span className="text-[10px] font-mono text-[#D4B270] bg-[#9B7545]/20 px-2 py-0.5 rounded">
+                                    ACQUISITION FLOW
+                                </span>
+                            </div>
+                            <h4 className="text-xl font-heading font-extrabold text-white">
+                                Performance, SEO &amp; Conversion UX
+                            </h4>
+                            <p className="text-xs text-[#AAA99F] leading-relaxed">
+                                High-intent search acquisition, technical SEO, and conversion web architecture synchronized directly with CRM pipelines.
+                            </p>
+                        </div>
+                    )}
+
+                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#AAA99F]">
+                        <span className="flex items-center gap-1.5">
+                            <Zap size={12} className="text-[#9B7545]" />
+                            <span>Synchronous Execution</span>
                         </span>
+                        <span className="text-[#D4B270]">Mayalok Venture</span>
                     </div>
-
-                    <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
-                        <button
-                            onClick={() => setActivePillar('software')}
-                            className={`px-3 py-1 rounded-lg text-[11px] font-mono transition-all ${
-                                activePillar === 'software'
-                                    ? 'bg-[#9B7545] text-white font-bold shadow-xs'
-                                    : 'text-[#AAA99F] hover:text-white'
-                            }`}
-                        >
-                            Software
-                        </button>
-                        <button
-                            onClick={() => setActivePillar('distribution')}
-                            className={`px-3 py-1 rounded-lg text-[11px] font-mono transition-all ${
-                                activePillar === 'distribution'
-                                    ? 'bg-[#9B7545] text-white font-bold shadow-xs'
-                                    : 'text-[#AAA99F] hover:text-white'
-                            }`}
-                        >
-                            Distribution
-                        </button>
-                        <button
-                            onClick={() => setActivePillar('growth')}
-                            className={`px-3 py-1 rounded-lg text-[11px] font-mono transition-all ${
-                                activePillar === 'growth'
-                                    ? 'bg-[#9B7545] text-white font-bold shadow-xs'
-                                    : 'text-[#AAA99F] hover:text-white'
-                            }`}
-                        >
-                            Growth
-                        </button>
-                    </div>
-                </div>
-
-                {/* Living Liquid WebGL Field */}
-                <div className="relative w-full">
-                    <LiquidGrowthField activePillar={activePillar} />
-
-                    {/* Floating Overlay Indicator */}
-                    <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-2xl bg-[#121310]/85 backdrop-blur-md border border-white/10 text-xs font-mono flex items-center justify-between text-[#AAA99F] z-10 shadow-lg">
-                        {activePillar === 'software' && (
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-2">
-                                    <Cpu size={14} className="text-[#D4B270]" />
-                                    <span className="text-white font-semibold">Sahyak Operating Matrix</span>
-                                </div>
-                                <span className="text-[#D4B270] text-[11px]">Structured Conduit</span>
-                            </div>
-                        )}
-                        {activePillar === 'distribution' && (
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-2">
-                                    <Network size={14} className="text-[#8FA994]" />
-                                    <span className="text-white font-semibold">Creator Network Field</span>
-                                </div>
-                                <span className="text-[#8FA994] text-[11px]">Radial Resonance</span>
-                            </div>
-                        )}
-                        {activePillar === 'growth' && (
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-2">
-                                    <TrendingUp size={14} className="text-[#D4B270]" />
-                                    <span className="text-white font-semibold">Continuous Demand Flow</span>
-                                </div>
-                                <span className="text-[#D4B270] text-[11px]">Laminar Stream</span>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Bottom Interactive Prompt */}
-                <div className="px-5 py-3 bg-[#121310] border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#AAA99F]">
-                    <div className="flex items-center gap-2">
-                        <MousePointer2 size={13} className="text-[#D4B270] animate-bounce" />
-                        <span>Move cursor across liquid field to deform material</span>
-                    </div>
-                    <span className="text-[#8FA994] hidden sm:inline">Viscous Force Tracking</span>
                 </div>
             </div>
         </div>

@@ -3,35 +3,34 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import {
+    ArrowRight,
+    CheckCircle2,
+    Zap,
     TrendingUp,
     Search,
     Cpu,
-    MousePointerClick,
-    ArrowRight,
-    CheckCircle2,
-    Layers,
-    Sparkles
+    MousePointerClick
 } from 'lucide-react'
 
 export default function GrowthSystemsSection() {
     const [activeStep, setActiveStep] = useState(0)
 
-    const funnelSteps = [
+    const steps = [
         {
             num: '01',
-            name: 'REACH',
-            title: 'High-Intent Acquisition',
-            subtitle: 'Paid Search, Social & Targeted Content',
+            name: 'Reach',
+            phase: 'HIGH-INTENT ACQUISITION',
+            title: 'Paid Search, Social & Targeted Content',
             description:
-                'We capture active buyer intent across Google Search, LinkedIn, and Meta campaigns with unit-economic rigor.',
-            deliverables: ['High-Intent Search Campaigns', 'LinkedIn & Meta B2B Targeting', 'Attribution & ROAS Tracking'],
+                'Capturing active buyer intent across Google Search, LinkedIn, and Meta campaigns with strict unit-economic ROAS tracking.',
+            deliverables: ['High-Intent Search Campaigns', 'LinkedIn B2B Account Targeting', 'Attribution & ROAS Tracking'],
             link: '/services/performance-marketing/'
         },
         {
             num: '02',
-            name: 'CAPTURE',
-            title: 'Organic Search & Landing Infrastructure',
-            subtitle: 'Industrial SEO & High-Velocity Landing Assets',
+            name: 'Capture',
+            phase: 'SEARCH & LANDING ASSETS',
+            title: 'Industrial SEO & High-Velocity Landing Pages',
             description:
                 'Technical search architecture and topical authority content designed to capture durable, high-value organic search volume.',
             deliverables: ['Industrial & Enterprise SEO', 'Topical Authority Keyword Mapping', 'Fast Next.js Landing Assets'],
@@ -39,58 +38,58 @@ export default function GrowthSystemsSection() {
         },
         {
             num: '03',
-            name: 'CONVERT',
-            title: 'Conversion Architecture & UX',
-            subtitle: 'CRO, Interactive Demos & Commercial Web Design',
+            name: 'Convert',
+            phase: 'CONVERSION ARCHITECTURE',
+            title: 'Conversion UX & Sales Enablement',
             description:
-                'Frictionless digital journeys that turn traffic into structured inquiries with clear conversion incentives.',
-            deliverables: ['Conversion Rate Optimization (CRO)', 'Interactive Product Demonstrations', 'High-Trust Positioning'],
+                'Frictionless digital journeys that turn traffic into structured commercial inquiries with high-trust proof points.',
+            deliverables: ['Conversion Rate Optimization (CRO)', 'Interactive Product Demonstrations', 'Commercial Proposal Architecture'],
             link: '/services/conversion-web-design/'
         },
         {
             num: '04',
-            name: 'AUTOMATE',
-            title: 'Workflow Automation & CRM Sync',
-            subtitle: 'Automated Lead Routing & Nurture Sequences',
+            name: 'Automate',
+            phase: 'WORKFLOW & CRM SYNC',
+            title: 'Automated Routing & Sahyak CRM Sync',
             description:
                 'Connecting every digital touchpoint directly into Sahyak CRM and automated sales sequences for rapid deal handling.',
-            deliverables: ['Sahyak CRM Instant Sync', 'Multi-Channel Touchpoint Alerts', 'Automated Follow-Up Cadence'],
+            deliverables: ['Instant Sahyak CRM Synchronization', 'Multi-Channel Rep Alerts', 'Automated Follow-Up Cadence'],
             link: '/services/ai-marketing-automation/'
         }
     ]
 
-    const active = funnelSteps[activeStep]
+    const active = steps[activeStep]
 
     return (
-        <section className="py-20 sm:py-28 md:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-[#181A16]/10">
-            {/* Header */}
-            <div className="max-w-3xl mb-16 sm:mb-20">
+        <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+            {/* Section Narrative Header */}
+            <div className="max-w-3xl mb-16">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
-                    DEMAND ARCHITECTURE
+                    DEMAND ARCHITECTURE // CONTINUOUS ACQUISITION CONDUIT
                 </span>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.08] mb-5">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-heading text-[#181A16] tracking-tight leading-[1.06] mb-5">
                     Growth is not a channel.{' '}
-                    <span className="text-brass-gradient">It&apos;s a system.</span>
+                    <span className="text-brass-gradient">It&apos;s a continuous conduit.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    Marketing operates as an integrated sequence—from initial buyer discovery to automated sales pipeline entry.
+                    Marketing operates as an interconnected sequence—from initial buyer discovery to automated sales pipeline entry.
                 </p>
             </div>
 
-            {/* Continuous Funnel Architecture */}
+            {/* Continuous Acquisition Flow Conduit */}
             <div className="space-y-8">
-                {/* 4-Step Horizontal Sequence Selector */}
+                {/* 4-Step Linear Conduit Bar */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    {funnelSteps.map((step, idx) => {
+                    {steps.map((step, idx) => {
                         const isCurrent = activeStep === idx
 
                         return (
                             <button
                                 key={step.num}
                                 onClick={() => setActiveStep(idx)}
-                                className={`p-5 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between min-h-[120px] ${
+                                className={`p-5 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between min-h-[110px] ${
                                     isCurrent
-                                        ? 'bg-[#181A16] text-[#F3F0E8] border-[#181A16] shadow-lg -translate-y-1'
+                                        ? 'bg-[#181A16] text-[#F3F0E8] border-[#181A16] shadow-xl -translate-y-1'
                                         : 'bg-white text-[#65675F] border-[#181A16]/10 hover:border-[#9B7545]/40 hover:bg-[#FAF8F5]'
                                 }`}
                             >
@@ -115,11 +114,11 @@ export default function GrowthSystemsSection() {
                                         {step.name}
                                     </h4>
                                     <p
-                                        className={`text-[11px] font-mono line-clamp-1 mt-0.5 ${
+                                        className={`text-[10px] font-mono uppercase tracking-wider mt-0.5 line-clamp-1 ${
                                             isCurrent ? 'text-[#AAA99F]' : 'text-[#65675F]'
                                         }`}
                                     >
-                                        {step.subtitle}
+                                        {step.phase}
                                     </p>
                                 </div>
                             </button>
@@ -127,8 +126,8 @@ export default function GrowthSystemsSection() {
                     })}
                 </div>
 
-                {/* Active Step Deep-Dive Canvas */}
-                <div className="rounded-3xl bg-white border border-[#181A16]/12 p-8 sm:p-12 shadow-sm">
+                {/* Continuous Conduit Stream Detail */}
+                <div className="p-8 sm:p-12 rounded-3xl bg-white border border-[#181A16]/12 shadow-sm">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                         <div className="lg:col-span-7 space-y-5">
                             <div className="flex items-center gap-3">
@@ -136,7 +135,7 @@ export default function GrowthSystemsSection() {
                                     {active.num}
                                 </span>
                                 <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#65675F] border-l border-[#181A16]/10 pl-3">
-                                    FUNNEL PHASE: {active.name}
+                                    CONDUIT STAGE: {active.phase}
                                 </span>
                             </div>
 
@@ -153,7 +152,7 @@ export default function GrowthSystemsSection() {
                                     href={active.link}
                                     className="tactile-btn inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#181A16] hover:bg-[#252720] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
                                 >
-                                    <span>Explore {active.name} Architecture</span>
+                                    <span>Explore {active.name} Systems</span>
                                     <ArrowRight size={14} className="text-[#D4B270]" />
                                 </Link>
                             </div>
@@ -162,7 +161,7 @@ export default function GrowthSystemsSection() {
                         {/* Deliverables Right */}
                         <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-[#F3F0E8] border border-[#181A16]/10 space-y-4">
                             <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-[#181A16]">
-                                CORE CAPABILITIES &amp; DELIVERABLES
+                                SYSTEM DELIVERABLES
                             </h4>
                             <div className="space-y-3 text-xs sm:text-sm text-[#181A16]">
                                 {active.deliverables.map((d, i) => (
@@ -172,8 +171,9 @@ export default function GrowthSystemsSection() {
                                     </div>
                                 ))}
                             </div>
-                            <div className="pt-2 border-t border-[#181A16]/10 text-[11px] font-mono text-[#65675F]">
-                                Feeds directly into Sahyak CRM pipeline
+                            <div className="pt-2 border-t border-[#181A16]/10 text-[11px] font-mono text-[#65675F] flex items-center gap-1.5">
+                                <Zap size={12} className="text-[#9B7545]" />
+                                <span>Feeds directly into Sahyak CRM pipeline</span>
                             </div>
                         </div>
                     </div>

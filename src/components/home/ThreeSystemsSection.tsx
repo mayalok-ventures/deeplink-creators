@@ -2,112 +2,23 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 
-// ─── SVG Liquid Filter ───────────────────────────────────────────────────────
-// Inline SVG filter that produces fluid deformation. Applied to the card
-// container via CSS filter: url(#liquid-morph).
-// We animate feTurbulence baseFrequency to create the settling liquid effect.
+// ── Card Data ────────────────────────────────────────────────────────────────
 
-function LiquidFilterDef() {
-    return (
-        <svg
-            aria-hidden="true"
-            focusable="false"
-            style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
-        >
-            <defs>
-                {/* Phase A: active turbulence while card is expanding */}
-                <filter id="liquid-morph-active" x="-5%" y="-5%" width="110%" height="110%">
-                    <feTurbulence
-                        type="fractalNoise"
-                        baseFrequency="0.018 0.024"
-                        numOctaves="3"
-                        seed="4"
-                        result="noise"
-                    >
-                        <animate
-                            attributeName="baseFrequency"
-                            values="0.018 0.024;0.032 0.044;0.018 0.024"
-                            dur="1.2s"
-                            repeatCount="indefinite"
-                        />
-                        <animate
-                            attributeName="seed"
-                            values="4;8;4"
-                            dur="2.4s"
-                            repeatCount="indefinite"
-                        />
-                    </feTurbulence>
-                    <feDisplacementMap
-                        in="SourceGraphic"
-                        in2="noise"
-                        scale="10"
-                        xChannelSelector="R"
-                        yChannelSelector="G"
-                        result="displaced"
-                    />
-                    <feComposite in="displaced" in2="SourceGraphic" operator="atop" />
-                </filter>
-
-                {/* Phase B: calm residual fluid motion after settle */}
-                <filter id="liquid-morph-settled" x="-3%" y="-3%" width="106%" height="106%">
-                    <feTurbulence
-                        type="fractalNoise"
-                        baseFrequency="0.008 0.010"
-                        numOctaves="2"
-                        seed="7"
-                        result="noise"
-                    >
-                        <animate
-                            attributeName="baseFrequency"
-                            values="0.008 0.010;0.012 0.016;0.008 0.010"
-                            dur="3.5s"
-                            repeatCount="indefinite"
-                        />
-                    </feTurbulence>
-                    <feDisplacementMap
-                        in="SourceGraphic"
-                        in2="noise"
-                        scale="5"
-                        xChannelSelector="R"
-                        yChannelSelector="G"
-                        result="displaced"
-                    />
-                    <feComposite in="displaced" in2="SourceGraphic" operator="atop" />
-                </filter>
-            </defs>
-        </svg>
-    )
-}
-
-// ─── Card Data ────────────────────────────────────────────────────────────────
-
-interface CardDef {
-    id: string
-    num: string
-    eyebrow: string
-    title: string
-    body: string
-    expandedDetail: string
-    ctaLabel: string
-    ctaHref: string
-    ctaExternal?: boolean
-    dark: boolean
-}
-
-const CARDS: CardDef[] = [
+const CARDS = [
     {
         id: 'software',
         num: '01',
         eyebrow: 'PROPRIETARY OPERATING SOFTWARE',
         title: 'Sahyak CRM: Sales Visibility & Pipeline Control.',
         body: 'A sales operations suite engineered for qualification stage gates, rules-based rep routing, and complete activity accountability across the entire deal lifecycle.',
-        expandedDetail: 'Inbound leads are qualified, routed to the right rep automatically, and tracked from first touch to closed deal — eliminating the visibility gaps that cost pipeline at every handoff.',
+        expandedLine:
+            'Every inbound lead is qualified, routed automatically, and tracked from first touch to closed deal — eliminating the visibility gaps that cost pipeline.',
+        href: 'https://sahyak.com',
+        external: true,
         ctaLabel: 'Explore Sahyak Platform',
-        ctaHref: 'https://sahyak.com',
-        ctaExternal: true,
         dark: true,
     },
     {
@@ -116,9 +27,11 @@ const CARDS: CardDef[] = [
         eyebrow: 'CREATOR-LED DISTRIBUTION',
         title: 'Direct Market Access & Niche Reach.',
         body: 'Managed creator distribution networks connecting businesses directly to targeted local and niche audiences, reducing reliance on volatile ad network algorithms.',
-        expandedDetail: "Creator-led distribution gives your brand a direct channel into specific buyer communities \u2014 B2B decision-makers, industrial specifiers, and regional metro buyers \u2014 without paying for reach you don't need.",
+        expandedLine:
+            'Creator-led distribution gives your brand a direct channel into specific buyer communities without paying for reach you do not need.',
+        href: '/services/social-commerce/',
+        external: false,
         ctaLabel: 'Explore Creator Distribution',
-        ctaHref: '/services/social-commerce/',
         dark: false,
     },
     {
@@ -127,92 +40,259 @@ const CARDS: CardDef[] = [
         eyebrow: 'DEMAND & GROWTH SYSTEMS',
         title: 'Performance, SEO & Conversion Infrastructure.',
         body: 'High-intent search acquisition, SEO, conversion-focused web architecture, and automated lead routing synchronized directly into sales pipelines.',
-        expandedDetail: 'Every campaign channel — organic, paid, or content-driven — connects back to a single conversion layer that routes qualified intent directly into Sahyak, creating a measurable closed-loop growth system.',
+        expandedLine:
+            'Every channel — organic, paid, or content-driven — connects back into Sahyak, creating a measurable closed-loop growth system.',
+        href: '/services/',
+        external: false,
         ctaLabel: 'Explore Growth Systems',
-        ctaHref: '/services/',
         dark: false,
     },
-]
+] as const
 
-// ─── Single Expandable Card ───────────────────────────────────────────────────
+// ── Per-card fluid state (kept in refs — zero React re-renders) ──────────────
 
-interface CardProps {
-    card: CardDef
-    isExpanded: boolean
-    onActivate: () => void
-    reducedMotion: boolean
+interface Fluid {
+    energy: number   // accumulated disturbance energy [0..1.5]
+    vx: number       // cursor velocity X (px/ms scaled)
+    vy: number       // cursor velocity Y
+    posX: number     // normalized cursor X [0..1] within card
+    posY: number     // normalized cursor Y [0..1] within card
+    lastX: number    // prev cursor X (normalized)
+    lastY: number    // prev cursor Y
+    lastT: number    // timestamp of last update
+    rafId: number | null
 }
 
-function InfraCard({ card, isExpanded, onActivate, reducedMotion }: CardProps) {
-    const [filterPhase, setFilterPhase] = useState<'none' | 'active' | 'settled'>('none')
-    const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+function makeFluid(): Fluid {
+    return { energy: 0, vx: 0, vy: 0, posX: 0.5, posY: 0.5, lastX: -1, lastY: -1, lastT: 0, rafId: null }
+}
 
-    // Trigger liquid effect lifecycle when expansion starts
+// ── Single card component ────────────────────────────────────────────────────
+
+interface LiquidCardProps {
+    card: (typeof CARDS)[number]
+    isActive: boolean
+    anyActive: boolean
+    onActivate: () => void
+    noMotion: boolean
+    uid: string
+}
+
+function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: LiquidCardProps) {
+    const divRef = useRef<HTMLDivElement>(null)
+    const fl = useRef<Fluid>(makeFluid())
+
+    // Unique IDs for SVG filter elements — accessed via getElementById to avoid TS SVGElement ref issues
+    const filterId = `${uid}-${card.id}`
+    const turbId = `${filterId}-turb`
+    const dispId = `${filterId}-disp`
+
+    // ── rAF animation loop: updates SVG filter attributes ──────────────────
+    const tick = useCallback(() => {
+        const f = fl.current
+        const turb = document.getElementById(turbId)
+        const disp = document.getElementById(dispId)
+        if (!turb || !disp) { f.rafId = null; return }
+
+        const now = performance.now()
+        const dt = Math.min((now - f.lastT) / 1000, 0.05)
+        f.lastT = now
+
+        // Natural decay — energy and velocity dissipate
+        const eDec = 2.6
+        const vDec = 5.0
+        f.energy = Math.max(0, f.energy - f.energy * eDec * dt)
+        f.vx = f.vx > 0
+            ? Math.max(0, f.vx - f.vx * vDec * dt)
+            : Math.min(0, f.vx - f.vx * vDec * dt)
+        f.vy = f.vy > 0
+            ? Math.max(0, f.vy - f.vy * vDec * dt)
+            : Math.min(0, f.vy - f.vy * vDec * dt)
+
+        const speed = Math.sqrt(f.vx * f.vx + f.vy * f.vy)
+
+        // Map fluid state to SVG parameters
+        const dispScale = Math.min(38, f.energy * 26 + speed * 14)
+        // baseFrequency varies spatially with cursor position + energy
+        const bfx = (0.006 + f.posX * 0.007 + f.energy * 0.016).toFixed(4)
+        const bfy = (0.008 + f.posY * 0.006 + f.energy * 0.016).toFixed(4)
+        // Seed drifts with cursor position for organic variation
+        const seed = String(Math.floor(f.posX * 11 + f.posY * 9 + f.energy * 7) % 50)
+
+        turb.setAttribute('baseFrequency', `${bfx} ${bfy}`)
+        turb.setAttribute('seed', seed)
+        disp.setAttribute('scale', dispScale.toFixed(1))
+
+        // Stop loop when fully settled
+        if (f.energy < 0.004 && speed < 0.004) {
+            disp.setAttribute('scale', '1.5')
+            turb.setAttribute('baseFrequency', '0.005 0.007')
+            f.rafId = null
+            return
+        }
+
+        f.rafId = requestAnimationFrame(tick)
+    }, [turbId, dispId])
+
+    const startLoop = useCallback(() => {
+        const f = fl.current
+        if (f.rafId !== null) return
+        f.lastT = performance.now()
+        f.rafId = requestAnimationFrame(tick)
+    }, [tick])
+
+    // ── Pointer move handler ────────────────────────────────────────────────
+    const onPointerMove = useCallback(
+        (e: PointerEvent) => {
+            if (noMotion) return
+            const el = divRef.current
+            if (!el) return
+
+            const rect = el.getBoundingClientRect()
+            const px = (e.clientX - rect.left) / rect.width
+            const py = (e.clientY - rect.top) / rect.height
+            const f = fl.current
+            const now = performance.now()
+            const dt = Math.max(4, now - f.lastT) // clamp to avoid div/0
+
+            if (f.lastX >= 0) {
+                // Convert pixel delta to speed (px/frame at 60fps equivalent)
+                const dx = (px - f.lastX) * rect.width
+                const dy = (py - f.lastY) * rect.height
+                const spd = Math.sqrt(dx * dx + dy * dy) / dt * 16
+
+                f.vx = (dx / dt) * 16
+                f.vy = (dy / dt) * 16
+
+                // Inject energy proportional to cursor speed
+                f.energy = Math.min(1.5, f.energy + spd * 0.02)
+            }
+
+            f.posX = Math.max(0.01, Math.min(0.99, px))
+            f.posY = Math.max(0.01, Math.min(0.99, py))
+            f.lastX = px
+            f.lastY = py
+
+            startLoop()
+        },
+        [noMotion, startLoop]
+    )
+
+    // ── Register pointer move on the DOM element (not React synthetic, for perf) ──
     useEffect(() => {
-        if (reducedMotion) return
+        const el = divRef.current
+        if (!el) return
+        el.addEventListener('pointermove', onPointerMove, { passive: true })
+        return () => el.removeEventListener('pointermove', onPointerMove)
+    }, [onPointerMove])
 
-        if (isExpanded) {
-            setFilterPhase('active')
-            settleTimer.current = setTimeout(() => {
-                setFilterPhase('settled')
-            }, 900)
-        } else {
-            if (settleTimer.current) clearTimeout(settleTimer.current)
-            setFilterPhase('none')
+    // ── Inject burst of energy when this card becomes active ───────────────
+    useEffect(() => {
+        if (isActive && !noMotion) {
+            const f = fl.current
+            f.energy = Math.max(f.energy, 0.9)
+            f.lastX = -1 // reset position tracking so first move registers cleanly
+            startLoop()
         }
+    }, [isActive, noMotion, startLoop])
+
+    // ── Cleanup rAF on unmount ───────────────────────────────────────────────
+    useEffect(() => {
         return () => {
-            if (settleTimer.current) clearTimeout(settleTimer.current)
+            const f = fl.current
+            if (f.rafId !== null) {
+                cancelAnimationFrame(f.rafId)
+                f.rafId = null
+            }
         }
-    }, [isExpanded, reducedMotion])
-
-    const filterStyle =
-        filterPhase === 'active'
-            ? { filter: 'url(#liquid-morph-active)' }
-            : filterPhase === 'settled'
-              ? { filter: 'url(#liquid-morph-settled)' }
-              : {}
+    }, [])
 
     const dark = card.dark
 
     return (
-        <motion.div
-            layout={!reducedMotion}
+        <div
+            ref={divRef}
+            onPointerEnter={onActivate}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isActive}
+            aria-label={card.title}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') onActivate()
+            }}
+            style={{
+                // ── Layout ─────────────────────────────────────────────────
+                // Active: snaps to full width, floated to top via order:-1
+                // Inactive with an active sibling: split the row below
+                // Default (no active): all three equal
+                order: isActive ? -1 : 0,
+                flex: isActive ? '0 0 100%' : '1 1 0',
+                minWidth: anyActive && !isActive ? 180 : 220,
+                // ── Visual ─────────────────────────────────────────────────
+                filter: noMotion ? 'none' : `url(#${filterId})`,
+                boxShadow: isActive
+                    ? dark
+                        ? '0 28px 72px rgba(24,26,22,0.5)'
+                        : '0 24px 60px rgba(155,117,69,0.22)'
+                    : 'none',
+                willChange: 'filter',
+                // allow filter overflow to bleed beyond card bounds (liquid edges)
+                overflow: 'visible',
+                transition: 'box-shadow 0.4s ease',
+            }}
             className={[
-                'relative overflow-hidden rounded-3xl border flex flex-col',
-                'cursor-pointer select-none',
-                // Desktop: size controlled by flex
-                'min-w-0',
+                'relative cursor-pointer select-none rounded-3xl border',
                 dark
                     ? 'bg-[#181A16] border-[#181A16] text-[#F3F0E8]'
                     : 'bg-white border-[#181A16]/12 text-[#181A16]',
             ].join(' ')}
-            style={{
-                // Flex grow drives width: 1 = collapsed, 3.5 = expanded (desktop)
-                flexGrow: isExpanded ? 3.5 : 1,
-                flexShrink: 1,
-                flexBasis: 0,
-                minHeight: 280,
-                transition: reducedMotion
-                    ? 'none'
-                    : 'flex-grow 0.65s cubic-bezier(0.22, 0.88, 0.36, 1), box-shadow 0.4s ease',
-                boxShadow: isExpanded
-                    ? dark
-                        ? '0 24px 64px rgba(24,26,22,0.5)'
-                        : '0 20px 56px rgba(155,117,69,0.18)'
-                    : 'none',
-                willChange: 'flex-grow',
-                ...filterStyle,
-            }}
-            onMouseEnter={onActivate}
-            onTouchStart={onActivate}
-            onFocus={onActivate}
-            tabIndex={0}
-            role="button"
-            aria-expanded={isExpanded}
-            aria-label={card.title}
         >
-            {/* Inner content — padding stays fixed */}
-            <div className="p-7 sm:p-9 flex flex-col h-full gap-5">
+            {/* ── SVG Filter Definition (hidden, zero-size) ──────────────── */}
+            {!noMotion && (
+                <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}
+                >
+                    <defs>
+                        <filter
+                            id={filterId}
+                            x="-10%"
+                            y="-10%"
+                            width="120%"
+                            height="120%"
+                            colorInterpolationFilters="sRGB"
+                        >
+                            <feTurbulence
+                                id={turbId}
+                                type="fractalNoise"
+                                baseFrequency="0.005 0.007"
+                                numOctaves="3"
+                                seed="2"
+                                result="noise"
+                            />
+                            <feDisplacementMap
+                                id={dispId}
+                                in="SourceGraphic"
+                                in2="noise"
+                                scale="1.5"
+                                xChannelSelector="R"
+                                yChannelSelector="G"
+                            />
+                        </filter>
+                    </defs>
+                </svg>
+            )}
+
+            {/* ── Card Content ───────────────────────────────────────────── */}
+            <div
+                className="p-7 sm:p-9 flex flex-col gap-4 rounded-3xl"
+                style={{
+                    // Clip content to card bounds even though the outer div has overflow:visible
+                    overflow: 'hidden',
+                    minHeight: 264,
+                }}
+            >
                 {/* Header */}
                 <div className="flex items-center gap-3 shrink-0">
                     <span
@@ -233,18 +313,15 @@ function InfraCard({ card, isExpanded, onActivate, reducedMotion }: CardProps) {
                     </span>
                 </div>
 
-                {/* Title — always visible */}
+                {/* Title */}
                 <h3
                     className={[
-                        'font-extrabold font-heading tracking-tight leading-tight shrink-0',
-                        isExpanded ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl',
+                        'font-extrabold font-heading tracking-tight leading-tight text-xl sm:text-2xl shrink-0',
                         dark ? 'text-white' : 'text-[#181A16]',
                     ].join(' ')}
-                    style={{
-                        transition: reducedMotion ? 'none' : 'font-size 0.5s ease',
-                    }}
-                    dangerouslySetInnerHTML={{ __html: card.title.replace('&', '&amp;') }}
-                />
+                >
+                    {card.title}
+                </h3>
 
                 {/* Body */}
                 <p
@@ -256,27 +333,24 @@ function InfraCard({ card, isExpanded, onActivate, reducedMotion }: CardProps) {
                     {card.body}
                 </p>
 
-                {/* Expanded detail — fade in */}
-                <AnimatePresence>
-                    {isExpanded && (
-                        <motion.div
-                            key="detail"
-                            initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.4, delay: 0.2 }}
-                            className={[
-                                'text-sm leading-relaxed shrink-0',
-                                dark ? 'text-[#D4B270]/80' : 'text-[#9B7545]',
-                            ].join(' ')}
-                        >
-                            {card.expandedDetail}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                {/* Expanded detail — fades in when active */}
+                <p
+                    className={[
+                        'text-sm leading-relaxed shrink-0',
+                        dark ? 'text-[#D4B270]/80' : 'text-[#9B7545]',
+                    ].join(' ')}
+                    style={{
+                        opacity: isActive ? 1 : 0,
+                        maxHeight: isActive ? '4em' : '0',
+                        overflow: 'hidden',
+                        transition: 'opacity 0.5s 0.2s ease, max-height 0.5s 0.1s ease',
+                    }}
+                    aria-hidden={!isActive}
+                >
+                    {card.expandedLine}
+                </p>
 
-                {/* Spacer */}
-                <div className="flex-1" />
+                <div className="mt-auto" />
 
                 {/* CTA */}
                 <div
@@ -285,17 +359,15 @@ function InfraCard({ card, isExpanded, onActivate, reducedMotion }: CardProps) {
                         dark ? 'border-white/10' : 'border-[#181A16]/08',
                     ].join(' ')}
                 >
-                    {card.ctaExternal ? (
+                    {card.external ? (
                         <a
-                            href={card.ctaHref}
+                            href={card.href}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                             className={[
                                 'inline-flex items-center gap-2 text-xs font-heading font-bold transition-colors',
-                                dark
-                                    ? 'text-[#D4B270] hover:text-white'
-                                    : 'text-[#181A16] hover:text-[#9B7545]',
+                                dark ? 'text-[#D4B270] hover:text-white' : 'text-[#181A16] hover:text-[#9B7545]',
                             ].join(' ')}
                         >
                             <span>{card.ctaLabel}</span>
@@ -303,45 +375,40 @@ function InfraCard({ card, isExpanded, onActivate, reducedMotion }: CardProps) {
                         </a>
                     ) : (
                         <Link
-                            href={card.ctaHref}
+                            href={card.href}
                             onClick={(e) => e.stopPropagation()}
                             className={[
                                 'inline-flex items-center gap-2 text-xs font-heading font-bold transition-colors',
-                                dark
-                                    ? 'text-[#D4B270] hover:text-white'
-                                    : 'text-[#181A16] hover:text-[#9B7545]',
+                                dark ? 'text-[#D4B270] hover:text-white' : 'text-[#181A16] hover:text-[#9B7545]',
                             ].join(' ')}
                         >
                             <span>{card.ctaLabel}</span>
-                            <ArrowRight size={13} className={dark ? 'text-[#D4B270]' : 'text-[#9B7545]'} />
+                            <ArrowRight
+                                size={13}
+                                className={dark ? 'text-[#D4B270]' : 'text-[#9B7545]'}
+                            />
                         </Link>
                     )}
                 </div>
             </div>
-        </motion.div>
+        </div>
     )
 }
 
-// ─── Main Section ─────────────────────────────────────────────────────────────
+// ── Main Section ─────────────────────────────────────────────────────────────
 
 export default function ThreeSystemsSection() {
-    const [activeId, setActiveId] = useState<string>('software')
-    const reducedMotion = useReducedMotion() ?? false
+    const [activeId, setActiveId] = useState<string | null>(null)
+    const noMotion = useReducedMotion() ?? false
+    // Stable UID for filter IDs (avoid SSR mismatch by using a static prefix)
+    const uid = 'dlc-liq'
 
-    const handleActivate = useCallback((id: string) => {
-        setActiveId(id)
-    }, [])
-
-    // Reset to first card when mouse leaves the container
     const handleContainerLeave = useCallback(() => {
-        setActiveId('software')
+        setActiveId(null)
     }, [])
 
     return (
         <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
-            {/* SVG filter defs (hidden) */}
-            {!reducedMotion && <LiquidFilterDef />}
-
             {/* Section Header */}
             <div className="max-w-3xl mb-16">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
@@ -352,37 +419,47 @@ export default function ThreeSystemsSection() {
                     <span className="text-brass-gradient">connected infrastructure.</span>
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
-                    When distribution, marketing, and sales software operate in silos, pipeline leaks at every handoff. We build three synchronized capabilities that connect demand directly to sales execution.
+                    When distribution, marketing, and sales software operate in silos, pipeline leaks at
+                    every handoff. We build three synchronized capabilities that connect demand directly to
+                    sales execution.
                 </p>
             </div>
 
             {/*
-              ── Accordion Row ──────────────────────────────────────────────
-              Desktop: flex row — cards grow/shrink via flex-grow.
-              Mobile:  flex column — cards stack, active card gains extra height.
+              ── Flex-wrap accordion ──────────────────────────────────────────
+              Default: three cards side-by-side (flex: 1 1 0 each)
+              Active:  active card → flex: 0 0 100% + order:-1 (wraps to its own top row)
+                       inactive cards → flex: 1 1 0 (split the row below naturally)
+
+              The layout SNAPS (no CSS transition on flex-basis) because the
+              liquid distortion on the active card provides the visual continuity.
             */}
             <div
-                className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-stretch"
+                className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-5"
                 onMouseLeave={handleContainerLeave}
-                style={{ minHeight: 320 }}
+                style={{ alignItems: 'stretch' }}
             >
                 {CARDS.map((card) => (
-                    <InfraCard
+                    <LiquidCard
                         key={card.id}
                         card={card}
-                        isExpanded={activeId === card.id}
-                        onActivate={() => handleActivate(card.id)}
-                        reducedMotion={reducedMotion}
+                        isActive={activeId === card.id}
+                        anyActive={activeId !== null}
+                        onActivate={() => setActiveId(card.id)}
+                        noMotion={noMotion}
+                        uid={uid}
                     />
                 ))}
             </div>
 
-            {/* Hint label — desktop only */}
-            <p className="hidden sm:block mt-5 text-[11px] font-mono text-[#AAA99F] text-center tracking-wider">
-                HOVER TO EXPLORE EACH SYSTEM
-            </p>
-            <p className="sm:hidden mt-5 text-[11px] font-mono text-[#AAA99F] text-center tracking-wider">
-                TAP TO EXPLORE EACH SYSTEM
+            {/* Hint */}
+            <p
+                className="mt-5 text-[11px] font-mono text-[#AAA99F] text-center tracking-wider"
+                aria-live="polite"
+            >
+                {activeId
+                    ? 'MOVE CURSOR \u2014 FLUID RESPONDS TO MOTION'
+                    : 'HOVER TO EXPLORE EACH SYSTEM'}
             </p>
         </section>
     )

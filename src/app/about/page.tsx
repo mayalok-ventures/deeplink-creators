@@ -321,7 +321,7 @@ export default function AboutPage() {
                     </div>
 
                     <p>
-                        When demand generation, creator distribution, and sales operating software operate in unison, closed deal data feeds directly back into acquisition targeting—compressing customer acquisition costs and creating compounding leverage.
+                        When demand generation, creator distribution, and sales operating software operate in unison, closed-deal data can feed back into acquisition decisions, creating a more measurable and increasingly connected growth system.
                     </p>
                 </div>
             </article>
@@ -384,7 +384,7 @@ export default function AboutPage() {
                                 Creator Distribution
                             </h3>
                             <p className="text-xs text-[#65675F] leading-relaxed">
-                                Structured, managed creator networks across B2B technology, industrial machinery, regional metro corridors, and consultative services for targeted commercial reach.
+                                Managed creator distribution across B2B technology, industrial markets, regional metros, and consultative services.
                             </p>
                         </div>
                         <div className="pt-3 border-t border-[#181A16]/08">
@@ -469,7 +469,7 @@ export default function AboutPage() {
                             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
                                 <span className="text-[10px] font-mono text-[#D4B270] block">04 FOLLOW UP</span>
                                 <p className="text-xs font-bold text-white">Cadence</p>
-                                <p className="text-[10px] text-[#AAA99F]">Zero leakage alerts</p>
+                                <p className="text-[10px] text-[#AAA99F]">Follow-up alerts</p>
                             </div>
                             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
                                 <span className="text-[10px] font-mono text-[#8FA994] block">05 CONVERT</span>
@@ -529,7 +529,7 @@ export default function AboutPage() {
                                 01 // AUDIENCE RELEVANCE
                             </span>
                             <p className="text-xs sm:text-sm text-[#181A16] leading-relaxed">
-                                Selecting creators whose audience matches verified business decision-makers, specifiers, or high-intent regional buyers.
+                                Selecting creators whose audience matches relevant business buyers, specifiers, and high-intent regional audiences.
                             </p>
                         </div>
 

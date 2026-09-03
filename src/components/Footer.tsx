@@ -60,7 +60,7 @@ const Footer = () => {
                                     rel="noopener noreferrer"
                                     className="block text-[11px] font-mono tracking-widest uppercase text-[#D4B270] mt-0.5 hover:text-white transition-colors"
                                 >
-                                    Backed by Mayalok Venture ↗
+                                    Part of the broader Mayalok Venture vision ↗
                                 </a>
                             </div>
                         </div>
@@ -141,10 +141,10 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Column 3: Regional Hubs & Case Studies (lg:col-span-3) */}
+                    {/* Column 3: Presence & Proof (lg:col-span-3) */}
                     <div className="lg:col-span-3 space-y-4">
                         <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[#D4B270]">
-                            REGIONAL HUBS &amp; PROOF
+                            PRESENCE &amp; PROOF
                         </h3>
                         <ul className="space-y-2 text-xs sm:text-sm">
                             <li>
@@ -152,28 +152,16 @@ const Footer = () => {
                                     Case Studies &amp; Endorsements
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/locations/greater-noida/" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    Greater Noida Tech District
-                                </Link>
+                            <li className="text-xs text-[#AAA99F] pt-1">
+                                <span className="text-white font-medium block">Headquarters:</span>
+                                <span>Greater Noida • Delhi NCR</span>
+                            </li>
+                            <li className="text-xs text-[#AAA99F]">
+                                <span className="text-white font-medium block">Regional Coverage:</span>
+                                <span>India &amp; International Growth Engagements</span>
                             </li>
                             <li>
-                                <Link href="/locations/noida/" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    Noida Enterprise Corridor
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/locations/delhi/" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    Delhi NCR Capital Hub
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/locations/lucknow/" className="text-[#AAA99F] hover:text-white transition-colors">
-                                    Lucknow Regional Center
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/about/" className="text-[#AAA99F] hover:text-white transition-colors">
+                                <Link href="/about/" className="text-[#AAA99F] hover:text-white transition-colors block pt-1">
                                     About DeepLink &amp; Mayalok
                                 </Link>
                             </li>

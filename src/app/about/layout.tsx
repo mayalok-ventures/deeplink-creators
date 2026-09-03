@@ -1,27 +1,27 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Institutional Prospectus & Holding Profile | Deeplink Creators',
-    description: 'Learn about Deeplink Creators—an enterprise software holding and venture studio operating under Mayalok Venture, engineering durable software and creator distribution systems.',
+    title: 'About Deeplink Creators | Commercial Growth Infrastructure',
+    description: 'Learn about Deeplink Creators—a technology and growth company building connected commercial systems: proprietary operating software (Sahyak CRM), managed creator distribution, and performance demand systems.',
     openGraph: {
-        title: 'Institutional Prospectus & Holding Profile | Deeplink Creators',
-        description: 'Deeplink Creators is an AI-first enterprise software holding and venture studio operating under Mayalok Venture, building proprietary B2B SaaS and creator-led distribution.',
+        title: 'About Deeplink Creators | Commercial Growth Infrastructure',
+        description: 'Software, creator distribution, and demand growth systems engineered to connect customer acquisition directly to sales execution.',
         url: 'https://deeplinkcreators.com/about/',
         type: 'website',
         images: [
             {
-                url: '/images/Revenue Architecture Office.jpeg',
+                url: '/images/hero-enterprise-architecture.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'Deeplink Creators Holding Profile & Prospectus',
+                alt: 'Deeplink Creators — Software, Distribution & Growth Systems',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Institutional Prospectus & Holding Profile | Deeplink Creators',
-        description: 'Enterprise software holding & venture studio backed by Mayalok Venture.',
-        images: ['/images/Revenue Architecture Office.jpeg'],
+        title: 'About Deeplink Creators | Commercial Growth Infrastructure',
+        description: 'Software, creator distribution, and demand growth systems connecting acquisition to sales execution.',
+        images: ['/images/hero-enterprise-architecture.jpg'],
     },
     alternates: {
         canonical: 'https://deeplinkcreators.com/about/',
@@ -32,8 +32,8 @@ const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "@id": "https://deeplinkcreators.com/about/#aboutpage",
-    "name": "Institutional Prospectus — Deeplink Creators",
-    "description": "Deeplink Creators is an enterprise software holding and venture studio operating under Mayalok Venture.",
+    "name": "About Deeplink Creators",
+    "description": "Deeplink Creators builds and operates connected commercial growth infrastructure, combining proprietary sales operating software (Sahyak CRM), managed creator distribution networks, and demand growth systems.",
     "url": "https://deeplinkcreators.com/about/",
     "mainEntity": {
         "@id": "https://deeplinkcreators.com/#organization"
@@ -51,3 +51,4 @@ export default function AboutLayout({ children }: { children: React.ReactNode })
         </>
     )
 }
+

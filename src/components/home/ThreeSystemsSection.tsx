@@ -5,7 +5,149 @@ import Link from 'next/link'
 import { useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 
-// ── Card Data ────────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+// 2-D WAVE SIMULATION
+// Uses the classic "fast water" algorithm:
+//   next[i] = 2*cur[i] - prev[i] + c² * laplacian(cur[i])
+// Disturbances are injected at the cursor's grid position only,
+// so waves propagate outward from that point — not uniformly.
+// ════════════════════════════════════════════════════════════════════════════
+
+const N = 52 // grid cells per dimension (keeps rAF fast)
+
+class WaveSim {
+    cur: Float32Array
+    prev: Float32Array
+    private d = 0.988 // damping per step (energy dissipates ~1.2%/step)
+
+    constructor() {
+        const len = N * N
+        this.cur = new Float32Array(len)
+        this.prev = new Float32Array(len)
+    }
+
+    step() {
+        const { cur, prev, d } = this
+        const c2 = 0.245 // wave speed² — must be < 0.5 for numerical stability
+
+        for (let y = 1; y < N - 1; y++) {
+            for (let x = 1; x < N - 1; x++) {
+                const i = y * N + x
+                const lap =
+                    cur[i - 1] + cur[i + 1] +
+                    cur[(y - 1) * N + x] + cur[(y + 1) * N + x] -
+                    4 * cur[i]
+                const next = 2 * cur[i] - prev[i] + c2 * lap
+                prev[i] = cur[i]
+                cur[i] = next * d
+            }
+        }
+    }
+
+    /** Inject a disturbance at normalised coordinates (0..1) */
+    disturb(nx: number, ny: number, strength: number, radius = 3) {
+        const gx = Math.round(Math.max(1, Math.min(N - 2, nx * (N - 1))))
+        const gy = Math.round(Math.max(1, Math.min(N - 2, ny * (N - 1))))
+        for (let dy = -radius; dy <= radius; dy++) {
+            for (let dx = -radius; dx <= radius; dx++) {
+                const xi = gx + dx
+                const yi = gy + dy
+                if (xi < 1 || xi >= N - 1 || yi < 1 || yi >= N - 1) continue
+                const d = Math.sqrt(dx * dx + dy * dy)
+                if (d <= radius) {
+                    this.cur[yi * N + xi] += strength * (1 - d / radius)
+                }
+            }
+        }
+    }
+
+    /** Scatter several disturbances to fill the whole surface (used on activation) */
+    burstGlobal(strength: number) {
+        const pts = [
+            [0.2, 0.3], [0.5, 0.2], [0.8, 0.3],
+            [0.15, 0.7], [0.5, 0.75], [0.85, 0.65],
+            [0.38, 0.5], [0.62, 0.45],
+        ]
+        for (const [x, y] of pts) {
+            this.disturb(x, y, strength * (0.6 + Math.random() * 0.4), 5)
+        }
+    }
+
+    maxAmp(): number {
+        let m = 0
+        const len = this.cur.length
+        for (let i = 0; i < len; i++) {
+            const a = Math.abs(this.cur[i])
+            if (a > m) m = a
+        }
+        return m
+    }
+
+    /**
+     * Render the height map as a water-surface sheen onto the canvas.
+     * Uses the height gradient to compute surface normals, then a simple
+     * specular+diffuse reflection with a light source.
+     */
+    paint(canvas: HTMLCanvasElement, dark: boolean) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: false })
+        if (!ctx) return
+
+        const w = canvas.width
+        const h = canvas.height
+        const img = ctx.createImageData(w, h)
+        const data = img.data
+
+        for (let py = 0; py < h; py++) {
+            for (let px = 0; px < w; px++) {
+                // Map pixel → grid cell (clamped)
+                const gx = Math.min(N - 2, Math.floor((px / w) * N))
+                const gy = Math.min(N - 2, Math.floor((py / h) * N))
+                const i = gy * N + gx
+
+                const h0 = this.cur[i]
+                const dhx = this.cur[i + 1] - h0          // dH/dx
+                const dhy = this.cur[(gy + 1) * N + gx] - h0 // dH/dy
+
+                // Surface normal (scaled for visual impact)
+                const sc = 10
+                const nx_ = -dhx * sc
+                const ny_ = -dhy * sc
+                const nz_ = 1.0
+                const nl = Math.sqrt(nx_ * nx_ + ny_ * ny_ + nz_ * nz_)
+
+                // Light direction: top-left, slightly elevated
+                const lx = 0.55, ly = -0.42, lz = 0.72
+                const dot = (nx_ / nl) * lx + (ny_ / nl) * ly + (nz_ / nl) * lz
+                const spec = Math.pow(Math.max(0, dot), 4) // tight specular lobe
+                const diff = Math.max(0, dot)
+                const amp  = Math.abs(h0)
+
+                // Alpha: only visible where there are waves
+                const alpha = Math.min(230, Math.floor(amp * 300 + spec * 180))
+
+                const off = (py * w + px) * 4
+                if (dark) {
+                    // Dark card → warm brass/gold highlights
+                    data[off]     = Math.min(255, Math.floor(spec * 240 + diff * 90))  // R
+                    data[off + 1] = Math.min(255, Math.floor(spec * 185 + diff * 60))  // G
+                    data[off + 2] = Math.min(255, Math.floor(spec * 70  + diff * 20))  // B
+                } else {
+                    // Light card → cool slate/olive shimmer on white
+                    data[off]     = Math.min(255, Math.floor(spec * 80  + diff * 40))
+                    data[off + 1] = Math.min(255, Math.floor(spec * 100 + diff * 55))
+                    data[off + 2] = Math.min(255, Math.floor(spec * 60  + diff * 30))
+                }
+                data[off + 3] = alpha
+            }
+        }
+
+        ctx.putImageData(img, 0, 0)
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// CARD DATA
+// ════════════════════════════════════════════════════════════════════════════
 
 const CARDS = [
     {
@@ -49,136 +191,112 @@ const CARDS = [
     },
 ] as const
 
-// ── Per-card fluid state (kept in refs — zero React re-renders) ──────────────
+// ════════════════════════════════════════════════════════════════════════════
+// SINGLE CARD
+// ════════════════════════════════════════════════════════════════════════════
 
-interface Fluid {
-    energy: number   // accumulated disturbance energy [0..1.5]
-    vx: number       // cursor velocity X (px/ms scaled)
-    vy: number       // cursor velocity Y
-    posX: number     // normalized cursor X [0..1] within card
-    posY: number     // normalized cursor Y [0..1] within card
-    lastX: number    // prev cursor X (normalized)
-    lastY: number    // prev cursor Y
-    lastT: number    // timestamp of last update
-    rafId: number | null
-}
-
-function makeFluid(): Fluid {
-    return { energy: 0, vx: 0, vy: 0, posX: 0.5, posY: 0.5, lastX: -1, lastY: -1, lastT: 0, rafId: null }
-}
-
-// ── Single card component ────────────────────────────────────────────────────
-
-interface LiquidCardProps {
+interface CardProps {
     card: (typeof CARDS)[number]
     isActive: boolean
     anyActive: boolean
     onActivate: () => void
     noMotion: boolean
-    uid: string
 }
 
-function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: LiquidCardProps) {
-    const divRef = useRef<HTMLDivElement>(null)
-    const fl = useRef<Fluid>(makeFluid())
+function LiquidCard({ card, isActive, anyActive, onActivate, noMotion }: CardProps) {
+    const divRef    = useRef<HTMLDivElement>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const sim       = useRef(new WaveSim())
+    const raf       = useRef<number | null>(null)
+    const lastPtr   = useRef({ x: -1, y: -1, t: 0 })
+    const wasActive = useRef(false)
 
-    // Unique IDs for SVG filter elements — accessed via getElementById to avoid TS SVGElement ref issues
-    const filterId = `${uid}-${card.id}`
-    const turbId = `${filterId}-turb`
-    const dispId = `${filterId}-disp`
+    // ── animation loop ─────────────────────────────────────────────────────
+    const startLoop = useCallback(() => {
+        if (raf.current !== null) return
 
-    // ── rAF animation loop: updates SVG filter attributes ──────────────────
-    const tick = useCallback(() => {
-        const f = fl.current
-        const turb = document.getElementById(turbId)
-        const disp = document.getElementById(dispId)
-        if (!turb || !disp) { f.rafId = null; return }
+        const canvas = canvasRef.current
+        const s = sim.current
 
-        const now = performance.now()
-        const dt = Math.min((now - f.lastT) / 1000, 0.05)
-        f.lastT = now
+        const tick = () => {
+            s.step()
 
-        // Natural decay — energy and velocity dissipate
-        const eDec = 2.6
-        const vDec = 5.0
-        f.energy = Math.max(0, f.energy - f.energy * eDec * dt)
-        f.vx = f.vx > 0
-            ? Math.max(0, f.vx - f.vx * vDec * dt)
-            : Math.min(0, f.vx - f.vx * vDec * dt)
-        f.vy = f.vy > 0
-            ? Math.max(0, f.vy - f.vy * vDec * dt)
-            : Math.min(0, f.vy - f.vy * vDec * dt)
+            if (canvas) {
+                // Adaptive internal resolution: crisp wave fidelity at minimal CPU cost
+                const clientW = canvas.clientWidth || 300
+                const clientH = canvas.clientHeight || 200
+                const aspect = clientW / clientH
+                const targetH = 80
+                const targetW = Math.round(Math.min(260, Math.max(80, targetH * aspect)))
+                if (canvas.width !== targetW) canvas.width = targetW
+                if (canvas.height !== targetH) canvas.height = targetH
 
-        const speed = Math.sqrt(f.vx * f.vx + f.vy * f.vy)
+                s.paint(canvas, card.dark)
+            }
 
-        // Map fluid state to SVG parameters
-        const dispScale = Math.min(38, f.energy * 26 + speed * 14)
-        // baseFrequency varies spatially with cursor position + energy
-        const bfx = (0.006 + f.posX * 0.007 + f.energy * 0.016).toFixed(4)
-        const bfy = (0.008 + f.posY * 0.006 + f.energy * 0.016).toFixed(4)
-        // Seed drifts with cursor position for organic variation
-        const seed = String(Math.floor(f.posX * 11 + f.posY * 9 + f.energy * 7) % 50)
-
-        turb.setAttribute('baseFrequency', `${bfx} ${bfy}`)
-        turb.setAttribute('seed', seed)
-        disp.setAttribute('scale', dispScale.toFixed(1))
-
-        // Stop loop when fully settled
-        if (f.energy < 0.004 && speed < 0.004) {
-            disp.setAttribute('scale', '1.5')
-            turb.setAttribute('baseFrequency', '0.005 0.007')
-            f.rafId = null
-            return
+            if (s.maxAmp() > 0.002) {
+                raf.current = requestAnimationFrame(tick)
+            } else {
+                // Settled — clear canvas completely
+                if (canvas) {
+                    const ctx = canvas.getContext('2d')
+                    ctx?.clearRect(0, 0, canvas.width, canvas.height)
+                }
+                raf.current = null
+            }
         }
 
-        f.rafId = requestAnimationFrame(tick)
-    }, [turbId, dispId])
+        raf.current = requestAnimationFrame(tick)
+    }, [card.dark])
 
-    const startLoop = useCallback(() => {
-        const f = fl.current
-        if (f.rafId !== null) return
-        f.lastT = performance.now()
-        f.rafId = requestAnimationFrame(tick)
-    }, [tick])
-
-    // ── Pointer move handler ────────────────────────────────────────────────
-    const onPointerMove = useCallback(
-        (e: PointerEvent) => {
+    // Pointer enter: activate card & inject disturbance ONLY at cursor position
+    const handlePointerEnter = useCallback(
+        (e: React.PointerEvent<HTMLDivElement>) => {
+            onActivate()
             if (noMotion) return
             const el = divRef.current
             if (!el) return
-
-            const rect = el.getBoundingClientRect()
-            const px = (e.clientX - rect.left) / rect.width
-            const py = (e.clientY - rect.top) / rect.height
-            const f = fl.current
-            const now = performance.now()
-            const dt = Math.max(4, now - f.lastT) // clamp to avoid div/0
-
-            if (f.lastX >= 0) {
-                // Convert pixel delta to speed (px/frame at 60fps equivalent)
-                const dx = (px - f.lastX) * rect.width
-                const dy = (py - f.lastY) * rect.height
-                const spd = Math.sqrt(dx * dx + dy * dy) / dt * 16
-
-                f.vx = (dx / dt) * 16
-                f.vy = (dy / dt) * 16
-
-                // Inject energy proportional to cursor speed
-                f.energy = Math.min(1.5, f.energy + spd * 0.02)
-            }
-
-            f.posX = Math.max(0.01, Math.min(0.99, px))
-            f.posY = Math.max(0.01, Math.min(0.99, py))
-            f.lastX = px
-            f.lastY = py
-
+            const r = el.getBoundingClientRect()
+            const nx = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width))
+            const ny = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height))
+            // Point ripple localized right at entry point
+            sim.current.disturb(nx, ny, 0.85, 4)
             startLoop()
         },
-        [noMotion, startLoop]
+        [onActivate, noMotion, startLoop]
     )
 
-    // ── Register pointer move on the DOM element (not React synthetic, for perf) ──
+    // ── pointer move → inject disturbance at cursor position only ──────────
+    const onPointerMove = useCallback(
+        (e: PointerEvent) => {
+            if (noMotion || !isActive) return
+            const el = divRef.current
+            if (!el) return
+
+            const r  = el.getBoundingClientRect()
+            const nx = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width))
+            const ny = Math.max(0, Math.min(1, (e.clientY - r.top)  / r.height))
+            const t  = e.timeStamp
+
+            const last = lastPtr.current
+            if (last.x >= 0) {
+                const dx   = (nx - last.x) * r.width
+                const dy   = (ny - last.y) * r.height
+                const dt   = Math.max(6, t - last.t)
+                const spd  = Math.sqrt(dx * dx + dy * dy) / dt * 16 // px / frame
+                const str  = Math.min(0.9, spd * 0.045)             // cap strength
+
+                if (str > 0.008) {
+                    sim.current.disturb(nx, ny, str, 3)
+                    startLoop()
+                }
+            }
+
+            lastPtr.current = { x: nx, y: ny, t }
+        },
+        [noMotion, isActive, startLoop]
+    )
+
     useEffect(() => {
         const el = divRef.current
         if (!el) return
@@ -186,150 +304,104 @@ function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: Li
         return () => el.removeEventListener('pointermove', onPointerMove)
     }, [onPointerMove])
 
-    // ── Inject burst of energy when this card becomes active ───────────────
+    // Reset cursor tracking when card deactivates
     useEffect(() => {
-        if (isActive && !noMotion) {
-            const f = fl.current
-            f.energy = Math.max(f.energy, 0.9)
-            f.lastX = -1 // reset position tracking so first move registers cleanly
-            startLoop()
-        }
-    }, [isActive, noMotion, startLoop])
+        if (!isActive) lastPtr.current = { x: -1, y: -1, t: 0 }
+    }, [isActive])
 
-    // ── Cleanup rAF on unmount ───────────────────────────────────────────────
-    useEffect(() => {
-        return () => {
-            const f = fl.current
-            if (f.rafId !== null) {
-                cancelAnimationFrame(f.rafId)
-                f.rafId = null
-            }
-        }
-    }, [])
+    // Cleanup rAF on unmount
+    useEffect(
+        () => () => { if (raf.current) cancelAnimationFrame(raf.current) },
+        []
+    )
 
     const dark = card.dark
 
     return (
         <div
             ref={divRef}
-            onPointerEnter={onActivate}
+            onPointerEnter={handlePointerEnter}
             role="button"
             tabIndex={0}
             aria-expanded={isActive}
             aria-label={card.title}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onActivate()
-            }}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onActivate() }}
             style={{
-                // ── Layout ─────────────────────────────────────────────────
-                // Active: snaps to full width, floated to top via order:-1
-                // Inactive with an active sibling: split the row below
-                // Default (no active): all three equal
+                // ── Layout ──────────────────────────────────────────────────
                 order: isActive ? -1 : 0,
-                flex: isActive ? '0 0 100%' : '1 1 0',
-                minWidth: anyActive && !isActive ? 180 : 220,
-                // ── Visual ─────────────────────────────────────────────────
-                filter: noMotion ? 'none' : `url(#${filterId})`,
+                flex:  isActive ? '0 0 100%' : '1 1 0',
+                minWidth: anyActive && !isActive ? 160 : 200,
+                // ── Visual ──────────────────────────────────────────────────
+                position: 'relative',
+                overflow: 'hidden',          // ← clips canvas strictly to card
+                transition: 'box-shadow 0.45s ease',
                 boxShadow: isActive
                     ? dark
                         ? '0 28px 72px rgba(24,26,22,0.5)'
                         : '0 24px 60px rgba(155,117,69,0.22)'
                     : 'none',
-                willChange: 'filter',
-                // allow filter overflow to bleed beyond card bounds (liquid edges)
-                overflow: 'visible',
-                transition: 'box-shadow 0.4s ease',
             }}
             className={[
-                'relative cursor-pointer select-none rounded-3xl border',
+                'cursor-pointer select-none rounded-3xl border',
                 dark
                     ? 'bg-[#181A16] border-[#181A16] text-[#F3F0E8]'
                     : 'bg-white border-[#181A16]/12 text-[#181A16]',
             ].join(' ')}
         >
-            {/* ── SVG Filter Definition (hidden, zero-size) ──────────────── */}
+            {/* ── Water-surface canvas (strictly clipped inside card) ───── */}
             {!noMotion && (
-                <svg
+                <canvas
+                    ref={canvasRef}
                     aria-hidden="true"
-                    focusable="false"
-                    style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}
-                >
-                    <defs>
-                        <filter
-                            id={filterId}
-                            x="-10%"
-                            y="-10%"
-                            width="120%"
-                            height="120%"
-                            colorInterpolationFilters="sRGB"
-                        >
-                            <feTurbulence
-                                id={turbId}
-                                type="fractalNoise"
-                                baseFrequency="0.005 0.007"
-                                numOctaves="3"
-                                seed="2"
-                                result="noise"
-                            />
-                            <feDisplacementMap
-                                id={dispId}
-                                in="SourceGraphic"
-                                in2="noise"
-                                scale="1.5"
-                                xChannelSelector="R"
-                                yChannelSelector="G"
-                            />
-                        </filter>
-                    </defs>
-                </svg>
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width:  '100%',
+                        height: '100%',
+                        pointerEvents: 'none',
+                        // blend mode makes the ripple sheen sit ON TOP of the card colour
+                        mixBlendMode: dark ? 'screen' : 'multiply',
+                        opacity: 0.7,
+                        zIndex: 1,
+                        borderRadius: 'inherit',
+                    }}
+                />
             )}
 
-            {/* ── Card Content ───────────────────────────────────────────── */}
+            {/* ── Text content (above canvas) ──────────────────────────── */}
             <div
-                className="p-7 sm:p-9 flex flex-col gap-4 rounded-3xl"
-                style={{
-                    // Clip content to card bounds even though the outer div has overflow:visible
-                    overflow: 'hidden',
-                    minHeight: 264,
-                }}
+                className="relative p-7 sm:p-9 flex flex-col gap-4"
+                style={{ zIndex: 2, minHeight: 264 }}
             >
-                {/* Header */}
+                {/* Header pill */}
                 <div className="flex items-center gap-3 shrink-0">
-                    <span
-                        className={[
-                            'text-3xl font-extrabold font-heading',
-                            dark ? 'text-[#D4B270]' : 'text-[#9B7545]',
-                        ].join(' ')}
-                    >
+                    <span className={[
+                        'text-3xl font-extrabold font-heading',
+                        dark ? 'text-[#D4B270]' : 'text-[#9B7545]',
+                    ].join(' ')}>
                         {card.num}
                     </span>
-                    <span
-                        className={[
-                            'text-[10px] font-mono font-bold tracking-widest uppercase border-l pl-3',
-                            dark ? 'text-[#AAA99F] border-white/15' : 'text-[#65675F] border-[#181A16]/10',
-                        ].join(' ')}
-                    >
+                    <span className={[
+                        'text-[10px] font-mono font-bold tracking-widest uppercase border-l pl-3',
+                        dark ? 'text-[#AAA99F] border-white/15' : 'text-[#65675F] border-[#181A16]/10',
+                    ].join(' ')}>
                         {card.eyebrow}
                     </span>
                 </div>
 
                 {/* Title */}
-                <h3
-                    className={[
-                        'font-extrabold font-heading tracking-tight leading-tight text-xl sm:text-2xl shrink-0',
-                        dark ? 'text-white' : 'text-[#181A16]',
-                    ].join(' ')}
-                >
+                <h3 className={[
+                    'font-extrabold font-heading tracking-tight leading-tight text-xl sm:text-2xl shrink-0',
+                    dark ? 'text-white' : 'text-[#181A16]',
+                ].join(' ')}>
                     {card.title}
                 </h3>
 
                 {/* Body */}
-                <p
-                    className={[
-                        'text-sm leading-relaxed shrink-0',
-                        dark ? 'text-[#AAA99F]' : 'text-[#65675F]',
-                    ].join(' ')}
-                >
+                <p className={[
+                    'text-sm leading-relaxed shrink-0',
+                    dark ? 'text-[#AAA99F]' : 'text-[#65675F]',
+                ].join(' ')}>
                     {card.body}
                 </p>
 
@@ -340,9 +412,9 @@ function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: Li
                         dark ? 'text-[#D4B270]/80' : 'text-[#9B7545]',
                     ].join(' ')}
                     style={{
-                        opacity: isActive ? 1 : 0,
-                        maxHeight: isActive ? '4em' : '0',
-                        overflow: 'hidden',
+                        opacity:   isActive ? 1 : 0,
+                        maxHeight: isActive ? '5em' : '0',
+                        overflow:  'hidden',
                         transition: 'opacity 0.5s 0.2s ease, max-height 0.5s 0.1s ease',
                     }}
                     aria-hidden={!isActive}
@@ -353,12 +425,10 @@ function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: Li
                 <div className="mt-auto" />
 
                 {/* CTA */}
-                <div
-                    className={[
-                        'shrink-0 border-t pt-4',
-                        dark ? 'border-white/10' : 'border-[#181A16]/08',
-                    ].join(' ')}
-                >
+                <div className={[
+                    'shrink-0 border-t pt-4',
+                    dark ? 'border-white/10' : 'border-[#181A16]/08',
+                ].join(' ')}>
                     {card.external ? (
                         <a
                             href={card.href}
@@ -395,21 +465,17 @@ function LiquidCard({ card, isActive, anyActive, onActivate, noMotion, uid }: Li
     )
 }
 
-// ── Main Section ─────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+// SECTION
+// ════════════════════════════════════════════════════════════════════════════
 
 export default function ThreeSystemsSection() {
     const [activeId, setActiveId] = useState<string | null>(null)
     const noMotion = useReducedMotion() ?? false
-    // Stable UID for filter IDs (avoid SSR mismatch by using a static prefix)
-    const uid = 'dlc-liq'
-
-    const handleContainerLeave = useCallback(() => {
-        setActiveId(null)
-    }, [])
 
     return (
         <section className="py-24 sm:py-32 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
-            {/* Section Header */}
+            {/* Header */}
             <div className="max-w-3xl mb-16">
                 <span className="text-xs font-mono font-bold tracking-widest text-[#9B7545] uppercase block mb-3">
                     THREE CONNECTED CAPABILITIES // GROWTH INFRASTRUCTURE
@@ -420,23 +486,15 @@ export default function ThreeSystemsSection() {
                 </h2>
                 <p className="text-base sm:text-lg text-[#65675F] leading-relaxed max-w-2xl font-normal">
                     When distribution, marketing, and sales software operate in silos, pipeline leaks at
-                    every handoff. We build three synchronized capabilities that connect demand directly to
-                    sales execution.
+                    every handoff. We build three synchronized capabilities that connect demand directly
+                    to sales execution.
                 </p>
             </div>
 
-            {/*
-              ── Flex-wrap accordion ──────────────────────────────────────────
-              Default: three cards side-by-side (flex: 1 1 0 each)
-              Active:  active card → flex: 0 0 100% + order:-1 (wraps to its own top row)
-                       inactive cards → flex: 1 1 0 (split the row below naturally)
-
-              The layout SNAPS (no CSS transition on flex-basis) because the
-              liquid distortion on the active card provides the visual continuity.
-            */}
+            {/* Cards — flex-wrap accordion */}
             <div
                 className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-5"
-                onMouseLeave={handleContainerLeave}
+                onMouseLeave={() => setActiveId(null)}
                 style={{ alignItems: 'stretch' }}
             >
                 {CARDS.map((card) => (
@@ -447,12 +505,10 @@ export default function ThreeSystemsSection() {
                         anyActive={activeId !== null}
                         onActivate={() => setActiveId(card.id)}
                         noMotion={noMotion}
-                        uid={uid}
                     />
                 ))}
             </div>
 
-            {/* Hint */}
             <p
                 className="mt-5 text-[11px] font-mono text-[#AAA99F] text-center tracking-wider"
                 aria-live="polite"

@@ -83,9 +83,9 @@ const SAHYAK_STAGES = [
         id: '05',
         name: 'Convert',
         tag: 'STAGE 05 // VELOCITY',
-        title: 'Pipeline Velocity & Revenue Tracking',
-        description: 'Real-time visibility into active pipeline stages, deal velocity, and closed-won revenue.',
-        status: 'Closed-Won Revenue'
+        title: 'Pipeline Velocity & Conversion Tracking',
+        description: 'Real-time visibility into active pipeline stages, deal velocity, and conversion performance.',
+        status: 'Conversion Tracking Active'
     }
 ]
 
@@ -99,8 +99,8 @@ const CREATOR_CHANNELS = [
         tag: 'B2B & TECHNOLOGY',
         title: 'Software, SaaS & Tech Operators',
         audience: 'Founders, CTOs, Operators & Technical Decision Makers',
-        summary: 'Architectural walk-throughs, product teardowns, and targeted peer adoption across verified technical communities.',
-        deliverable: 'Direct reach to software buyers without ad network fatigue',
+        summary: 'Architectural walk-throughs, product teardowns, and targeted adoption across verified technical communities.',
+        deliverable: 'Direct distribution to software buyers and technical evaluators',
         slug: '/services/social-commerce/'
     },
     {
@@ -110,7 +110,7 @@ const CREATOR_CHANNELS = [
         title: 'Commercial Machinery & OEM Equipment',
         audience: 'Plant Managers, Operations Heads & Procurement Directors',
         summary: 'Factory floor demonstrations, operational machinery reviews, and qualified commercial inquiry generation.',
-        deliverable: 'Direct access to industrial specifiers and procurement teams',
+        deliverable: 'Direct distribution to industrial specifiers and procurement teams',
         slug: '/services/social-commerce/'
     },
     {
@@ -119,8 +119,8 @@ const CREATOR_CHANNELS = [
         tag: 'REGIONAL CORRIDORS',
         title: 'Delhi NCR & High-Growth Metros',
         audience: 'Regional Business Owners, Distributors & Commercial Buyers',
-        summary: 'Dense localized creator networks driving geo-targeted commercial authority across Delhi NCR and key metro hubs.',
-        deliverable: 'High-trust localized reach and regional commercial footprint',
+        summary: 'Dense localized creator networks driving geo-targeted commercial distribution across Delhi NCR and key metro hubs.',
+        deliverable: 'High-trust localized reach and regional commercial visibility',
         slug: '/services/social-commerce/'
     },
     {
@@ -129,8 +129,8 @@ const CREATOR_CHANNELS = [
         tag: 'HIGH-TICKET SERVICES',
         title: 'Consulting, Real Estate & Advisory',
         audience: 'Business Owners, Executives & High-Intent Clients',
-        summary: 'Authoritative problem breakdowns, executive thought leadership, and high-value consultative pipeline conversion.',
-        deliverable: 'Authority-driven channels delivering qualified deal flow',
+        summary: 'Problem breakdowns, executive perspectives, and high-value consultative pipeline development.',
+        deliverable: 'Authority-driven channels delivering qualified commercial inquiries',
         slug: '/services/social-commerce/'
     }
 ]
@@ -144,7 +144,7 @@ const GROWTH_CAPABILITIES = [
         slug: '/services/industrial-seo/',
         category: 'SEARCH INFRASTRUCTURE',
         title: 'Industrial & Commercial SEO Infrastructure',
-        summary: 'Engineering semantic search authority, entity-based knowledge graph architectures, and programmatic keyword systems for high-intent search queries.',
+        summary: 'High-intent commercial and industrial search visibility engineered through semantic entity mapping, programmatic keyword structures, and technical optimization.',
         metric: 'High-Intent Search',
         metricLabel: 'Durable Organic Demand',
         capabilities: [
@@ -160,7 +160,7 @@ const GROWTH_CAPABILITIES = [
         slug: '/services/performance-marketing/',
         category: 'PERFORMANCE ACQUISITION',
         title: 'Precision Performance Marketing & CAC Control',
-        summary: 'Data-driven paid media execution across Google Search, LinkedIn, and Meta campaigns focused on unit-economic customer acquisition cost efficiency.',
+        summary: 'Paid acquisition across Google Search, LinkedIn, and Meta campaigns with rigorous conversion tracking, attribution, and customer acquisition cost (CAC) visibility.',
         metric: 'Unit Economics',
         metricLabel: 'Attribution & CAC Control',
         capabilities: [
@@ -176,7 +176,7 @@ const GROWTH_CAPABILITIES = [
         slug: '/services/conversion-web-design/',
         category: 'CONVERSION ARCHITECTURE',
         title: 'High-Velocity Conversion Web Architecture',
-        summary: 'Engineering fast web platforms, dynamic landing frameworks, and structured lead funnels designed for commercial credibility and high conversion.',
+        summary: 'Web experiences designed to turn qualified attention into measurable inquiries through fast loading, frictionless capture, and clear commercial value framing.',
         metric: 'Sub-Second Render',
         metricLabel: 'Conversion Optimization',
         capabilities: [
@@ -192,7 +192,7 @@ const GROWTH_CAPABILITIES = [
         slug: '/services/ai-marketing-automation/',
         category: 'PIPELINE AUTOMATION',
         title: 'AI Workflow & Pipeline Automation',
-        summary: 'Deploying automated lead qualification workflows, stage-gated CRM routing logic, and multi-channel follow-up sequences that eliminate response lag.',
+        summary: 'Automated workflows for lead routing, qualification stage gates, and follow-up sequences that eliminate response lag and prevent pipeline leakage.',
         metric: 'Instant Handoff',
         metricLabel: 'Zero Pipeline Leakage',
         capabilities: [
@@ -208,7 +208,7 @@ const GROWTH_CAPABILITIES = [
         slug: '/services/brand-psychology/',
         category: 'EXECUTIVE AUTHORITY',
         title: 'Executive Positioning & Brand Psychology',
-        summary: 'Positioning corporate brands as category leaders through cognitive authority frameworks, executive thought leadership, and high-trust design systems.',
+        summary: 'Brand and category positioning designed to strengthen commercial trust through executive thought leadership, authoritative viewpoints, and high-trust design.',
         metric: 'Market Standing',
         metricLabel: 'Executive Trust & Authority',
         capabilities: [
@@ -249,62 +249,122 @@ const INDUSTRY_APPLICATIONS = [
 ]
 
 /* ═══════════════════════════════════════════════════════════════════════
-   SAHYAK CRM INSIDE-OUT SPOTLIGHT COMPONENT
+   SAHYAK SPOTLIGHT: INTERACTIVE 3D TILT VIEWPORT COMPONENT
 ═══════════════════════════════════════════════════════════════════════ */
 function SahyakInsideOutSpotlight() {
-    const shouldReduceMotion = useReducedMotion()
     const cardRef = useRef<HTMLDivElement>(null)
-    const [tilt, setTilt] = useState({ rx: 0, ry: 0, mx: 50, my: 50 })
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+    const [isHovered, setIsHovered] = useState(false)
+    const shouldReduceMotion = useReducedMotion()
 
     const handleMouseMove = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
-            if (shouldReduceMotion || typeof window === 'undefined') return
-            if (!cardRef.current) return
-
+            if (!cardRef.current || shouldReduceMotion) return
             const rect = cardRef.current.getBoundingClientRect()
-            const x = (e.clientX - rect.left) / rect.width
-            const y = (e.clientY - rect.top) / rect.height
-            const rx = (0.5 - y) * 8
-            const ry = (x - 0.5) * 8
-
-            setTilt({ rx, ry, mx: x * 100, my: y * 100 })
+            const x = (e.clientX - rect.left) / rect.width - 0.5
+            const y = (e.clientY - rect.top) / rect.height - 0.5
+            setMousePos({ x, y })
         },
         [shouldReduceMotion]
     )
 
-    const handleMouseLeave = useCallback(() => {
-        setTilt({ rx: 0, ry: 0, mx: 50, my: 50 })
-    }, [])
+    const handleMouseEnter = () => setIsHovered(true)
+    const handleMouseLeave = () => {
+        setIsHovered(false)
+        setMousePos({ x: 0, y: 0 })
+    }
+
+    const tiltX = shouldReduceMotion ? 0 : mousePos.y * -8
+    const tiltY = shouldReduceMotion ? 0 : mousePos.x * 8
 
     return (
-        <div className="inside-out-stage">
+        <div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
+                transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
+            }}
+            className="relative rounded-3xl bg-gradient-to-br from-[#1F211C] to-[#141612] border border-[#9B7545]/30 p-6 sm:p-8 shadow-2xl overflow-hidden group"
+        >
+            {/* Ambient Gold Glow on Cursor */}
             <div
-                ref={cardRef}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                className="inside-out-card relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-[#181A16] living-border-frame living-border-glow"
+                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
-                    transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-                    '--mouse-x': `${tilt.mx}%`,
-                    '--mouse-y': `${tilt.my}%`,
-                } as React.CSSProperties}
-            >
-                <div className="relative h-[260px] sm:h-[320px] md:h-[380px] w-full">
-                    <Image
-                        src="/images/sahyak-crm-mockup.jpg"
-                        alt="Sahyak CRM Platform Dashboard Interface"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                        className="object-cover object-top"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#181A16]/80 via-transparent to-transparent" />
+                    background: `radial-gradient(400px circle at ${(mousePos.x + 0.5) * 100}% ${(mousePos.y + 0.5) * 100}%, rgba(212, 178, 112, 0.12), transparent 80%)`,
+                }}
+            />
+
+            {/* Top Toolbar */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6 text-xs font-mono">
+                <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#9B7545]" />
+                    <span className="text-[#D4B270] font-bold">SAHYAK OS // LIVE PIPELINE CONTROL</span>
+                </div>
+                <span className="text-[#8FA994] text-[10px] bg-[#3F5544]/20 px-2 py-0.5 rounded border border-[#8FA994]/30">
+                    STATUS: OPERATIONAL
+                </span>
+            </div>
+
+            {/* Live Pipeline Telemetry Mockup */}
+            <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-3">
+                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/08">
+                        <span className="text-[10px] font-mono text-[#AAA99F] block">INGESTED LEADS</span>
+                        <span className="text-xl font-bold font-mono text-white mt-0.5 block">142</span>
+                        <span className="text-[9px] font-mono text-[#8FA994]">Channel Attributed</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/08">
+                        <span className="text-[10px] font-mono text-[#AAA99F] block">STAGE GATED</span>
+                        <span className="text-xl font-bold font-mono text-[#D4B270] mt-0.5 block">88</span>
+                        <span className="text-[9px] font-mono text-[#D4B270]">Verified Intent</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/08">
+                        <span className="text-[10px] font-mono text-[#AAA99F] block">REP ACTIVE</span>
+                        <span className="text-xl font-bold font-mono text-white mt-0.5 block">100%</span>
+                        <span className="text-[9px] font-mono text-[#8FA994]">0 SLA Breaches</span>
+                    </div>
                 </div>
 
-                <div className="impossible-reflection" />
+                {/* Pipeline Flow Stages Mini-Display */}
+                <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/06 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[#AAA99F]">
+                        <span>PIPELINE VELOCITY TELEMETRY</span>
+                        <span className="text-[#D4B270]">5-STAGE ENFORCEMENT</span>
+                    </div>
+                    <div className="grid grid-cols-5 gap-1.5 pt-1">
+                        {['Capture', 'Qualify', 'Assign', 'Follow-up', 'Convert'].map((stage, i) => (
+                            <div
+                                key={stage}
+                                className={`p-2 rounded-lg text-center font-mono text-[9px] border transition-colors ${
+                                    i <= 3
+                                        ? 'bg-[#9B7545]/15 border-[#9B7545]/40 text-[#D4B270]'
+                                        : 'bg-white/[0.02] border-white/06 text-[#AAA99F]'
+                                }`}
+                            >
+                                <span className="block font-bold">{`0${i + 1}`}</span>
+                                <span className="truncate block mt-0.5">{stage}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-                <div className="p-4 bg-[#181A16]/95 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#AAA99F] relative z-10">
-                    <span className="text-[#D4B270] font-semibold">sahyak.com</span>
-                    <span className="text-[#8FA994]">PROPRIETARY SALES OPERATING SYSTEM</span>
+                {/* Active Lead Dossier Snapshot */}
+                <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#9B7545]/20 border border-[#9B7545]/40 flex items-center justify-center text-[#D4B270] font-mono font-bold text-xs">
+                            RFQ
+                        </div>
+                        <div>
+                            <p className="font-heading font-bold text-white text-xs">Industrial OEM Inquiry</p>
+                            <p className="text-[10px] text-[#AAA99F] font-mono">Source: Creator Network // Stage: Rep Assigned</p>
+                        </div>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-1 rounded bg-[#3F5544]/30 text-[#8FA994] border border-[#8FA994]/20">
+                        ROUTED &lt; 2M
+                    </span>
                 </div>
             </div>
         </div>
@@ -312,11 +372,11 @@ function SahyakInsideOutSpotlight() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MAIN OFFERING PAGE
+   MAIN OFFERINGS PAGE COMPONENT
 ═══════════════════════════════════════════════════════════════════════ */
 export default function ServicesPage() {
-    const shouldReduceMotion = useReducedMotion()
     const containerRef = useRef<HTMLDivElement>(null)
+    const shouldReduceMotion = useReducedMotion()
     const [activeSahyakStage, setActiveSahyakStage] = useState(0)
 
     // GSAP ScrollTrigger Integration for smooth card reveals
@@ -476,12 +536,12 @@ export default function ServicesPage() {
                         </div>
 
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight mb-4">
-                            Sahyak CRM: Turning Demand Into{' '}
-                            <span className="text-[#D4B270]">Closed Revenue.</span>
+                            Sahyak CRM: The Operating Layer Between{' '}
+                            <span className="text-[#D4B270]">Demand &amp; Revenue.</span>
                         </h2>
 
                         <p className="text-sm sm:text-base text-[#AAA99F] leading-relaxed">
-                            Demand generation only creates value when leads convert into revenue. Sahyak is DeepLink&apos;s proprietary sales operating system—engineered to capture, qualify, route, follow up, and close inquiries with complete operational visibility.
+                            Demand generation only creates value when leads convert through disciplined sales execution. Sahyak is DeepLink&apos;s proprietary sales operating system—engineered to capture, qualify, route, follow up, and manage inquiries with complete operational visibility.
                         </p>
                     </div>
 
@@ -553,7 +613,7 @@ export default function ServicesPage() {
                                     rel="noopener noreferrer"
                                     className="tactile-btn inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#9B7545] hover:bg-[#B88E56] text-white font-heading font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
                                 >
-                                    <span>Explore Sahyak Platform</span>
+                                    <span>Explore Sahyak CRM</span>
                                     <ExternalLink size={13} />
                                 </a>
 
@@ -635,12 +695,12 @@ export default function ServicesPage() {
                         </div>
 
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[#181A16] tracking-tight leading-tight mb-4">
-                            Managed Creator Networks as an{' '}
-                            <span className="text-brass-gradient">Owned Acquisition Channel.</span>
+                            Managed Creator Networks as a{' '}
+                            <span className="text-brass-gradient">Structured Acquisition Channel.</span>
                         </h2>
 
                         <p className="text-base sm:text-lg text-[#65675F] leading-relaxed">
-                            Traditional advertising faces rising acquisition costs, creative fatigue, and algorithm volatility. DeepLink organizes creators into structured, accountable distribution channels to reach targeted audiences directly.
+                            DeepLink organizes creator distribution around defined audiences, specialized industries, and commercial objectives—transforming creator reach into structured, accountable acquisition channels.
                         </p>
                     </div>
 
@@ -648,7 +708,7 @@ export default function ServicesPage() {
                     <div className="p-6 sm:p-8 rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] space-y-6 shadow-xl">
                         <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono">
                             <span className="text-[#D4B270] font-bold">CREATOR DISTRIBUTION CONDUIT</span>
-                            <span className="text-[#8FA994] bg-[#3F5544]/20 px-2.5 py-1 rounded">OWNED CHANNEL</span>
+                            <span className="text-[#8FA994] bg-[#3F5544]/20 px-2.5 py-1 rounded">STRUCTURED CHANNEL</span>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -747,12 +807,12 @@ export default function ServicesPage() {
                         </div>
 
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[#181A16] tracking-tight leading-tight mb-4">
-                            Acquisition &amp; Conversion Systems That{' '}
-                            <span className="text-brass-gradient">Feed Downstream Sales.</span>
+                            Demand &amp; Performance Systems{' '}
+                            <span className="text-brass-gradient">Connected to Sales Execution.</span>
                         </h2>
 
                         <p className="text-base sm:text-lg text-[#65675F] leading-relaxed">
-                            Search, advertising, conversion web architecture, and automated routing engineered to deliver high-intent buyer inquiries directly into Sahyak CRM.
+                            Search infrastructure, precision paid media, conversion web architecture, and automated routing engineered to deliver high-intent commercial inquiries directly into Sahyak CRM.
                         </p>
                     </div>
 
@@ -839,7 +899,7 @@ export default function ServicesPage() {
                                 </h3>
                             </div>
                             <span className="text-xs font-mono text-[#65675F]">
-                                Specialized Pipeline Blueprints
+                                The same underlying commercial systems adapted to specialized acquisition and conversion environments.
                             </span>
                         </div>
 
@@ -890,9 +950,9 @@ export default function ServicesPage() {
                 <div className="rounded-3xl bg-[#181A16] text-[#F3F0E8] border border-[#181A16] p-8 sm:p-12 shadow-2xl space-y-8 relative overflow-hidden">
                     <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono text-[#AAA99F]">
                         <span className="text-[#D4B270] font-bold">
-                            CONNECTED COMMERCIAL FLOW // DEMAND ➔ DISTRIBUTION ➔ SAHYAK ➔ REVENUE
+                            CONNECTED COMMERCIAL FLOW // UNIFIED EXECUTION
                         </span>
-                        <span className="text-[#3F5544] bg-[#3F5544]/20 px-2.5 py-1 rounded">
+                        <span className="text-[#8FA994] bg-[#3F5544]/20 px-2.5 py-1 rounded">
                             UNIFIED SYSTEM
                         </span>
                     </div>
@@ -906,8 +966,29 @@ export default function ServicesPage() {
                         </p>
                     </div>
 
-                    {/* Visual 4-Stage Synthesis */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+                    {/* Prominent Visual Sequential Pipeline Bar */}
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 overflow-x-auto">
+                        <div className="flex items-center justify-between min-w-[700px] text-[10px] font-mono text-white/90">
+                            <span className="px-2.5 py-1 rounded bg-[#D4B270]/20 text-[#D4B270] font-bold">DEMAND</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-white/05 text-white/80">DISTRIBUTION</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-white/05 text-white/80">CONVERSION</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-[#8FA994]/20 text-[#8FA994] font-bold">LEAD INGESTION</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-[#D4B270]/20 text-[#D4B270] font-bold">SAHYAK CRM</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-white/05 text-white/80">SALES EXECUTION</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-[#8FA994]/20 text-[#8FA994] font-bold">REVENUE</span>
+                            <span className="text-white/30">→</span>
+                            <span className="px-2.5 py-1 rounded bg-[#D4B270]/20 text-[#D4B270] font-bold">OPTIMIZATION</span>
+                        </div>
+                    </div>
+
+                    {/* Visual 4-Stage Synthesis Bento */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-1">
                         <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
                             <span className="text-[10px] font-mono text-[#D4B270] block">01 DEMAND &amp; DISTRIBUTION</span>
                             <p className="text-sm font-bold text-white font-heading">Qualified Inbound Intent</p>
@@ -974,7 +1055,7 @@ export default function ServicesPage() {
                             rel="noopener noreferrer"
                             className="tactile-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 font-heading font-semibold text-sm tracking-wide active:scale-[0.98] transition-all min-h-[48px] w-full sm:w-auto"
                         >
-                            <span>Explore sahyak.com</span>
+                            <span>Explore Sahyak CRM</span>
                             <ArrowUpRight size={16} className="text-[#D4B270]" />
                         </a>
                     </div>
